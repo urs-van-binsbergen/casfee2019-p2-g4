@@ -10,22 +10,25 @@ import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { IndexComponent } from './index.component';
+import { HelloWorldModule } from './hello-world/hello-world.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireAuthModule,
-
-  ],
-  providers: [
-    AngularFireAuthGuard,
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        IndexComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        AngularFireAuthModule,
+        HelloWorldModule
+    ],
+    providers: [
+        AngularFireAuthGuard,
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
