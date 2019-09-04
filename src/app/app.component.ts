@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'casfee2019-p2-g4';
+  title = 'CAS FEE 2019 Projekt 2 Gruppe 4';
 }
