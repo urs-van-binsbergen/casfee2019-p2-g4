@@ -44,3 +44,16 @@ Ein oder mehrere Elemente deployen:
 firebase deploy --only firestore
 firebase deploy --only firestore,functions
 ```
+
+## Configuration
+
+### Style
+
+```sh
+ng config schematics.@schematics/angular:component.styleext scss
+mv ./src/styles.css ./src/styles.scss
+mv ./src/app/app.component.css ./src/app/app.component.scss
+vi angular.json (*.css --> *.scss)
+vi src/app/app.component.ts (*.css --> *.scss)
+```
+
