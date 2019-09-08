@@ -15,8 +15,10 @@ import { HelloWorldModule } from './hello-world/hello-world.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule, MatButtonModule, MatMenuModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
+import { LoginModule } from './login/login.module';
 import { HallModule } from './hall/hall.module';
 import { PreparationModule } from './preparation/preparation.module';
+import { AuthModule } from './auth/auth.module'
 
 @NgModule({
   declarations: [
@@ -30,13 +32,15 @@ import { PreparationModule } from './preparation/preparation.module';
     AngularFirestoreModule,
     AngularFireAuthModule,
     HelloWorldModule,
+    LoginModule,
     HallModule,
     PreparationModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    AuthModule
   ],
   providers: [
     AngularFireAuthGuard,
