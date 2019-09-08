@@ -15,6 +15,8 @@ import { HelloWorldModule } from './hello-world/hello-world.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule, MatButtonModule, MatMenuModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
+import { HallModule } from './hall/hall.module';
+import { PreparationModule } from './preparation/preparation.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
     AngularFirestoreModule,
     AngularFireAuthModule,
     HelloWorldModule,
+    HallModule,
+    PreparationModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,

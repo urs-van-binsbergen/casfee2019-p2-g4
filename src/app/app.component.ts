@@ -13,10 +13,14 @@ export class AppComponent {
   }
 
   onIndexClicked() {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('/index');
   }
 
   onHelloWorldClicked() {
     this.router.navigateByUrl('/hello-world');
+  }
+
+  onStartClicked() {
+    this.router.navigateByUrl('');
   }
 }
