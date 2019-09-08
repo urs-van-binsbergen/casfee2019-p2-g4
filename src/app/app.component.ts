@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'CAS FEE 2019 Projekt 2 Gruppe 4';
+
+  constructor(private router: Router) {
+  }
+
+  onIndexClicked() {
+    this.router.navigateByUrl('');
+  }
+
+  onHelloWorldClicked() {
+    this.router.navigateByUrl('/hello-world');
+  }
 }

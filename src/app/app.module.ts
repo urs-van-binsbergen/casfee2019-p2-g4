@@ -13,24 +13,30 @@ import { AppComponent } from './app.component';
 import { IndexComponent } from './index.component';
 import { HelloWorldModule } from './hello-world/hello-world.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule, MatButtonModule, MatMenuModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        IndexComponent
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule,
-        AngularFireAuthModule,
-        HelloWorldModule,
-        BrowserAnimationsModule
-    ],
-    providers: [
-        AngularFireAuthGuard,
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    IndexComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    HelloWorldModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule
+  ],
+  providers: [
+    AngularFireAuthGuard,
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
