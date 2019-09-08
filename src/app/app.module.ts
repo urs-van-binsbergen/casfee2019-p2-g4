@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './index.component';
 import { HelloWorldModule } from './hello-world/hello-world.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { HelloWorldModule } from './hello-world/hello-world.module';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule,
         AngularFireAuthModule,
-        HelloWorldModule
+        HelloWorldModule,
+        BrowserAnimationsModule
     ],
     providers: [
         AngularFireAuthGuard,

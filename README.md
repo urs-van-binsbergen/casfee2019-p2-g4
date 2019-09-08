@@ -57,3 +57,12 @@ vi angular.json (*.css --> *.scss)
 vi src/app/app.component.ts (*.css --> *.scss)
 ```
 
+### Material
+
+```sh
+npm install --save @angular/material @angular/cdk @angular/animations
+ng add @angular/material
+  Theme: Custom
+  HammerJS gesture recognition Yes
+  Browser animations: Yes 
+```
