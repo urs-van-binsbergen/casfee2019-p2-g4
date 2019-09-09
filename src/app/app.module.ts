@@ -12,23 +12,39 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './index.component';
 import { HelloWorldModule } from './hello-world/hello-world.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule, MatButtonModule, MatMenuModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import { LoginModule } from './login/login.module';
+import { HallModule } from './hall/hall.module';
+import { PreparationModule } from './preparation/preparation.module';
+import { AuthModule } from './auth/auth.module'
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        IndexComponent
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule,
-        AngularFireAuthModule,
-        HelloWorldModule
-    ],
-    providers: [
-        AngularFireAuthGuard,
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    IndexComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    HelloWorldModule,
+    LoginModule,
+    HallModule,
+    PreparationModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    AuthModule
+  ],
+  providers: [
+    AngularFireAuthGuard,
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

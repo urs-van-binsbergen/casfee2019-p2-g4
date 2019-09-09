@@ -1,8 +1,25 @@
-<h1>{{title}}</h1>
-
-<ul>
-    <li><a routerLink="/">Index</a></li>
-    <li><a routerLink="/hello-world">Hello World Module</a></li>
-</ul>
-
+<mat-toolbar color="primary">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu>
+    <button mat-menu-item (click)="onIndexClicked()">
+      <mat-icon>forward</mat-icon>
+      <span>Index</span>
+    </button>
+    <button mat-menu-item (click)="onHelloWorldClicked()">
+      <mat-icon>forward</mat-icon>
+      <span>Hello World Module</span>
+    </button>
+    <button mat-menu-item (click)="onStartClicked()">
+      <mat-icon>forward</mat-icon>
+      <span>Start</span>
+    </button>
+    <button mat-menu-item (click)="onLogoutClicked()">
+      <mat-icon>forward</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+  <h3>{{title}}</h3>
+</mat-toolbar>
 <router-outlet></router-outlet>
