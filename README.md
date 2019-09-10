@@ -45,24 +45,3 @@ firebase deploy --only firestore
 firebase deploy --only firestore,functions
 ```
 
-## Configuration
-
-### Style
-
-```sh
-ng config schematics.@schematics/angular:component.styleext scss
-mv ./src/styles.css ./src/styles.scss
-mv ./src/app/app.component.css ./src/app/app.component.scss
-vi angular.json (*.css --> *.scss)
-vi src/app/app.component.ts (*.css --> *.scss)
-```
-
-### Material
-
-```sh
-npm install --save @angular/material @angular/cdk @angular/animations
-ng add @angular/material
-  Theme: Custom
-  HammerJS gesture recognition Yes
-  Browser animations: Yes 
-```
