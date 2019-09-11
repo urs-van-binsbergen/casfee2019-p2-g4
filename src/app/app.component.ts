@@ -10,23 +10,11 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent {
     title = 'CAS FEE 2019 Projekt 2 Gruppe 4';
 
-    constructor(private router: Router, private authService: AuthService) {
+    constructor(private router: Router, public authService: AuthService) {
     }
 
-    onIndexClicked() {
-        this.router.navigateByUrl('/index');
-    }
-
-    onHelloWorldClicked() {
-        this.router.navigateByUrl('/hello-world');
-    }
-
-    onStartClicked() {
-        this.router.navigateByUrl('');
-    }
-
-    onLogoutClicked() {
-        this.authService.logout();
+    async onLogoutClicked() {
+        await this.authService.logout();
         this.router.navigateByUrl('');
     }
 }

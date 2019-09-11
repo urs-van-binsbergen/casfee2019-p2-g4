@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from './auth.service';
 
 @Component({
     selector: 'login',
@@ -11,6 +11,9 @@ import { AuthService } from '../auth/auth.service';
 export class LoginComponent implements OnInit {
     private next: string;
     title: string = 'Login';
+    username: string;
+    pass: string;
+    loginMessage: string;
 
     constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router, private location: Location) {
     }
@@ -19,13 +22,13 @@ export class LoginComponent implements OnInit {
         this.route.queryParams.subscribe(params => this.next = params['next'] || '');
     }
 
-    onLoginClicked(ok: boolean) {
-        this.authService.login(ok);
-        if (ok) {
+    async onSubmit() {
+        const result = await this.authService.login(this.username, this.pass);
+        console.log("component got result", result);
+        if (result) {
             this.router.navigateByUrl(this.next);
-        }
-        else {
-            this.location.back();
+        } else {
+            this.loginMessage = "Login failed";
         }
     }
 }

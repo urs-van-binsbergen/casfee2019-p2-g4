@@ -1,0 +1,27 @@
+<div class="login-content">
+    <mat-card>
+        <mat-card-title>
+            {{title}}
+        </mat-card-title>
+        <mat-card-content>
+
+            <form class="login-form" (ngSubmit)="onSubmit()">
+                <div *ngIf="loginMessage">
+                    {{loginMessage}}
+                    <!-- TODO: materialize -->
+                </div>
+
+                <mat-form-field class="login-full-width">
+                    <input matInput [(ngModel)]="username" name="username" placeholder="User name" />
+                </mat-form-field>
+
+                <mat-form-field class="login-full-width">
+                    <input matInput type="password" name="password" [(ngModel)]="pass" placeholder="Password" />
+                </mat-form-field>
+
+                <button type="submit" mat-raised-button color="primary">Login</button>
+
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
