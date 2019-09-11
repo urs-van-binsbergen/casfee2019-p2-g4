@@ -1,27 +1,48 @@
 <div class="login-content">
     <mat-card>
         <mat-card-title>
-            {{title}}
+            <div [ngSwitch]="mode">
+                <div *ngSwitchCase="'register'">Register</div>
+                <div *ngSwitchCase="'resetPassword'">Reset Password</div>
+                <div *ngSwitchDefault>Login</div>
+            </div>
         </mat-card-title>
         <mat-card-content>
 
             <form class="login-form" (ngSubmit)="onSubmit()">
                 <div *ngIf="loginMessage">
-                    {{loginMessage}}
                     <!-- TODO: materialize -->
+                    {{loginMessage}}
                 </div>
 
                 <mat-form-field class="login-full-width">
                     <input matInput [(ngModel)]="username" name="username" placeholder="User name" />
                 </mat-form-field>
 
-                <mat-form-field class="login-full-width">
+                <mat-form-field class="login-full-width" *ngIf="mode !== 'resetPassword'">
                     <input matInput type="password" name="password" [(ngModel)]="pass" placeholder="Password" />
                 </mat-form-field>
 
-                <button type="submit" mat-raised-button color="primary">Login</button>
+                <div [ngSwitch]="mode">
+                    <div *ngSwitchCase="'register'">
+                        <button type="submit" mat-raised-button color="primary">Register</button>
+                    </div>
+                    <div *ngSwitchCase="'resetPassword'">
+                        <button type="submit" mat-raised-button color="primary">Reset Password</button>
+                    </div>
+                    <div *ngSwitchDefault>
+                        <button type="submit" mat-raised-button color="primary">Login</button>
+                    </div>
+                </div>
 
             </form>
+
+            <div style="margin-top: 1em;" *ngIf="mode === 'login'">
+                <!-- TODO: materialize -->
+                <button mat-raised-button (click)="register()">Register</button>
+                <button mat-raised-button (click)="resetPassword()">Forgot Password</button>
+            </div>
+
         </mat-card-content>
     </mat-card>
 </div>
