@@ -5,15 +5,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { PreparationComponent } from './preparation.component'
 
 @NgModule({
-  declarations: [
-    PreparationComponent
-  ],
-  imports: [
-    BrowserModule,
-    MatCardModule,
-    MatButtonModule
-  ],
-  providers: [
-  ]
+    declarations: [
+        PreparationComponent
+    ],
+    imports: [
+        BrowserModule,
+        MatCardModule,
+        MatButtonModule
+    ],
+    providers: [
+    ]
 })
 export class PreparationModule { }

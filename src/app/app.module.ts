@@ -21,30 +21,30 @@ import { PreparationModule } from './preparation/preparation.module';
 import { AuthModule } from './auth/auth.module'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    IndexComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireAuthModule,
-    HelloWorldModule,
-    LoginModule,
-    HallModule,
-    PreparationModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatIconModule,
-    AuthModule
-  ],
-  providers: [
-    AngularFireAuthGuard,
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        IndexComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        AngularFireAuthModule,
+        HelloWorldModule,
+        LoginModule,
+        HallModule,
+        PreparationModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatIconModule,
+        AuthModule
+    ],
+    providers: [
+        AngularFireAuthGuard,
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

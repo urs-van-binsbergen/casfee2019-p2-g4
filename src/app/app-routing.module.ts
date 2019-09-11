@@ -8,16 +8,16 @@ import { PreparationComponent } from './preparation/preparation.component';
 import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HallComponent },
-  { path: 'index', component: IndexComponent },
-  { path: 'hello-world', component: HelloWorldComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'hall', component: HallComponent },
-  { path: 'preparation', component: PreparationComponent, canActivate: [AuthGuard] }
+    { path: '', component: HallComponent },
+    { path: 'index', component: IndexComponent },
+    { path: 'hello-world', component: HelloWorldComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'hall', component: HallComponent },
+    { path: 'preparation', component: PreparationComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }
