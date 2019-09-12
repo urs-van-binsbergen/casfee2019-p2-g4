@@ -5,15 +5,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { HallComponent } from './hall.component'
 
 @NgModule({
-  declarations: [
-    HallComponent
-  ],
-  imports: [
-    BrowserModule,
-    MatCardModule,
-    MatButtonModule
-  ],
-  providers: [
-  ]
+    declarations: [
+        HallComponent
+    ],
+    imports: [
+        BrowserModule,
+        MatCardModule,
+        MatButtonModule
+    ],
+    providers: [
+    ]
 })
 export class HallModule { }

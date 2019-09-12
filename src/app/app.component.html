@@ -1,25 +1,39 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>more_vert</mat-icon>
-  </button>
-  <mat-menu #menu>
-    <button mat-menu-item (click)="onIndexClicked()">
-      <mat-icon>forward</mat-icon>
-      <span>Index</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
     </button>
-    <button mat-menu-item (click)="onHelloWorldClicked()">
-      <mat-icon>forward</mat-icon>
-      <span>Hello World Module</span>
-    </button>
-    <button mat-menu-item (click)="onStartClicked()">
-      <mat-icon>forward</mat-icon>
-      <span>Start</span>
-    </button>
-    <button mat-menu-item (click)="onLogoutClicked()">
-      <mat-icon>forward</mat-icon>
-      <span>Logout</span>
-    </button>
-  </mat-menu>
-  <h3>{{title}}</h3>
+    <mat-menu #menu>
+        <button mat-menu-item routerLink="">
+            <mat-icon>forward</mat-icon>
+            <span>Start = Hall</span>
+        </button>
+        <button mat-menu-item routerLink="hall">
+            <mat-icon>forward</mat-icon>
+            <span>Hall</span>
+        </button>
+        <button mat-menu-item routerLink="index">
+            <mat-icon>forward</mat-icon>
+            <span>Index</span>
+        </button>
+        <button mat-menu-item routerLink="preparation">
+            <mat-icon>forward</mat-icon>
+            <span>Preparation</span>
+        </button>
+        <button mat-menu-item routerLink="hello-world">
+            <mat-icon>forward</mat-icon>
+            <span>Hello World Module</span>
+        </button>
+
+        <button *ngIf="!authService.isLoggedIn" mat-menu-item routerLink="login">
+            <mat-icon>forward</mat-icon>
+            <span>Login</span>
+        </button>
+        <button *ngIf="authService.isLoggedIn" mat-menu-item (click)="onLogoutClicked()">
+            <mat-icon>forward</mat-icon>
+            <span>Logout {{authService.userDisplayName}}</span>
+        </button>
+    </mat-menu>
+    <h3>{{title}}</h3>
 </mat-toolbar>
+
 <router-outlet></router-outlet>

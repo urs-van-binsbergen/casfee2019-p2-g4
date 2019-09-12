@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 import { HelloWorldComponent } from './hello-world.component';
 
 @NgModule({
@@ -7,7 +8,8 @@ import { HelloWorldComponent } from './hello-world.component';
         HelloWorldComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        MatCardModule
     ]
 })
 export class HelloWorldModule { }
