@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PreparationService } from './preparation.service';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector: 'preparation',
@@ -10,7 +11,7 @@ import { PreparationService } from './preparation.service';
 export class PreparationComponent implements OnInit {
     title = 'Preparation';
 
-    constructor(private router: Router, private preparationService: PreparationService) {
+    constructor(private router: Router, private preparationService: PreparationService, public dialog: MatDialog) {
     }
 
     ngOnInit(): void {

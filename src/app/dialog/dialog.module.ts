@@ -1,20 +1,17 @@
 import { NgModule } from '@angular/core';
-import { DialogComponent } from './dialog.component';
-import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS, MatCardModule } from '@angular/material';
+import { ContinueCancelDialogComponent } from './continue-cancel-dialog.component';
+import { MatButtonModule, MatDialogModule } from '@angular/material';
 
 @NgModule({
     declarations: [
-        DialogComponent
+        ContinueCancelDialogComponent
     ],
     imports: [
-        MatCardModule,
+        MatButtonModule,
         MatDialogModule
     ],
     entryComponents: [
-        DialogComponent
-    ],
-    providers: [
-        { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }
+        ContinueCancelDialogComponent
     ]
 })
 export class DialogModule {
