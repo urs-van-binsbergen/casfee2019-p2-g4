@@ -6,6 +6,7 @@ import { LoginComponent } from './auth/login.component';
 import { HallComponent } from './hall/hall.component';
 import { PreparationComponent } from './preparation/preparation.component';
 import { AuthGuard } from './auth/auth.guard';
+import { PreparationGuard } from './preparation/preparation.guard';
 
 const routes: Routes = [
     { path: '', component: HallComponent },
@@ -13,7 +14,7 @@ const routes: Routes = [
     { path: 'index', component: IndexComponent },
     { path: 'hello-world', component: HelloWorldComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'preparation', component: PreparationComponent, canActivate: [AuthGuard] }
+    { path: 'preparation', component: PreparationComponent, canActivate: [AuthGuard], canDeactivate: [PreparationGuard] }
 ];
 
 @NgModule({
