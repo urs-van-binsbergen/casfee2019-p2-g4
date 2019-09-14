@@ -19,9 +19,13 @@
             <mat-icon>forward</mat-icon>
             <span>Preparation</span>
         </button>
-        <button mat-menu-item routerLink="hello-world">
+        <button mat-menu-item routerLink="admin">
             <mat-icon>forward</mat-icon>
-            <span>Hello World Module</span>
+            <span>Admin</span>
+        </button>
+        <button mat-menu-item routerLink="user">
+            <mat-icon>forward</mat-icon>
+            <span>User</span>
         </button>
 
         <button *ngIf="!authService.isLoggedIn" mat-menu-item routerLink="login">

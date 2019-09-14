@@ -23,7 +23,7 @@ export class PreparationComponent implements OnInit {
     }
 
     onGoClicked() {
-        this.router.navigateByUrl('/hall');
+        this.router.navigateByUrl('/match');
     }
 
     onChangeClicked() {

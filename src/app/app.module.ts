@@ -17,9 +17,12 @@ import { environment } from '../environments/environment';
 
 // Feature Modules
 import { AuthModule } from './auth/auth.module'
-import { HelloWorldModule } from './hello-world/hello-world.module';
+import { AdminModule } from './admin/admin.module';
 import { HallModule } from './hall/hall.module';
 import { PreparationModule } from './preparation/preparation.module';
+import { MatchModule } from './match/match.module';
+import { UserModule } from './user/user.module';
+import { BattleModule } from './battle/battle.module';
 
 @NgModule({
     declarations: [
@@ -41,10 +44,13 @@ import { PreparationModule } from './preparation/preparation.module';
         MatIconModule, 
         MatCardModule,
 
+        AdminModule,
         AuthModule,
-        HelloWorldModule,
+        BattleModule,
         HallModule,
+        MatchModule,
         PreparationModule,
+        UserModule
     ],
     providers: [
         AngularFireAuthGuard,
