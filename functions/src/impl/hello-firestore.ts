@@ -1,7 +1,5 @@
-import { firestore } from 'firebase-admin'
-
 export default function helloFirestore (
-    snap: firestore.DocumentSnapshot,
+    snap: FirebaseFirestore.DocumentSnapshot,
     db: FirebaseFirestore.Firestore
 ) {
     var data = snap.data();
@@ -15,4 +13,6 @@ export default function helloFirestore (
         name: name,
         test: "CA"
     })
+
+    return "ok";
 }
