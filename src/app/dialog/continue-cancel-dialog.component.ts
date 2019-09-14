@@ -7,11 +7,12 @@ export class ContinueCancelDialogData {
 }
 
 @Component({
-    selector: 'continue-cancel-dialog',
     templateUrl: './continue-cancel-dialog.component.html',
     styleUrls: ['./continue-cancel-dialog.component.scss']
 })
 export class ContinueCancelDialogComponent {
-    constructor(public dialogRef: MatDialogRef<ContinueCancelDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: ContinueCancelDialogData) {
+    constructor(
+        public dialogRef: MatDialogRef<ContinueCancelDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: ContinueCancelDialogData) {
     }
 }

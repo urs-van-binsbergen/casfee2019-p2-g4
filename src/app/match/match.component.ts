@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./match.component.scss']
 })
 export class MatchComponent implements OnInit {
-    title = "Match Module";
+    title = 'Match Module';
 
     constructor(private router: Router) { }
 

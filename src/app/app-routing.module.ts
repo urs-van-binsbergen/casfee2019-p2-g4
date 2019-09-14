@@ -19,7 +19,7 @@ const routes: Routes = [
     { path: 'index', component: IndexComponent },
     { path: 'login', component: LoginComponent },
     { path: 'match', component: MatchComponent, canActivate: [AuthGuard] },
-    { path: 'preparation', component: PreparationComponent, canActivate: [AuthGuard], 
+    { path: 'preparation', component: PreparationComponent, canActivate: [AuthGuard],
                                 canDeactivate: [PreparationGuard] },
     { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
 ];

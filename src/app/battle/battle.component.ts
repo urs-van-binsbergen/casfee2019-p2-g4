@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class BattleComponent implements OnInit {
 
-    title = "Battle";
+    title = 'Battle';
 
     constructor(private router: Router) { }
 

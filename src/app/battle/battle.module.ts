@@ -6,11 +6,11 @@ import { MatCardModule, MatButtonModule } from '@angular/material';
 
 
 @NgModule({
-  declarations: [BattleComponent],
-  imports: [
-    CommonModule, 
-    MatCardModule,
-    MatButtonModule
-]
+    declarations: [BattleComponent],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatButtonModule
+    ]
 })
 export class BattleModule { }

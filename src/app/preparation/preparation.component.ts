@@ -4,7 +4,6 @@ import { PreparationService } from './preparation.service';
 import { MatDialog } from '@angular/material';
 
 @Component({
-    selector: 'preparation',
     templateUrl: './preparation.component.html',
     styleUrls: ['./preparation.component.scss']
 })
