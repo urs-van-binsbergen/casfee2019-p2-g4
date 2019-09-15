@@ -4,7 +4,6 @@ import { PreparationService } from './preparation.service';
 import { MatDialog } from '@angular/material';
 
 @Component({
-    selector: 'preparation',
     templateUrl: './preparation.component.html',
     styleUrls: ['./preparation.component.scss']
 })
@@ -23,7 +22,7 @@ export class PreparationComponent implements OnInit {
     }
 
     onGoClicked() {
-        this.router.navigateByUrl('/hall');
+        this.router.navigateByUrl('/match');
     }
 
     onChangeClicked() {

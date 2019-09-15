@@ -4,14 +4,13 @@ import { Location } from '@angular/common';
 import { AuthService } from './auth.service';
 
 @Component({
-    selector: 'login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
     private next: string;
 
-    mode = "login";
+    mode = 'login';
 
     username: string;
     pass: string;
@@ -21,7 +20,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.queryParams.subscribe(params => this.next = params['next'] || '');
+        this.route.queryParams.subscribe(params => this.next = params.next || '');
     }
 
     async onSubmit() {
@@ -37,19 +36,19 @@ export class LoginComponent implements OnInit {
                 result = await this.authService.login(this.username, this.pass);
                 break;
         }
-        console.log("component got result", result);
+        console.log('component got result', result);
         if (result) {
             this.router.navigateByUrl(this.next);
         } else {
-            this.loginMessage = "Login failed";
+            this.loginMessage = 'Login failed';
         }
     }
 
     register() {
-        this.mode = "register";
+        this.mode = 'register';
     }
 
     resetPassword() {
-        this.mode = "resetPassword";
+        this.mode = 'resetPassword';
     }
 }

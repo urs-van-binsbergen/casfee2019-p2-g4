@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { HelloWorldComponent } from './hello-world.component';
+import { AdminComponent } from './admin.component';
 
 @NgModule({
     declarations: [
-        HelloWorldComponent
+        AdminComponent
     ],
     imports: [
         CommonModule,
         MatCardModule
     ]
 })
-export class HelloWorldModule { }
+export class AdminModule { }
