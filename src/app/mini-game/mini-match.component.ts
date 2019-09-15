@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Component({
     templateUrl: './mini-match.component.html',
@@ -15,10 +14,9 @@ export class MiniMatchComponent implements OnInit {
     waitingPlayers$: Observable<any[]>;
 
     constructor(
-        private router: Router,
-        public dialog: MatDialog,
         private afs: AngularFirestore,
-        private authService: AuthService
+        private authService: AuthService,
+        private fns: AngularFireFunctions 
     ) {
     }
 
@@ -42,6 +40,11 @@ export class MiniMatchComponent implements OnInit {
                 }
             ))
         );
+    }
+
+    async challenge(opponentUid) {
+        const callable = this.fns.httpsCallable('addChallenge');
+        callable({ opponentUid });
     }
 }
 

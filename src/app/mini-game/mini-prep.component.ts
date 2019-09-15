@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -18,7 +17,6 @@ export class MiniPrepComponent implements OnInit {
     miniGameNumber: number;
 
     constructor(
-        public dialog: MatDialog,
         private fns: AngularFireFunctions,
         private afs: AngularFirestore,
         private authService: AuthService
@@ -40,7 +38,7 @@ export class MiniPrepComponent implements OnInit {
     }
 
     async submit() {
-        const num = parseInt(this.miniGameNumber)
+        const num = this.miniGameNumber
         if(!num) {
             alert('number missing'); // TODO
             return;

@@ -4,12 +4,15 @@
     </mat-card-title>
     <mat-card-content>
         <p>
-            Proof of concept for the server API and data model. 
+            <b>Proof of concept for the server API and data model.</b>
+            This can actually be played over the server. For a one-person test
+            you have to use two different browsers and register two different
+            users.
         </p>
         <p>
-            The idea is to remove all complexity and implement a simple 
-            number guessing game, having all elements
-            of the actual battleship game however.
+            The idea is to avoid any complexity and to start with a simple 
+            number guessing game. But the implementation has all the
+            elements of the planned "big" game:
         </p>
         <p>
             <b>"Prepare" - </b> Player enters a number from 1-100. 
@@ -25,6 +28,11 @@
         </p>
         <p>
             <b>"Battle" -</b> Guessing instead of shooting
+        </p>
+        <p>
+            As a proof of concept this is reduced to the minimum: 
+            no tests, no services, only rudimentary ui, error handling
+            and validation.
         </p>
     </mat-card-content>
     <mat-card-actions>
