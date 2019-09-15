@@ -1,0 +1,31 @@
+<mat-card>
+    <mat-card-title>
+        {{title}}
+    </mat-card-title>
+    <mat-card-content>
+        <h2>Waiting Players:</h2>
+        <ul>
+            <li *ngFor="let waitingPlayer of waitingPlayers$ | async">
+                <b>{{waitingPlayer.me ? 'me, myself and i' : waitingPlayer.name}}</b>
+                <button *ngIf="!waitingPlayer.me" mat-button
+                    (click)="challenge(waitingPlayer.id)">Challenge</button>
+                <br>
+                challenged by: 
+                <span *ngFor="let challenge of waitingPlayer.challenges">
+                    {{challenge.name || challenge.uid}}
+                </span>
+                <br>
+                Match: {{waitingPlayer.isMatch}}
+            </li>
+        </ul>
+        <div>
+            (i) This is currently the last implemented step. A match
+            is detected, but a battle is not yet created. Also, a player
+            can not remove a challenge or leave the waiting room (firebase
+            console required to purge)
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <a routerLink="../prep">Back to prep</a>
+    </mat-card-actions>
+</mat-card>

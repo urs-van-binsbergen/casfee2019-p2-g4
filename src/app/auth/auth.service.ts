@@ -4,16 +4,18 @@ import { AngularFireAuth } from '@angular/fire/auth';
 @Injectable()
 export class AuthService {
 
-    constructor(private afAuth: AngularFireAuth) {
+    constructor(public afAuth: AngularFireAuth) {
         afAuth.user.subscribe(
             result => {
                 console.log('observable message', result);
                 if (result) {
                     this.isLoggedIn = true;
                     this.userDisplayName = result.email;
+                    this.uid = result.uid;
                 } else {
                     this.isLoggedIn = false;
                     this.userDisplayName = null;
+                    this.uid = null;
                 }
             },
             error => {
@@ -24,6 +26,7 @@ export class AuthService {
 
     isLoggedIn: boolean;
     userDisplayName: string;
+    uid: string;
 
     async login(email: string, password: string) {
         return this.afAuth.auth.signInWithEmailAndPassword(email, password)

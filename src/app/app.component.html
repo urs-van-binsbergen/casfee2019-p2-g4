@@ -27,6 +27,10 @@
             <mat-icon>forward</mat-icon>
             <span>User</span>
         </button>
+        <button mat-menu-item routerLink="mini-game">
+            <mat-icon>videogame_asset</mat-icon>
+            <span>Mini Game</span>
+        </button>
 
         <button *ngIf="!authService.isLoggedIn" mat-menu-item routerLink="login">
             <mat-icon>forward</mat-icon>

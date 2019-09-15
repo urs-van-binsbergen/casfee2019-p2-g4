@@ -13,11 +13,17 @@ const db = admin.firestore();
 // Implementations ----------------------------------------
 
 import helloFirestoreImpl from './impl/hello-firestore';
-export const helloFirestore = firestore.document(`items/{itemId}`)
-    .onCreate((snap) => helloFirestoreImpl(snap, db));
+export const helloFirestore = firestore.document(`items/{itemId}`).onCreate(
+    (snap) => helloFirestoreImpl(snap, db));
 
 import addUserImpl from './impl/add-user';
-export const addUser = auth.user().onCreate((user) => addUserImpl(user, db));
+export const addUser = auth.user().onCreate(
+    (user) => addUserImpl(user, db));
 
 import addPreparationImpl from './impl/add-preparation';
-export const addPreparation = https.onRequest((req, resp) => addPreparationImpl(req, resp, db));
+export const addPreparation = https.onCall(
+    (data, context) => addPreparationImpl(data, context, db));
+
+import addChallengeImpl from './impl/add-challenge';
+export const addChallenge = https.onCall(
+    (data, context) => addChallengeImpl(data, context, db));

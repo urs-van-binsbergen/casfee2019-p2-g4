@@ -5,6 +5,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { AngularFireFunctionsModule, FUNCTIONS_REGION } from '@angular/fire/functions';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule, MatButtonModule, MatMenuModule, MatCardModule } from '@angular/material';
@@ -23,6 +24,7 @@ import { PreparationModule } from './preparation/preparation.module';
 import { MatchModule } from './match/match.module';
 import { UserModule } from './user/user.module';
 import { BattleModule } from './battle/battle.module';
+import { MiniGameModule } from './mini-game/mini-game.module';
 
 @NgModule({
     declarations: [
@@ -36,6 +38,7 @@ import { BattleModule } from './battle/battle.module';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule,
         AngularFireAuthModule,
+        AngularFireFunctionsModule,
 
         BrowserAnimationsModule,
         MatToolbarModule,
@@ -49,11 +52,13 @@ import { BattleModule } from './battle/battle.module';
         BattleModule,
         HallModule,
         MatchModule,
+        MiniGameModule,
         PreparationModule,
         UserModule
     ],
     providers: [
         AngularFireAuthGuard,
+        { provide: FUNCTIONS_REGION, useValue: 'europe-west2' }
     ],
     bootstrap: [
         AppComponent
