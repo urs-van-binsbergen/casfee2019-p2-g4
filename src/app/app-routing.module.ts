@@ -11,6 +11,11 @@ import { UserComponent } from './user/user.component';
 import { MatchComponent } from './match/match.component';
 import { BattleComponent } from './battle/battle.component';
 
+import { MiniGameComponent } from './mini-game/mini-game.component';
+import { MiniBattleComponent } from './mini-game/mini-battle.component';
+import { MiniMatchComponent } from './mini-game/mini-match.component';
+import { MiniPrepComponent } from './mini-game/mini-prep.component';
+
 const routes: Routes = [
     { path: '', component: HallComponent },
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
@@ -22,6 +27,11 @@ const routes: Routes = [
     { path: 'preparation', component: PreparationComponent, canActivate: [AuthGuard],
                                 canDeactivate: [PreparationGuard] },
     { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
+
+    { path: 'mini-game', component: MiniGameComponent, canActivate: [AuthGuard] },
+    { path: 'mini-game/battle', component: MiniBattleComponent, canActivate: [AuthGuard] },
+    { path: 'mini-game/match', component: MiniMatchComponent, canActivate: [AuthGuard] },
+    { path: 'mini-game/prep', component: MiniPrepComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

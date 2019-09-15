@@ -20,4 +20,4 @@ import addUserImpl from './impl/add-user';
 export const addUser = auth.user().onCreate((user) => addUserImpl(user, db));
 
 import addPreparationImpl from './impl/add-preparation';
-export const addPreparation = https.onRequest((req, resp) => addPreparationImpl(req, resp, db));
+export const addPreparation = https.onCall((data, context) => addPreparationImpl(data, context, db));

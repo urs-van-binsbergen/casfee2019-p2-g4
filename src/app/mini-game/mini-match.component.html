@@ -1,0 +1,13 @@
+<mat-card>
+    <mat-card-title>
+        {{title}}
+    </mat-card-title>
+    <mat-card-content>
+        <p *ngFor="let waitingPlayer of waitingPlayers$ | async">
+            {{waitingPlayer | json}}
+        </p>
+    </mat-card-content>
+    <mat-card-actions>
+        <a routerLink="../prep">Back to prep</a>
+    </mat-card-actions>
+</mat-card>

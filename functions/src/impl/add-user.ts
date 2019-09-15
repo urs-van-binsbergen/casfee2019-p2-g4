@@ -4,19 +4,17 @@ export default function addUser(
     user: auth.UserRecord,
     db: FirebaseFirestore.Firestore
 ) {
-    // TODO
-    console.log("addUser()")
+    const uid = user.uid;
+    
     const doc = {
-        uid: user.uid,
         numberOfVictories: 0,
         level: 0
     };
-    db.collection("users").add(doc)
+    return db.collection("users").doc(uid).set(doc)
         .then(function (docRef) {
-            console.log("Document written with ID: ", docRef.id);
+            console.log("Document written");
         })
         .catch(function (error) {
             console.error("Error adding document: ", error);
         });
-    return "ok";
 }
