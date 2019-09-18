@@ -3,11 +3,35 @@
         {{title}}
     </mat-card-title>
     <mat-card-content>
+        <div *ngIf="myBattle$ | async as myBattle">
+            <div style="color: green; font-size: 10px; margin-bottom: 10px;">
+                {{myBattle | json}}
+            </div>
+            <div>
+                <span style="font-size: 20px;">Your number: {{myBattle.miniGameNumber}}</span>
+            </div>
+            <div style="margin-top: 10px;">
+                <div>Your guesses so far:</div>
+                <ul>
+                    <li *ngFor="let guess of myBattle.guesses">
+                        <b>{{guess.currentGuess}}</b>: {{guess.guessInfo}}
+                    </li>
+                </ul>
+            </div>
+            <div>{{myBattle.currentStateInfo}}</div>
+            <div *ngIf="myBattle.canShootNext" style="font-weight: bold; color: orange;">Your turn!</div>
+        </div>
         <p>
-            battle
+            <input matInput [(ngModel)]="currentGuess" name="currentGuess" style="width: 200px;" />
         </p>
     </mat-card-content>
     <mat-card-actions>
-
+        <button mat-raised-button (click)="submit()">Submit Guess</button>
+        <p>
+            <a routerLink="../">Go to mini game home</a>
+        </p>
+        <p *ngIf="serviceResult$ | async as serviceResult">
+            Service Result: {{serviceResult | json}}
+        </p>
     </mat-card-actions>
 </mat-card>

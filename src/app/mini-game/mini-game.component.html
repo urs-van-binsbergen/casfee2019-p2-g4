@@ -5,37 +5,49 @@
     <mat-card-content>
         <p>
             <b>Proof of concept for the server API and data model.</b>
-            This can actually be played over the server. For a one-person test
-            you have to use two different browsers and register two different
-            users.
         </p>
         <p>
-            The idea is to avoid any complexity and to start with a simple 
-            number guessing game. But the implementation has all the
-            elements of the planned "big" game:
+            To avoid any complexity we start with a simple
+            number guessing game, which however has all the elements
+            of the actual game:
         </p>
         <p>
-            <b>"Prepare" - </b> Player enters a number from 1-100. 
+            <b>"Prepare" - </b> Player enters a number from 1-100.
             He submits the number to the server, where to same
             processing takes place as in the actual game (including
             validation), except the payload is not an array of ships
-            but a plain number. 
+            but a plain number.
         </p>
         <p>
             <b>"Match" - </b> A list of ready players is displayed
-            and two players can form a pair of oppenents. 
-            Almost the same as in the actual game from a data perspective. 
+            and two players can form a pair of oppenents.
+            Almost the same as in the actual game from a data perspective.
         </p>
         <p>
             <b>"Battle" -</b> Guessing instead of shooting
         </p>
         <p>
-            As a proof of concept this is reduced to the minimum: 
-            no tests, no services, only rudimentary ui, error handling
-            and validation.
+            As a proof of concept this is reduced to the minimum 
+            and roughly patched together:
+            no tests, no services, mimimal error handling
+            and validation, lots of 'no-nos' like inline-styles, 
+            breaks etc.
+        </p>
+        <p>
+            <b>Player info:</b><br>
+            - For a one-person test
+            you have to use two different browsers and register two different
+            users.<br>
+            - Data cleanup is not very reliable yet. Use the "Purge" button to 
+            start anew after you have already generated data (prep, match making, battle). 
         </p>
     </mat-card-content>
     <mat-card-actions>
-        <a routerLink="prep">Prepare</a>
+        <p>
+            <a routerLink="prep">Go to preparation</a>
+        </p>
+        <p>
+            <button mat-raised-button (click)="purge()">Purge my game data</button><br>
+        </p>
     </mat-card-actions>
 </mat-card>

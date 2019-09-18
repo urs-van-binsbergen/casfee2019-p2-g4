@@ -3,20 +3,22 @@
         {{title}}
     </mat-card-title>
     <mat-card-content>
-        <p>
-            <input matInput [(ngModel)]="miniGameNumber" name="miniGameNumber" 
-                placeholder="Enter a number from 1 to 100"
-                style="width: 200px;" />
+        <p *ngIf="!(myPreparation$ | async)">
+            <input matInput [(ngModel)]="miniGameNumber" name="miniGameNumber"
+                placeholder="Enter a number from 1 to 100" style="width: 200px;" />
         </p>
         <p>
             My prep on server: {{myPreparation$ | async | json }}
         </p>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button (click)="submit()">Submit</button>
-        <p *ngIf="serviceResult$ | async as serviceResult">
-            Service Result: {{serviceResult | json}}
+        <p>
+            Service Result: {{serviceResult$ | async | json}}
         </p>
+        </mat-card-content>
+    <mat-card-actions>
+        <button *ngIf="!(myPreparation$ | async)" mat-raised-button (click)="submit()">Submit</button>
         <a *ngIf="myPreparation$ | async" routerLink="../match">Go to matchmaking</a>
+        <p>
+            <a routerLink="../">Go to mini game home</a>
+        </p>
     </mat-card-actions>
 </mat-card>

@@ -1,8 +1,6 @@
 import { CallableContext, HttpsError } from "firebase-functions/lib/providers/https";
 import { loadData, Challenge } from './utils';
 
-
-
 export default function addChallengeImpl(
     data: any,
     context: CallableContext,
@@ -22,26 +20,57 @@ export default function addChallengeImpl(
     const uid = context.auth.uid;
     const name = context.auth.token.name || context.auth.token.email || uid;
 
-    var playerRef = db.collection("waitingPlayers").doc(uid);
-    var opponentRef = db.collection("waitingPlayers").doc(opponentUid);
+    var waitingPlayerRef = db.collection('waitingPlayers').doc(uid);
+    var prepRef = db.collection('preparations').doc(uid);
+    var waitingPlayerRefO = db.collection('waitingPlayers').doc(opponentUid);
+    var prepRefO = db.collection('preparations').doc(opponentUid);
 
     return db.runTransaction(tx => {
-        return tx.getAll(playerRef, opponentRef).then(docs => {
-            const playerData = loadData(docs[0]);
-            const opponentData = loadData(docs[1]);
-            const playerChallenges: Challenge[] = playerData.challenges || [];
-            const opponentChallenges: Challenge[] = opponentData.challenges || [];
+        return tx.getAll(waitingPlayerRef, prepRef, waitingPlayerRefO, prepRefO)
+        .then(docs => {
+            const now = Date();
 
-            if (playerChallenges.find(x => x.uid == opponentUid)) {
-                // MATCH :) 
-                tx.update(playerRef, { isMatch: true });
-                tx.update(opponentRef, { isMatch: true });
-                // TODO: must start the battle
+            const waitingPlayerData = loadData(docs[0]);
+            const challenges: Challenge[] = waitingPlayerData.challenges || [];
+            const prepData = loadData(docs[1])
+
+            const waitingPlayerDataO = loadData(docs[2]);
+            const challengesO: Challenge[] = waitingPlayerDataO.challenges || [];
+            const prepDataO = loadData(docs[3])
+
+            if (challengesO.find(x => x.uid == uid)) {
+                throw 'challenge already exists';
             }
 
-            if (!opponentChallenges.find(x => x.uid == uid)) {
-                const challenges = [...opponentChallenges, { uid, name, challengeDate: Date() }];
-                tx.update(opponentRef, { challenges });
+            if (challenges.find(x => x.uid == opponentUid)) {
+                // MATCH! -> start the battle
+                // (always do all reads before any writes)
+
+                tx.set(db.collection('battlePlayers').doc(uid), {
+                    opponentUid,
+                    startDate: now,
+                    miniGameNumber: prepData.miniGameNumber,
+                    guesses: [], 
+                    currentStateInfo: null,
+                    canShootNext: true
+                });
+                tx.set(db.collection('battlePlayers').doc(opponentUid), {
+                    opponentUid: uid,
+                    startDate: now,
+                    miniGameNumber: prepDataO.miniGameNumber,
+                    guesses: [], 
+                    currentStateInfo: null,
+                    canShootNext: false
+                });
+                tx.delete(waitingPlayerRef)
+                    .delete(waitingPlayerRefO)
+                    .delete(prepRef)
+                    .delete(prepRefO);
+            // TODO: remove references in challenges with other players!
+            }
+            else {
+                const challenges = [...challengesO, { uid, name, challengeDate: now }];
+                tx.update(waitingPlayerRefO, { challenges });
             }
         });
     }).then(() => {

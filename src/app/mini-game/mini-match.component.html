@@ -4,28 +4,33 @@
     </mat-card-title>
     <mat-card-content>
         <h2>Waiting Players:</h2>
-        <ul>
+        <ul class="waiting-players">
             <li *ngFor="let waitingPlayer of waitingPlayers$ | async">
-                <b>{{waitingPlayer.me ? 'me, myself and i' : waitingPlayer.name}}</b>
-                <button *ngIf="!waitingPlayer.me" mat-button
-                    (click)="challenge(waitingPlayer.id)">Challenge</button>
+                <div *ngIf="waitingPlayer.canChallenge" style="float:right;">
+                    <button mat-raised-button color="primary" (click)="challenge(waitingPlayer.id)">Challenge</button>
+                </div>
+                <div>
+                    <b>{{waitingPlayer.name}}</b>
+                    <span *ngIf="waitingPlayer.id === uid"> (me)</span>
+                </div>
                 <br>
-                challenged by: 
-                <span *ngFor="let challenge of waitingPlayer.challenges">
-                    {{challenge.name || challenge.uid}}
-                </span>
-                <br>
-                Match: {{waitingPlayer.isMatch}}
+                <div *ngIf="waitingPlayer.challenges">
+                    challenged by:
+                    <span *ngFor="let challenge of waitingPlayer.challenges"
+                        style="border: 1px solid black; display:inline-block; margin-right: 10px;">
+                        {{challenge.name || challenge.uid}}
+                        <span *ngIf=" challenge.uid === uid"> (me)</span>
+                    </span>
+                </div>
             </li>
         </ul>
-        <div>
-            (i) This is currently the last implemented step. A match
-            is detected, but a battle is not yet created. Also, a player
-            can not remove a challenge or leave the waiting room (firebase
-            console required to purge)
-        </div>
     </mat-card-content>
     <mat-card-actions>
-        <a routerLink="../prep">Back to prep</a>
+        <div *ngIf="myBattle$ | async">
+            <a routerLink="../battle">Go to battle</a>
+        </div>
+        <p>
+            <a routerLink="../">Go to mini game home</a>
+        </p>
     </mat-card-actions>
 </mat-card>
