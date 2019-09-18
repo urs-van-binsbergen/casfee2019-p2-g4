@@ -7,7 +7,12 @@ service cloud.firestore {
     }
 
     match /databases/{database}/documents {
-        // Regel für die Collection "items"
+
+        match /users/{userId} {
+            allow read: if belongsTo(userId);
+            allow write: if false;
+        }
+
         match /waitingPlayers/{document} {
             allow read: if true;
             allow write: if false;
@@ -18,7 +23,7 @@ service cloud.firestore {
             allow write: if false;
         }
 
-        match /users/{userId} {
+        match /battlePlayers/{userId} {
             allow read: if belongsTo(userId);
             allow write: if false;
         }

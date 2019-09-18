@@ -10,7 +10,7 @@ import * as admin from 'firebase-admin'
 admin.initializeApp();
 const db = admin.firestore();
 
-// Implementations ----------------------------------------
+// API ----------------------------------------
 
 import helloFirestoreImpl from './impl/hello-firestore';
 export const helloFirestore = firestore.document(`items/{itemId}`).onCreate(
@@ -27,3 +27,12 @@ export const addPreparation = https.onCall(
 import addChallengeImpl from './impl/add-challenge';
 export const addChallenge = https.onCall(
     (data, context) => addChallengeImpl(data, context, db));
+
+import makeGuessImpl from './impl/make-guess';
+export const makeGuess = https.onCall(
+    (data, context) => makeGuessImpl(data, context, db));
+
+
+import purgeMiniGameImpl from './impl/purge-mini-game';
+export const purgeMiniGame = https.onCall(
+    (data, context) => purgeMiniGameImpl(data, context, db));
