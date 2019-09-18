@@ -1,8 +1,6 @@
 import { CallableContext, HttpsError } from "firebase-functions/lib/providers/https";
 import { loadData, Challenge } from './utils';
 
-
-
 export default function addChallengeImpl(
     data: any,
     context: CallableContext,
