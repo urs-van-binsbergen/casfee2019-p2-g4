@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
@@ -12,7 +13,7 @@ import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatButtonModule, MatMenuModule, MatCardModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatMenuModule, MatCardModule, MatRadioModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -41,6 +42,7 @@ export function createTranslateLoader(http: HttpClient) {
     ],
     imports: [
         BrowserModule,
+        FormsModule,
         AppRoutingModule,
 
         AngularFireModule.initializeApp(environment.firebase),
@@ -63,6 +65,7 @@ export function createTranslateLoader(http: HttpClient) {
         MatMenuModule,
         MatIconModule,
         MatCardModule,
+        MatRadioModule,
 
         AdminModule,
         AuthModule,

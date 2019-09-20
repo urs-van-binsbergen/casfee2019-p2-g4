@@ -42,6 +42,12 @@
         </button>
     </mat-menu>
     <h3 translate>application.title</h3>
+    <span class="fill-remaining-space"></span>
+    <mat-radio-group aria-label="Select an option" [(ngModel)]="languge">
+        <mat-radio-button value="en">EN</mat-radio-button>
+        <span class="radio-button-separator-space"></span>
+        <mat-radio-button value="de">DE</mat-radio-button>
+    </mat-radio-group>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
