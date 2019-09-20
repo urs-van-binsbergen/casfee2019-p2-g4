@@ -1,14 +1,14 @@
 <mat-card>
-    <mat-card-title>
-        {{title}}
+    <mat-card-title translate>
+        preparation.title
     </mat-card-title>
     <mat-card-content>
-        <p>
-            Content
+        <p translate>
+            preparation.body
         </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="onGoClicked()">Done</button>
+        <button mat-raised-button color="primary" (click)="onDoneClicked()">{{'button.done' | translate}}</button>
         <button mat-raised-button (click)="onChangeClicked()">Change Preparation</button>
     </mat-card-actions>
 </mat-card>

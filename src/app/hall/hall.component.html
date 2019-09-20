@@ -1,13 +1,13 @@
 <mat-card>
-    <mat-card-title>
-        {{title}}
+    <mat-card-title translate>
+        hall.title
     </mat-card-title>
     <mat-card-content>
-        <p>
-            Content
+        <p translate>
+            hall.body
         </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="onGoClicked()">Battle!</button>
+        <button mat-raised-button color="primary" (click)="onBattleClicked()">{{'button.battle' | translate}}</button>
     </mat-card-actions>
 </mat-card>

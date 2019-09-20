@@ -8,14 +8,12 @@ import { Router } from '@angular/router';
 })
 export class BattleComponent implements OnInit {
 
-    title = 'Battle';
-
     constructor(private router: Router) { }
 
     ngOnInit() {
     }
 
-    onGoClicked() {
+    onCapitulationClicked() {
         this.router.navigateByUrl('/hall');
     }
 

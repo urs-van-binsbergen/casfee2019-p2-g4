@@ -1,0 +1,33 @@
+{
+    "application": {
+        "title": "CAS FEE 2019 Projekt 2 Gruppe 4"
+    },
+    "battle": {
+        "body": "Schlacht Text",
+        "title": "Schlacht"
+    },
+    "button": {
+        "battle": "Schlacht",
+        "cancel": "Abbrechen",
+        "capitulation": "Kapitulation",
+        "continue": "Weiter",
+        "done": "Fertig",
+        "ok": "Ok"
+    },
+    "hall": {
+        "body": "Sieger Text",
+        "title": "Siegergallerie"
+    },
+    "match": {
+        "body": "Herausvorderung Text",
+        "title": "Herausvorderung"
+    },
+    "preparation": {
+        "body": "Vorbereitung Text",
+        "title": "Vorbereitung",
+        "dialog": {
+            "body": "Du verlierst deine Daten!",
+            "title": "Warnung"
+        }
+    }
+}

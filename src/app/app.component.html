@@ -9,7 +9,7 @@
         </button>
         <button mat-menu-item routerLink="hall">
             <mat-icon>forward</mat-icon>
-            <span>Hall</span>
+            <span translate>hall.title</span>
         </button>
         <button mat-menu-item routerLink="index">
             <mat-icon>forward</mat-icon>
@@ -17,7 +17,7 @@
         </button>
         <button mat-menu-item routerLink="preparation">
             <mat-icon>forward</mat-icon>
-            <span>Preparation</span>
+            <span translate>preparation.title</span>
         </button>
         <button mat-menu-item routerLink="admin">
             <mat-icon>forward</mat-icon>
@@ -41,7 +41,7 @@
             <span>Logout {{authService.userDisplayName}}</span>
         </button>
     </mat-menu>
-    <h3>{{title}}</h3>
+    <h3 translate>application.title</h3>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material';
     styleUrls: ['./preparation.component.scss']
 })
 export class PreparationComponent implements OnInit {
-    title = 'Preparation';
 
     constructor(private router: Router, private preparationService: PreparationService, public dialog: MatDialog) {
     }
@@ -21,7 +20,7 @@ export class PreparationComponent implements OnInit {
         return this.preparationService.isChanged;
     }
 
-    onGoClicked() {
+    onDoneClicked() {
         this.router.navigateByUrl('/match');
     }
 

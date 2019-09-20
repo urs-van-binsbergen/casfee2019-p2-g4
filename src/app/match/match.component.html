@@ -1,13 +1,13 @@
 <mat-card>
-    <mat-card-title>
-        {{title}}
+    <mat-card-title translate>
+        match.title
     </mat-card-title>
     <mat-card-content>
-        <p>
-            Content
+        <p translate>
+            match.body
         </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="onGoClicked()">Done</button>
+        <button mat-raised-button (click)="onMatchClicked()">Match</button>
     </mat-card-actions>
 </mat-card>

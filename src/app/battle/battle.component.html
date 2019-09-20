@@ -1,13 +1,13 @@
 <mat-card>
-    <mat-card-title>
-        {{title}}
+    <mat-card-title translate>
+        battle.title
     </mat-card-title>
     <mat-card-content>
-        <p>
-            Content
+        <p translate>
+            battle.body
         </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="onGoClicked()">Go</button>
+        <button mat-raised-button color="primary" (click)="onCapitulationClicked()">{{'button.capitulation' | translate}}</button>
     </mat-card-actions>
 </mat-card>
