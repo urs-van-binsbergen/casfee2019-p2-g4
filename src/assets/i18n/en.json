@@ -2,6 +2,15 @@
     "application": {
         "title": "CAS FEE 2019 Project 2 Group 4"
     },
+    "auth": {
+        "login": "Login",
+        "register": "Register",
+        "reset": "Reset Password",
+        "placeholder": {
+            "password": "Password",
+            "username": "User name"
+        }
+    },
     "battle": {
         "body": "Battle Text",
         "title": "Battle"
@@ -12,7 +21,10 @@
         "capitulation": "Capitulation",
         "continue": "Continue",
         "done": "Done",
-        "ok": "Ok"
+        "login": "Login",
+        "ok": "Ok",
+        "register": "Register",
+        "reset": "Reset Password"
     },
     "hall": {
         "body": "Hall Text",
