@@ -1,3 +1,41 @@
-mat-card {
-    margin: 0.25em;
+.page {
+    margin: 3px;
+}
+
+.opponentboard {
+    display: block;
+    min-width: 300px;
+    width: calc(11.1vmin * 8);
+    max-width: 420px;
+    min-height: 300px;
+    height: calc(11.1vmin * 8);
+    max-height: 420px;
+    background-color: aqua;
+}
+
+.ownboard {
+    display: block;
+    min-width: 200px;
+    width: calc(7.4vmin * 8);
+    max-width: 280px;
+    min-height: 200px;
+    height: calc(7.4vmin * 8);
+    max-height: 280px;
+    background-color: greenyellow;
+}
+
+@media screen and (min-width: 600px) {
+    .ownboard {
+        background-color: lightblue;
+    }
+}
+
+@media screen and (min-width: 758px) {
+    .ownboard {
+        background-color: cornflowerblue;
+    }
+}
+
+button {
+    width: 140px;
 }

@@ -1,36 +1,39 @@
 .page {
     margin: 3px;
 }
+
+/* unit 24...35px */
+
 .yard {
     display: block;
-    min-width: 252px;
-    width: calc(7vmin * 12);
-    max-width: 420px;
-    min-height: 105px;
-    height: calc(7vmin * 5);
+    min-width: 240px;
+    width: calc(7.7vmin * 10);
+    max-width: 350px;
+    min-height: 115px;
+    height: calc(7.7vmin * 5);
     max-height: 175px;
-    background-color: aqua;
+    background-color: greenyellow;
 }
 
 .board {
     display: block;
-    min-width: 252px;
-    width: calc(7vmin * 12);
+    min-width: 288px;
+    width: calc(7.7vmin * 12);
     max-width: 420px;
-    min-height: 252px;
-    height: calc(7vmin * 12);
+    min-height: 288px;
+    height: calc(7.7vmin * 12);
     max-height: 420px;
-    background-color: greenyellow;
+    background-color: aqua;
 }
 
 @media screen and (min-width: 600px) {
-    .yard {
+    .board {
         background-color: lightblue;
     }
 }
 
 @media screen and (min-width: 758px) {
-    .yard {
+    .board {
         background-color: cornflowerblue;
     }
 }

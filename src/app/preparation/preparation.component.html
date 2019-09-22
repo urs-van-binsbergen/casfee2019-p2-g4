@@ -1,17 +1,17 @@
 <div class="page">
     <h3 translate>preparation.title</h3>
     <p translate>preparation.body</p>
-    <div class="container" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="flex-start">
+    <div class="container" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center">
         <div class="yard" fxFlex="0 0 auto">
-            yard
+            yard  12x5 1/1 units
         </div>
         <div class="board" fxFlex="0 0 auto">
-            board
+            board  12x12 1/1 units
             <button mat-raised-button (click)="onChangedClicked()">Changed</button>
             <button mat-raised-button (click)="onValidatedClicked()">Validated</button>
         </div>
     </div>
-    <div fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="flex-start">
+    <div fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
         <button mat-raised-button color="primary" (click)="onContinueClicked()"
             [disabled]="isContinueDisabled">{{'button.continue' | translate}}</button>
     </div>
