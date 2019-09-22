@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatchComponent } from './match.component';
 import { MatButtonModule, MatCardModule } from '@angular/material';
 
@@ -9,6 +10,7 @@ import { MatButtonModule, MatCardModule } from '@angular/material';
     imports: [
         CommonModule,
         TranslateModule,
+        FlexLayoutModule,
         MatButtonModule,
         MatCardModule
     ]

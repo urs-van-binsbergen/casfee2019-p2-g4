@@ -1,13 +1,12 @@
-<mat-card>
-    <mat-card-title translate>
-        match.title
-    </mat-card-title>
-    <mat-card-content>
-        <p translate>
-            match.body
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
+<div class="page">
+    <h3 translate>match.title</h3>
+    <p translate>match.body</p>
+    <div class="container" fxLayout="column" fxLayoutGap="8px" fxLayoutAlign="start">
+        <div *ngFor="let i of [0, 1, 2, 3, 4]" class="match" fxFlex="0 0 auto">
+            match
+        </div>
+    </div>
+    <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
         <button mat-raised-button (click)="onMatchClicked()">Match</button>
-    </mat-card-actions>
-</mat-card>
+    </div>
+</div>
