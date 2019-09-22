@@ -1,3 +1,40 @@
-mat-card {
-    margin: 0.25em;
+.page {
+    margin: 3px;
+}
+.yard {
+    display: block;
+    min-width: 252px;
+    width: calc(7vmin * 12);
+    max-width: 420px;
+    min-height: 105px;
+    height: calc(7vmin * 5);
+    max-height: 175px;
+    background-color: aqua;
+}
+
+.board {
+    display: block;
+    min-width: 252px;
+    width: calc(7vmin * 12);
+    max-width: 420px;
+    min-height: 252px;
+    height: calc(7vmin * 12);
+    max-height: 420px;
+    background-color: greenyellow;
+}
+
+@media screen and (min-width: 600px) {
+    .yard {
+        background-color: lightblue;
+    }
+}
+
+@media screen and (min-width: 758px) {
+    .yard {
+        background-color: cornflowerblue;
+    }
+}
+
+button {
+    width: 140px;
 }

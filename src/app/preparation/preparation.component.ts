@@ -20,11 +20,23 @@ export class PreparationComponent implements OnInit {
         return this.preparationService.isChanged;
     }
 
-    onDoneClicked() {
+    get isContinueDisabled(): boolean {
+        return !(this.isValidated);
+    }
+
+    get isValidated(): boolean {
+        return this.preparationService.isValideted;
+    }
+
+    onContinueClicked() {
         this.router.navigateByUrl('/match');
     }
 
-    onChangeClicked() {
+    onChangedClicked() {
         this.preparationService.change();
+    }
+
+    onValidatedClicked() {
+        this.preparationService.validate();
     }
 }
