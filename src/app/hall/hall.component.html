@@ -1,13 +1,21 @@
-<mat-card>
-    <mat-card-title translate>
-        hall.title
-    </mat-card-title>
-    <mat-card-content>
-        <p translate>
-            hall.body
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
+<div class="page">
+    <h3 translate>hall.title</h3>
+    <p translate>hall.body</p>
+    <div class="container" fxLayout="column" fxLayoutGap="8px" fxLayoutAlign="start">
+        <div class="admirals" fxFlex="0 0 auto">
+            admirals
+        </div>
+        <div class="captains" fxFlex="0 0 auto">
+            captains
+        </div>
+        <div class="seamen" fxFlex="0 0 auto">
+            seamen
+        </div>
+        <div class="shipboys" fxFlex="0 0 auto">
+            shipboys
+        </div>
+    </div>
+    <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
         <button mat-raised-button color="primary" (click)="onBattleClicked()">{{'button.battle' | translate}}</button>
-    </mat-card-actions>
-</mat-card>
+    </div>
+</div>
