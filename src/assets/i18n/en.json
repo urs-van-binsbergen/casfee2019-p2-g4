@@ -1,4 +1,8 @@
 {
+    "admin": {
+        "body": "Admin Text",
+        "title": "Admin"
+    },
     "application": {
         "title": "CAS FEE 2019 Project 2 Group 4"
     },
@@ -41,5 +45,9 @@
             "body": "Your data will get lost!",
             "title": "Warning"
         }
+    },
+    "user": {
+        "body": "User Text",
+        "title": "User"
     }
 }
