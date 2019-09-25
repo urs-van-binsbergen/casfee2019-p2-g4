@@ -13,7 +13,10 @@
             "password": "Passwort",
             "loginButton": "Einloggen",
             "registerLink": "Als neuer Benutzer registrieren",
-            "forgotPasswordLink": "Passwort vergessen"
+            "usernameRequired": "Benutzername fehlt",
+            "usernameInvalid": "Benutzername muss eine E-Mail-Adresse sein",
+            "passwordRequired": "Password fehlt",
+            "passwordInvalid": "Ungültiges Passwort"
         },
         "register": {
             "title": "Registrieren",

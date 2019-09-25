@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from './auth.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     templateUrl: './login.component.html',
@@ -10,9 +11,10 @@ export class LoginComponent implements OnInit {
 
     private next: string;
 
-    username: string;
-    pass: string;
-    loginMessage: string;
+    loginForm = new FormGroup({ 
+        username: new FormControl('', [ Validators.required, Validators.email ]), 
+        password: new FormControl('', [ Validators.required ])
+    });
 
     constructor(
         private authService: AuthService,
@@ -24,13 +26,16 @@ export class LoginComponent implements OnInit {
         this.route.queryParams.subscribe(params => this.next = params.next || '');
     }
 
-    async onSubmit() {
-        const result = await this.authService.login(this.username, this.pass);
-        if (result) {
+    onSubmit() {
+        this.authService.login(
+            this.loginForm.controls.username.value, 
+            this.loginForm.controls.password.value
+        )
+        .then(result => {
             this.router.navigateByUrl(this.next);
-        } else {
-            this.loginMessage = 'Login failed';
-        }
+        })
+        .catch(error => {
+            this.loginForm.controls.password.setErrors({'loginError': error});
+        });
     }
-
 }

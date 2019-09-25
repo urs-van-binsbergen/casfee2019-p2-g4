@@ -1,38 +1,42 @@
 <div class="login-content mat-typography">
-    <form (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
         <mat-card>
-            <mat-card-title>
-                <h2 translate>auth.login.title</h2>
-            </mat-card-title>
+            <h2 translate>
+                auth.login.title
+            </h2>
+
             <mat-card-content>
-
-                <div *ngIf="loginMessage">
-                    {{loginMessage}}
-                </div>
-
-                <mat-form-field>
-                    <input matInput [(ngModel)]="username" name="username"
-                        placeholder="{{'auth.login.username' | translate}}" />
-                </mat-form-field>
-
-                <mat-form-field *ngIf="mode !== 'resetPassword'">
-                    <input matInput type="password" name="password" [(ngModel)]="pass"
-                        placeholder="{{'auth.login.password' | translate}}" />
-                </mat-form-field>
-
-            </mat-card-content>
-            <mat-card-actions>
-                <button type="submit" mat-raised-button color="primary">
-                    {{ 'auth.login.loginButton' | translate }}
-                </button>
-            </mat-card-actions>
-            <mat-card-actions>
-                <div>
+                <p>
+                    <mat-form-field>
+                        <input matInput formControlName="username" required
+                            placeholder="{{'auth.login.username' | translate}}" />
+                        <mat-error *ngIf="loginForm.get('username').invalid">
+                            <div *ngIf="!loginForm.get('username').value" translate>auth.login.usernameRequired</div>
+                            <div *ngIf="loginForm.get('username').value" translate>auth.login.usernameInvalid</div>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <input matInput formControlName="password" required type="password"
+                            placeholder="{{'auth.login.password' | translate}}" />
+                        <mat-error *ngIf="loginForm.controls.password.invalid">
+                            <div *ngIf="!loginForm.controls.password.value" translate>auth.login.passwordRequired</div>
+                            <div *ngIf="loginForm.controls.password.value" translate>auth.login.passwordInvalid</div>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid">
+                        {{ 'auth.login.loginButton' | translate }}
+                    </button>
+                </p>
+                <p>
                     <a routerLink="../register" translate>auth.login.registerLink</a>
                     |
                     <a routerLink="../reset-password" translate="">auth.login.forgotPasswordLink</a>
-                </div>
-            </mat-card-actions>
+                </p>
+            </mat-card-content>
         </mat-card>
     </form>
 
