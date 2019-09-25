@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
 import { AuthService } from './auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    templateUrl: './register.component.html',
+    styleUrls: [ './register.component.scss' ]
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent {
 
     private next: string;
 
     username: string;
-    pass: string;
-    loginMessage: string;
+    pass1: string;
+    pass2: string;
 
     constructor(
         private authService: AuthService,
@@ -25,11 +25,11 @@ export class LoginComponent implements OnInit {
     }
 
     async onSubmit() {
-        const result = await this.authService.login(this.username, this.pass);
+        const result = await this.authService.register(this.username, this.pass1);
         if (result) {
             this.router.navigateByUrl(this.next);
         } else {
-            this.loginMessage = 'Login failed';
+            alert('?');
         }
     }
 

@@ -7,12 +7,22 @@
         "title": "CAS FEE 2019 Projekt 2 Gruppe 4"
     },
     "auth": {
-        "login": "Login",
-        "register": "Register",
-        "reset": "Passwort zurücksetzen",
-        "placeholder": {
+        "login": {
+            "title": "Login",
+            "username": "Benutzername",
             "password": "Passwort",
-            "username": "Benutzername"
+            "loginButton": "Einloggen",
+            "registerLink": "Als neuer Benutzer registrieren",
+            "forgotPasswordLink": "Passwort vergessen"
+        },
+        "register": {
+            "title": "Registrieren",
+            "username": "Benutzername",
+            "password": "Passwort",
+            "passwordRepeat": "Passwort wiederholen"
+        },
+        "resetPassword": {
+            "title": "Passwort zurücksetzen"
         }
     },
     "battle": {
@@ -26,9 +36,7 @@
         "continue": "Weiter",
         "done": "Fertig",
         "login": "Login",
-        "ok": "Ok",
-        "register": "Register",
-        "reset": "Zurücksetzen"
+        "ok": "Ok"
     },
     "hall": {
         "body": "Sieger Text",
