@@ -32,11 +32,11 @@
     },
     "hall": {
         "body": "Sieger Text",
-        "title": "Siegergallerie"
+        "title": "Siegergalerie"
     },
     "match": {
-        "body": "Herausvorderung Text",
-        "title": "Herausvorderung"
+        "body": "Herausforderung Text",
+        "title": "Herausforderung"
     },
     "preparation": {
         "body": "Vorbereitung Text",

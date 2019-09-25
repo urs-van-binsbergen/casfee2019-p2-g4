@@ -10,21 +10,21 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
 
-    private _languge: string;
+    private _language: string;
 
     constructor(private router: Router, public authService: AuthService, private translate: TranslateService) {
         translate.addLangs(['en', 'de']);
         translate.setDefaultLang('en');
-        this.languge = 'en';
+        this.language = 'en';
     }
 
-    get languge(): string {
-        return this._languge;
+    get language(): string {
+        return this._language;
     }
 
-    set languge(languge: string) {
-        this._languge = languge;
-        this.translate.use(languge);
+    set language(language: string) {
+        this._language = language;
+        this.translate.use(language);
     }
 
     async onLogoutClicked() {

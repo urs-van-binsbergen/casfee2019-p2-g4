@@ -9,7 +9,7 @@ export class PreparationService {
         return this._isChanged;
     }
 
-    get isValideted(): boolean {
+    get isValidated(): boolean {
         return this._isValidated;
     }
 

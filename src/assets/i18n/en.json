@@ -39,8 +39,8 @@
         "title": "Opponent Match"
     },
     "preparation": {
-        "body": "Prepartion Text",
-        "title": "Prepartion",
+        "body": "Preparation Text",
+        "title": "Preparation",
         "dialog": {
             "body": "Your data will get lost!",
             "title": "Warning"

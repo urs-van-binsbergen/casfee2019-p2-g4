@@ -25,7 +25,7 @@ export class PreparationComponent implements OnInit {
     }
 
     get isValidated(): boolean {
-        return this.preparationService.isValideted;
+        return this.preparationService.isValidated;
     }
 
     onContinueClicked() {
