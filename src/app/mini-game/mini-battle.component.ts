@@ -35,8 +35,8 @@ export class MiniBattleComponent implements OnInit {
     }
 
     async submit() {
-        const currentGuess = this.currentGuess
-        if(!currentGuess) {
+        const currentGuess = this.currentGuess;
+        if (!currentGuess) {
             alert('number missing'); // TODO
             return;
         }

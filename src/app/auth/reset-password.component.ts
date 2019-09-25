@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
     templateUrl: './reset-password.component.html',
     styleUrls: [ './reset-password.component.scss' ]
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnInit {
 
     private next: string;
 

@@ -11,9 +11,9 @@ export class LoginComponent implements OnInit {
 
     private next: string;
 
-    loginForm = new FormGroup({ 
-        username: new FormControl('', [ Validators.required, Validators.email ]), 
-        password: new FormControl('', [ Validators.required ])
+    loginForm = new FormGroup({
+        username: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [Validators.required])
     });
 
     constructor(
@@ -28,14 +28,14 @@ export class LoginComponent implements OnInit {
 
     onSubmit() {
         this.authService.login(
-            this.loginForm.controls.username.value, 
+            this.loginForm.controls.username.value,
             this.loginForm.controls.password.value
         )
-        .then(result => {
-            this.router.navigateByUrl(this.next);
-        })
-        .catch(error => {
-            this.loginForm.controls.password.setErrors({'loginError': error});
-        });
+            .then(result => {
+                this.router.navigateByUrl(this.next);
+            })
+            .catch(error => {
+                this.loginForm.controls.password.setErrors({ loginError: error });
+            });
     }
 }

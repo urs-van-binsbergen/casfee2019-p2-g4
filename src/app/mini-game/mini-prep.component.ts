@@ -38,8 +38,8 @@ export class MiniPrepComponent implements OnInit {
     }
 
     async submit() {
-        const num = this.miniGameNumber
-        if(!num) {
+        const num = this.miniGameNumber;
+        if (!num) {
             alert('number missing'); // TODO
             return;
         }

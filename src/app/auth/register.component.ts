@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     templateUrl: './register.component.html',
     styleUrls: [ './register.component.scss' ]
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
     private next: string;
 

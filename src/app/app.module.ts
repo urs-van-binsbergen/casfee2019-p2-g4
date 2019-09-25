@@ -9,8 +9,8 @@ import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { AngularFireFunctionsModule, FUNCTIONS_REGION } from '@angular/fire/functions';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule, MatButtonModule, MatMenuModule, MatCardModule, MatRadioModule } from '@angular/material';
