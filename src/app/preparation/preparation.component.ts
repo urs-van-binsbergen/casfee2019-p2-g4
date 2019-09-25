@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material';
     styleUrls: ['./preparation.component.scss']
 })
 export class PreparationComponent implements OnInit {
-    title = 'Preparation';
 
     constructor(private router: Router, private preparationService: PreparationService, public dialog: MatDialog) {
     }
@@ -21,11 +20,23 @@ export class PreparationComponent implements OnInit {
         return this.preparationService.isChanged;
     }
 
-    onGoClicked() {
+    get isContinueDisabled(): boolean {
+        return !(this.isValidated);
+    }
+
+    get isValidated(): boolean {
+        return this.preparationService.isValidated;
+    }
+
+    onContinueClicked() {
         this.router.navigateByUrl('/match');
     }
 
-    onChangeClicked() {
+    onChangedClicked() {
         this.preparationService.change();
+    }
+
+    onValidatedClicked() {
+        this.preparationService.validate();
     }
 }

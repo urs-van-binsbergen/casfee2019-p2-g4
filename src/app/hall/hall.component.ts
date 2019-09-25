@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
     styleUrls: ['./hall.component.scss']
 })
 export class HallComponent implements OnInit {
-    title = 'Hall of Fame';
 
     constructor(private router: Router) {
     }
@@ -14,7 +13,7 @@ export class HallComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    onGoClicked() {
+    onBattleClicked() {
         this.router.navigateByUrl('/preparation');
     }
 }

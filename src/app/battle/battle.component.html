@@ -1,13 +1,16 @@
-<mat-card>
-    <mat-card-title>
-        {{title}}
-    </mat-card-title>
-    <mat-card-content>
-        <p>
-            Content
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="onGoClicked()">Go</button>
-    </mat-card-actions>
-</mat-card>
+<div class="page">
+    <h3 translate>battle.title</h3>
+    <p translate>battle.body</p>
+    <div class="container" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center">
+        <div class="opponentboard" fxFlex="0 0 auto">
+            opponentboard (8x8 1/1 units)
+        </div>
+        <div class="ownboard" fxFlex="0 0 auto">
+            ownboard (8x8 2/3 units)
+        </div>
+    </div>
+    <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
+        <button mat-raised-button color="primary"
+            (click)="onCapitulationClicked()">{{'button.capitulation' | translate}}</button>
+    </div>
+</div>

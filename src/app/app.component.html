@@ -9,7 +9,7 @@
         </button>
         <button mat-menu-item routerLink="hall">
             <mat-icon>forward</mat-icon>
-            <span>Hall</span>
+            <span translate>hall.title</span>
         </button>
         <button mat-menu-item routerLink="index">
             <mat-icon>forward</mat-icon>
@@ -17,15 +17,15 @@
         </button>
         <button mat-menu-item routerLink="preparation">
             <mat-icon>forward</mat-icon>
-            <span>Preparation</span>
+            <span translate>preparation.title</span>
         </button>
         <button mat-menu-item routerLink="admin">
             <mat-icon>forward</mat-icon>
-            <span>Admin</span>
+            <span translate>admin.title</span>
         </button>
         <button mat-menu-item routerLink="user">
             <mat-icon>forward</mat-icon>
-            <span>User</span>
+            <span translate>user.title</span>
         </button>
         <button mat-menu-item routerLink="mini-game">
             <mat-icon>videogame_asset</mat-icon>
@@ -41,7 +41,13 @@
             <span>Logout {{authService.userDisplayName}}</span>
         </button>
     </mat-menu>
-    <h3>{{title}}</h3>
+    <p class="title" translate>application.title</p>
+    <span class="fill-remaining-space"></span>
+    <mat-radio-group aria-label="Select an option" [(ngModel)]="language">
+        <mat-radio-button value="en">EN</mat-radio-button>
+        <span class="radio-button-separator-space"></span>
+        <mat-radio-button value="de">DE</mat-radio-button>
+    </mat-radio-group>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

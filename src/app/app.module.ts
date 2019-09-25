@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
@@ -7,8 +8,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { AngularFireFunctionsModule, FUNCTIONS_REGION } from '@angular/fire/functions';
 
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatButtonModule, MatMenuModule, MatCardModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatMenuModule, MatCardModule, MatRadioModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +31,10 @@ import { UserModule } from './user/user.module';
 import { BattleModule } from './battle/battle.module';
 import { MiniGameModule } from './mini-game/mini-game.module';
 
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+}
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -33,6 +42,7 @@ import { MiniGameModule } from './mini-game/mini-game.module';
     ],
     imports: [
         BrowserModule,
+        FormsModule,
         AppRoutingModule,
 
         AngularFireModule.initializeApp(environment.firebase),
@@ -40,12 +50,22 @@ import { MiniGameModule } from './mini-game/mini-game.module';
         AngularFireAuthModule,
         AngularFireFunctionsModule,
 
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: createTranslateLoader,
+                deps: [HttpClient]
+            }
+        }),
+
         BrowserAnimationsModule,
         MatToolbarModule,
         MatButtonModule,
         MatMenuModule,
         MatIconModule,
         MatCardModule,
+        MatRadioModule,
 
         AdminModule,
         AuthModule,

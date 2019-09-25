@@ -1,0 +1,53 @@
+{
+    "admin": {
+        "body": "Admin Text",
+        "title": "Admin"
+    },
+    "application": {
+        "title": "CAS FEE 2019 Project 2 Group 4"
+    },
+    "auth": {
+        "login": "Login",
+        "register": "Register",
+        "reset": "Reset Password",
+        "placeholder": {
+            "password": "Password",
+            "username": "User name"
+        }
+    },
+    "battle": {
+        "body": "Battle Text",
+        "title": "Battle"
+    },
+    "button": {
+        "battle": "Battle",
+        "cancel": "Cancel",
+        "capitulation": "Capitulation",
+        "continue": "Continue",
+        "done": "Done",
+        "login": "Login",
+        "ok": "Ok",
+        "register": "Register",
+        "reset": "Reset Password"
+    },
+    "hall": {
+        "body": "Hall Text",
+        "title": "Hall of Fame"
+    },
+    "match": {
+        "body": "Match Text",
+        "title": "Opponent Match"
+    },
+    "preparation": {
+        "body": "Preparation Text",
+        "title": "Preparation",
+        "dialog": {
+            "body": "Your data will get lost!",
+            "title": "Warning"
+        }
+    },
+    "user": {
+        "body": "User Text",
+        "title": "User"
+    }
+}

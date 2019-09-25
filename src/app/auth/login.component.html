@@ -2,9 +2,9 @@
     <mat-card>
         <mat-card-title>
             <div [ngSwitch]="mode">
-                <div *ngSwitchCase="'register'">Register</div>
-                <div *ngSwitchCase="'resetPassword'">Reset Password</div>
-                <div *ngSwitchDefault>Login</div>
+                <div *ngSwitchCase="'register'" translate>auth.register</div>
+                <div *ngSwitchCase="'resetPassword'" translate>auth.reset</div>
+                <div *ngSwitchDefault translate>auth.login</div>
             </div>
         </mat-card-title>
         <mat-card-content>
@@ -16,33 +16,30 @@
                 </div>
 
                 <mat-form-field class="login-full-width">
-                    <input matInput [(ngModel)]="username" name="username" placeholder="User name" />
+                    <input matInput [(ngModel)]="username" name="username" placeholder="{{'auth.placeholder.username' | translate}}" />
                 </mat-form-field>
 
                 <mat-form-field class="login-full-width" *ngIf="mode !== 'resetPassword'">
-                    <input matInput type="password" name="password" [(ngModel)]="pass" placeholder="Password" />
+                    <input matInput type="password" name="password" [(ngModel)]="pass" placeholder="{{'auth.placeholder.password' | translate}}" />
                 </mat-form-field>
 
                 <div [ngSwitch]="mode">
                     <div *ngSwitchCase="'register'">
-                        <button type="submit" mat-raised-button color="primary">Register</button>
+                        <button type="submit" mat-raised-button color="primary">{{'button.register' | translate}}</button>
                     </div>
                     <div *ngSwitchCase="'resetPassword'">
-                        <button type="submit" mat-raised-button color="primary">Reset Password</button>
+                        <button type="submit" mat-raised-button color="primary">{{'button.reset' | translate}}</button>
                     </div>
                     <div *ngSwitchDefault>
-                        <button type="submit" mat-raised-button color="primary">Login</button>
+                        <button type="submit" mat-raised-button color="primary">{{'button.login' | translate}}</button>
                     </div>
                 </div>
 
             </form>
-
-            <div style="margin-top: 1em;" *ngIf="mode === 'login'">
-                <!-- TODO: materialize -->
-                <button mat-raised-button (click)="register()">Register</button>
-                <button mat-raised-button (click)="resetPassword()">Forgot Password</button>
-            </div>
-
         </mat-card-content>
+        <mat-card-actions *ngIf="mode === 'login'">
+            <button mat-raised-button (click)="register()">{{'button.register' | translate}}</button>
+            <button mat-raised-button (click)="resetPassword()">{{'button.reset' | translate}}</button>
+        </mat-card-actions>
     </mat-card>
 </div>

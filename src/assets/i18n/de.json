@@ -1,0 +1,53 @@
+{
+    "admin": {
+        "body": "Administration Text",
+        "title": "Administration"
+    },
+    "application": {
+        "title": "CAS FEE 2019 Projekt 2 Gruppe 4"
+    },
+    "auth": {
+        "login": "Login",
+        "register": "Register",
+        "reset": "Passwort zurücksetzen",
+        "placeholder": {
+            "password": "Passwort",
+            "username": "Benutzername"
+        }
+    },
+    "battle": {
+        "body": "Schlacht Text",
+        "title": "Schlacht"
+    },
+    "button": {
+        "battle": "Schlacht",
+        "cancel": "Abbrechen",
+        "capitulation": "Kapitulation",
+        "continue": "Weiter",
+        "done": "Fertig",
+        "login": "Login",
+        "ok": "Ok",
+        "register": "Register",
+        "reset": "Zurücksetzen"
+    },
+    "hall": {
+        "body": "Sieger Text",
+        "title": "Siegergalerie"
+    },
+    "match": {
+        "body": "Herausforderung Text",
+        "title": "Herausforderung"
+    },
+    "preparation": {
+        "body": "Vorbereitung Text",
+        "title": "Vorbereitung",
+        "dialog": {
+            "body": "Du verlierst deine Daten!",
+            "title": "Warnung"
+        }
+    },
+    "user": {
+        "body": "Benutzer Text",
+        "title": "Benutzer"
+    }
+}

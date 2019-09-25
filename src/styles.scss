@@ -48,7 +48,14 @@ a:hover {
     color: crimson;
 }
 
-/* global defaults */
-mat-card {
-    margin: 0.25em;
+button {
+    width: 150px;
+}
+
+.page {
+    margin: 3px;
+}
+
+.buttons {
+    margin-top: 8px;
 }

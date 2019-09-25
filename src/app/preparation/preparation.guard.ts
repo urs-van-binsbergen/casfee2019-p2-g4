@@ -11,8 +11,8 @@ export class PreparationGuard implements CanDeactivate<PreparationComponent> {
         if (target.isChanged) {
             const dialog: MatDialog = target.dialog;
             const data: ContinueCancelDialogData = new ContinueCancelDialogData();
-            data.title = 'Warning';
-            data.body = 'Your data will get lost!';
+            data.title = 'preparation.dialog.title';
+            data.body = 'preparation.dialog.body';
             const dialogRef: MatDialogRef<ContinueCancelDialogComponent> = dialog.open(ContinueCancelDialogComponent, {
                 data
             });

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-root',
@@ -8,9 +9,22 @@ import { AuthService } from './auth/auth.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    title = 'CAS FEE 2019 Projekt 2 Gruppe 4';
 
-    constructor(private router: Router, public authService: AuthService) {
+    private _language: string;
+
+    constructor(private router: Router, public authService: AuthService, private translate: TranslateService) {
+        translate.addLangs(['en', 'de']);
+        translate.setDefaultLang('en');
+        this.language = 'en';
+    }
+
+    get language(): string {
+        return this._language;
+    }
+
+    set language(language: string) {
+        this._language = language;
+        this.translate.use(language);
     }
 
     async onLogoutClicked() {

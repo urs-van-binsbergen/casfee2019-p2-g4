@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from './auth.service';
@@ -14,6 +16,8 @@ import { FormsModule } from '@angular/forms';
     ],
     imports: [
         BrowserModule,
+        TranslateModule,
+        FlexLayoutModule,
         FormsModule,
         MatCardModule,
         MatButtonModule,
