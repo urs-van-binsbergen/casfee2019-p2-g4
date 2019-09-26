@@ -15,6 +15,8 @@ import { MiniGameComponent } from './mini-game/mini-game.component';
 import { MiniBattleComponent } from './mini-game/mini-battle.component';
 import { MiniMatchComponent } from './mini-game/mini-match.component';
 import { MiniPrepComponent } from './mini-game/mini-prep.component';
+import { ResetPasswordComponent } from './auth/reset-password.component';
+import { RegisterComponent } from './auth/register.component';
 
 const routes: Routes = [
     { path: '', component: HallComponent },
@@ -22,7 +24,11 @@ const routes: Routes = [
     { path: 'battle', component: BattleComponent, canActivate: [AuthGuard] },
     { path: 'hall', component: HallComponent },
     { path: 'index', component: IndexComponent },
+
     { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'reset-password', component: ResetPasswordComponent },
+
     { path: 'match', component: MatchComponent, canActivate: [AuthGuard] },
     { path: 'preparation', component: PreparationComponent, canActivate: [AuthGuard],
                                 canDeactivate: [PreparationGuard] },

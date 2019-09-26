@@ -7,7 +7,6 @@ export class AuthService {
     constructor(public afAuth: AngularFireAuth) {
         afAuth.user.subscribe(
             result => {
-                console.log('observable message', result);
                 if (result) {
                     this.isLoggedIn = true;
                     this.userDisplayName = result.email;
@@ -28,11 +27,8 @@ export class AuthService {
     userDisplayName: string;
     uid: string;
 
-    async login(email: string, password: string) {
-        return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-            .catch(error => {
-                console.log('promise error', error); // TODO
-            });
+    login(email: string, password: string): Promise<firebase.auth.UserCredential> {
+        return this.afAuth.auth.signInWithEmailAndPassword(email, password);
     }
 
     async logout() {

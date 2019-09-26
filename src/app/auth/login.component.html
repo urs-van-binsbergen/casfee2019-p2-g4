@@ -1,45 +1,43 @@
-<div class="login-content">
-    <mat-card>
-        <mat-card-title>
-            <div [ngSwitch]="mode">
-                <div *ngSwitchCase="'register'" translate>auth.register</div>
-                <div *ngSwitchCase="'resetPassword'" translate>auth.reset</div>
-                <div *ngSwitchDefault translate>auth.login</div>
-            </div>
-        </mat-card-title>
-        <mat-card-content>
+<div class="login-content mat-typography">
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+        <mat-card>
+            <h2 translate>
+                auth.login.title
+            </h2>
 
-            <form class="login-form" (ngSubmit)="onSubmit()">
-                <div *ngIf="loginMessage">
-                    <!-- TODO: materialize -->
-                    {{loginMessage}}
-                </div>
+            <mat-card-content>
+                <p>
+                    <mat-form-field>
+                        <input matInput formControlName="username" required
+                            placeholder="{{'auth.login.username' | translate}}" />
+                        <mat-error *ngIf="loginForm.get('username').invalid">
+                            <div *ngIf="!loginForm.get('username').value" translate>auth.login.usernameRequired</div>
+                            <div *ngIf="loginForm.get('username').value" translate>auth.login.usernameInvalid</div>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <input matInput formControlName="password" required type="password"
+                            placeholder="{{'auth.login.password' | translate}}" />
+                        <mat-error *ngIf="loginForm.controls.password.invalid">
+                            <div *ngIf="!loginForm.controls.password.value" translate>auth.login.passwordRequired</div>
+                            <div *ngIf="loginForm.controls.password.value" translate>auth.login.passwordInvalid</div>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid">
+                        {{ 'auth.login.loginButton' | translate }}
+                    </button>
+                </p>
+                <p>
+                    <a routerLink="../register" translate>auth.login.registerLink</a>
+                    |
+                    <a routerLink="../reset-password" translate="">auth.login.forgotPasswordLink</a>
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </form>
 
-                <mat-form-field class="login-full-width">
-                    <input matInput [(ngModel)]="username" name="username" placeholder="{{'auth.placeholder.username' | translate}}" />
-                </mat-form-field>
-
-                <mat-form-field class="login-full-width" *ngIf="mode !== 'resetPassword'">
-                    <input matInput type="password" name="password" [(ngModel)]="pass" placeholder="{{'auth.placeholder.password' | translate}}" />
-                </mat-form-field>
-
-                <div [ngSwitch]="mode">
-                    <div *ngSwitchCase="'register'">
-                        <button type="submit" mat-raised-button color="primary">{{'button.register' | translate}}</button>
-                    </div>
-                    <div *ngSwitchCase="'resetPassword'">
-                        <button type="submit" mat-raised-button color="primary">{{'button.reset' | translate}}</button>
-                    </div>
-                    <div *ngSwitchDefault>
-                        <button type="submit" mat-raised-button color="primary">{{'button.login' | translate}}</button>
-                    </div>
-                </div>
-
-            </form>
-        </mat-card-content>
-        <mat-card-actions *ngIf="mode === 'login'">
-            <button mat-raised-button (click)="register()">{{'button.register' | translate}}</button>
-            <button mat-raised-button (click)="resetPassword()">{{'button.reset' | translate}}</button>
-        </mat-card-actions>
-    </mat-card>
 </div>

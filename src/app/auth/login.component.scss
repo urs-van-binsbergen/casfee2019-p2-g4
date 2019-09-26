@@ -1,19 +1,12 @@
+.login-content {
+    padding: 3rem 1rem 1rem 1rem;
+}
+
 mat-card {
     max-width: 400px;
-    margin: 2em auto;
-    text-align: center;
+    margin: auto;
 }
 
-.login-content {
-    padding: 60px 1rem;
-}
-
-.login-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-}
-
-.login-full-width {
-    width: 100%;
+mat-form-field {
+    display: block;
 }
