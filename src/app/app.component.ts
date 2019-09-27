@@ -28,7 +28,8 @@ export class AppComponent {
     }
 
     async onLogoutClicked() {
-        await this.authService.logout();
-        this.router.navigateByUrl('');
+        this.authService.logout().then(() => {
+            this.router.navigateByUrl('');
+        }); // TODO: catch + snackbar 
     }
 }

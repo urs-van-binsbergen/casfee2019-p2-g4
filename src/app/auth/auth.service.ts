@@ -27,29 +27,22 @@ export class AuthService {
     userDisplayName: string;
     uid: string;
 
+    // TODO: probably we should not expose firebase api here
+
     login(email: string, password: string): Promise<firebase.auth.UserCredential> {
         return this.afAuth.auth.signInWithEmailAndPassword(email, password);
     }
 
-    async logout() {
-        return this.afAuth.auth.signOut()
-            .catch(error => {
-                console.log('promise error', error); // TODO
-            });
+    logout(): Promise<void> {
+        return this.afAuth.auth.signOut();
     }
 
-    async register(email: string, password: string) {
-        return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-            .catch(error => {
-                console.log('promise error', error); // TODO
-            });
+    register(email: string, password: string): Promise<firebase.auth.UserCredential> {
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     }
 
-    async sendPasswordMail(email: string) {
-        return this.afAuth.auth.sendPasswordResetEmail(email)
-            .catch(error => {
-                console.log('promise error', error); // TODO
-            });
+    sendPasswordMail(email: string): Promise<void> {
+        return this.afAuth.auth.sendPasswordResetEmail(email);
     }
 
 }

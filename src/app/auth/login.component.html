@@ -1,5 +1,5 @@
 <div class="login-content mat-typography">
-    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
         <mat-card>
             <h2 translate>
                 auth.login.title
@@ -10,9 +10,14 @@
                     <mat-form-field>
                         <input matInput formControlName="username" required
                             placeholder="{{'auth.login.username' | translate}}" />
-                        <mat-error *ngIf="loginForm.get('username').invalid">
-                            <div *ngIf="!loginForm.get('username').value" translate>auth.login.usernameRequired</div>
-                            <div *ngIf="loginForm.get('username').value" translate>auth.login.usernameInvalid</div>
+                        <mat-error *ngIf="username.invalid" [ngSwitch]="true">
+                            <div *ngSwitchCase="username.errors.required" translate>
+                                common.message.requiredField
+                            </div>
+                            <div *ngSwitchCase="username.errors.email" translate>
+                                auth.register.usernameMustBeEmail
+                            </div>
+                            <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
                 </p>
@@ -20,16 +25,18 @@
                     <mat-form-field>
                         <input matInput formControlName="password" required type="password"
                             placeholder="{{'auth.login.password' | translate}}" />
-                        <mat-error *ngIf="loginForm.controls.password.invalid">
-                            <div *ngIf="!loginForm.controls.password.value" translate>auth.login.passwordRequired</div>
-                            <div *ngIf="loginForm.controls.password.value" translate>auth.login.passwordInvalid</div>
+                        <mat-error *ngIf="password.invalid" [ngSwitch]="true">
+                            <div *ngSwitchCase="password.errors.required" translate>
+                                common.message.requiredField
+                            </div>
+                            <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
                 </p>
                 <div class="button-row">
                     <div>
                         <button type="submit" mat-raised-button color="primary">
-                            {{ 'auth.login.loginButton' | translate }}
+                            {{ 'auth.login.submitButton' | translate }}
                         </button>
                     </div>
                     <div class="spinner-cell">

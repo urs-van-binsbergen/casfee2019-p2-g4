@@ -11,10 +11,13 @@ import { RedirectService } from './redirect-service';
 })
 export class LoginComponent implements OnInit {
 
-    loginForm = new FormGroup({
-        username: new FormControl('', [Validators.required, Validators.email]),
-        password: new FormControl('', [Validators.required])
+    username = new FormControl('', [Validators.required, Validators.email]);
+    password = new FormControl('', [Validators.required]);
+    form = new FormGroup({
+        username: this.username,
+        password: this.password,
     });
+
     waiting = false;
 
     constructor(
@@ -28,20 +31,20 @@ export class LoginComponent implements OnInit {
     }
 
     onSubmit() {
-        if (!this.loginForm.valid) {
-            const invalidMsg = this.translate.instant('auth.login.pleaseCheckInput');
+        if (!this.form.valid) {
+            const invalidMsg = this.translate.instant('common.message.pleaseCheckFormInput');
             this.snackBar.open(invalidMsg);
             return;
         }
 
         this.waiting = true;
         this.authService.login(
-            this.loginForm.controls.username.value,
-            this.loginForm.controls.password.value
+            this.username.value,
+            this.password.value
         )
             .then(() => {
                 this.waiting = false;
-                const msg = this.translate.instant('auth.login.loginSuccess');
+                const msg = this.translate.instant('auth.login.successMessage');
                 this.snackBar.open(msg, null, { duration: 1000 });
                 this.redirect.redirectToNext('/user');
             })
