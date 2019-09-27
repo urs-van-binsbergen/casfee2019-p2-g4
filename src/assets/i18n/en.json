@@ -10,23 +10,34 @@
         "login": {
             "title": "Login",
             "username": "User name",
+            "usernameMustBeEmail": "User name must be an email address",
             "password": "Password",
-            "loginButton": "Login",
+            "submitButton": "Login",
+            "successMessage": "Login successful",
+            "apiError": "Login failure: {{errorDetail}}",
             "registerLink": "Register as a new user",
-            "forgotPasswordLink": "Forgot password",
-            "usernameRequired": "User name is missing",
-            "usernameInvalid": "User name must be an email address",
-            "passwordRequired": "Password is missing",
-            "passwordInvalid": "Password invalid"
+            "forgotPasswordLink": "Forgot password"
         },
         "register": {
             "title": "Register",
             "username": "User name",
+            "usernameMustBeEmail": "User name must be an email address",
             "password": "Password",
-            "passwordRepeat": "Repeat Password"
+            "passwordTooShort": "At least 6 characters", 
+            "passwordRepeat": "Repeat Password",
+            "passwordMismatch": "Passwords do not match",
+            "submitButton": "Register",
+            "successMessage": "Registration successful",
+            "apiError": "Registration failure: {{errorDetail}}"
         },
-        "reset-password": {
-            "title": "Reset password"
+        "resetPassword": {
+            "title": "Reset password",
+            "info": "A link to reset the password will be sent",
+            "email": "Email address",
+            "emailNotValid": "Not a valid email address",
+            "submitButton": "Send",
+            "successMessage": "Email sent, please check inbox",
+            "apiError": "Error sending mail: {{errorDetail}}"
         }
     },
     "battle": {
@@ -37,10 +48,26 @@
         "battle": "Battle",
         "cancel": "Cancel",
         "capitulation": "Capitulation",
+        "close": "Close",
         "continue": "Continue",
         "done": "Done",
         "login": "Login",
         "ok": "Ok"
+    },
+    "common": {
+        "message": {
+            "pleaseCheckFormInput": "Please check form input",
+            "requiredField": "Field required",
+            "fieldValueInvalid": "Value invalid"
+        }
+    },
+    "firebase": {
+        "errorCodes": {
+            "auth/wrong-password": "Wrong password",
+            "auth/user-not-found": "User not found",
+            "auth/email-already-in-use": "Email is already in use",
+            "auth/invalid-email": "Email invalid"
+        }
     },
     "hall": {
         "body": "Hall Text",

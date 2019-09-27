@@ -10,22 +10,34 @@
         "login": {
             "title": "Login",
             "username": "Benutzername",
+            "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
             "password": "Passwort",
-            "loginButton": "Einloggen",
+            "submitButton": "Einloggen",
+            "successMessage": "Login erfolgreich",
+            "apiError": "Fehler beim Einloggen: {{errorDetail}}",
             "registerLink": "Als neuer Benutzer registrieren",
-            "usernameRequired": "Benutzername fehlt",
-            "usernameInvalid": "Benutzername muss eine E-Mail-Adresse sein",
-            "passwordRequired": "Password fehlt",
-            "passwordInvalid": "Ungültiges Passwort"
+            "forgotPasswordLink": "Passwort vergessen"
         },
         "register": {
             "title": "Registrieren",
             "username": "Benutzername",
+            "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
             "password": "Passwort",
-            "passwordRepeat": "Passwort wiederholen"
+            "passwordTooShort": "Mindestens 6 Zeichen", 
+            "passwordRepeat": "Passwort wiederholen",
+            "passwordMismatch": "Passwörter stimmen nicht überein",
+            "submitButton": "Registrieren",
+            "successMessage": "Registrierung erfolgreich",
+            "apiError": "Fehler bei der Registrierung: {{errorDetail}}"
         },
         "resetPassword": {
-            "title": "Passwort zurücksetzen"
+            "title": "Passwort zurücksetzen",
+            "info": "Ein Mail mit dem Link zum Zurücksetzen des Passworts zusenden",
+            "email": "E-Mail-Adresse",
+            "emailNotValid": "Keine gültige E-Mail-Adresse",
+            "submitButton": "Senden",
+            "successMessage": "Das E-Mail wurde gesendet, bitte Inbox prüfen",
+            "apiError": "Fehler beim Senden des E-Mails: {{errorDetail}}"
         }
     },
     "battle": {
@@ -36,10 +48,26 @@
         "battle": "Schlacht",
         "cancel": "Abbrechen",
         "capitulation": "Kapitulation",
+        "close": "Schliessen",
         "continue": "Weiter",
         "done": "Fertig",
         "login": "Login",
         "ok": "Ok"
+    },
+    "common": {
+        "message": {
+            "pleaseCheckFormInput": "Bitte Eingaben überprüfen",
+            "fieldRequired": "Obligatorisches Feld",
+            "fieldValueInvalid": "Ungültiger Wert"
+        }
+    },
+    "firebase": {
+        "errorCodes": {
+            "auth/wrong-password": "Falsches Passwort",
+            "auth/user-not-found": "Benutzer nicht gefunden",
+            "auth/email-already-in-use": "E-Mail wird bereits verwendet",
+            "auth/invalid-email": "E-Mail ungültig"
+        }
     },
     "hall": {
         "body": "Sieger Text",
