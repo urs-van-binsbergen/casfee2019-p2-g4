@@ -19,13 +19,13 @@
             <mat-icon>forward</mat-icon>
             <span translate>user.title</span>
         </button>
-        <button *ngIf="!authService.isLoggedIn" mat-menu-item routerLink="login">
+        <button *ngIf="!authStateService.currentUser" mat-menu-item routerLink="login">
             <mat-icon>forward</mat-icon>
             <span>Login</span>
         </button>
-        <button *ngIf="authService.isLoggedIn" mat-menu-item (click)="onLogoutClicked()">
+        <button *ngIf="authStateService.currentUser" mat-menu-item (click)="onLogoutClicked()">
             <mat-icon>forward</mat-icon>
-            <span>Logout {{authService.userDisplayName}}</span>
+            <span>Logout {{authStateService.currentUser.displayName}}</span>
         </button>
 
         <button mat-menu-item routerLink="mini-game">

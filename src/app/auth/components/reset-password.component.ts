@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { RedirectService } from './redirect-service';
+import { AuthService } from '../auth.service';
+import { RedirectService } from '../redirect.service';
 
 @Component({
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit {
 
-    username = new FormControl('', [Validators.required, Validators.email]);
-    password = new FormControl('', [Validators.required]);
+    email = new FormControl('', [Validators.required, Validators.email]);
     form = new FormGroup({
-        username: this.username,
-        password: this.password,
+        email: this.email,
     });
-
     waiting = false;
 
     constructor(
@@ -25,6 +23,7 @@ export class LoginComponent implements OnInit {
         private translate: TranslateService,
         private authService: AuthService,
         private redirect: RedirectService,
+        private location: Location,
     ) { }
 
     ngOnInit() {
@@ -38,14 +37,12 @@ export class LoginComponent implements OnInit {
         }
 
         this.waiting = true;
-        this.authService.login(
-            this.username.value,
-            this.password.value
-        )
+        this.authService.sendPasswordMail(this.email.value)
             .then(() => {
                 this.waiting = false;
-                const msg = this.translate.instant('auth.login.successMessage');
-                this.snackBar.open(msg, null, { duration: 1000 });
+                const msg = this.translate.instant('auth.resetPassword.successMessage');
+                const ok = this.translate.instant('button.ok');
+                this.snackBar.open(msg, ok);
                 this.redirect.redirectToNext('/user');
             })
             .catch(error => {
@@ -59,9 +56,14 @@ export class LoginComponent implements OnInit {
                     errorDetail = `${error.message} (${error.code})`;
                 }
 
-                const msg = this.translate.instant('auth.login.apiError', { errorDetail });
-                const close = this.translate.instant('button.close');
-                this.snackBar.open(msg, close);
+                const msg = this.translate.instant('auth.resetPassword.apiError', { errorDetail });
+                const ok = this.translate.instant('button.ok');
+                this.snackBar.open(msg, ok);
             });
     }
+
+    onCancel() {
+        this.location.back();
+    }
+
 }

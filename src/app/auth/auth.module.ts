@@ -3,10 +3,11 @@ import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
-import { LoginComponent } from '../auth/login.component';
-import { RegisterComponent } from './register.component';
-import { ResetPasswordComponent } from './reset-password.component';
-import { RedirectService } from './redirect-service';
+import { LoginComponent } from './components/login.component';
+import { RegisterComponent } from './components/register.component';
+import { ResetPasswordComponent } from './components/reset-password.component';
+import { RedirectService } from './redirect.service';
+import { AuthStateService } from './auth-state.service';
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { RedirectService } from './redirect-service';
     ],
     providers: [
         AuthService,
+        AuthStateService,
         AuthGuard,
         RedirectService
     ]

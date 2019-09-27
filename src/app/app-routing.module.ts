@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { IndexComponent } from './index.component';
-import { LoginComponent } from './auth/login.component';
+import { LoginComponent } from './auth/components/login.component';
 import { HallComponent } from './hall/hall.component';
 import { PreparationComponent } from './preparation/preparation.component';
 import { AuthGuard } from './auth/auth.guard';
@@ -15,8 +15,8 @@ import { MiniGameComponent } from './mini-game/mini-game.component';
 import { MiniBattleComponent } from './mini-game/mini-battle.component';
 import { MiniMatchComponent } from './mini-game/mini-match.component';
 import { MiniPrepComponent } from './mini-game/mini-prep.component';
-import { ResetPasswordComponent } from './auth/reset-password.component';
-import { RegisterComponent } from './auth/register.component';
+import { ResetPasswordComponent } from './auth/components/reset-password.component';
+import { RegisterComponent } from './auth/components/register.component';
 
 const routes: Routes = [
     { path: '', component: HallComponent },

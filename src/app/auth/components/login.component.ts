@@ -1,24 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
-import { Location } from '@angular/common';
+import { AuthService } from '../auth.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from './auth.service';
-import { RedirectService } from './redirect-service';
+import { RedirectService } from '../redirect.service';
 
 @Component({
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss']
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
     username = new FormControl('', [Validators.required, Validators.email]);
-    password = new FormControl('', [Validators.required, Validators.minLength(6)]);
-    passwordRepeat = new FormControl('', [Validators.required]);
+    password = new FormControl('', [Validators.required]);
     form = new FormGroup({
         username: this.username,
         password: this.password,
-        passwordRepeat: this.passwordRepeat
     });
 
     waiting = false;
@@ -28,18 +25,12 @@ export class RegisterComponent implements OnInit {
         private translate: TranslateService,
         private authService: AuthService,
         private redirect: RedirectService,
-        private location: Location,
     ) { }
 
     ngOnInit() {
     }
 
     onSubmit() {
-        if (this.form.valid &&
-            this.password.value !== this.passwordRepeat.value
-        ) {
-            this.passwordRepeat.setErrors({ mismatch: true });
-        }
         if (!this.form.valid) {
             const invalidMsg = this.translate.instant('common.message.pleaseCheckFormInput');
             this.snackBar.open(invalidMsg);
@@ -47,13 +38,13 @@ export class RegisterComponent implements OnInit {
         }
 
         this.waiting = true;
-        this.authService.register(
+        this.authService.login(
             this.username.value,
             this.password.value
         )
             .then(() => {
                 this.waiting = false;
-                const msg = this.translate.instant('auth.register.successMessage');
+                const msg = this.translate.instant('auth.login.successMessage');
                 this.snackBar.open(msg, null, { duration: 1000 });
                 this.redirect.redirectToNext('/user');
             })
@@ -68,14 +59,9 @@ export class RegisterComponent implements OnInit {
                     errorDetail = `${error.message} (${error.code})`;
                 }
 
-                const msg = this.translate.instant('auth.register.apiError', { errorDetail });
+                const msg = this.translate.instant('auth.login.apiError', { errorDetail });
                 const close = this.translate.instant('button.close');
                 this.snackBar.open(msg, close);
             });
     }
-
-    onCancel() {
-        this.location.back();
-    }
-
 }

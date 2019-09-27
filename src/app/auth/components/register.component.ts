@@ -3,19 +3,24 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from './auth.service';
-import { RedirectService } from './redirect-service';
+import { AuthService } from '../auth.service';
+import { RedirectService } from '../redirect.service';
 
 @Component({
-    templateUrl: './reset-password.component.html',
-    styleUrls: ['./reset-password.component.scss']
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
-    email = new FormControl('', [Validators.required, Validators.email]);
+    username = new FormControl('', [Validators.required, Validators.email]);
+    password = new FormControl('', [Validators.required, Validators.minLength(6)]);
+    passwordRepeat = new FormControl('', [Validators.required]);
     form = new FormGroup({
-        email: this.email,
+        username: this.username,
+        password: this.password,
+        passwordRepeat: this.passwordRepeat
     });
+
     waiting = false;
 
     constructor(
@@ -30,6 +35,11 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     onSubmit() {
+        if (this.form.valid &&
+            this.password.value !== this.passwordRepeat.value
+        ) {
+            this.passwordRepeat.setErrors({ mismatch: true });
+        }
         if (!this.form.valid) {
             const invalidMsg = this.translate.instant('common.message.pleaseCheckFormInput');
             this.snackBar.open(invalidMsg);
@@ -37,12 +47,14 @@ export class ResetPasswordComponent implements OnInit {
         }
 
         this.waiting = true;
-        this.authService.sendPasswordMail(this.email.value)
+        this.authService.register(
+            this.username.value,
+            this.password.value
+        )
             .then(() => {
                 this.waiting = false;
-                const msg = this.translate.instant('auth.resetPassword.successMessage');
-                const ok = this.translate.instant('button.ok');
-                this.snackBar.open(msg, ok);
+                const msg = this.translate.instant('auth.register.successMessage');
+                this.snackBar.open(msg, null, { duration: 1000 });
                 this.redirect.redirectToNext('/user');
             })
             .catch(error => {
@@ -56,9 +68,9 @@ export class ResetPasswordComponent implements OnInit {
                     errorDetail = `${error.message} (${error.code})`;
                 }
 
-                const msg = this.translate.instant('auth.resetPassword.apiError', { errorDetail });
-                const ok = this.translate.instant('button.ok');
-                this.snackBar.open(msg, ok);
+                const msg = this.translate.instant('auth.register.apiError', { errorDetail });
+                const close = this.translate.instant('button.close');
+                this.snackBar.open(msg, close);
             });
     }
 
