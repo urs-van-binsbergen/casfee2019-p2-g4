@@ -58,7 +58,7 @@ export class ResetPasswordComponent implements OnInit {
 
                 const msg = this.translate.instant('auth.resetPassword.apiError', { errorDetail });
                 const ok = this.translate.instant('button.ok');
-                this.snackBar.open(msg, close);
+                this.snackBar.open(msg, ok);
             });
     }
 
