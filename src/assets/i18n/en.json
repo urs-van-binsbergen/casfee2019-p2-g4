@@ -9,18 +9,18 @@
     "auth": {
         "login": {
             "title": "Login",
-            "username": "User name",
+            "username": "User name (email address)",
             "usernameMustBeEmail": "User name must be an email address",
             "password": "Password",
             "submitButton": "Login",
             "successMessage": "Login successful",
             "apiError": "Login failure: {{errorDetail}}",
-            "registerLink": "Register as a new user",
+            "registerLink": "Register new player",
             "forgotPasswordLink": "Forgot password"
         },
         "register": {
-            "title": "Register",
-            "username": "User name",
+            "title": "Register new player",
+            "username": "User name (email address)",
             "usernameMustBeEmail": "User name must be an email address",
             "password": "Password",
             "passwordTooShort": "At least 6 characters", 
@@ -32,7 +32,7 @@
         },
         "resetPassword": {
             "title": "Reset password",
-            "info": "A link to reset the password will be sent",
+            "info": "A link to reset the password will be sent to the following address:",
             "email": "Email address",
             "emailNotValid": "Not a valid email address",
             "submitButton": "Send",

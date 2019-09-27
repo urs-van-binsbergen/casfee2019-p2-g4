@@ -9,18 +9,18 @@
     "auth": {
         "login": {
             "title": "Login",
-            "username": "Benutzername",
+            "username": "Benutzername (E-Mail-Adresse)",
             "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
             "password": "Passwort",
             "submitButton": "Einloggen",
             "successMessage": "Login erfolgreich",
             "apiError": "Fehler beim Einloggen: {{errorDetail}}",
-            "registerLink": "Als neuer Benutzer registrieren",
+            "registerLink": "Neuer Spieler (registrieren)",
             "forgotPasswordLink": "Passwort vergessen"
         },
         "register": {
-            "title": "Registrieren",
-            "username": "Benutzername",
+            "title": "Als neuer Spieler registrieren",
+            "username": "Benutzername (E-Mail-Adresse)",
             "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
             "password": "Passwort",
             "passwordTooShort": "Mindestens 6 Zeichen", 
@@ -32,7 +32,7 @@
         },
         "resetPassword": {
             "title": "Passwort zurücksetzen",
-            "info": "Ein Mail mit dem Link zum Zurücksetzen des Passworts zusenden",
+            "info": "Ein Link zum Zurücksetzen des Passworts wird an folgende Adresse gesendet:",
             "email": "E-Mail-Adresse",
             "emailNotValid": "Keine gültige E-Mail-Adresse",
             "submitButton": "Senden",
