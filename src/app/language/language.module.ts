@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from '../shared/shared.module';
 import { LanguageComponent } from './language.component';
 import { LanguageService } from './language.service';
 
@@ -8,7 +8,7 @@ import { LanguageService } from './language.service';
         LanguageComponent
     ],
     imports: [
-        CommonModule
+        SharedModule
     ],
     exports: [
         LanguageComponent

@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
-import { ContinueCancelDialogComponent } from './continue-cancel-dialog.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule, MatDialogModule } from '@angular/material';
+import { TranslateModule } from '@ngx-translate/core';
+import { ContinueCancelDialogComponent } from './continue-cancel-dialog.component';
 
 @NgModule({
     declarations: [
         ContinueCancelDialogComponent
     ],
     imports: [
-        TranslateModule,
         MatButtonModule,
-        MatDialogModule
+        MatDialogModule,
+        TranslateModule
     ],
     entryComponents: [
         ContinueCancelDialogComponent
     ]
 })
-export class DialogModule {
-}
+export class DialogModule { }
