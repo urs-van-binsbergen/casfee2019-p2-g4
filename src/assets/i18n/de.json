@@ -16,7 +16,10 @@
             "usernameRequired": "Benutzername fehlt",
             "usernameInvalid": "Benutzername muss eine E-Mail-Adresse sein",
             "passwordRequired": "Password fehlt",
-            "passwordInvalid": "Ungültiges Passwort"
+            "passwordInvalid": "Ungültiges Passwort",
+            "pleaseCheckInput": "Bitte Eingaben prüfen",
+            "loginSuccess": "Login erfolgreich",
+            "loginFailure": "Login nicht erfolgreich: {{errorDetail}}"
         },
         "register": {
             "title": "Registrieren",
@@ -36,10 +39,17 @@
         "battle": "Schlacht",
         "cancel": "Abbrechen",
         "capitulation": "Kapitulation",
+        "close": "Schliessen",
         "continue": "Weiter",
         "done": "Fertig",
         "login": "Login",
         "ok": "Ok"
+    },
+    "firebase": {
+        "errorCodes": {
+            "auth/wrong-password": "Falsches Passwort",
+            "auth/user-not-found": "Benutzer nicht gefunden"
+        }
     },
     "hall": {
         "body": "Sieger Text",

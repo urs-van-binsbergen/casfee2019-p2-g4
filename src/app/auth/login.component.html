@@ -26,11 +26,16 @@
                         </mat-error>
                     </mat-form-field>
                 </p>
-                <p>
-                    <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid">
-                        {{ 'auth.login.loginButton' | translate }}
-                    </button>
-                </p>
+                <div class="button-row">
+                    <div>
+                        <button type="submit" mat-raised-button color="primary">
+                            {{ 'auth.login.loginButton' | translate }}
+                        </button>
+                    </div>
+                    <div class="spinner-cell">
+                        <mat-spinner *ngIf="waiting" diameter="22" style="display: inline-block"></mat-spinner>
+                    </div>
+                </div>
                 <p>
                     <a routerLink="../register" translate>auth.login.registerLink</a>
                     |

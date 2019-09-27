@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule, MatDivider, MatDividerModule } from '@angular/material';
+import { MatInputModule, MatDivider, MatDividerModule, MatSnackBarModule, MatProgressSpinnerModule } from '@angular/material';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -14,6 +14,7 @@ import { AuthGuard } from './auth.guard';
 import { LoginComponent } from '../auth/login.component';
 import { RegisterComponent } from './register.component';
 import { ResetPasswordComponent } from './reset-password.component';
+import { RedirectService } from './redirect-service';
 
 @NgModule({
     declarations: [
@@ -30,11 +31,14 @@ import { ResetPasswordComponent } from './reset-password.component';
         MatCardModule,
         MatButtonModule,
         MatInputModule,
+        MatSnackBarModule,
+        MatProgressSpinnerModule,
         TranslateModule,
     ],
     providers: [
         AuthService,
-        AuthGuard
+        AuthGuard,
+        RedirectService
     ]
 })
 export class AuthModule {

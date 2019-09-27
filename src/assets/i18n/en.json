@@ -17,7 +17,10 @@
             "usernameRequired": "User name is missing",
             "usernameInvalid": "User name must be an email address",
             "passwordRequired": "Password is missing",
-            "passwordInvalid": "Password invalid"
+            "passwordInvalid": "Password invalid",
+            "pleaseCheckInput": "Please check your input",
+            "loginSuccess": "Login successful",
+            "loginFailure": "Login failure: {{errorDetail}}"
         },
         "register": {
             "title": "Register",
@@ -37,10 +40,17 @@
         "battle": "Battle",
         "cancel": "Cancel",
         "capitulation": "Capitulation",
+        "close": "Close",
         "continue": "Continue",
         "done": "Done",
         "login": "Login",
         "ok": "Ok"
+    },
+    "firebase": {
+        "errorCodes": {
+            "auth/wrong-password": "Wrong password",
+            "auth/user-not-found": "User not found"
+        }
     },
     "hall": {
         "body": "Hall Text",
