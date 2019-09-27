@@ -35,10 +35,10 @@ export class RegisterComponent implements OnInit {
     }
 
     onSubmit() {
-        if(this.form.valid && 
-            this.password.value != this.passwordRepeat.value
+        if (this.form.valid &&
+            this.password.value !== this.passwordRepeat.value
         ) {
-            this.passwordRepeat.setErrors({ 'mismatch': true });
+            this.passwordRepeat.setErrors({ mismatch: true });
         }
         if (!this.form.valid) {
             const invalidMsg = this.translate.instant('common.message.pleaseCheckFormInput');

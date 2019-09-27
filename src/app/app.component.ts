@@ -30,6 +30,6 @@ export class AppComponent {
     async onLogoutClicked() {
         this.authService.logout().then(() => {
             this.router.navigateByUrl('');
-        }); // TODO: catch + snackbar 
+        }); // TODO: catch + snackbar
     }
 }
