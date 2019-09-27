@@ -1,10 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { DialogModule } from '../dialog/dialog.module';
+import { SharedModule } from '../shared/shared.module';
 import { PreparationComponent } from './preparation.component';
 import { PreparationService } from './preparation.service';
 import { PreparationGuard } from './preparation.guard';
@@ -14,12 +9,7 @@ import { PreparationGuard } from './preparation.guard';
         PreparationComponent
     ],
     imports: [
-        BrowserModule,
-        TranslateModule,
-        FlexLayoutModule,
-        MatButtonModule,
-        MatCardModule,
-        DialogModule
+        SharedModule
     ],
     providers: [
         PreparationService,

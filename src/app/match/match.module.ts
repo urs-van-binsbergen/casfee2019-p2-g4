@@ -1,18 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { SharedModule } from '../shared/shared.module';
 import { MatchComponent } from './match.component';
-import { MatButtonModule, MatCardModule } from '@angular/material';
 
 @NgModule({
-    declarations: [MatchComponent],
+    declarations: [
+        MatchComponent
+    ],
     imports: [
-        CommonModule,
-        TranslateModule,
-        FlexLayoutModule,
-        MatButtonModule,
-        MatCardModule
+        SharedModule
     ]
 })
 export class MatchModule { }
