@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { RedirectService } from './redirect-service';
 
@@ -27,6 +28,7 @@ export class RegisterComponent implements OnInit {
         private translate: TranslateService,
         private authService: AuthService,
         private redirect: RedirectService,
+        private location: Location,
     ) { }
 
     ngOnInit() {
@@ -70,7 +72,10 @@ export class RegisterComponent implements OnInit {
                 const close = this.translate.instant('button.close');
                 this.snackBar.open(msg, close);
             });
+    }
 
+    onCancel() {
+        this.location.back();
     }
 
 }

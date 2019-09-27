@@ -57,6 +57,11 @@
                             {{'auth.register.submitButton' | translate}}
                         </button>
                     </div>
+                    <div>
+                        <button type="button" mat-raised-button (click)="onCancel()">
+                            {{'button.cancel' | translate}}
+                        </button>
+                    </div>
                     <div class="spinner-cell">
                         <mat-spinner *ngIf="waiting" diameter="22" style="display: inline-block"></mat-spinner>
                     </div>
