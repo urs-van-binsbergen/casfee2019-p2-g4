@@ -1,0 +1,13 @@
+<ul class="segmented-control">
+    <li *ngFor="let lang of languages" class="segmented-control-item">
+        <div *ngIf="isUsed(lang);then content else other_content"></div>
+        <ng-template #content>
+            <input id="{{lang}}" class="segmented-control-input" type="radio" value="{{lang}}" name="option" checked>
+        </ng-template>
+        <ng-template #other_content>
+            <input id="{{lang}}" class="segmented-control-input" type="radio" value="{{lang}}" name="option"
+                (click)="language = lang">
+        </ng-template>
+        <label for="{{lang}}" class="segmented-control-label">{{lang}}</label>
+    </li>
+</ul>
