@@ -11,18 +11,18 @@ export class AuthGuard implements CanActivate {
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.authService.afAuth.authState
-        .pipe(
-            take(1),
-            map(authState => !!authState),
-            tap(auth => {
-                if (!auth) {
-                    this.router.navigate(['/login'], {
-                        queryParams: {
-                            next: state.url
-                        }
-                    });
-                }
-            })
-        );
-      }
+            .pipe(
+                take(1),
+                map(authState => !!authState),
+                tap(auth => {
+                    if (!auth) {
+                        this.router.navigate(['/login'], {
+                            queryParams: {
+                                next: state.url
+                            }
+                        });
+                    }
+                })
+            );
+    }
 }
