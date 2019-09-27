@@ -47,12 +47,12 @@ describe('AppComponent', () => {
         const app = fixture.debugElement.componentInstance;
         expect(app).toBeTruthy();
     });
-/*
+
     it('should render title', () => {
         const fixture = TestBed.createComponent(AppComponent);
         fixture.detectChanges();
         const compiled = fixture.debugElement.nativeElement;
-        expect(compiled.querySelector('p').textContent).toContain('CAS FEE 2019 Projekt 2 Gruppe 4');
+        expect(compiled.querySelector('p').textContent).toContain('application.title');
     });
-*/
+
 });
