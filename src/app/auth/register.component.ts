@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from './auth.service';
 import { RedirectService } from './redirect-service';
 
 @Component({
@@ -68,7 +68,7 @@ export class RegisterComponent implements OnInit {
                     errorDetail = `${error.message} (${error.code})`;
                 }
 
-                const msg = this.translate.instant('auth.register.registrationFailure', { errorDetail });
+                const msg = this.translate.instant('auth.register.apiError', { errorDetail });
                 const close = this.translate.instant('button.close');
                 this.snackBar.open(msg, close);
             });

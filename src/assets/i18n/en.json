@@ -14,7 +14,7 @@
             "password": "Password",
             "submitButton": "Login",
             "successMessage": "Login successful",
-            "loginFailure": "Login failure: {{errorDetail}}",
+            "apiError": "Login failure: {{errorDetail}}",
             "registerLink": "Register as a new user",
             "forgotPasswordLink": "Forgot password"
         },
@@ -28,10 +28,16 @@
             "passwordMismatch": "Passwords do not match",
             "submitButton": "Register",
             "successMessage": "Registration successful",
-            "registrationFailure": "Registration failure: {{errorDetail}}"
+            "apiError": "Registration failure: {{errorDetail}}"
         },
-        "reset-password": {
-            "title": "Reset password"
+        "resetPassword": {
+            "title": "Reset password",
+            "info": "A link to reset the password will be sent",
+            "email": "Email address",
+            "emailNotValid": "Not a valid email address",
+            "submitButton": "Send",
+            "successMessage": "Email sent, please check inbox",
+            "apiError": "Error sending mail: {{errorDetail}}"
         }
     },
     "battle": {
@@ -59,7 +65,8 @@
         "errorCodes": {
             "auth/wrong-password": "Wrong password",
             "auth/user-not-found": "User not found",
-            "auth/email-already-in-use": "Email is already in use"
+            "auth/email-already-in-use": "Email is already in use",
+            "auth/invalid-email": "Email invalid"
         }
     },
     "hall": {

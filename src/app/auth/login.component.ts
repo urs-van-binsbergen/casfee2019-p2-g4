@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
                     errorDetail = `${error.message} (${error.code})`;
                 }
 
-                const msg = this.translate.instant('auth.login.loginFailure', { errorDetail });
+                const msg = this.translate.instant('auth.login.apiError', { errorDetail });
                 const close = this.translate.instant('button.close');
                 this.snackBar.open(msg, close);
             });
