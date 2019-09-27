@@ -1,14 +1,6 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule, MatDivider, MatDividerModule, MatSnackBarModule, MatProgressSpinnerModule } from '@angular/material';
-
-import { TranslateModule } from '@ngx-translate/core';
-
+import { SharedModule } from '../shared/shared.module';
+import { AppRoutingModule } from '../app-routing.module';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { LoginComponent } from '../auth/login.component';
@@ -23,17 +15,8 @@ import { RedirectService } from './redirect-service';
         ResetPasswordComponent
     ],
     imports: [
-        BrowserModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-        FlexLayoutModule,
-        MatCardModule,
-        MatButtonModule,
-        MatInputModule,
-        MatSnackBarModule,
-        MatProgressSpinnerModule,
-        TranslateModule,
+        SharedModule,
+        AppRoutingModule
     ],
     providers: [
         AuthService,
