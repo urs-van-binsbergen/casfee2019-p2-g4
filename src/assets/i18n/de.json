@@ -86,7 +86,7 @@
         }
     },
     "user": {
-        "body": "Benutzer Text",
-        "title": "Benutzer"
+        "body": "Lorem ipsum",
+        "title": "Mein Profil"
     }
 }

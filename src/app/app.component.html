@@ -19,13 +19,13 @@
             <mat-icon>forward</mat-icon>
             <span translate>user.title</span>
         </button>
-        <button *ngIf="!authStateService.currentUser" mat-menu-item routerLink="login">
+        <button *ngIf="!authState.currentUser" mat-menu-item routerLink="login">
             <mat-icon>forward</mat-icon>
             <span>Login</span>
         </button>
-        <button *ngIf="authStateService.currentUser" mat-menu-item (click)="onLogoutClicked()">
+        <button *ngIf="authState.currentUser" mat-menu-item (click)="onLogoutClicked()">
             <mat-icon>forward</mat-icon>
-            <span>Logout {{authStateService.currentUser.displayName}}</span>
+            <span>Logout {{authState.currentUser.displayName}}</span>
         </button>
 
         <button mat-menu-item routerLink="mini-game">
@@ -37,5 +37,15 @@
     <span class="fill-remaining-space"></span>
     <app-language></app-language>
 </mat-toolbar>
+
+<div style="background-color: black; color: white;">
+    <!-- Temp / Debug -->
+    <a routerLink="user" style="text-decoration:none;">
+        <mat-icon>perm_identity</mat-icon>
+        <span *ngIf="authState.currentUser as user">
+            {{ user.displayName }}
+        </span>
+    </a>
+</div>
 
 <router-outlet></router-outlet>

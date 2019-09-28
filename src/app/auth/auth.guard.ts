@@ -6,16 +6,17 @@ import { AuthStateService } from './auth-state.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private authStateService: AuthStateService, private router: Router) {
+
+
+    constructor(private authState: AuthStateService, private router: Router) {
     }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.authStateService.afAuth.authState
+        return this.authState.isLoggedIn$
             .pipe(
                 take(1),
-                map(authState => !!authState),
-                tap(auth => {
-                    if (!auth) {
+                tap(isLoggedIn => {
+                    if (!isLoggedIn) {
                         this.router.navigate(['/login'], {
                             queryParams: {
                                 next: state.url

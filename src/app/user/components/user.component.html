@@ -1,0 +1,13 @@
+<div class="page">
+    <h3 translate>user.title</h3>
+    <p translate>user.body</p>
+    <mat-card>
+        <div>
+            {{ authState.currentUser | json }}
+
+            <a routerLink="../edit-user">Edit</a>
+            |
+            <a routerLink="../change-password">Change password</a>
+        </div>
+    </mat-card>
+</div>

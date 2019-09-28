@@ -1,17 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { UserComponent } from './user.component';
-import { MatCardModule } from '@angular/material';
+import { UserComponent } from './components/user.component';
+import { AppRoutingModule } from '../app-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     declarations: [UserComponent],
     imports: [
-        CommonModule,
-        TranslateModule,
-        FlexLayoutModule,
-        MatCardModule,
+        SharedModule,
+        AppRoutingModule
     ]
 })
 export class UserModule { }

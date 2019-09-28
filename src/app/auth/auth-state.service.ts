@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { User } from 'firebase';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export interface AuthUser {
     uid: string;
@@ -12,13 +13,27 @@ export interface AuthUser {
 
 @Injectable()
 export class AuthStateService {
-    
-    public currentUser: AuthUser;
-    public _firebaseUser: User;
 
-    constructor(public afAuth: AngularFireAuth) {
+    /*
+     * Current User
+     */
+    public currentUser: AuthUser;
+
+    /*
+     * Login-State Observable (for consumers which need to be able to 
+     * await a result, i.e. AuthGuard). 
+     */
+    public get isLoggedIn$(): Observable<boolean> {
+        return this.afAuth.authState.pipe(
+            map(user => !!user)
+        )
+    }
+
+    private _firebaseUser: firebase.User;
+
+    constructor(private afAuth: AngularFireAuth) {
         /* TODO: afAuth should not be exposed, but how to bring the shizzle to AuthGuard? */
-        afAuth.authState.subscribe(
+        this.afAuth.authState.subscribe(
             firebaseUser => {
                 this._firebaseUser = firebaseUser;
                 if (firebaseUser) {
@@ -40,16 +55,10 @@ export class AuthStateService {
     }
 
     updateProfile(displayName: string): Promise<void> {
-        if(!this._firebaseUser) {
-            throw "No user"; // TODO
-        }
         return this._firebaseUser.updateProfile({ displayName });
     }
 
     updatePassword(newPassword: string): Promise<void> {
-        if(!this._firebaseUser) {
-            throw "No user"; // TODO
-        }
         return this._firebaseUser.updatePassword(newPassword);
     }
 }

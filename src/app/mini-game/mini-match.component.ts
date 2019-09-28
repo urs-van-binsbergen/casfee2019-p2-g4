@@ -20,13 +20,13 @@ export class MiniMatchComponent implements OnInit {
 
     constructor(
         private afs: AngularFirestore,
-        private authStateService: AuthStateService,
+        private authState: AuthStateService,
         private fns: AngularFireFunctions
     ) {
     }
 
     ngOnInit(): void {
-        this.uid = this.authStateService.currentUser.uid;
+        this.uid = this.authState.currentUser.uid;
 
         // ( The following is ok when we only want the data
         // ( this.waitingPlayers$ = this.afs.collection<any>('waitingPlayers').valueChanges();
@@ -49,7 +49,7 @@ export class MiniMatchComponent implements OnInit {
             )
         );
         this.myBattle$ = this.afs.collection('battlePlayers')
-            .doc(this.authStateService.currentUser.uid).snapshotChanges().pipe(
+            .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
                 map(
                     action => {
                         return action.payload.data();

@@ -18,14 +18,14 @@ export class MiniBattleComponent implements OnInit {
 
     constructor(
         private afs: AngularFirestore,
-        private authStateService: AuthStateService,
+        private authState: AuthStateService,
         private fns: AngularFireFunctions
     ) {
     }
 
     ngOnInit(): void {
         this.myBattle$ = this.afs.collection('battlePlayers')
-            .doc(this.authStateService.currentUser.uid).snapshotChanges().pipe(
+            .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
                 map(
                     action => {
                         return action.payload.data();

@@ -19,13 +19,13 @@ export class MiniPrepComponent implements OnInit {
     constructor(
         private fns: AngularFireFunctions,
         private afs: AngularFirestore,
-        private authStateService: AuthStateService
+        private authState: AuthStateService
     ) {
     }
 
     ngOnInit(): void {
         this.myPreparation$ = this.afs.collection('preparations')
-            .doc(this.authStateService.currentUser.uid).snapshotChanges().pipe(
+            .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
                 map(
                     action => {
                         return action.payload.data();

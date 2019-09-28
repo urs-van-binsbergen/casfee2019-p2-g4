@@ -7,7 +7,7 @@ import { HallComponent } from './hall/hall.component';
 import { PreparationComponent } from './preparation/preparation.component';
 import { AuthGuard } from './auth/auth.guard';
 import { PreparationGuard } from './preparation/preparation.guard';
-import { UserComponent } from './user/user.component';
+import { UserComponent } from './user/components/user.component';
 import { MatchComponent } from './match/match.component';
 import { BattleComponent } from './battle/battle.component';
 
