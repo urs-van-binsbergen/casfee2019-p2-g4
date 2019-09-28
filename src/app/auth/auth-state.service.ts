@@ -32,7 +32,6 @@ export class AuthStateService {
     private _firebaseUser: firebase.User;
 
     constructor(private afAuth: AngularFireAuth) {
-        /* TODO: afAuth should not be exposed, but how to bring the shizzle to AuthGuard? */
         this.afAuth.authState.subscribe(
             firebaseUser => {
                 this._firebaseUser = firebaseUser;
