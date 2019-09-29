@@ -8,8 +8,12 @@ import { AuthStateService } from 'src/app/auth/auth-state.service';
 })
 export class UserComponent implements OnInit {
 
+    get currentUser() {
+        return this.authState.currentUser;
+    }
+
     constructor(
-        public authState: AuthStateService
+        private authState: AuthStateService
     ) {
 
     }

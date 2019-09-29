@@ -17,7 +17,10 @@ export class AuthStateService {
     /*
      * Current User
      */
-    public currentUser: AuthUser;
+    private _currentUser: AuthUser;
+    public get currentUser() {
+        return this._currentUser ? { ...this._currentUser } : null;
+    }
 
     constructor(private afAuth: AngularFireAuth) {
         this.doSubscribe();
@@ -38,7 +41,7 @@ export class AuthStateService {
      */
     private setCurrentUser(firebaseUser: firebase.User): void {
         if (firebaseUser) {
-            this.currentUser = {
+            this._currentUser = {
                 uid: firebaseUser.uid,
                 displayName: firebaseUser.displayName || firebaseUser.email,
                 email: firebaseUser.email,
@@ -46,7 +49,7 @@ export class AuthStateService {
                 photoURL: firebaseUser.photoURL
             };
         } else {
-            this.currentUser = null;
+            this._currentUser = null;
         }
     }
 
@@ -64,11 +67,11 @@ export class AuthStateService {
      * Update user profile
      */
     public async updateProfile(firebaseUser: firebase.User, displayName: string) {
-        if(this.currentUser == null || this.currentUser.uid != firebaseUser.uid) {
+        if(this._currentUser == null || this._currentUser.uid != firebaseUser.uid) {
             throw "Update profile only for the currently logged-in user";
         }
         await firebaseUser.updateProfile({ displayName });
-        this.currentUser.displayName = displayName;
+        this._currentUser.displayName = displayName;
     }
 
 }
