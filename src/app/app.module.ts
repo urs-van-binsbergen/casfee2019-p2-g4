@@ -22,7 +22,6 @@ import { environment } from '../environments/environment';
 // Feature Modules
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
-import { HallModule } from './hall/hall.module';
 import { LanguageModule } from './language/language.module';
 import { MiniGameModule } from './mini-game/mini-game.module';
 import { UserModule } from './user/user.module';
@@ -55,7 +54,6 @@ import { UserModule } from './user/user.module';
 
         AdminModule,
         AuthModule,
-        HallModule,
         LanguageModule,
         MiniGameModule,
         UserModule

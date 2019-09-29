@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { IndexComponent } from './index.component';
 import { LoginComponent } from './auth/login.component';
-import { HallComponent } from './hall/hall.component';
 import { AuthGuard } from './auth/auth.guard';
 import { UserComponent } from './user/user.component';
 
@@ -15,9 +14,7 @@ import { ResetPasswordComponent } from './auth/reset-password.component';
 import { RegisterComponent } from './auth/register.component';
 
 const routes: Routes = [
-    { path: '', component: HallComponent },
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
-    { path: 'hall', component: HallComponent },
     { path: 'index', component: IndexComponent },
 
     { path: 'login', component: LoginComponent },
@@ -25,6 +22,7 @@ const routes: Routes = [
     { path: 'reset-password', component: ResetPasswordComponent },
 
     { path: 'battle', loadChildren: './battle/battle.module#BattleModule' },
+    { path: 'hall', loadChildren: './hall/hall.module#HallModule' },
     { path: 'match', loadChildren: './match/match.module#MatchModule' },
     { path: 'preparation', loadChildren: './preparation/preparation.module#PreparationModule'},
     { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
@@ -33,6 +31,8 @@ const routes: Routes = [
     { path: 'mini-game/battle', component: MiniBattleComponent, canActivate: [AuthGuard] },
     { path: 'mini-game/match', component: MiniMatchComponent, canActivate: [AuthGuard] },
     { path: 'mini-game/prep', component: MiniPrepComponent, canActivate: [AuthGuard] },
+
+    { path: '**', redirectTo: 'hall' }
 ];
 
 @NgModule({
