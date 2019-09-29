@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AdminComponent } from './admin/admin.component';
 import { IndexComponent } from './index.component';
 import { LoginComponent } from './auth/login.component';
 import { AuthGuard } from './auth/auth.guard';
@@ -14,13 +13,13 @@ import { ResetPasswordComponent } from './auth/reset-password.component';
 import { RegisterComponent } from './auth/register.component';
 
 const routes: Routes = [
-    { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
     { path: 'index', component: IndexComponent },
 
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'reset-password', component: ResetPasswordComponent },
 
+    { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
     { path: 'battle', loadChildren: './battle/battle.module#BattleModule' },
     { path: 'hall', loadChildren: './hall/hall.module#HallModule' },
     { path: 'match', loadChildren: './match/match.module#MatchModule' },
