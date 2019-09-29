@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 
+// import only once (must not be part of SharedModule)!
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { AngularFireFunctionsModule, FUNCTIONS_REGION } from '@angular/fire/functions';
 
-import { SharedModule } from './shared/shared.module';
+import { SharedModule, createTranslateLoader } from './shared/shared.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,7 +27,6 @@ import { HallModule } from './hall/hall.module';
 import { LanguageModule } from './language/language.module';
 import { MatchModule } from './match/match.module';
 import { MiniGameModule } from './mini-game/mini-game.module';
-import { PreparationModule } from './preparation/preparation.module';
 import { UserModule } from './user/user.module';
 
 @NgModule({
@@ -30,7 +35,19 @@ import { UserModule } from './user/user.module';
         IndexComponent
     ],
     imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+
         SharedModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: createTranslateLoader,
+                deps: [HttpClient]
+            },
+            isolate: false
+        }),
         AppRoutingModule,
 
         AngularFireModule.initializeApp(environment.firebase),
@@ -45,7 +62,6 @@ import { UserModule } from './user/user.module';
         LanguageModule,
         MatchModule,
         MiniGameModule,
-        PreparationModule,
         UserModule
     ],
     providers: [

@@ -4,9 +4,7 @@ import { AdminComponent } from './admin/admin.component';
 import { IndexComponent } from './index.component';
 import { LoginComponent } from './auth/login.component';
 import { HallComponent } from './hall/hall.component';
-import { PreparationComponent } from './preparation/preparation.component';
 import { AuthGuard } from './auth/auth.guard';
-import { PreparationGuard } from './preparation/preparation.guard';
 import { UserComponent } from './user/user.component';
 import { MatchComponent } from './match/match.component';
 import { BattleComponent } from './battle/battle.component';
@@ -30,8 +28,7 @@ const routes: Routes = [
     { path: 'reset-password', component: ResetPasswordComponent },
 
     { path: 'match', component: MatchComponent, canActivate: [AuthGuard] },
-    { path: 'preparation', component: PreparationComponent, canActivate: [AuthGuard],
-                                canDeactivate: [PreparationGuard] },
+    { path: 'preparation', loadChildren: './preparation/preparation.module#PreparationModule'},
     { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
 
     { path: 'mini-game', component: MiniGameComponent, canActivate: [AuthGuard] },
