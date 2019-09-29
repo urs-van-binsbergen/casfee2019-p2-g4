@@ -25,7 +25,6 @@ import { AdminModule } from './admin/admin.module';
 import { BattleModule } from './battle/battle.module';
 import { HallModule } from './hall/hall.module';
 import { LanguageModule } from './language/language.module';
-import { MatchModule } from './match/match.module';
 import { MiniGameModule } from './mini-game/mini-game.module';
 import { UserModule } from './user/user.module';
 
@@ -60,7 +59,6 @@ import { UserModule } from './user/user.module';
         BattleModule,
         HallModule,
         LanguageModule,
-        MatchModule,
         MiniGameModule,
         UserModule
     ],
