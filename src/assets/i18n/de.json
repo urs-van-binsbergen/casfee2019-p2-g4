@@ -20,7 +20,7 @@
         },
         "register": {
             "title": "Als neuer Spieler registrieren",
-            "displayName": "Spielername",
+            "displayName": "Angezeigter Name",
             "username": "Benutzername (E-Mail-Adresse)",
             "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
             "password": "Passwort",

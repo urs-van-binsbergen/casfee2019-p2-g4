@@ -20,7 +20,7 @@
         },
         "register": {
             "title": "Register new player",
-            "displayName": "Player name",
+            "displayName": "Display name",
             "username": "User name (email address)",
             "usernameMustBeEmail": "User name must be an email address",
             "password": "Password",
