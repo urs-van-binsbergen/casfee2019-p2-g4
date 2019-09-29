@@ -6,7 +6,6 @@ import { LoginComponent } from './auth/login.component';
 import { HallComponent } from './hall/hall.component';
 import { AuthGuard } from './auth/auth.guard';
 import { UserComponent } from './user/user.component';
-import { BattleComponent } from './battle/battle.component';
 
 import { MiniGameComponent } from './mini-game/mini-game.component';
 import { MiniBattleComponent } from './mini-game/mini-battle.component';
@@ -18,7 +17,6 @@ import { RegisterComponent } from './auth/register.component';
 const routes: Routes = [
     { path: '', component: HallComponent },
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
-    { path: 'battle', component: BattleComponent, canActivate: [AuthGuard] },
     { path: 'hall', component: HallComponent },
     { path: 'index', component: IndexComponent },
 
@@ -26,6 +24,7 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'reset-password', component: ResetPasswordComponent },
 
+    { path: 'battle', loadChildren: './battle/battle.module#BattleModule' },
     { path: 'match', loadChildren: './match/match.module#MatchModule' },
     { path: 'preparation', loadChildren: './preparation/preparation.module#PreparationModule'},
     { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
