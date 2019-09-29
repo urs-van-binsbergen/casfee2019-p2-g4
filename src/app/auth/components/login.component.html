@@ -12,7 +12,7 @@
                             placeholder="{{'auth.login.username' | translate}}" />
                         <mat-error *ngIf="username.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="username.errors.required" translate>
-                                common.message.requiredField
+                                common.message.fieldRequired
                             </div>
                             <div *ngSwitchCase="username.errors.email" translate>
                                 auth.register.usernameMustBeEmail
@@ -27,7 +27,7 @@
                             placeholder="{{'auth.login.password' | translate}}" />
                         <mat-error *ngIf="password.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="password.errors.required" translate>
-                                common.message.requiredField
+                                common.message.fieldRequired
                             </div>
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>

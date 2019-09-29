@@ -8,6 +8,7 @@ import { RegisterComponent } from './components/register.component';
 import { ResetPasswordComponent } from './components/reset-password.component';
 import { RedirectService } from './redirect.service';
 import { AuthStateService } from './auth-state.service';
+import { NotificationService } from './notification.service';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { AuthStateService } from './auth-state.service';
         AuthService,
         AuthStateService,
         AuthGuard,
-        RedirectService
+        RedirectService,
+        NotificationService
     ]
 })
 export class AuthModule {

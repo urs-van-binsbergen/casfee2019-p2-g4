@@ -8,13 +8,14 @@ import { AuthStateService } from 'src/app/auth/auth-state.service';
 })
 export class UserComponent implements OnInit {
 
-    title = 'User Module';
-
     constructor(
         public authState: AuthStateService
-    ) { }
+    ) {
+
+    }
 
     ngOnInit() {
+
     }
 
 }

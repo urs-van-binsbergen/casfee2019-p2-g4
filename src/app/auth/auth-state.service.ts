@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 export interface AuthUser {
     uid: string;
@@ -19,6 +19,37 @@ export class AuthStateService {
      */
     public currentUser: AuthUser;
 
+    constructor(private afAuth: AngularFireAuth) {
+        this.doSubscribe();
+    }
+
+    /*
+     * Subscribe to firebase AuthState
+     */
+    private doSubscribe(): Subscription {
+        return this.afAuth.authState.subscribe(
+            firebaseUser =>  this.setCurrentUser(firebaseUser),
+            error => console.error('error from authState subscription', error)
+        );
+    }
+
+    /*
+     * Set current User (converts firebase user to neutral model)
+     */
+    private setCurrentUser(firebaseUser: firebase.User): void {
+        if (firebaseUser) {
+            this.currentUser = {
+                uid: firebaseUser.uid,
+                displayName: firebaseUser.displayName || firebaseUser.email,
+                email: firebaseUser.email,
+                emailVerified: firebaseUser.emailVerified,
+                photoURL: firebaseUser.photoURL
+            };
+        } else {
+            this.currentUser = null;
+        }
+    }
+
     /*
      * Login-State Observable (for consumers which need to be able to 
      * await a result, i.e. AuthGuard). 
@@ -29,35 +60,15 @@ export class AuthStateService {
         )
     }
 
-    private _firebaseUser: firebase.User;
-
-    constructor(private afAuth: AngularFireAuth) {
-        this.afAuth.authState.subscribe(
-            firebaseUser => {
-                this._firebaseUser = firebaseUser;
-                if (firebaseUser) {
-                    this.currentUser = {
-                        uid: firebaseUser.uid,
-                        displayName: firebaseUser.displayName || firebaseUser.email,
-                        email: firebaseUser.email,
-                        emailVerified: firebaseUser.emailVerified,
-                        photoURL: firebaseUser.photoURL
-                    };
-                } else {
-                    this.currentUser = null;
-                }
-            },
-            error => {
-                console.error('error from authState subscription', error);
-            }
-        );
+    /*
+     * Update user profile
+     */
+    public async updateProfile(firebaseUser: firebase.User, displayName: string) {
+        if(this.currentUser == null || this.currentUser.uid != firebaseUser.uid) {
+            throw "Update profile only for the currently logged-in user";
+        }
+        await firebaseUser.updateProfile({ displayName });
+        this.currentUser.displayName = displayName;
     }
 
-    updateProfile(displayName: string): Promise<void> {
-        return this._firebaseUser.updateProfile({ displayName });
-    }
-
-    updatePassword(newPassword: string): Promise<void> {
-        return this._firebaseUser.updatePassword(newPassword);
-    }
 }

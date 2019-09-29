@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatDialogModule, MatMenuModule, MatToolbarModule, 
-    MatSnackBarModule, MatProgressSpinnerModule, MatInputModule 
+import { MatButtonModule, MatCardModule, MatDialogModule, MatMenuModule, MatToolbarModule,
+    MatSnackBarModule, MatProgressSpinnerModule, MatInputModule
 } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';

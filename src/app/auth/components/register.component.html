@@ -8,11 +8,23 @@
             <mat-card-content>
                 <p>
                     <mat-form-field>
+                        <input matInput type="text" formControlName="displayName" required
+                            placeholder="{{'auth.register.displayName' | translate}}" />
+                        <mat-error *ngIf="displayName.invalid" [ngSwitch]="true">
+                            <div *ngSwitchCase="displayName.errors.required" translate>
+                                common.message.fieldRequired
+                            </div>
+                            <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
                         <input matInput type="email" formControlName="username" required
                             placeholder="{{'auth.register.username' | translate}}" />
                         <mat-error *ngIf="username.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="username.errors.required" translate>
-                                common.message.requiredField
+                                common.message.fieldRequired
                             </div>
                             <div *ngSwitchCase="username.errors.email" translate>
                                 auth.register.usernameMustBeEmail
@@ -27,7 +39,7 @@
                             placeholder="{{'auth.register.password' | translate}}" />
                         <mat-error *ngIf="password.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="password.errors.required" translate>
-                                common.message.requiredField
+                                common.message.fieldRequired
                             </div>
                             <div *ngSwitchCase="!!password.errors.minlength" translate>
                                 auth.register.passwordTooShort
@@ -42,7 +54,7 @@
                             placeholder="{{'auth.register.passwordRepeat' | translate}}" />
                         <mat-error *ngIf="passwordRepeat.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="passwordRepeat.errors.required" translate>
-                                common.message.requiredField
+                                common.message.fieldRequired
                             </div>
                             <div *ngSwitchCase="passwordRepeat.errors.mismatch" translate>
                                 auth.register.passwordMismatch

@@ -20,6 +20,7 @@
         },
         "register": {
             "title": "Register new player",
+            "displayName": "Player name",
             "username": "User name (email address)",
             "usernameMustBeEmail": "User name must be an email address",
             "password": "Password",
@@ -57,7 +58,7 @@
     "common": {
         "message": {
             "pleaseCheckFormInput": "Please check form input",
-            "requiredField": "Field required",
+            "fieldRequired": "Field required",
             "fieldValueInvalid": "Value invalid"
         }
     },
