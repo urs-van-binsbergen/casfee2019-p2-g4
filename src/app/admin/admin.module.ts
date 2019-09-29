@@ -1,13 +1,22 @@
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
+import { AuthGuard } from '../auth/auth.guard';
 import { AdminComponent } from './admin.component';
+
+const routes: Routes = [{
+    path: '',
+    component: AdminComponent,
+    canActivate: [AuthGuard]
+}];
 
 @NgModule({
     declarations: [
         AdminComponent
     ],
     imports: [
-        SharedModule
+        SharedModule,
+        RouterModule.forChild(routes)
     ]
 })
 export class AdminModule { }

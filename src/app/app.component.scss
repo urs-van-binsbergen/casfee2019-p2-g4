@@ -2,37 +2,18 @@
     flex: 1 1 auto;
 }
 
-.radio-button-separator-space {
-    display: inline-block;
-    width: 0.5em;
-}
-
 .title {
-    font-size: 80%;
+    font-size: 60%;
 }
 
-mat-radio-button {
-    font-size: 80%;
+@media screen and (min-width: 370px) {
+    .title {
+        font-size: 80%;
+    }
 }
 
-:host ::ng-deep .mat-radio-container {
-    height: 16px;
-    width: 16px;
-}
-
-:host ::ng-deep .mat-radio-outer-circle {
-    height: 16px;
-    width: 16px;
-}
-
-:host ::ng-deep .mat-radio-inner-circle {
-    height: 16px;
-    width: 16px;
-}
-
-:host ::ng-deep .mat-radio-button .mat-radio-ripple {
-    height: 32px;
-    width: 32px;
-    left: calc(50% - 16px);
-    top: calc(50% - 16px);
+@media screen and (min-width: 600px) {
+    .title {
+        font-size: 100%;
+    }
 }

@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { RouterModule, Routes } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
+import { AuthGuard } from '../auth/auth.guard';
 import { UserComponent } from './user.component';
-import { MatCardModule } from '@angular/material';
+
+const routes: Routes = [{
+    path: '',
+    component: UserComponent,
+    canActivate: [AuthGuard]
+}];
 
 @NgModule({
-    declarations: [UserComponent],
+    declarations: [
+        UserComponent
+    ],
     imports: [
-        CommonModule,
-        TranslateModule,
-        FlexLayoutModule,
-        MatCardModule,
+        SharedModule,
+        RouterModule.forChild(routes)
     ]
 })
 export class UserModule { }
