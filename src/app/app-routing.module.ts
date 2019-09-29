@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { IndexComponent } from './index.component';
 import { LoginComponent } from './auth/login.component';
 import { AuthGuard } from './auth/auth.guard';
-import { UserComponent } from './user/user.component';
 
 import { MiniGameComponent } from './mini-game/mini-game.component';
 import { MiniBattleComponent } from './mini-game/mini-battle.component';
@@ -24,7 +23,7 @@ const routes: Routes = [
     { path: 'hall', loadChildren: './hall/hall.module#HallModule' },
     { path: 'match', loadChildren: './match/match.module#MatchModule' },
     { path: 'preparation', loadChildren: './preparation/preparation.module#PreparationModule'},
-    { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
+    { path: 'user', loadChildren: './user/user.module#UserModule' },
 
     { path: 'mini-game', component: MiniGameComponent, canActivate: [AuthGuard] },
     { path: 'mini-game/battle', component: MiniBattleComponent, canActivate: [AuthGuard] },

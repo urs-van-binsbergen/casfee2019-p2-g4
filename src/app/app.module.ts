@@ -23,7 +23,6 @@ import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
 import { LanguageModule } from './language/language.module';
 import { MiniGameModule } from './mini-game/mini-game.module';
-import { UserModule } from './user/user.module';
 
 @NgModule({
     declarations: [
@@ -53,8 +52,7 @@ import { UserModule } from './user/user.module';
 
         AuthModule,
         LanguageModule,
-        MiniGameModule,
-        UserModule
+        MiniGameModule
     ],
     providers: [
         AngularFireAuthGuard,
