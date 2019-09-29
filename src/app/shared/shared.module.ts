@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule, } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule, MatCardModule, MatDialogModule, MatMenuModule, MatToolbarModule,
@@ -19,19 +17,17 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
     imports: [
-        TranslateModule.forRoot({
+        TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,
                 useFactory: createTranslateLoader,
                 deps: [HttpClient]
-            }
-        }),
+            },
+            isolate: false
+        })
     ],
     exports: [
-        BrowserModule,
-        BrowserAnimationsModule,
         CommonModule,
-        HttpClientModule,
         FlexLayoutModule,
         FormsModule,
         ReactiveFormsModule,
