@@ -9,12 +9,14 @@ import { ResetPasswordComponent } from './components/reset-password.component';
 import { RedirectService } from './redirect.service';
 import { AuthStateService } from './auth-state.service';
 import { NotificationService } from './notification.service';
+import { UpdateProfileComponent } from './components/update-profile.component';
 
 @NgModule({
     declarations: [
         LoginComponent,
         RegisterComponent,
-        ResetPasswordComponent
+        ResetPasswordComponent,
+        UpdateProfileComponent
     ],
     imports: [
         SharedModule,

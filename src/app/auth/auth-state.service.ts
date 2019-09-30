@@ -14,13 +14,8 @@ export interface AuthUser {
 @Injectable()
 export class AuthStateService {
 
-    /*
-     * Current User
-     */
     private _currentUser: AuthUser;
-    public get currentUser() {
-        return this._currentUser ? { ...this._currentUser } : null;
-    }
+    private _firebaseUser: firebase.User;
 
     constructor(private afAuth: AngularFireAuth) {
         this.doSubscribe();
@@ -37,10 +32,11 @@ export class AuthStateService {
     }
 
     /*
-     * Set current User (converts firebase user to neutral model)
+     * Set current User (converts 'firebase.User' to an impl-agnostic model)
      */
     private setCurrentUser(firebaseUser: firebase.User): void {
         if (firebaseUser) {
+            this._firebaseUser = firebaseUser;
             this._currentUser = {
                 uid: firebaseUser.uid,
                 displayName: firebaseUser.displayName || firebaseUser.email,
@@ -49,12 +45,20 @@ export class AuthStateService {
                 photoURL: firebaseUser.photoURL
             };
         } else {
+            this._firebaseUser = null;
             this._currentUser = null;
         }
     }
 
     /*
-     * Login-State Observable (for consumers which need to be able to 
+     * Current User (read-only shallow copy)
+     */
+    public get currentUser() {
+        return this._currentUser ? { ...this._currentUser } : null;
+    }
+
+    /*
+     * Observable login state (for consumers which need to be able to 
      * await a result, i.e. AuthGuard). 
      */
     public get isLoggedIn$(): Observable<boolean> {
@@ -64,14 +68,19 @@ export class AuthStateService {
     }
 
     /*
-     * Update user profile
+     * Update user profile (assumes a current user is available and loaded)
      */
-    public async updateProfile(firebaseUser: firebase.User, displayName: string) {
-        if(this._currentUser == null || this._currentUser.uid != firebaseUser.uid) {
-            throw "Update profile only for the currently logged-in user";
+    public async updateProfile(displayName: string) {
+        if(!this._firebaseUser) {
+            throw "No user available (maybe you should 'await'?)"; 
         }
-        await firebaseUser.updateProfile({ displayName });
+
+        await this._firebaseUser.updateProfile({ displayName });
+        await this._firebaseUser.getIdToken(true); // forceRefresh! (*)
         this._currentUser.displayName = displayName;
+
+        // (*) so server token will update too. This strangely still does not trigger
+        //     the authStateChanged, that's why we update the state ourselves.
     }
 
 }

@@ -10,6 +10,7 @@ import { MiniMatchComponent } from './mini-game/mini-match.component';
 import { MiniPrepComponent } from './mini-game/mini-prep.component';
 import { ResetPasswordComponent } from './auth/components/reset-password.component';
 import { RegisterComponent } from './auth/components/register.component';
+import { UpdateProfileComponent } from './auth/components/update-profile.component';
 
 const routes: Routes = [
     { path: 'index', component: IndexComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'reset-password', component: ResetPasswordComponent },
+    { path: 'update-profile', component: UpdateProfileComponent, canActivate: [AuthGuard] },
 
     { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
     { path: 'battle', loadChildren: './battle/battle.module#BattleModule' },
