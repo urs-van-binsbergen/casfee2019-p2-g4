@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { RedirectService } from '../redirect.service';
-import { AuthStateService } from '../auth-state.service';
-import { NotificationService } from '../notification.service';
+import { RedirectService } from '../../auth/redirect.service';
+import { AuthStateService } from '../../auth/auth-state.service';
+import { NotificationService } from '../../auth/notification.service';
 
 @Component({
     templateUrl: './update-profile.component.html',
