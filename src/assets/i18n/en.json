@@ -53,7 +53,8 @@
         "continue": "Continue",
         "done": "Done",
         "login": "Login",
-        "ok": "Ok"
+        "ok": "Ok",
+        "update": "Update"
     },
     "common": {
         "message": {
@@ -87,7 +88,18 @@
         }
     },
     "user": {
-        "body": "Lorem ipsum en",
-        "title": "My profile"
+        "profile": {
+            "title": "My profile",
+            "displayName": "Display name",
+            "username": "User name (email address)",
+            "photoUrl": "Avatar"
+        },
+        "updateProfile": {
+            "title": "Update profile",
+            "displayName": "Display name",
+            "submitButton": "Update",
+            "successMessage": "Profile updated",
+            "apiError": "Failure updating profile: {{errorDetail}}"
+        }
     }
 }

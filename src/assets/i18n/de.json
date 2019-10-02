@@ -24,7 +24,7 @@
             "username": "Benutzername (E-Mail-Adresse)",
             "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
             "password": "Passwort",
-            "passwordTooShort": "Mindestens 6 Zeichen", 
+            "passwordTooShort": "Mindestens 6 Zeichen",
             "passwordRepeat": "Passwort wiederholen",
             "passwordMismatch": "Passwörter stimmen nicht überein",
             "submitButton": "Registrieren",
@@ -53,7 +53,8 @@
         "continue": "Weiter",
         "done": "Fertig",
         "login": "Login",
-        "ok": "Ok"
+        "ok": "Ok",
+        "update": "Ändern"
     },
     "common": {
         "message": {
@@ -87,7 +88,18 @@
         }
     },
     "user": {
-        "body": "Lorem ipsum",
-        "title": "Mein Profil"
+        "profile": {
+            "title": "Mein Profil",
+            "displayName": "Anzeigename",
+            "username": "Benutzername (E-Mail-Adresse)",
+            "photoUrl": "Avatar"
+        },
+        "updateProfile": {
+            "title": "Profil ändern",
+            "displayName": "Anzeigename",
+            "submitButton": "Ändern",
+            "successMessage": "Profil geändert",
+            "apiError": "Fehler beim Ändern des Profils: {{errorDetail}}"
+        }
     }
 }

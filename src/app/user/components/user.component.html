@@ -1,12 +1,39 @@
-<div class="page">
-    <h3 translate>user.title</h3>
-    <p translate>user.body</p>
-    <p>
-        {{ currentUser | json }}
-    </p>
-    <p>
-        <a routerLink="update-profile">Update profile</a>
-        |
-        <a routerLink="change-password">Change password</a>
-    </p>
+<div class="mat-typography">
+    <div class="inset-1">
+        <h2 translate>user.profile.title</h2>
+    </div>
+
+    <mat-list>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <div>
+                <div class="mat-caption">{{ 'user.profile.displayName' | translate }}</div>
+                <div>{{ currentUser.displayName }}</div>
+            </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <div>
+                <div class="mat-caption">{{ 'user.profile.username' | translate }}</div>
+                <div>
+                    {{ currentUser.email }}
+                    {{ currentUser.emailVerified ? '(verified)' : '' }}
+                </div>
+            </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <div>
+                <div class="mat-caption">{{ 'user.profile.photoUrl' | translate }}</div>
+                <div>{{ currentUser.photoUrl || '-' }}</div>
+            </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </mat-list>
+    <div class="button-row">
+        <button mat-button routerLink="update-profile" color="primary">
+            {{ 'user.updateProfile.title' | translate }}</button>
+        <button mat-button routerLink="change-password" color="primary">
+            {{ 'user.changePassword.title' | translate }}</button>
+    </div>
 </div>

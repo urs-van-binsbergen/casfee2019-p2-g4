@@ -47,20 +47,17 @@ html {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: #e3f2fd;
+    background-color:map-get($casfee2019-p2-g4-primary, 50);
 }
 
 a,
 a:visited {
-    color: cornflowerblue;
+    color: map-get($casfee2019-p2-g4-primary, 500);
+    text-decoration: none;
 }
 
 a:hover {
-    color: crimson;
-}
-
-button {
-    width: 150px;
+    color: map-get($casfee2019-p2-g4-primary, 400);
 }
 
 /* page layout ----------------------------- */
@@ -81,8 +78,24 @@ mat-card.small-form {
     }
 }
 
+/* Vertical inset */
+.inset-v-1 {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
 
-/* ui components ----------------------------- */
+/* Horizontal inset */
+.inset-h-1 {
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+.inset-1 {
+    @extend .inset-v-1, .inset-h-1
+}
+
+
+/* "components" ----------------------------- */
 
 .buttons {
     margin-top: 8px;
@@ -100,4 +113,8 @@ mat-card.small-form {
     &>*+* {
         margin-left: 8px;
     }
+}
+
+button.standard-button-width {
+    width: 150px;
 }
