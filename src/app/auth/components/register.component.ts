@@ -53,22 +53,22 @@ export class RegisterComponent implements OnInit {
 
         // Register
         try {
-            await this.authService.register(this.username.value,this.password.value)   
+            await this.authService.register(this.username.value, this.password.value);
         } catch (error) {
             this.waiting = false;
 
             const errorDetail = this.notification.localizeFirebaseError(error);
-            const msg = this.translate.instant('auth.register.apiError', { errorDetail });
-            this.notification.confirmToast(msg);
+            const errorMsg = this.translate.instant('auth.register.apiError', { errorDetail });
+            this.notification.confirmToast(errorMsg);
             return;
         }
 
         // Set display name
         try {
-            await this.authStateService.updateProfile(this.displayName.value); 
-        } catch(error) {
+            await this.authStateService.updateProfile(this.displayName.value);
+        } catch (error) {
             const errorDetail = this.notification.localizeFirebaseError(error);
-            this.notification.confirmToast(errorDetail); 
+            this.notification.confirmToast(errorDetail);
         }
 
         this.waiting = false;

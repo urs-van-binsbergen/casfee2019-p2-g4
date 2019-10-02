@@ -91,7 +91,7 @@
             "title": "Mein Profil",
             "displayName": "Anzeigename",
             "username": "Benutzername (E-Mail-Adresse)",
-            "photoUrl": "Avatar"
+            "photoURL": "Avatar"
         },
         "updateProfile": {
             "title": "Profil ändern",

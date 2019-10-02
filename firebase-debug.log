@@ -1,0 +1,38 @@
+[debug] [2019-10-02T15:31:01.113Z] ----------------------------------------------------------------------
+[debug] [2019-10-02T15:31:01.115Z] Command:       /Users/urs/.nvm/versions/node/v12.6.0/bin/node /Users/urs/.nvm/versions/node/v12.6.0/bin/firebase deploy --only hosting
+[debug] [2019-10-02T15:31:01.115Z] CLI Version:   7.4.0
+[debug] [2019-10-02T15:31:01.115Z] Platform:      darwin
+[debug] [2019-10-02T15:31:01.115Z] Node Version:  v12.6.0
+[debug] [2019-10-02T15:31:01.116Z] Time:          Wed Oct 02 2019 17:31:01 GMT+0200 (GMT+02:00)
+[debug] [2019-10-02T15:31:01.116Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-10-02T15:31:01.126Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-10-02T15:31:01.126Z] > authorizing via signed-in user
+[debug] [2019-10-02T15:31:01.126Z] [iam] checking project casfee2019-p2-g4 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-10-02T15:31:01.127Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-10-02T15:31:01.127Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-10-02T15:31:01.263Z] <<< HTTP RESPONSE 200
+[debug] [2019-10-02T15:31:01.276Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/casfee2019-p2-g4:testIamPermissions  
+
+[debug] [2019-10-02T15:31:02.165Z] <<< HTTP RESPONSE 200
+[debug] [2019-10-02T15:31:02.167Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/casfee2019-p2-g4  
+ 
+[debug] [2019-10-02T15:31:02.404Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'casfee2019-p2-g4'...
+[info] 
+[info] i  deploying hosting
+[debug] [2019-10-02T15:31:03.290Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/casfee2019-p2-g4/versions  
+
+[debug] [2019-10-02T15:31:05.032Z] <<< HTTP RESPONSE 200
+[info] i  hosting[casfee2019-p2-g4]: beginning deploy...
+[info] i  hosting[casfee2019-p2-g4]: found 28 files in dist/casfee2019-p2-g4
+[debug] [2019-10-02T15:31:05.043Z] [hosting] hash cache [ZGlzdC9jYXNmZWUyMDE5LXAyLWc0] load error: lines is not defined
+[debug] [2019-10-02T15:31:05.126Z] [hosting] hash cache [ZGlzdC9jYXNmZWUyMDE5LXAyLWc0] stored for 28 files
+[debug] [2019-10-02T15:31:05.126Z] [hosting][hash queue][FINAL]
+[debug] [2019-10-02T15:31:05.126Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/casfee2019-p2-g4/versions/43a64a173dbcfa9f:populateFiles  
+ <request body omitted>
+[debug] [2019-10-02T15:31:06.468Z] <<< HTTP RESPONSE 200
+[debug] [2019-10-02T15:31:06.486Z] [hosting][populate queue][FINAL]
+[debug] [2019-10-02T15:31:06.486Z] [hosting] uploads queued: 23

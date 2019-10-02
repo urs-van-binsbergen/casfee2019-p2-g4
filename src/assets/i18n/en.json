@@ -91,7 +91,7 @@
             "title": "My profile",
             "displayName": "Display name",
             "username": "User name (email address)",
-            "photoUrl": "Avatar"
+            "photoURL": "Avatar"
         },
         "updateProfile": {
             "title": "Update profile",

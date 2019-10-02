@@ -41,10 +41,10 @@ export class UpdateProfileComponent implements OnInit {
 
         // Set display name
         try {
-            await this.authStateService.updateProfile(this.displayName.value); 
-        } catch(error) {
+            await this.authStateService.updateProfile(this.displayName.value);
+        } catch (error) {
             const errorDetail = this.notification.localizeFirebaseError(error);
-            this.notification.confirmToast(errorDetail); 
+            this.notification.confirmToast(errorDetail);
         }
 
         this.waiting = false;

@@ -62,13 +62,13 @@ export class AuthStateService {
     }
 
     /*
-     * Observable login state (for consumers which need to be able to 
-     * await a result, i.e. AuthGuard). 
+     * Observable login state (for consumers which need to be able to
+     * await a result, i.e. AuthGuard).
      */
     public get isLoggedIn$(): Observable<boolean> {
         return this.afAuth.authState.pipe(
             map(user => !!user)
-        )
+        );
     }
 
     /*
@@ -76,7 +76,7 @@ export class AuthStateService {
      */
     public async updateProfile(displayName: string) {
         if (!this._firebaseUser) {
-            throw "No user available (maybe you should 'await'?)";
+            throw new Error('No user available (maybe you should "await"?)');
         }
 
         await this._firebaseUser.updateProfile({ displayName });
@@ -92,19 +92,19 @@ export class AuthStateService {
      */
     public updatePassword(oldPassword: string, newPassword: string) {
         if (!this._firebaseUser) {
-            throw "No user available (maybe you should 'await'?)";
+            throw new Error('No user available (maybe you should "await"?)');
         }
 
         return this.afAuth.auth.signInWithEmailAndPassword(
             this._firebaseUser.email, oldPassword
         )
             .then(() => {
-                this._firebaseUser.updatePassword(newPassword)
+                this._firebaseUser.updatePassword(newPassword);
             });
 
         // Why Use signIn...() instead of reauthenticate()?
-        // See issue on github: 
-        // "How to create “credential” object needed by Firebase web user.reauthenticate() 
+        // See issue on github:
+        // "How to create “credential” object needed by Firebase web user.reauthenticate()
         // method?"
         // https://github.com/angular/angularfire2/issues/491
     }
