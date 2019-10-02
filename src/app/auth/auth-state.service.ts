@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth as firebaseAuth } from 'firebase'; // TODO: this makes a warning
 import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 
