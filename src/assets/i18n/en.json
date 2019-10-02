@@ -103,9 +103,9 @@
         "updatePassword": {
             "title": "Change password",
             "oldPassword": "Current Passwort",
-            "password": "Password",
+            "password": "New Password",
             "passwordTooShort": "At least 6 characters", 
-            "passwordRepeat": "Repeat Password",
+            "passwordRepeat": "Repeat new Password",
             "passwordMismatch": "Passwords do not match",
             "submitButton": "Change",
             "successMessage": "Password changed",

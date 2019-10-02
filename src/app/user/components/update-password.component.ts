@@ -47,8 +47,8 @@ export class UpdatePasswordComponent {
         this.authStateService.updatePassword(this.oldPassword.value, this.password.value)
             .then(() => {
                 this.waiting = false;
-                const msg = this.translate.instant('auth.register.successMessage');
-                this.notification.quickToast(msg, 1000);
+                const msg = this.translate.instant('user.updatePassword.successMessage');
+                this.notification.quickToast(msg, 2000);
                 this.redirect.redirectToNext('/user');
             })
             .catch((error) => {

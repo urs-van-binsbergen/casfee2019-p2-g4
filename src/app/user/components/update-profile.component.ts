@@ -48,8 +48,8 @@ export class UpdateProfileComponent implements OnInit {
         }
 
         this.waiting = false;
-        const msg = this.translate.instant('auth.register.successMessage');
-        this.notification.quickToast(msg, 1000);
+        const msg = this.translate.instant('user.updateProfile.successMessage');
+        this.notification.quickToast(msg, 2000);
         this.redirect.redirectToNext('/user');
     }
 

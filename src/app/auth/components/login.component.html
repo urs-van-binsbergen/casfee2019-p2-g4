@@ -10,7 +10,7 @@
                             placeholder="{{'auth.login.username' | translate}}" />
                         <mat-error *ngIf="username.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="username.errors.required" translate>common.message.fieldRequired</div>
-                            <div *ngSwitchCase="username.errors.email" translate>auth.register.usernameMustBeEmail</div>
+                            <div *ngSwitchCase="username.errors.email" translate>auth.login.usernameMustBeEmail</div>
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
