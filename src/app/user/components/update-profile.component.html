@@ -1,13 +1,13 @@
 <div class="update-profile-content mat-typography">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
         <mat-card class="small-form">
-            <h2 translate>auth.updateProfile.title</h2>
+            <h2 translate>user.updateProfile.title</h2>
 
             <mat-card-content>
                 <p>
                     <mat-form-field>
                         <input matInput type="text" formControlName="displayName" required
-                            placeholder="{{'auth.updateProfile.displayName' | translate}}" />
+                            placeholder="{{'user.updateProfile.displayName' | translate}}" />
                         <mat-error *ngIf="displayName.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="displayName.errors.required" translate>common.message.fieldRequired</div>
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
@@ -17,7 +17,7 @@
                 <div class="button-row">
                     <div>
                         <button type="submit" mat-raised-button color="primary" class="standard-button-width">
-                            {{'auth.updateProfile.submitButton' | translate}}
+                            {{'user.updateProfile.submitButton' | translate}}
                         </button>
                     </div>
                     <div>

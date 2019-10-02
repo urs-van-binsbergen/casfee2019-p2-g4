@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { auth as firebaseAuth } from 'firebase'; // TODO: this makes a warning
 import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
+
 
 export interface AuthUser {
     uid: string;
@@ -17,7 +19,9 @@ export class AuthStateService {
     private _currentUser: AuthUser;
     private _firebaseUser: firebase.User;
 
-    constructor(private afAuth: AngularFireAuth) {
+    constructor(
+        private afAuth: AngularFireAuth
+    ) {
         this.doSubscribe();
     }
 
@@ -26,7 +30,7 @@ export class AuthStateService {
      */
     private doSubscribe(): Subscription {
         return this.afAuth.authState.subscribe(
-            firebaseUser =>  this.setCurrentUser(firebaseUser),
+            firebaseUser => this.setCurrentUser(firebaseUser),
             error => console.error('error from authState subscription', error)
         );
     }
@@ -71,8 +75,8 @@ export class AuthStateService {
      * Update user profile (assumes a current user is available and loaded)
      */
     public async updateProfile(displayName: string) {
-        if(!this._firebaseUser) {
-            throw "No user available (maybe you should 'await'?)"; 
+        if (!this._firebaseUser) {
+            throw "No user available (maybe you should 'await'?)";
         }
 
         await this._firebaseUser.updateProfile({ displayName });
@@ -81,6 +85,28 @@ export class AuthStateService {
 
         // (*) so server token will update too. This strangely still does not trigger
         //     the authStateChanged, that's why we update the state ourselves.
+    }
+
+    /*
+     * Change user password (assumes a current user is available and loaded)
+     */
+    public updatePassword(oldPassword: string, newPassword: string) {
+        if (!this._firebaseUser) {
+            throw "No user available (maybe you should 'await'?)";
+        }
+
+        return this.afAuth.auth.signInWithEmailAndPassword(
+            this._firebaseUser.email, oldPassword
+        )
+            .then(() => {
+                this._firebaseUser.updatePassword(newPassword)
+            });
+
+        // Why Use signIn...() instead of reauthenticate()?
+        // See issue on github: 
+        // "How to create “credential” object needed by Firebase web user.reauthenticate() 
+        // method?"
+        // https://github.com/angular/angularfire2/issues/491
     }
 
 }

@@ -4,6 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AuthGuard } from '../auth/auth.guard';
 import { UserComponent } from './components/user.component';
 import { UpdateProfileComponent } from './components/update-profile.component';
+import { UpdatePasswordComponent } from './components/update-password.component';
 
 const routes: Routes = [
     {
@@ -12,6 +13,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             { path: 'update-profile', component: UpdateProfileComponent },
+            { path: 'update-password', component: UpdatePasswordComponent },
             { path: '', component: UserComponent }
         ],
     }
@@ -21,6 +23,7 @@ const routes: Routes = [
     declarations: [
         UserComponent,
         UpdateProfileComponent,
+        UpdatePasswordComponent
     ],
     imports: [
         SharedModule,

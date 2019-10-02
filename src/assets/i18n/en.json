@@ -53,8 +53,7 @@
         "continue": "Continue",
         "done": "Done",
         "login": "Login",
-        "ok": "Ok",
-        "update": "Update"
+        "ok": "Ok"
     },
     "common": {
         "message": {
@@ -100,6 +99,17 @@
             "submitButton": "Update",
             "successMessage": "Profile updated",
             "apiError": "Failure updating profile: {{errorDetail}}"
+        },
+        "updatePassword": {
+            "title": "Change password",
+            "oldPassword": "Current Passwort",
+            "password": "Password",
+            "passwordTooShort": "At least 6 characters", 
+            "passwordRepeat": "Repeat Password",
+            "passwordMismatch": "Passwords do not match",
+            "submitButton": "Change",
+            "successMessage": "Password changed",
+            "apiError": "Failure changing password: {{errorDetail}}"
         }
     }
 }
