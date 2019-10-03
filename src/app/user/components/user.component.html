@@ -1,0 +1,39 @@
+<div class="mat-typography">
+    <div class="inset-1">
+        <h2 translate>user.profile.title</h2>
+    </div>
+
+    <mat-list>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <div>
+                <div class="mat-caption">{{ 'user.profile.displayName' | translate }}</div>
+                <div>{{ currentUser.displayName }}</div>
+            </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <div>
+                <div class="mat-caption">{{ 'user.profile.username' | translate }}</div>
+                <div>
+                    {{ currentUser.email }}
+                    {{ currentUser.emailVerified ? '(verified)' : '' }}
+                </div>
+            </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <div>
+                <div class="mat-caption">{{ 'user.profile.photoURL' | translate }}</div>
+                <div>{{ currentUser.photoURL || '-' }}</div>
+            </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </mat-list>
+    <div class="button-row">
+        <button mat-button routerLink="update-profile" color="primary">
+            {{ 'user.updateProfile.title' | translate }}</button>
+        <button mat-button routerLink="update-password" color="primary">
+            {{ 'user.updatePassword.title' | translate }}</button>
+    </div>
+</div>

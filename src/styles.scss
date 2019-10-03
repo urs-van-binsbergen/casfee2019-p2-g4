@@ -27,7 +27,7 @@ $casfee2019-p2-g4-theme: mat-light-theme($casfee2019-p2-g4-primary, $casfee2019-
 
 /* You can add global styles to this file, and also import other style files */
 
-/* basic element styling */
+/* basic element styling ----------------------------- */
 
 html,
 body {
@@ -47,26 +47,74 @@ html {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: #e3f2fd;
+    background-color:map-get($casfee2019-p2-g4-primary, 50);
 }
 
 a,
 a:visited {
-    color: cornflowerblue;
+    color: map-get($casfee2019-p2-g4-primary, 500);
+    text-decoration: none;
 }
 
 a:hover {
-    color: crimson;
+    color: map-get($casfee2019-p2-g4-primary, 400);
 }
 
-button {
-    width: 150px;
-}
+/* page layout ----------------------------- */
 
 .page {
     margin: 3px;
 }
 
+/* misc layout ----------------------------- */
+
+// Schmales Formular mittig (z.B. Login-Dialog)
+mat-card.small-form {
+    max-width: 400px;
+    margin: auto;
+
+    mat-form-field {
+        display: block;
+    }
+}
+
+/* Vertical inset */
+.inset-v-1 {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+/* Horizontal inset */
+.inset-h-1 {
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+.inset-1 {
+    @extend .inset-v-1, .inset-h-1
+}
+
+
+/* "components" ----------------------------- */
+
 .buttons {
     margin-top: 8px;
+}
+
+.button-row {
+    display: flex;
+    margin-bottom: 2rem;
+    margin-top: 1.5rem;
+
+    .spinner-cell {
+        padding: 8px 0 0 8px;
+    }
+
+    &>*+* {
+        margin-left: 8px;
+    }
+}
+
+button.standard-button-width {
+    width: 150px;
 }

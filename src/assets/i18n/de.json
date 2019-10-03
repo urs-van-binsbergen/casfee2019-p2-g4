@@ -20,10 +20,11 @@
         },
         "register": {
             "title": "Als neuer Spieler registrieren",
+            "displayName": "Angezeigter Name",
             "username": "Benutzername (E-Mail-Adresse)",
             "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
             "password": "Passwort",
-            "passwordTooShort": "Mindestens 6 Zeichen", 
+            "passwordTooShort": "Mindestens 6 Zeichen",
             "passwordRepeat": "Passwort wiederholen",
             "passwordMismatch": "Passwörter stimmen nicht überein",
             "submitButton": "Registrieren",
@@ -86,7 +87,29 @@
         }
     },
     "user": {
-        "body": "Benutzer Text",
-        "title": "Benutzer"
+        "profile": {
+            "title": "Mein Profil",
+            "displayName": "Anzeigename",
+            "username": "Benutzername (E-Mail-Adresse)",
+            "photoURL": "Avatar"
+        },
+        "updateProfile": {
+            "title": "Profil ändern",
+            "displayName": "Anzeigename",
+            "submitButton": "Ändern",
+            "successMessage": "Profil geändert",
+            "apiError": "Fehler beim Ändern des Profils: {{errorDetail}}"
+        },
+        "updatePassword": {
+            "title": "Passwort ändern",
+            "oldPassword": "Bisheriges Passwort",
+            "password": "Neues Passwort",
+            "passwordTooShort": "Mindestens 6 Zeichen",
+            "passwordRepeat": "Neues Passwort wiederholen",
+            "passwordMismatch": "Passwörter stimmen nicht überein",
+            "submitButton": "Ändern",
+            "successMessage": "Passwort geändert",
+            "apiError": "Fehler beim Ändern des Passwort: {{errorDetail}}"
+        }
     }
 }

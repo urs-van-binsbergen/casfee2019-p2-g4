@@ -1,36 +1,53 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { IndexComponent } from './index.component';
-import { LoginComponent } from './auth/login.component';
 import { AuthGuard } from './auth/auth.guard';
-
-import { MiniGameComponent } from './mini-game/mini-game.component';
-import { MiniBattleComponent } from './mini-game/mini-battle.component';
-import { MiniMatchComponent } from './mini-game/mini-match.component';
-import { MiniPrepComponent } from './mini-game/mini-prep.component';
-import { ResetPasswordComponent } from './auth/reset-password.component';
-import { RegisterComponent } from './auth/register.component';
+import { IndexComponent } from './index.component';
+import { PageNotFoundComponent } from './shared/page-not-found.component';
 
 const routes: Routes = [
+    { path: '', redirectTo: '/hall', pathMatch: 'full' },
     { path: 'index', component: IndexComponent },
 
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'reset-password', component: ResetPasswordComponent },
+    {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then(x => x.AdminModule),
+        canLoad: [AuthGuard]
+    },
+    {
+        path: 'auth',
+        loadChildren: () => import('./auth/auth.module').then(x => x.AuthModule),
+    },
+    {
+        path: 'battle',
+        loadChildren: () => import('./battle/battle.module').then(x => x.BattleModule),
+        canLoad: [AuthGuard]
+    },
+    {
+        path: 'hall',
+        loadChildren: () => import('./hall/hall.module').then(x => x.HallModule),
+    },
+    {
+        path: 'match',
+        loadChildren: () => import('./match/match.module').then(x => x.MatchModule),
+        canLoad: [AuthGuard]
+    },
+    {
+        path: 'mini-game',
+        loadChildren: () => import('./mini-game/mini-game.module').then(x => x.MiniGameModule),
+        canLoad: [AuthGuard]
+    },
+    {
+        path: 'preparation',
+        loadChildren: () => import('./preparation/preparation.module').then(x => x.PreparationModule),
+        canLoad: [AuthGuard]
+    },
+    {
+        path: 'user',
+        loadChildren: () => import('./user/user.module').then(x => x.UserModule),
+        canLoad: [AuthGuard]
+    },
 
-    { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
-    { path: 'battle', loadChildren: './battle/battle.module#BattleModule' },
-    { path: 'hall', loadChildren: './hall/hall.module#HallModule' },
-    { path: 'match', loadChildren: './match/match.module#MatchModule' },
-    { path: 'preparation', loadChildren: './preparation/preparation.module#PreparationModule'},
-    { path: 'user', loadChildren: './user/user.module#UserModule' },
-
-    { path: 'mini-game', component: MiniGameComponent, canActivate: [AuthGuard] },
-    { path: 'mini-game/battle', component: MiniBattleComponent, canActivate: [AuthGuard] },
-    { path: 'mini-game/match', component: MiniMatchComponent, canActivate: [AuthGuard] },
-    { path: 'mini-game/prep', component: MiniPrepComponent, canActivate: [AuthGuard] },
-
-    { path: '**', redirectTo: 'hall' }
+    { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

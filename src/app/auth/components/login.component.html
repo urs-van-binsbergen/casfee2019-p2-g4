@@ -1,9 +1,7 @@
 <div class="login-content mat-typography">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
-        <mat-card>
-            <h2 translate>
-                auth.login.title
-            </h2>
+        <mat-card class="small-form">
+            <h2 translate>auth.login.title</h2>
 
             <mat-card-content>
                 <p>
@@ -11,12 +9,8 @@
                         <input matInput formControlName="username" required
                             placeholder="{{'auth.login.username' | translate}}" />
                         <mat-error *ngIf="username.invalid" [ngSwitch]="true">
-                            <div *ngSwitchCase="username.errors.required" translate>
-                                common.message.requiredField
-                            </div>
-                            <div *ngSwitchCase="username.errors.email" translate>
-                                auth.register.usernameMustBeEmail
-                            </div>
+                            <div *ngSwitchCase="username.errors.required" translate>common.message.fieldRequired</div>
+                            <div *ngSwitchCase="username.errors.email" translate>auth.login.usernameMustBeEmail</div>
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
@@ -26,16 +20,14 @@
                         <input matInput formControlName="password" required type="password"
                             placeholder="{{'auth.login.password' | translate}}" />
                         <mat-error *ngIf="password.invalid" [ngSwitch]="true">
-                            <div *ngSwitchCase="password.errors.required" translate>
-                                common.message.requiredField
-                            </div>
+                            <div *ngSwitchCase="password.errors.required" translate>common.message.fieldRequired</div>
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
                 </p>
                 <div class="button-row">
                     <div>
-                        <button type="submit" mat-raised-button color="primary">
+                        <button type="submit" mat-raised-button color="primary" class="standard-button-width">
                             {{ 'auth.login.submitButton' | translate }}
                         </button>
                     </div>

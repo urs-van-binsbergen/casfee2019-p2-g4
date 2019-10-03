@@ -20,6 +20,7 @@
         },
         "register": {
             "title": "Register new player",
+            "displayName": "Display name",
             "username": "User name (email address)",
             "usernameMustBeEmail": "User name must be an email address",
             "password": "Password",
@@ -57,7 +58,7 @@
     "common": {
         "message": {
             "pleaseCheckFormInput": "Please check form input",
-            "requiredField": "Field required",
+            "fieldRequired": "Field required",
             "fieldValueInvalid": "Value invalid"
         }
     },
@@ -86,7 +87,29 @@
         }
     },
     "user": {
-        "body": "User Text",
-        "title": "User"
+        "profile": {
+            "title": "My profile",
+            "displayName": "Display name",
+            "username": "User name (email address)",
+            "photoURL": "Avatar"
+        },
+        "updateProfile": {
+            "title": "Update profile",
+            "displayName": "Display name",
+            "submitButton": "Update",
+            "successMessage": "Profile updated",
+            "apiError": "Failure updating profile: {{errorDetail}}"
+        },
+        "updatePassword": {
+            "title": "Change password",
+            "oldPassword": "Current Passwort",
+            "password": "New Password",
+            "passwordTooShort": "At least 6 characters", 
+            "passwordRepeat": "Repeat new Password",
+            "passwordMismatch": "Passwords do not match",
+            "submitButton": "Change",
+            "successMessage": "Password changed",
+            "apiError": "Failure changing password: {{errorDetail}}"
+        }
     }
 }

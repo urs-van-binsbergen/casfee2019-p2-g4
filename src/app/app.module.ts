@@ -23,11 +23,13 @@ import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
 import { LanguageModule } from './language/language.module';
 import { MiniGameModule } from './mini-game/mini-game.module';
+import { PageNotFoundComponent } from './shared/page-not-found.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        IndexComponent
+        IndexComponent,
+        PageNotFoundComponent
     ],
     imports: [
         BrowserModule,

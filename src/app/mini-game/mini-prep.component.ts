@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AuthService } from '../auth/auth.service';
 import { map, tap } from 'rxjs/operators';
+import { AuthStateService } from '../auth/auth-state.service';
 
 @Component({
     templateUrl: './mini-prep.component.html',
@@ -19,13 +19,13 @@ export class MiniPrepComponent implements OnInit {
     constructor(
         private fns: AngularFireFunctions,
         private afs: AngularFirestore,
-        private authService: AuthService
+        private authState: AuthStateService
     ) {
     }
 
     ngOnInit(): void {
         this.myPreparation$ = this.afs.collection('preparations')
-            .doc(this.authService.uid).snapshotChanges().pipe(
+            .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
                 map(
                     action => {
                         return action.payload.data();

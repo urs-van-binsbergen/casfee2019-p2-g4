@@ -15,17 +15,17 @@
             <mat-icon>forward</mat-icon>
             <span translate>admin.title</span>
         </button>
-        <button mat-menu-item routerLink="user">
+        <button *ngIf="authState.currentUser" mat-menu-item routerLink="user">
             <mat-icon>forward</mat-icon>
-            <span translate>user.title</span>
+            <span translate>user.profile.title</span>
         </button>
-        <button *ngIf="!authService.isLoggedIn" mat-menu-item routerLink="login">
+        <button *ngIf="authState.currentUser" mat-menu-item (click)="onLogoutClicked()">
+            <mat-icon>forward</mat-icon>
+            <span>Logout {{authState.currentUser.displayName}}</span>
+        </button>
+        <button *ngIf="!authState.currentUser" mat-menu-item routerLink="auth/login">
             <mat-icon>forward</mat-icon>
             <span>Login</span>
-        </button>
-        <button *ngIf="authService.isLoggedIn" mat-menu-item (click)="onLogoutClicked()">
-            <mat-icon>forward</mat-icon>
-            <span>Logout {{authService.userDisplayName}}</span>
         </button>
 
         <button mat-menu-item routerLink="mini-game">
@@ -37,5 +37,15 @@
     <span class="fill-remaining-space"></span>
     <app-language></app-language>
 </mat-toolbar>
+
+<!-- TMP DEBUG -->
+<div fxRow style="border-bottom: 1px white solid; padding-bottom: 3px;">
+    <button mat-button color="primary" routerLink="user">
+        <mat-icon>perm_identity</mat-icon>
+        <span *ngIf="authState.currentUser as user">
+            {{ user.displayName }}
+        </span>
+    </button>
+</div>
 
 <router-outlet></router-outlet>

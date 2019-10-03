@@ -1,22 +1,26 @@
 <div class="register-content mat-typography">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
-        <mat-card>
-            <h2 translate>
-                auth.register.title
-            </h2>
+        <mat-card class="small-form">
+            <h2 translate>auth.register.title</h2>
 
             <mat-card-content>
+                <p>
+                    <mat-form-field>
+                        <input matInput type="text" formControlName="displayName" required
+                            placeholder="{{'auth.register.displayName' | translate}}" />
+                        <mat-error *ngIf="displayName.invalid" [ngSwitch]="true">
+                            <div *ngSwitchCase="displayName.errors.required" translate>common.message.fieldRequired</div>
+                            <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
                 <p>
                     <mat-form-field>
                         <input matInput type="email" formControlName="username" required
                             placeholder="{{'auth.register.username' | translate}}" />
                         <mat-error *ngIf="username.invalid" [ngSwitch]="true">
-                            <div *ngSwitchCase="username.errors.required" translate>
-                                common.message.requiredField
-                            </div>
-                            <div *ngSwitchCase="username.errors.email" translate>
-                                auth.register.usernameMustBeEmail
-                            </div>
+                            <div *ngSwitchCase="username.errors.required" translate>common.message.fieldRequired</div>
+                            <div *ngSwitchCase="username.errors.email" translate>auth.register.usernameMustBeEmail</div>
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
@@ -24,14 +28,10 @@
                 <p>
                     <mat-form-field>
                         <input matInput type="password" formControlName="password" required minlength="6"
-                            placeholder="{{'auth.register.password' | translate}}" />
+                            placeholder="{{'auth.register.password' | translate}}" autocomplete="new-password" />
                         <mat-error *ngIf="password.invalid" [ngSwitch]="true">
-                            <div *ngSwitchCase="password.errors.required" translate>
-                                common.message.requiredField
-                            </div>
-                            <div *ngSwitchCase="!!password.errors.minlength" translate>
-                                auth.register.passwordTooShort
-                            </div>
+                            <div *ngSwitchCase="password.errors.required" translate>common.message.fieldRequired</div>
+                            <div *ngSwitchCase="!!password.errors.minlength" translate>auth.register.passwordTooShort</div>
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
@@ -41,24 +41,20 @@
                         <input matInput type="password" formControlName="passwordRepeat" required
                             placeholder="{{'auth.register.passwordRepeat' | translate}}" />
                         <mat-error *ngIf="passwordRepeat.invalid" [ngSwitch]="true">
-                            <div *ngSwitchCase="passwordRepeat.errors.required" translate>
-                                common.message.requiredField
-                            </div>
-                            <div *ngSwitchCase="passwordRepeat.errors.mismatch" translate>
-                                auth.register.passwordMismatch
-                            </div>
+                            <div *ngSwitchCase="passwordRepeat.errors.required" translate>common.message.fieldRequired</div>
+                            <div *ngSwitchCase="passwordRepeat.errors.mismatch" translate>auth.register.passwordMismatch</div>
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
                 </p>
                 <div class="button-row">
                     <div>
-                        <button type="submit" mat-raised-button color="primary">
+                        <button type="submit" mat-raised-button color="primary" class="standard-button-width">
                             {{'auth.register.submitButton' | translate}}
                         </button>
                     </div>
                     <div>
-                        <button type="button" mat-raised-button (click)="onCancel()">
+                        <button type="button" mat-raised-button (click)="onCancel()" class="standard-button-width">
                             {{'button.cancel' | translate}}
                         </button>
                     </div>

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AuthService } from '../auth/auth.service';
 import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Component({
@@ -13,8 +11,6 @@ export class MiniGameComponent implements OnInit {
     serviceResult$: Observable<any>;
 
     constructor(
-        private afs: AngularFirestore,
-        private authService: AuthService,
         private fns: AngularFireFunctions
     ) {
     }

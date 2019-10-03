@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { RedirectService } from './redirect-service';
+import { RedirectService } from '../redirect.service';
+import { NotificationService } from '../notification.service';
 
 @Component({
     templateUrl: './login.component.html',
@@ -21,10 +21,10 @@ export class LoginComponent implements OnInit {
     waiting = false;
 
     constructor(
-        private snackBar: MatSnackBar,
         private translate: TranslateService,
         private authService: AuthService,
         private redirect: RedirectService,
+        private notification: NotificationService,
     ) { }
 
     ngOnInit() {
@@ -32,8 +32,7 @@ export class LoginComponent implements OnInit {
 
     onSubmit() {
         if (!this.form.valid) {
-            const invalidMsg = this.translate.instant('common.message.pleaseCheckFormInput');
-            this.snackBar.open(invalidMsg);
+            this.notification.pleaseCheckFormInput();
             return;
         }
 
@@ -45,23 +44,15 @@ export class LoginComponent implements OnInit {
             .then(() => {
                 this.waiting = false;
                 const msg = this.translate.instant('auth.login.successMessage');
-                this.snackBar.open(msg, null, { duration: 1000 });
+                this.notification.quickToast(msg, 1000);
                 this.redirect.redirectToNext('/user');
             })
             .catch(error => {
                 this.waiting = false;
 
-                // Try to get a localized message for the error code
-                const errDetKey = 'firebase.errorCodes.' + error.code;
-                let errorDetail: string = this.translate.instant(errDetKey);
-                // If not available: output the original api message
-                if (errorDetail === errDetKey) {
-                    errorDetail = `${error.message} (${error.code})`;
-                }
-
+                const errorDetail = this.notification.localizeFirebaseError(error);
                 const msg = this.translate.instant('auth.login.apiError', { errorDetail });
-                const close = this.translate.instant('button.close');
-                this.snackBar.open(msg, close);
+                this.notification.confirmToast(msg);
             });
     }
 }

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule, MatCardModule, MatDialogModule, MatMenuModule, MatToolbarModule,
-    MatSnackBarModule, MatProgressSpinnerModule, MatInputModule
+    MatSnackBarModule, MatProgressSpinnerModule, MatInputModule, MatTooltipModule, MatDividerModule, MatListModule
 } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -40,6 +40,9 @@ export function createTranslateLoader(http: HttpClient) {
         MatToolbarModule,
         MatSnackBarModule,
         MatProgressSpinnerModule,
+        MatTooltipModule,
+        MatDividerModule,
+        MatListModule,
         TranslateModule,
         DialogModule
     ]
