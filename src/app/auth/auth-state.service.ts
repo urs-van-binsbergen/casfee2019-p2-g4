@@ -15,7 +15,7 @@ export interface AuthUser {
 @Injectable()
 export class AuthStateService {
 
-    private _currentUser: AuthUser;
+    public currentUser: AuthUser;
     private _firebaseUser: firebase.User;
 
     constructor(
@@ -40,7 +40,7 @@ export class AuthStateService {
     private setCurrentUser(firebaseUser: firebase.User): void {
         if (firebaseUser) {
             this._firebaseUser = firebaseUser;
-            this._currentUser = {
+            this.currentUser = {
                 uid: firebaseUser.uid,
                 displayName: firebaseUser.displayName || firebaseUser.email,
                 email: firebaseUser.email,
@@ -49,15 +49,8 @@ export class AuthStateService {
             };
         } else {
             this._firebaseUser = null;
-            this._currentUser = null;
+            this.currentUser = null;
         }
-    }
-
-    /*
-     * Current User (read-only shallow copy)
-     */
-    public get currentUser() {
-        return this._currentUser ? { ...this._currentUser } : null;
     }
 
     /*
@@ -80,7 +73,7 @@ export class AuthStateService {
 
         await this._firebaseUser.updateProfile({ displayName });
         await this._firebaseUser.getIdToken(true); // forceRefresh! (*)
-        this._currentUser.displayName = displayName;
+        this.currentUser.displayName = displayName;
 
         // (*) so server token will update too. This strangely still does not trigger
         //     the authStateChanged, that's why we update the state ourselves.
