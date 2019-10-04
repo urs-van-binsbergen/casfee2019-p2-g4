@@ -1,5 +1,10 @@
 /* unit 24...35px */
 
+$fieldMin: 24px;
+$fieldMax: 35px;
+$fieldFactor: 7.7;
+$fieldMargin: 1px;
+
 .yardDraggable {
     display: flex;
     flex-direction: row;
@@ -7,12 +12,12 @@
     align-items: center;
     justify-content: center;
 
-    min-width: 24px;
-    width: 7.7vmin;
-    max-width: 35px;
-    min-height: 74px;
-    height: calc(7.7vmin * 3 + 2px);
-    max-height: 107px;
+    min-width: $fieldMin;
+    width: #{$fieldFactor}vmin;
+    max-width: $fieldMax;
+    min-height: 3 * $fieldMin + 2 * $fieldMargin;
+    height: calc(#{3 * $fieldFactor}vmin + #{2 * $fieldMargin});
+    max-height: 3 * $fieldMax + 2 * $fieldMargin;
 
     margin: 5px;
     opacity: 0.5;
@@ -28,12 +33,12 @@
     align-items: center;
     justify-content: center;
 
-    min-width: 24px;
-    width: 7.7vmin;
-    max-width: 35px;
-    min-height: 74px;
-    height: calc(7.7vmin * 3 + 2px);
-    max-height: 107px;
+    min-width: $fieldMin;
+    width: #{$fieldFactor}vmin;
+    max-width: $fieldMax;
+    min-height: 3 * $fieldMin + 2 * $fieldMargin;
+    height: calc(#{3 * $fieldFactor}vmin + #{2 * $fieldMargin});
+    max-height: 3 * $fieldMax + 2 * $fieldMargin;
 
     opacity: 0.5;
     font-size: small;
@@ -64,6 +69,9 @@
     justify-content: center;
 }
 
+$yardWidth: 10;
+$yardHeight: 5;
+
 .yard {
     display: flex;
     flex-direction: row;
@@ -71,12 +79,13 @@
     align-items: center;
     justify-content: center;
 
-    min-width: 240px;
-    width: calc(7.7vmin * 10);
-    max-width: 350px;
-    min-height: 115px;
-    height: calc(7.7vmin * 5);
-    max-height: 175px;
+    min-width: $yardWidth * $fieldMin + ($yardWidth - 1) * $fieldMargin;
+    width: calc(#{$yardWidth * $fieldFactor}vmin + #{($yardWidth - 1) * $fieldMargin});
+    max-width: $yardWidth * $fieldMax + ($yardWidth - 1) * $fieldMargin;
+    min-height: $yardHeight * $fieldMin + ($yardHeight - 1) * $fieldMargin;
+    height: calc(#{$yardHeight * $fieldFactor}vmin + #{($yardHeight - 1) * $fieldMargin});
+    max-height: $yardHeight * $fieldMax + ($yardHeight - 1) * $fieldMargin;
+
     border: 2px red solid;
 }
 
@@ -92,6 +101,8 @@
     }
 }
 
+$boardSize: 12;
+
 .board {
     display: flex;
     flex-direction: column;
@@ -99,12 +110,12 @@
     align-items: center;
     justify-content: center;
 
-    min-width: 297px;
-    width: calc(7.7vmin * 12 + 9px);
-    max-width: 429px;
-    min-height: 297px;
-    height: calc(7.7vmin * 12 + 9px);
-    max-height: 429px;
+    min-width: $boardSize * $fieldMin + ($boardSize - 1) * $fieldMargin;
+    width: calc(#{$boardSize * $fieldFactor}vmin + #{($boardSize - 1) * $fieldMargin});
+    max-width: $boardSize * $fieldMax + ($boardSize - 1) * $fieldMargin;
+    min-height: $boardSize * $fieldMin + ($boardSize - 1) * $fieldMargin;
+    height: calc(#{$boardSize * $fieldFactor}vmin + #{($boardSize - 1) * $fieldMargin});
+    max-height: $boardSize * $fieldMax + ($boardSize - 1) * $fieldMargin;
 }
 
 .row {
@@ -115,7 +126,7 @@
 }
 
 .row:last-child {
-    margin-bottom: 1px;
+    margin-bottom: $fieldMargin;
 }
 
 .field {
@@ -125,20 +136,20 @@
     align-items: center;
     justify-content: center;
 
-    margin-top: 1px;
-    min-width: 24px;
-    width: 7.7vmin;
-    max-width: 35px;
-    min-height: 24px;
-    height: 7.7vmin;
-    max-height: 35px;
+    min-width: $fieldMin;
+    width: #{$fieldFactor}vmin;
+    max-width: $fieldMax;
+    min-height: $fieldMin;
+    height: #{$fieldFactor}vmin;
+    max-height: $fieldMax;
 
-    margin-left: 1px;
+    margin-top: $fieldMargin;
+    margin-left: $fieldMargin;
     background-color: white;
 }
 
 .field:last-child {
-    margin-right: 1px;
+    margin-right: $fieldMargin;
 }
 
 .possibleTarget {
