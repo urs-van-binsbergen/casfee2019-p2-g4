@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthStateService } from './auth-state.service';
 
 @Injectable()
 export class AuthService {
 
-    constructor(private afAuth: AngularFireAuth) { }
+    constructor(
+        private afAuth: AngularFireAuth,
+        private authState: AuthStateService
+    ) { }
 
     // TODO: probably we should not expose firebase api here
 
@@ -18,7 +22,8 @@ export class AuthService {
 
     async register(email: string, password: string, displayName: string): Promise<void> {
         const userCred = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-        
+        console.log("the good service ", "createUserWithEmailAndPassword done")
+        this.authState.updateProfile(displayName);
     }
 
     sendPasswordMail(email: string): Promise<void> {
