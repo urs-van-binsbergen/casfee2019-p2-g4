@@ -11,13 +11,6 @@ import { AuthStateService } from './auth-state.service';
 import { NotificationService } from './notification.service';
 
 
-const routes: Routes = [
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'reset-password', component: ResetPasswordComponent },
-];
-
 @NgModule({
     declarations: [
         LoginComponent,
@@ -26,7 +19,7 @@ const routes: Routes = [
     ],
     imports: [
         SharedModule,
-        RouterModule.forChild(routes)
+        RouterModule
     ],
     providers: [
         AuthService,

@@ -3,19 +3,28 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { IndexComponent } from './index.component';
 import { PageNotFoundComponent } from './shared/page-not-found.component';
+import { LoginComponent } from './auth/components/login.component';
+import { RegisterComponent } from './auth/components/register.component';
+import { ResetPasswordComponent } from './auth/components/reset-password.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/hall', pathMatch: 'full' },
     { path: 'index', component: IndexComponent },
 
     {
+        path: 'auth',
+        children: [
+            { path: '', redirectTo: 'login', pathMatch: 'full' },
+            { path: 'login', component: LoginComponent },
+            { path: 'register', component: RegisterComponent },
+            { path: 'reset-password', component: ResetPasswordComponent },
+        ]
+        // (auth should not be lazy for some issues not contingent to me...)
+    },
+    {
         path: 'admin',
         loadChildren: () => import('./admin/admin.module').then(x => x.AdminModule),
         canLoad: [AuthGuard]
-    },
-    {
-        path: 'auth',
-        loadChildren: () => import('./auth/auth.module').then(x => x.AuthModule),
     },
     {
         path: 'battle',
