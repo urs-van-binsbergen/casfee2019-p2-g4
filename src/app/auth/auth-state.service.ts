@@ -42,7 +42,7 @@ export class AuthStateService {
             this._firebaseUser = firebaseUser;
             this.currentUser = {
                 uid: firebaseUser.uid,
-                displayName: firebaseUser.displayName || firebaseUser.email,
+                displayName: firebaseUser.displayName || "no name",
                 email: firebaseUser.email,
                 emailVerified: firebaseUser.emailVerified,
                 photoURL: firebaseUser.photoURL
