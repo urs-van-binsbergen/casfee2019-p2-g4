@@ -1,6 +1,6 @@
 /* unit 24...35px */
 
-.yard {
+.yardOld {
     display: block;
     min-width: 240px;
     width: calc(7.7vmin * 10);
@@ -11,7 +11,7 @@
     background-color: greenyellow;
 }
 
-.board {
+.boardOld {
     display: block;
     min-width: 288px;
     width: calc(7.7vmin * 12);
@@ -23,13 +23,121 @@
 }
 
 @media screen and (min-width: 600px) {
-    .board {
+    .boardOld {
         background-color: lightblue;
     }
 }
 
 @media screen and (min-width: 758px) {
-    .board {
+    .boardOld {
         background-color: cornflowerblue;
     }
 }
+
+.yardDraggable {
+    text-align: center;
+    font-weight: bold;
+    width: 116px;
+    height: 32px;
+    margin-right: 20px;
+    margin-top: 2px;
+    opacity: 0.5;
+    cursor: move;
+}
+
+.fieldDraggable {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    width: 116px;
+    height: 32px;
+    margin-top: -40px;
+    margin-left: -42px;
+    opacity: 0.5;
+    cursor: move;
+}
+
+.rot0 {
+    transform: rotate(0deg);
+}
+
+.rot90 {
+    transform: rotate(90deg);
+}
+
+.rot180 {
+    transform: rotate(180deg);
+}
+
+.rot270 {
+    transform: rotate(270deg);
+}
+
+.all {
+    display: flex;
+    flex-direction: row;
+}
+
+.yard {
+    display: flex;
+    width: 150px;
+    flex-direction: column;
+}
+
+.board {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.row:last-child {
+    margin-bottom: 2px;
+}
+
+.container {
+    margin-left: 2px;
+    margin-top: 2px;
+    width: 40px;
+    height: 40px;
+}
+
+.container:last-child {
+    margin-right: 2px;
+}
+
+.field {
+    width: 32px;
+    height: 32px;
+    border: 4px white solid;
+    background-color: white;
+}
+
+.possibleTarget {
+    border: 4px gray dashed;
+}
+
+.red {
+    background-color: red;
+    border: 4px red solid;
+}
+
+.blue {
+    background-color: blue;
+    border: 4px blue solid;
+}
+
+.green {
+    background-color: green;
+    border: 4px green solid;
+}
+
+.grey {
+    background-color: gray;
+    border: 4px gray solid;
+}
+

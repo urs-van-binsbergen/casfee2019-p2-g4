@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
+import { DragModule } from '../drag/drag.module';
 import { AuthGuard } from '../auth/auth.guard';
 import { PreparationComponent } from './preparation.component';
 import { PreparationService } from './preparation.service';
 import { PreparationGuard } from './preparation.guard';
+import { YardService } from './yard.service';
 
 const routes: Routes = [{
     path: '',
@@ -19,11 +21,13 @@ const routes: Routes = [{
     ],
     imports: [
         SharedModule,
+        DragModule,
         RouterModule.forChild(routes)
     ],
     providers: [
+        PreparationGuard,
         PreparationService,
-        PreparationGuard
+        YardService
     ]
 })
 export class PreparationModule { }
