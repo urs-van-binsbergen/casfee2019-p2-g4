@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
         this.waiting = true;
 
         // Register
-        this.authService.register(this.username.value, this.password.value)
+        this.authService.register(this.username.value, this.password.value, this.displayName.value)
             .then(() => {
                 this.waiting = false;
                 const msg = this.translate.instant('auth.register.successMessage');

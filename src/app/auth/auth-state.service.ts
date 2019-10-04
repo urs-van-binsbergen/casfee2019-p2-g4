@@ -29,27 +29,28 @@ export class AuthStateService {
      */
     private doSubscribe(): Subscription {
         return this.afAuth.authState.subscribe(
-            firebaseUser => this.setCurrentUser(firebaseUser),
+            firebaseUser => {
+                console.log("AuthState changed, firebaseUser = ", firebaseUser);
+                const authUser = this.convert(firebaseUser);
+                console.log(authUser);
+                this._firebaseUser = firebaseUser;
+                this.currentUser = authUser;
+            },
             error => console.error('error from authState subscription', error)
         );
     }
 
     /*
-     * Set current User (converts 'firebase.User' to an impl-agnostic model)
+     * Converts 'firebase.User' to an impl-agnostic model
      */
-    private setCurrentUser(firebaseUser: firebase.User): void {
-        if (firebaseUser) {
-            this._firebaseUser = firebaseUser;
-            this.currentUser = {
-                uid: firebaseUser.uid,
-                displayName: firebaseUser.displayName || "no name",
-                email: firebaseUser.email,
-                emailVerified: firebaseUser.emailVerified,
-                photoURL: firebaseUser.photoURL
-            };
-        } else {
-            this._firebaseUser = null;
-            this.currentUser = null;
+    private convert(firebaseUser: firebase.User): AuthUser {
+        if(!firebaseUser) return null;
+        return {
+            uid: firebaseUser.uid,
+            displayName: firebaseUser.displayName || "no name",
+            email: firebaseUser.email,
+            emailVerified: firebaseUser.emailVerified,
+            photoURL: firebaseUser.photoURL
         }
     }
 

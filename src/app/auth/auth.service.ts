@@ -16,8 +16,9 @@ export class AuthService {
         return this.afAuth.auth.signOut();
     }
 
-    register(email: string, password: string): Promise<firebase.auth.UserCredential> {
-        return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+    async register(email: string, password: string, displayName: string): Promise<void> {
+        const userCred = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+        
     }
 
     sendPasswordMail(email: string): Promise<void> {
