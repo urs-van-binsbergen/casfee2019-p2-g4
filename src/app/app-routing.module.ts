@@ -11,6 +11,12 @@ const routes: Routes = [
     { path: '', redirectTo: '/hall', pathMatch: 'full' },
     { path: 'index', component: IndexComponent },
 
+
+    {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then(x => x.AdminModule),
+        canLoad: [AuthGuard]
+    },
     {
         path: 'auth',
         children: [
@@ -19,12 +25,7 @@ const routes: Routes = [
             { path: 'register', component: RegisterComponent },
             { path: 'reset-password', component: ResetPasswordComponent },
         ]
-        // (auth should not be lazy for some issues not contingent to me...)
-    },
-    {
-        path: 'admin',
-        loadChildren: () => import('./admin/admin.module').then(x => x.AdminModule),
-        canLoad: [AuthGuard]
+        // (AuthModule must be eagerly loaded, otherwise its AuthState has no change tracking in other modules)
     },
     {
         path: 'battle',
