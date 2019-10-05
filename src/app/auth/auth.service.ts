@@ -21,8 +21,7 @@ export class AuthService {
     }
 
     async register(email: string, password: string, displayName: string): Promise<void> {
-        const userCred = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-        console.log("the good service ", "createUserWithEmailAndPassword done")
+        await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
         this.authState.updateProfile(displayName);
     }
 
