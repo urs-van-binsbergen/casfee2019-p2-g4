@@ -1,48 +1,7 @@
-/* unit 24...35px */
+@import './preparation-shared.component.scss';
 
-$fieldMin: 24px;
-$fieldMax: 35px;
-$fieldFactor: 7.7;
-$fieldMargin: 1px;
-
-.yardDraggable {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-
-    min-width: $fieldMin;
-    width: #{$fieldFactor}vmin;
-    max-width: $fieldMax;
-    min-height: 3 * $fieldMin + 2 * $fieldMargin;
-    height: calc(#{3 * $fieldFactor}vmin + #{2 * $fieldMargin});
-    max-height: 3 * $fieldMax + 2 * $fieldMargin;
-
+.yardShip {
     margin: 5px;
-    opacity: 0.5;
-    cursor: move;
-}
-
-.fieldDraggable {
-    position: absolute;
-
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-
-    min-width: $fieldMin;
-    width: #{$fieldFactor}vmin;
-    max-width: $fieldMax;
-    min-height: 3 * $fieldMin + 2 * $fieldMargin;
-    height: calc(#{3 * $fieldFactor}vmin + #{2 * $fieldMargin});
-    max-height: 3 * $fieldMax + 2 * $fieldMargin;
-
-    opacity: 0.5;
-    font-size: small;
-    cursor: move;
 }
 
 .rot0 {
@@ -153,21 +112,5 @@ $boardSize: 12;
 }
 
 .possibleTarget {
-    background-color: gray;
-}
-
-.red {
-    background-color: red;
-}
-
-.blue {
-    background-color: blue;
-}
-
-.green {
-    background-color: green;
-}
-
-.grey {
     background-color: gray;
 }

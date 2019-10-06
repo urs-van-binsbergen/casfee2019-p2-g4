@@ -3,19 +3,18 @@
     <p translate>preparation.body</p>
     <div class="all">
         <div class="yard">
-            <div *ngFor="let yardKey of yardKeys" [appDraggable]="{key: yardKey}" class="yardDraggable {{yardKey}}">
-            </div>
+            <app-preparation-ship *ngFor="let yardKey of yardKeys" [appDraggable]="{key: yardKey}" [key]="yardKey"
+                class="yardShip">
+            </app-preparation-ship>
         </div>
         <div class="board">
             <div class="row" *ngFor="let yIndex of yIndexes">
                 <div *ngFor="let xIndex of xIndexes" [appDroptarget]="{x: xIndex, y: yIndex}"
                     class="field drop-target {{possibleTarget(xIndex, yIndex)}}">
-
-                    <div *ngFor="let fieldKey of fieldKeys(xIndex, yIndex)" [appDraggable]="{key: fieldKey}"
-                        class="fieldDraggable {{fieldKey}} rot{{rotation(xIndex, yIndex)}}"
-                        (click)="onClick(xIndex, yIndex)">
-                        {{yIndex}}{{xIndex}}
-                    </div>
+                    <app-preparation-ship *ngFor="let fieldKey of fieldKeys(xIndex, yIndex)"
+                        [appDraggable]="{key: fieldKey}" [key]="fieldKey"
+                        class="fieldShip rot{{rotation(xIndex, yIndex)}}" (click)="onClick(xIndex, yIndex)">
+                    </app-preparation-ship>
                 </div>
             </div>
         </div>

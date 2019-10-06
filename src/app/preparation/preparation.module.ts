@@ -5,6 +5,7 @@ import { DragModule } from '../drag/drag.module';
 import { AuthGuard } from '../auth/auth.guard';
 import { PreparationComponent } from './preparation.component';
 import { PreparationService } from './preparation.service';
+import { PreparationShipComponent } from './preparation-ship.component';
 import { PreparationGuard } from './preparation.guard';
 import { YardService } from './yard.service';
 
@@ -17,7 +18,8 @@ const routes: Routes = [{
 
 @NgModule({
     declarations: [
-        PreparationComponent
+        PreparationComponent,
+        PreparationShipComponent
     ],
     imports: [
         SharedModule,
