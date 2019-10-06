@@ -35,7 +35,7 @@ $yardHeight: 5;
     display: flex;
     flex-direction: row;
     flex: 0 0 auto;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 
     min-width: $yardWidth * $fieldMin + ($yardWidth - 1) * $fieldMargin;

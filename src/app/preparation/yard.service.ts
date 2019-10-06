@@ -7,10 +7,11 @@ export class YardService {
 
     constructor() {
         this._ships = {};
-        this.addShip(new Ship('green'));
         this.addShip(new Ship('red'));
+        this.addShip(new Ship('green'));
         this.addShip(new Ship('blue'));
-        this.addShip(new Ship('grey'));
+        this.addShip(new Ship('yellow'));
+        this.addShip(new Ship('purple'));
     }
 
     addShip(ship: Ship) {

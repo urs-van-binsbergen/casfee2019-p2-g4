@@ -14,14 +14,26 @@ export class PreparationShipComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    get shipClass(): string {
+        let shipClass: string;
+        if (this.key === 'red') {
+            shipClass = 'ship3';
+        } else if (this.key === 'green' || this.key === 'blue') {
+            shipClass = 'ship3';
+        } else {
+            shipClass = 'ship5';
+        }
+        return shipClass;
+    }
+
     get items(): number[] {
         let items: number[];
-        if (this.key === 'green') {
+        if (this.key === 'red') {
             items = [0, 1];
-        } else if (this.key === 'grey') {
-            items = [0, 1];
-        } else {
+        } else if (this.key === 'green' || this.key === 'blue') {
             items = [0, 1, 2];
+        } else {
+            items = [0, 1, 2, 3];
         }
         return items;
     }
