@@ -1,11 +1,14 @@
+// Type definitions (used server AND client side)
+
+
 export interface Pos {
     x: number;
     y: number;
 }
 
 export interface Ship {
-    pos: Pos;
-    length: number;
+    pos: Pos; // (top-left)
+    length: number; 
     isVertical: boolean;
     isSunk: boolean;
 }

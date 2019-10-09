@@ -70,7 +70,7 @@ export class PreparationService {
         return canAddShip;
     }
 
-    get ships() {
+    get ships(): Array<Ship> {
         const keys = Object.keys(this._ships);
         const ships = [];
         keys.forEach((key) => {

@@ -8,6 +8,10 @@ import { DragService } from '../drag/drag.service';
 import { DropDelegate } from '../drag/drop.delegate';
 import { Ship } from '../shared/ship';
 
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { PreparationArgs } from '@cloud-api/preparation';
+import { Ship as CloudShip } from '@cloud-api/core-models';
+
 @Component({
     templateUrl: './preparation.component.html',
     styleUrls: ['./preparation.component.scss']
@@ -17,12 +21,16 @@ export class PreparationComponent implements OnInit, DropDelegate {
     private possibleX: number;
     private possibleY: number;
 
+    waiting = false;
+
     constructor(
         private router: Router,
         public dialog: MatDialog,
         private preparationService: PreparationService,
         private yardService: YardService,
-        private dragService: DragService) {
+        private dragService: DragService,
+        private fns: AngularFireFunctions,
+    ) {
     }
 
     ngOnInit(): void {
@@ -43,7 +51,37 @@ export class PreparationComponent implements OnInit, DropDelegate {
     }
 
     onContinueClicked() {
-        this.router.navigateByUrl('/match');
+
+        this.waiting = true;
+
+        // TODO: move the following stuff to some Service
+
+        var ships = this.preparationService.ships;
+        var cloudShips = Array.from<CloudShip>(ships.map(s => {
+            let cloudShip: CloudShip = {
+                pos: { x: s.x, y: s.y },  // TODO: get the top/left-beginning of the ship
+                length: 2, // TODO: geht the length of the ship
+                isVertical: s.rotation % 180 === 0,
+                isSunk: false
+            };
+            return cloudShip;
+        }));
+
+        const args: PreparationArgs = {
+            miniGameNumber: null,
+            ships: cloudShips
+        };
+
+        const callable = this.fns.httpsCallable('addPreparation');
+        callable(args).toPromise()
+            .then(x => {
+                this.waiting = false;
+                this.router.navigateByUrl('/match');
+            })
+            .catch(err => {
+                this.waiting = false;
+            })
+            ;
     }
 
     onChangedClicked() {

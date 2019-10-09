@@ -48,10 +48,7 @@ function toPreparationArgs(data: any): PreparationArgs {
         throw new HttpsError('invalid-argument', 'ships missing or of bad type');
     }
 
-    return {
-        miniGameNumber,
-        ships
-    };
+    return { miniGameNumber, ships };
 }
 
 function getPlayer(authInfo: AuthInfo, args: PreparationArgs): Player {

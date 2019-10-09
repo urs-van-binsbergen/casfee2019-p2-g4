@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { AuthStateService } from '../auth/auth-state.service';
+import { AuthStateService } from '../../auth/auth-state.service';
 
 @Component({
     templateUrl: './mini-match.component.html',

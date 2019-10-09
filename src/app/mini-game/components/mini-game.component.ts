@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AuthStateService } from '../auth/auth-state.service';
+import { AuthStateService } from '../../auth/auth-state.service';
 import { Player } from '@cloud-api/core-models';
 import { map, tap } from 'rxjs/operators';
 

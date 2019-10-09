@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map, tap } from 'rxjs/operators';
-import { AuthStateService } from '../auth/auth-state.service';
+import { AuthStateService } from '../../auth/auth-state.service';
 import { PreparationArgs } from '@cloud-api/preparation';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { NotificationService } from '../auth/notification.service';
+import { NotificationService } from '../../auth/notification.service';
 import { Player } from '@cloud-api/core-models';
 
 @Component({
