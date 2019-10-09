@@ -30,7 +30,6 @@ export class MiniGameComponent implements OnInit {
             ),
             tap(
                 (x: Player | null) => {
-                    console.log("tapped player", x);
                     this.hasPlayerData = x != null;
                 }
             )

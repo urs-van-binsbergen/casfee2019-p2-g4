@@ -11,8 +11,8 @@ export class AuthService {
     constructor(
         private _afAuth: AngularFireAuth,
         private _authState: AuthStateService
-    ) { 
-        
+    ) {
+
     }
 
     /*
@@ -62,7 +62,7 @@ export class AuthService {
         if (!firebaseUser) {
             throw new Error('No user');
         }
-        console.log("updateProfile", displayName);
+
         return firebaseUser.updateProfile({ displayName })
             .then(() => { firebaseUser.getIdToken(true); }) // forceRefresh! (*)
             .then(() => { this._authState.currentUser.displayName = displayName; })

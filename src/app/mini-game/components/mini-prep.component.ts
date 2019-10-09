@@ -39,7 +39,6 @@ export class MiniPrepComponent implements OnInit {
                 ),
                 tap(
                     (x: Player | null) => {
-                        console.log("tapped player", x);
                         this.player = x;
                         this.miniGameNumber.setValue(x ? x.miniGameNumber : null);
                     }

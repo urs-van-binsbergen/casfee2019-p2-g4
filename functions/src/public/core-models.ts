@@ -8,7 +8,7 @@ export interface Pos {
 
 export interface Ship {
     pos: Pos; // (top-left)
-    length: number; 
+    length: number;
     isVertical: boolean;
     isSunk: boolean;
 }
@@ -51,7 +51,7 @@ export interface Player {
     fields: Array<TargetField>;
     ships: Array<Ship>;
     miniGameNumber: number; // TEMP
-    opponent: Opponent | null;
+    opponent: Opponent | null;
 }
 
 export interface Opponent {
