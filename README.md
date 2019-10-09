@@ -9,6 +9,16 @@ ng serve
 
 http://localhost:4200
 
+### Mobile Device Browser Test
+
+IP Adresse und Port müssen den lokalen Gegebenheiten angepasst werden.
+
+```
+ng serve --host 192.168.1.121 --port 4200
+```
+
+http://192.168.1.121:4200/webpack-dev-server/index.html
+
 ## Hosting URL
 
 URL: https://casfee2019-p2-g4.web.app/
