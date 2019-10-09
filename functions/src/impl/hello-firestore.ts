@@ -1,18 +1,18 @@
-export default function helloFirestore (
+export default function helloFirestore(
     snap: FirebaseFirestore.DocumentSnapshot,
     db: FirebaseFirestore.Firestore
 ) {
-    var data = snap.data();
+    const data = snap.data();
     if (!data) {
         return;
     }
 
     const name: string = data.name;
 
-    db.collection("items2").doc("LA").set({
-        name: name,
-        test: "CA"
-    })
+    db.collection('items2').doc('LA').set({
+        name,
+        test: 'CA'
+    });
 
-    return "ok";
+    return 'ok';
 }

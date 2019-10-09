@@ -1,25 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AuthStateService } from '../auth/auth-state.service';
+import { Player } from '@cloud-api/core-models';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
     templateUrl: './mini-game.component.html',
 })
 export class MiniGameComponent implements OnInit {
-    title = 'Mini Game';
-
-    serviceResult$: Observable<any>;
 
     constructor(
-        private fns: AngularFireFunctions
+        private fns: AngularFireFunctions,
+        private afs: AngularFirestore,
+        private authState: AuthStateService
     ) {
     }
 
+    waiting = false;
+    hasPlayerData = false;
+
     ngOnInit(): void {
-    }
+        this.afs.collection('players')
+        .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
+            map(
+                action => {
+                    return action.payload.data();
+                }
+            ),
+            tap(
+                (x: Player | null) => {
+                    console.log("tapped player", x);
+                    this.hasPlayerData = x != null;
+                }
+            )
+        )
+        .subscribe();
+}
 
     async purge() {
+        this.waiting = true;
+
         const callable = this.fns.httpsCallable('purgeMiniGame');
-        this.serviceResult$ = callable({});
+        callable({}).toPromise()
+            .then(x => {
+                this.waiting = false;
+            })
+            .catch(err => {
+                this.waiting = false;
+            })
+            ;
     }
 }

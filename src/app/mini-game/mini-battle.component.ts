@@ -11,7 +11,7 @@ import { AuthStateService } from '../auth/auth-state.service';
 export class MiniBattleComponent implements OnInit {
     title = 'Battle';
 
-    myBattle$: Observable<any>;
+    player$: Observable<any>;
     serviceResult$: Observable<any>;
 
     currentGuess: number;
@@ -24,7 +24,7 @@ export class MiniBattleComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.myBattle$ = this.afs.collection('battlePlayers')
+        this.player$ = this.afs.collection('players')
             .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
                 map(
                     action => {

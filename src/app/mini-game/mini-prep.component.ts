@@ -4,27 +4,34 @@ import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map, tap } from 'rxjs/operators';
 import { AuthStateService } from '../auth/auth-state.service';
+import { PreparationArgs } from '@cloud-api/preparation';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { NotificationService } from '../auth/notification.service';
+import { Player } from '@cloud-api/core-models';
 
 @Component({
     templateUrl: './mini-prep.component.html',
 })
 export class MiniPrepComponent implements OnInit {
-    title = 'Preparation';
+    miniGameNumber = new FormControl('', [Validators.required, Validators.min(1), Validators.max(100)]);
+    form = new FormGroup({
+        miniGameNumber: this.miniGameNumber,
+    });
 
-    serviceResult$: Observable<any>;
-    myPreparation$: Observable<any>;
+    player: Player | null;
 
-    miniGameNumber: number;
+    waiting = false;
 
     constructor(
         private fns: AngularFireFunctions,
         private afs: AngularFirestore,
-        private authState: AuthStateService
+        private authState: AuthStateService,
+        private notification: NotificationService
     ) {
     }
 
     ngOnInit(): void {
-        this.myPreparation$ = this.afs.collection('preparations')
+        this.afs.collection('players')
             .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
                 map(
                     action => {
@@ -32,19 +39,38 @@ export class MiniPrepComponent implements OnInit {
                     }
                 ),
                 tap(
-                    x => { this.miniGameNumber = x ? x.miniGameNumber : null; }
+                    (x: Player | null) => {
+                        console.log("tapped player", x);
+                        this.player = x;
+                        this.miniGameNumber.setValue(x ? x.miniGameNumber : null);
+                    }
                 )
-            );
+            )
+            .subscribe();
     }
 
-    async submit() {
-        const num = this.miniGameNumber;
-        if (!num) {
-            alert('number missing'); // TODO
+    onSubmit() {
+        if (!this.form.valid) {
+            this.notification.pleaseCheckFormInput();
             return;
         }
+
+        this.waiting = true;
+
+        const args: PreparationArgs = {
+            miniGameNumber: this.miniGameNumber.value,
+            ships: []
+        };
+
         const callable = this.fns.httpsCallable('addPreparation');
-        this.serviceResult$ = callable({ miniGameNumber: num });
+        callable(args).toPromise()
+            .then(x => {
+                this.waiting = false;
+            })
+            .catch(err => {
+                this.waiting = false;
+            })
+            ;
     }
 
 }

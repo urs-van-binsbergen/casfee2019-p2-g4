@@ -1,5 +1,5 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { loadData } from './utils';
+import { loadData } from '../shared/db-utils';
 
 export default async function makeGuess(
     data: any,
@@ -10,11 +10,11 @@ export default async function makeGuess(
         throw new HttpsError('permission-denied', 'auth or uid missing'); // TODO
     }
     if (!data) {
-        throw new HttpsError('invalid-argument', 'data missing') // TODO
+        throw new HttpsError('invalid-argument', 'data missing'); // TODO
     }
-    const currentGuess = parseInt(data.currentGuess);
+    const currentGuess = parseInt(data.currentGuess, 10);
     if (!currentGuess || currentGuess > 100 || currentGuess < 1) {
-        throw new HttpsError('out-of-range', 'number from 1 to 100')
+        throw new HttpsError('out-of-range', 'number from 1 to 100');
     }
 
     const uid = context.auth.uid;
@@ -26,7 +26,7 @@ export default async function makeGuess(
     const playerData = loadData(playerDoc);
 
     if (!playerData.canShootNext) {
-        throw 'player can not shoot now';
+        throw new Error('player can not shoot now');
     }
 
     const opponentUid = playerData.opponentUid;
@@ -39,7 +39,7 @@ export default async function makeGuess(
     const sign = Math.sign(currentGuess - opponentData.miniGameNumber);
     let guessInfo: string;
     let currentStateInfo = null;
-    let opponentStateInfo = null;
+    let opponentStateInfo = null;
     switch (sign) {
         case 0:
             guessInfo = 'perfect!';
@@ -55,7 +55,7 @@ export default async function makeGuess(
             opponentStateInfo = `opponent's guess was ${currentGuess}. Hihi, too high!`;
             break;
         default:
-            throw 'unexpected sign: ' + sign;
+            throw new Error('unexpected sign: ' + sign);
     }
 
     const newGuesses = [...guesses, { currentGuess, sign, guessInfo }];
@@ -63,10 +63,10 @@ export default async function makeGuess(
     const batch = db.batch();
     batch.update(db.collection('battlePlayers').doc(uid), {
         guesses: newGuesses, currentStateInfo, canShootNext: false
-    })
+    });
     batch.update(db.collection('battlePlayers').doc(opponentUid), {
         currentStateInfo: opponentStateInfo, canShootNext: sign !== 0
-    })
+    });
 
     return batch.commit()
         .then(res => res)

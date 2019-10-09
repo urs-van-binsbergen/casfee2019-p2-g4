@@ -1,3 +1,6 @@
+<p>
+    (not properly implemented here and further)
+</p>
 <mat-card>
     <mat-card-title>
         {{title}}
@@ -18,7 +21,7 @@
                     challenged by:
                     <span *ngFor="let challenge of waitingPlayer.challenges"
                         style="border: 1px solid black; display:inline-block; margin-right: 10px;">
-                        {{challenge.name || challenge.uid}}
+                        {{challenge.name || '?'}}
                         <span *ngIf=" challenge.uid === uid"> (me)</span>
                     </span>
                 </div>
@@ -26,11 +29,8 @@
         </ul>
     </mat-card-content>
     <mat-card-actions>
-        <div *ngIf="myBattle$ | async">
+        <div *ngIf="player$ | async">
             <a routerLink="../battle">Go to battle</a>
         </div>
-        <p>
-            <a routerLink="../">Go to mini game home</a>
-        </p>
     </mat-card-actions>
 </mat-card>

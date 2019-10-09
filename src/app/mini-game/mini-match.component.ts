@@ -13,7 +13,7 @@ export class MiniMatchComponent implements OnInit {
     title = 'Match';
 
     waitingPlayers$: Observable<any[]>;
-    myBattle$: Observable<any>;
+    player$: Observable<any>;
 
     isInBattle = false;
     uid: string;
@@ -48,7 +48,7 @@ export class MiniMatchComponent implements OnInit {
                 }),
             )
         );
-        this.myBattle$ = this.afs.collection('battlePlayers')
+        this.player$ = this.afs.collection('players')
             .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
                 map(
                     action => {

@@ -3,23 +3,23 @@
         {{title}}
     </mat-card-title>
     <mat-card-content>
-        <div *ngIf="myBattle$ | async as myBattle">
+        <div *ngIf="player$ | async as player">
             <div style="color: green; font-size: 10px; margin-bottom: 10px;">
-                {{myBattle | json}}
+                {{player | json}}
             </div>
             <div>
-                <span style="font-size: 20px;">Your number: {{myBattle.miniGameNumber}}</span>
+                <span style="font-size: 20px;">Your number: {{player.miniGameNumber}}</span>
             </div>
             <div style="margin-top: 10px;">
                 <div>Your guesses so far:</div>
                 <ul>
-                    <li *ngFor="let guess of myBattle.guesses">
+                    <li *ngFor="let guess of player.guesses">
                         <b>{{guess.currentGuess}}</b>: {{guess.guessInfo}}
                     </li>
                 </ul>
             </div>
-            <div>{{myBattle.currentStateInfo}}</div>
-            <div *ngIf="myBattle.canShootNext" style="font-weight: bold; color: orange;">Your turn!</div>
+            <div>{{player.currentStateInfo}}</div>
+            <div *ngIf="player.canShootNext" style="font-weight: bold; color: orange;">Your turn!</div>
         </div>
         <p>
             <input matInput [(ngModel)]="currentGuess" name="currentGuess" style="width: 200px;" />
