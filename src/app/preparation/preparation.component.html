@@ -1,18 +1,28 @@
 <div class="page">
-    <h3 translate>preparation.title</h3>
+    <h1 translate>preparation.title</h1>
     <p translate>preparation.body</p>
-    <div class="container" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center">
-        <div class="yard" fxFlex="0 0 auto">
-            yard 12x5 1/1 units
+    <div class="all">
+        <div class="yard">
+            <app-preparation-ship *ngFor="let yardKey of yardKeys" [appDraggable]="{key: yardKey}" [key]="yardKey"
+                class="yardShip">
+            </app-preparation-ship>
         </div>
-        <div class="board" fxFlex="0 0 auto">
-            board 12x12 1/1 units
-            <button mat-raised-button (click)="onChangedClicked()" class="standard-button-width">Changed</button>
-            <button mat-raised-button (click)="onValidatedClicked()" class="standard-button-width">Validated</button>
+        <div class="board">
+            <div class="row" *ngFor="let yIndex of yIndexes">
+                <div *ngFor="let xIndex of xIndexes" [appDroptarget]="{x: xIndex, y: yIndex}"
+                    class="field drop-target {{possibleTarget(xIndex, yIndex)}}">
+                    <app-preparation-ship *ngFor="let fieldKey of fieldKeys(xIndex, yIndex)"
+                        [appDraggable]="{key: fieldKey}" [key]="fieldKey"
+                        class="fieldShip rot{{rotation(xIndex, yIndex)}}" (click)="onClick(xIndex, yIndex)">
+                    </app-preparation-ship>
+                </div>
+            </div>
         </div>
     </div>
     <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
         <button mat-raised-button color="primary" (click)="onContinueClicked()" class="standard-button-width"
             [disabled]="isContinueDisabled">{{'button.continue' | translate}}</button>
+        <button mat-raised-button (click)="onChangedClicked()" class="standard-button-width">Changed</button>
+        <button mat-raised-button (click)="onValidatedClicked()" class="standard-button-width">Validated</button>
     </div>
 </div>

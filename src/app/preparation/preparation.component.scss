@@ -1,35 +1,116 @@
-/* unit 24...35px */
+@import './preparation-shared.component.scss';
 
-.yard {
-    display: block;
-    min-width: 240px;
-    width: calc(7.7vmin * 10);
-    max-width: 350px;
-    min-height: 115px;
-    height: calc(7.7vmin * 5);
-    max-height: 175px;
-    background-color: greenyellow;
+.yardShip {
+    margin: 5px;
 }
 
-.board {
-    display: block;
-    min-width: 288px;
-    width: calc(7.7vmin * 12);
-    max-width: 420px;
-    min-height: 288px;
-    height: calc(7.7vmin * 12);
-    max-height: 420px;
-    background-color: aqua;
+.rot0 {
+    transform: rotate(0deg);
+}
+
+.rot90 {
+    transform: rotate(90deg);
+}
+
+.rot180 {
+    transform: rotate(180deg);
+}
+
+.rot270 {
+    transform: rotate(270deg);
+}
+
+.all {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+$yardWidth: 10;
+$yardHeight: 5;
+
+.yard {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 auto;
+    align-items: flex-start;
+    justify-content: center;
+
+    min-width: $yardWidth * $fieldMin + ($yardWidth - 1) * $fieldMargin;
+    width: calc(#{$yardWidth * $fieldFactor}vmin + #{($yardWidth - 1) * $fieldMargin});
+    max-width: $yardWidth * $fieldMax + ($yardWidth - 1) * $fieldMargin;
+    min-height: $yardHeight * $fieldMin + ($yardHeight - 1) * $fieldMargin;
+    height: calc(#{$yardHeight * $fieldFactor}vmin + #{($yardHeight - 1) * $fieldMargin});
+    max-height: $yardHeight * $fieldMax + ($yardHeight - 1) * $fieldMargin;
+
+    border: 2px red solid;
 }
 
 @media screen and (min-width: 600px) {
-    .board {
-        background-color: lightblue;
+    .yard {
+        border: 2px green solid;
     }
 }
 
 @media screen and (min-width: 758px) {
-    .board {
-        background-color: cornflowerblue;
+    .yard {
+        border: 2px blue solid;
     }
+}
+
+$boardSize: 12;
+
+.board {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    min-width: $boardSize * $fieldMin + ($boardSize - 1) * $fieldMargin;
+    width: calc(#{$boardSize * $fieldFactor}vmin + #{($boardSize - 1) * $fieldMargin});
+    max-width: $boardSize * $fieldMax + ($boardSize - 1) * $fieldMargin;
+    min-height: $boardSize * $fieldMin + ($boardSize - 1) * $fieldMargin;
+    height: calc(#{$boardSize * $fieldFactor}vmin + #{($boardSize - 1) * $fieldMargin});
+    max-height: $boardSize * $fieldMax + ($boardSize - 1) * $fieldMargin;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.row:last-child {
+    margin-bottom: $fieldMargin;
+}
+
+.field {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    min-width: $fieldMin;
+    width: #{$fieldFactor}vmin;
+    max-width: $fieldMax;
+    min-height: $fieldMin;
+    height: #{$fieldFactor}vmin;
+    max-height: $fieldMax;
+
+    margin-top: $fieldMargin;
+    margin-left: $fieldMargin;
+    background-color: white;
+}
+
+.field:last-child {
+    margin-right: $fieldMargin;
+}
+
+.possibleTarget {
+    background-color: gray;
 }
