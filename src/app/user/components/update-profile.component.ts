@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { RedirectService } from '../../auth/redirect.service';
 import { AuthStateService } from '../../auth/auth-state.service';
 import { NotificationService } from '../../auth/notification.service';
+import { UserService } from '../user.service';
 
 @Component({
     templateUrl: './update-profile.component.html',
@@ -23,6 +24,7 @@ export class UpdateProfileComponent implements OnInit {
         private location: Location,
         private translate: TranslateService,
         private authStateService: AuthStateService,
+        private userService: UserService,
         private redirect: RedirectService,
         private notification: NotificationService,
     ) { }
@@ -40,17 +42,18 @@ export class UpdateProfileComponent implements OnInit {
         this.waiting = true;
 
         // Set display name
-        try {
-            await this.authStateService.updateProfile(this.displayName.value);
-        } catch (error) {
-            const errorDetail = this.notification.localizeFirebaseError(error);
-            this.notification.confirmToast(errorDetail);
-        }
+        this.userService.updateProfile(this.displayName.value)
+            .then(() => {
+                this.waiting = false;
+                const msg = this.translate.instant('user.updateProfile.successMessage');
+                this.notification.quickToast(msg, 2000);
+                this.redirect.redirectToNext('/user');
+            })
+            .catch(error => {
+                const errorDetail = this.notification.localizeFirebaseError(error);
+                this.notification.toastToConfirm(errorDetail);
+            });
 
-        this.waiting = false;
-        const msg = this.translate.instant('user.updateProfile.successMessage');
-        this.notification.quickToast(msg, 2000);
-        this.redirect.redirectToNext('/user');
     }
 
     onCancel() {

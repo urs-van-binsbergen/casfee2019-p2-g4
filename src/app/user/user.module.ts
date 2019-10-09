@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { AuthGuard } from '../auth/auth.guard';
+import { UserService } from './user.service';
 import { UserComponent } from './components/user.component';
 import { UpdateProfileComponent } from './components/update-profile.component';
 import { UpdatePasswordComponent } from './components/update-password.component';
@@ -28,6 +29,9 @@ const routes: Routes = [
     imports: [
         SharedModule,
         RouterModule.forChild(routes)
+    ],
+    providers: [
+        UserService
     ]
 })
 export class UserModule { }

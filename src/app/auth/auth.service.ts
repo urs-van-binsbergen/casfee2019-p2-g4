@@ -2,31 +2,91 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthStateService } from './auth-state.service';
 
+/*
+ * Service to communicate with the auth backend
+ */
 @Injectable()
 export class AuthService {
 
     constructor(
-        private afAuth: AngularFireAuth,
-        private authState: AuthStateService
-    ) { }
-
-    // TODO: probably we should not expose firebase api here
-
-    login(email: string, password: string): Promise<firebase.auth.UserCredential> {
-        return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+        private _afAuth: AngularFireAuth,
+        private _authState: AuthStateService
+    ) { 
+        
     }
 
+    /*
+     * Login a user
+     */
+    login(email: string, password: string): Promise<void> {
+        return this._afAuth.auth.signInWithEmailAndPassword(email, password)
+            .then(userCredential => { return; });
+    }
+
+    /*
+     * Logut the current user
+     */
     logout(): Promise<void> {
-        return this.afAuth.auth.signOut();
+        return this._afAuth.auth.signOut();
     }
 
-    async register(email: string, password: string, displayName: string): Promise<void> {
-        await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-        this.authState.updateProfile(displayName);
+    /*
+     * Register a new user
+     */
+    register(email: string, password: string, displayName: string): Promise<void> {
+        return this._afAuth.auth.createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                this.updateProfileImpl(userCredential.user, displayName);
+            });
     }
 
+    /*
+     * Send a mail with a link to reset the password
+     */
     sendPasswordMail(email: string): Promise<void> {
-        return this.afAuth.auth.sendPasswordResetEmail(email);
+        return this._afAuth.auth.sendPasswordResetEmail(email);
+    }
+
+    /*
+    * Update logged-in user's profile
+    */
+    public updateProfile(displayName: string): Promise<void> {
+        const firebaseUser = this._afAuth.auth.currentUser;
+        return this.updateProfileImpl(firebaseUser, displayName);
+    }
+
+    /*
+    * Update user's profile (private impl.)
+    */
+    private updateProfileImpl(firebaseUser: firebase.User, displayName: string): Promise<void> {
+        if (!firebaseUser) {
+            throw new Error('No user');
+        }
+        console.log("updateProfile", displayName);
+        return firebaseUser.updateProfile({ displayName })
+            .then(() => { firebaseUser.getIdToken(true); }) // forceRefresh! (*)
+            .then(() => { this._authState.currentUser.displayName = displayName; })
+            ;
+
+        // (*) so server token will update too. This strangely still does not trigger
+        //     the authStateChanged, that's why we update the state ourselves.
+    }
+
+    /*
+     * Update logged-in user's password
+     */
+    public updatePassword(oldPassword: string, newPassword: string): Promise<void> {
+        const firebaseUser = this._afAuth.auth.currentUser;
+        if (!firebaseUser) {
+            throw new Error('No user');
+        }
+
+        return this._afAuth.auth.signInWithEmailAndPassword(
+            firebaseUser.email, oldPassword
+        )
+            .then((userCredential) => {
+                userCredential.user.updatePassword(newPassword);
+            });
     }
 
 }

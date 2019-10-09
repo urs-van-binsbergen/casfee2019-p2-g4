@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
 
                 const errorDetail = this.notification.localizeFirebaseError(error);
                 const msg = this.translate.instant('auth.login.apiError', { errorDetail });
-                this.notification.confirmToast(msg);
+                this.notification.toastToConfirm(msg);
             });
     }
 }

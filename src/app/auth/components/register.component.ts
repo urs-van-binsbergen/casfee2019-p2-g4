@@ -63,7 +63,7 @@ export class RegisterComponent implements OnInit {
                 this.waiting = false;
                 const errorDetail = this.notification.localizeFirebaseError(error);
                 const errorMsg = this.translate.instant('auth.register.apiError', { errorDetail });
-                this.notification.confirmToast(errorMsg);
+                this.notification.toastToConfirm(errorMsg);
             })
             ;
     }
