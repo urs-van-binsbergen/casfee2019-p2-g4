@@ -22,12 +22,12 @@ export default function addChallengeImpl(
     const name = context.auth.token.name || context.auth.token.email || uid;
 
     const waitingPlayerRef = db.collection('waitingPlayers').doc(uid);
-    const prepRef = db.collection('preparations').doc(uid);
+    const playerRef = db.collection('players').doc(uid);
     const waitingPlayerRefO = db.collection('waitingPlayers').doc(opponentUid);
-    const prepRefO = db.collection('preparations').doc(opponentUid);
+    const playerRefO = db.collection('players').doc(opponentUid);
 
     return db.runTransaction(tx => {
-        return tx.getAll(waitingPlayerRef, prepRef, waitingPlayerRefO, prepRefO)
+        return tx.getAll(waitingPlayerRef, playerRef, waitingPlayerRefO, playerRefO)
             .then(docs => {
                 const now = Date();
 
@@ -47,7 +47,7 @@ export default function addChallengeImpl(
                     // MATCH! -> start the battle
                     // (always do all reads before any writes)
 
-                    tx.set(db.collection('battlePlayers').doc(uid), {
+                    tx.set(db.collection('players').doc(uid), {
                         opponentUid,
                         startDate: now,
                         miniGameNumber: prepData.miniGameNumber,
@@ -55,7 +55,7 @@ export default function addChallengeImpl(
                         currentStateInfo: null,
                         canShootNext: true
                     });
-                    tx.set(db.collection('battlePlayers').doc(opponentUid), {
+                    tx.set(db.collection('players').doc(opponentUid), {
                         opponentUid: uid,
                         startDate: now,
                         miniGameNumber: prepDataO.miniGameNumber,
@@ -65,8 +65,8 @@ export default function addChallengeImpl(
                     });
                     tx.delete(waitingPlayerRef)
                         .delete(waitingPlayerRefO)
-                        .delete(prepRef)
-                        .delete(prepRefO);
+                        .delete(playerRef)
+                        .delete(playerRefO);
                     // TODO: remove references in challenges with other players!
                 } else {
                     const newChallengesO = [...challengesO, { uid, name, challengeDate: now }];

@@ -21,7 +21,7 @@ export default async function makeGuess(
 
     // (ich verzichte hier mal auf eine RW-Transaktion, obwohl es ws. sinnvoll wäre)
 
-    const playerRef = db.collection('battlePlayers').doc(uid);
+    const playerRef = db.collection('players').doc(uid);
     const playerDoc = await playerRef.get();
     const playerData = loadData(playerDoc);
 
@@ -32,7 +32,7 @@ export default async function makeGuess(
     const opponentUid = playerData.opponentUid;
     const guesses = playerData.guesses || [];
 
-    const opponentRef = db.collection('battlePlayers').doc(opponentUid);
+    const opponentRef = db.collection('players').doc(opponentUid);
     const opponentDoc = await opponentRef.get();
     const opponentData = loadData(opponentDoc);
 
@@ -61,10 +61,10 @@ export default async function makeGuess(
     const newGuesses = [...guesses, { currentGuess, sign, guessInfo }];
 
     const batch = db.batch();
-    batch.update(db.collection('battlePlayers').doc(uid), {
+    batch.update(db.collection('players').doc(uid), {
         guesses: newGuesses, currentStateInfo, canShootNext: false
     });
-    batch.update(db.collection('battlePlayers').doc(opponentUid), {
+    batch.update(db.collection('players').doc(opponentUid), {
         currentStateInfo: opponentStateInfo, canShootNext: sign !== 0
     });
 
