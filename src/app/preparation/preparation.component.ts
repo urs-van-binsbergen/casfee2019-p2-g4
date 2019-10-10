@@ -54,16 +54,17 @@ export class PreparationComponent implements OnInit, DropDelegate {
 
         this.waiting = true;
 
-        // TODO: move the following stuff to some Service
-
         const ships = this.preparationService.ships;
         const cloudShips = Array.from<CloudShip>(ships.map(s => {
             const cloudShip: CloudShip = {
-                pos: { x: s.x, y: s.y },  // TODO: get the top/left-beginning of the ship
-                length: 2, // TODO: geht the length of the ship
+                pos: { x: s.x, y: s.y },  
+                length: 2, 
                 isVertical: s.rotation % 180 === 0,
                 isSunk: false
             };
+
+            // TODO: This is a just a working draft, details are to be harmonized
+
             return cloudShip;
         }));
 
