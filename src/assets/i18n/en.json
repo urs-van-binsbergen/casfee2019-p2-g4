@@ -101,7 +101,7 @@
             "apiError": "Failure updating profile: {{errorDetail}}"
         },
         "updatePassword": {
-            "title": "Change password",
+            "title": "Update password",
             "oldPassword": "Current Passwort",
             "password": "New Password",
             "passwordTooShort": "At least 6 characters", 

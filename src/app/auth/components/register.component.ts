@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
     ngOnInit() {
     }
 
-    async onSubmit() {
+    onSubmit() {
         if (this.form.valid &&
             this.password.value !== this.passwordRepeat.value
         ) {
@@ -52,30 +52,20 @@ export class RegisterComponent implements OnInit {
         this.waiting = true;
 
         // Register
-        try {
-            await this.authService.register(this.username.value, this.password.value);
-        } catch (error) {
-            this.waiting = false;
-
-            const errorDetail = this.notification.localizeFirebaseError(error);
-            const errorMsg = this.translate.instant('auth.register.apiError', { errorDetail });
-            this.notification.confirmToast(errorMsg);
-            return;
-        }
-
-        // Set display name
-        try {
-            await this.authStateService.updateProfile(this.displayName.value);
-        } catch (error) {
-            const errorDetail = this.notification.localizeFirebaseError(error);
-            this.notification.confirmToast(errorDetail);
-        }
-
-        this.waiting = false;
-        const msg = this.translate.instant('auth.register.successMessage');
-        this.notification.quickToast(msg, 1000);
-        this.redirect.redirectToNext('/user');
-
+        this.authService.register(this.username.value, this.password.value, this.displayName.value)
+            .then(() => {
+                this.waiting = false;
+                const msg = this.translate.instant('auth.register.successMessage');
+                this.notification.quickToast(msg, 2000);
+                this.redirect.redirectToNext('/user');
+            })
+            .catch(error => {
+                this.waiting = false;
+                const errorDetail = this.notification.localizeFirebaseError(error);
+                const errorMsg = this.translate.instant('auth.register.apiError', { errorDetail });
+                this.notification.toastToConfirm(errorMsg);
+            })
+            ;
     }
 
     onCancel() {

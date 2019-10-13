@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { AuthGuard } from '../auth/auth.guard';
-import { MiniBattleComponent } from './mini-battle.component';
-import { MiniGameComponent } from './mini-game.component';
-import { MiniMatchComponent } from './mini-match.component';
-import { MiniPrepComponent } from './mini-prep.component';
+import { MiniBattleComponent } from './components/mini-battle.component';
+import { MiniGameComponent } from './components/mini-game.component';
+import { MiniMatchComponent } from './components/mini-match.component';
+import { MiniPrepComponent } from './components/mini-prep.component';
 
 const routes: Routes = [
     {

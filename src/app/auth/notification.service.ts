@@ -15,7 +15,7 @@ export class NotificationService {
     /*
      * Snackbar-toast which has to be confirmed with 'OK'
      */
-    confirmToast(msg: string) {
+    toastToConfirm(msg: string) {
         const close = this.translate.instant('button.close');
         this.snackBar.open(msg, close);
     }

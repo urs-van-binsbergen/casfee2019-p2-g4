@@ -1,4 +1,5 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
+import { PlayerStatus, Player } from '../public/core-models';
 
 /*
  * Remove all my game data (prep, waitingPlayers, battle)
@@ -6,9 +7,9 @@ import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/ht
 export default async function purgeMiniGame(
     data: any,
     context: CallableContext,
-    db: FirebaseFirestore.Firestore, 
+    db: FirebaseFirestore.Firestore,
 ) {
-    if(!context.auth || !context.auth.uid) {
+    if (!context.auth || !context.auth.uid) {
         throw new HttpsError('permission-denied', 'auth or uid missing'); // TODO
     }
 
@@ -16,29 +17,31 @@ export default async function purgeMiniGame(
 
     // (ich verzichte hier mal auf eine RW-Transaktion, obwohl es ws. sinnvoll wäre)
 
-    const playerRef = db.collection('battlePlayers').doc(uid);
+    const playerRef = db.collection('players').doc(uid);
     const playerDoc = await playerRef.get();
 
     let opponentRef: any = null;
-    if(playerDoc.exists) {
-        const playerData = playerDoc.data() || {};
-        const opponentUid = playerData.opponentUid;
-        opponentRef = db.collection('battlePlayers').doc(opponentUid);
+    if (playerDoc.exists) {
+        const playerData = playerDoc.data() as Player;
+        if (playerData && playerData.opponent) {
+            const opponentUid = playerData.opponent.playerInfo.uid;
+            opponentRef = db.collection('players').doc(opponentUid);
+        }
     }
 
-    var batch = db.batch()
+    const batch = db.batch()
         .delete(playerRef)
-        .delete(db.collection('preparations').doc(uid))
-        .delete(db.collection('waitingPlayers').doc(uid))
-    ;
+        .delete(db.collection("waitingPlayers").doc(uid))
+        ;
 
-    if(opponentRef != null) {
-        batch.delete(opponentRef);
+    if (opponentRef != null) {
+        batch.update(opponentRef, { opponent: null, status: PlayerStatus.Waiting });
     }
 
     // TODO: remove references in challenges with other players!
 
     return batch.commit()
-        .then(res => res)
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+        });
 }

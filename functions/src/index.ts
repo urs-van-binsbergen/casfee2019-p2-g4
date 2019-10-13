@@ -8,7 +8,7 @@ const https = eu2.https; // for http methods and callables
 const auth = eu2.auth; // for auth triggers
 
 // Admin SDK (required to actually do something like changing data)
-import * as admin from 'firebase-admin'
+import * as admin from 'firebase-admin';
 admin.initializeApp();
 const db = admin.firestore();
 

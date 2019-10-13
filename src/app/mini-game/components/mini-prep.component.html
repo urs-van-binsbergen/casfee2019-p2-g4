@@ -1,0 +1,39 @@
+<div class="mini-prep-content mat-typography">
+    <div class="inset-1">
+        DEBUG - Player on server = {{player | json }}
+    </div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+        <mat-card class="small-form">
+            <h2>Prepare for the mini game</h2>
+
+            <mat-card-content>
+                <p>
+                    <mat-form-field style="width: 140px;">
+                        <input matInput formControlName="miniGameNumber" required type="number" style="font-size: 36px;"
+                            placeholder="Your secret number" />
+                        <mat-error *ngIf="miniGameNumber.invalid" [ngSwitch]="true">
+                            <div *ngSwitchCase="miniGameNumber.errors.required" translate>common.message.fieldRequired
+                            </div>
+                            <div *ngSwitchCase="miniGameNumber.errors.min">Zu tief</div>
+                            <div *ngSwitchCase="miniGameNumber.errors.max">Zu hoch</div>
+                            <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <div class="button-row">
+                    <div>
+                        <button type="submit" mat-raised-button color="primary" class="standard-button-width">
+                            Save the number
+                        </button>
+                    </div>
+                    <div class="spinner-cell">
+                        <mat-spinner *ngIf="waiting" diameter="22" style="display: inline-block"></mat-spinner>
+                    </div>
+                    <div *ngIf="player">
+                        <a mat-button mat-raised-button color="accent" routerLink="../match">Next...</a>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+</div>

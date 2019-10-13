@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { map } from 'rxjs/operators';
-import { AuthStateService } from '../auth/auth-state.service';
+import { AuthStateService } from '../../auth/auth-state.service';
 
 @Component({
     templateUrl: './mini-battle.component.html',
@@ -11,7 +11,7 @@ import { AuthStateService } from '../auth/auth-state.service';
 export class MiniBattleComponent implements OnInit {
     title = 'Battle';
 
-    myBattle$: Observable<any>;
+    player$: Observable<any>;
     serviceResult$: Observable<any>;
 
     currentGuess: number;
@@ -24,7 +24,7 @@ export class MiniBattleComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.myBattle$ = this.afs.collection('battlePlayers')
+        this.player$ = this.afs.collection('players')
             .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
                 map(
                     action => {

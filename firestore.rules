@@ -18,16 +18,11 @@ service cloud.firestore {
             allow write: if false;
         }
 
-        match /preparations/{userId} {
+        match /players/{userId} {
             allow read: if belongsTo(userId);
             allow write: if false;
         }
 
-        match /battlePlayers/{userId} {
-            allow read: if belongsTo(userId);
-            allow write: if false;
-        }
-    
         // (alle nicht erwähnten Collections sind deny all)
     }
 }

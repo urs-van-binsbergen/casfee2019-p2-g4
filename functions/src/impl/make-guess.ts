@@ -1,5 +1,5 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { loadData } from './utils';
+import { loadData } from '../shared/db-utils';
 
 export default async function makeGuess(
     data: any,
@@ -10,36 +10,36 @@ export default async function makeGuess(
         throw new HttpsError('permission-denied', 'auth or uid missing'); // TODO
     }
     if (!data) {
-        throw new HttpsError('invalid-argument', 'data missing') // TODO
+        throw new HttpsError('invalid-argument', 'data missing'); // TODO
     }
-    const currentGuess = parseInt(data.currentGuess);
+    const currentGuess = parseInt(data.currentGuess, 10);
     if (!currentGuess || currentGuess > 100 || currentGuess < 1) {
-        throw new HttpsError('out-of-range', 'number from 1 to 100')
+        throw new HttpsError('out-of-range', 'number from 1 to 100');
     }
 
     const uid = context.auth.uid;
 
     // (ich verzichte hier mal auf eine RW-Transaktion, obwohl es ws. sinnvoll wäre)
 
-    const playerRef = db.collection('battlePlayers').doc(uid);
+    const playerRef = db.collection('players').doc(uid);
     const playerDoc = await playerRef.get();
     const playerData = loadData(playerDoc);
 
     if (!playerData.canShootNext) {
-        throw 'player can not shoot now';
+        throw new Error('player can not shoot now');
     }
 
     const opponentUid = playerData.opponentUid;
     const guesses = playerData.guesses || [];
 
-    const opponentRef = db.collection('battlePlayers').doc(opponentUid);
+    const opponentRef = db.collection('players').doc(opponentUid);
     const opponentDoc = await opponentRef.get();
     const opponentData = loadData(opponentDoc);
 
     const sign = Math.sign(currentGuess - opponentData.miniGameNumber);
     let guessInfo: string;
     let currentStateInfo = null;
-    let opponentStateInfo = null;
+    let opponentStateInfo = null;
     switch (sign) {
         case 0:
             guessInfo = 'perfect!';
@@ -55,18 +55,18 @@ export default async function makeGuess(
             opponentStateInfo = `opponent's guess was ${currentGuess}. Hihi, too high!`;
             break;
         default:
-            throw 'unexpected sign: ' + sign;
+            throw new Error('unexpected sign: ' + sign);
     }
 
     const newGuesses = [...guesses, { currentGuess, sign, guessInfo }];
 
     const batch = db.batch();
-    batch.update(db.collection('battlePlayers').doc(uid), {
+    batch.update(db.collection('players').doc(uid), {
         guesses: newGuesses, currentStateInfo, canShootNext: false
-    })
-    batch.update(db.collection('battlePlayers').doc(opponentUid), {
+    });
+    batch.update(db.collection('players').doc(opponentUid), {
         currentStateInfo: opponentStateInfo, canShootNext: sign !== 0
-    })
+    });
 
     return batch.commit()
         .then(res => res)

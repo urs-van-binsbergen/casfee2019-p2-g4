@@ -48,7 +48,7 @@ export class ResetPasswordComponent implements OnInit {
 
                 const errorDetail = this.notification.localizeFirebaseError(error);
                 const msg = this.translate.instant('auth.resetPassword.apiError', { errorDetail });
-                this.notification.confirmToast(msg);
+                this.notification.toastToConfirm(msg);
             });
     }
 

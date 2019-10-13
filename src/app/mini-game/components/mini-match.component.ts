@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { AuthStateService } from '../auth/auth-state.service';
+import { AuthStateService } from '../../auth/auth-state.service';
 
 @Component({
     templateUrl: './mini-match.component.html',
@@ -13,7 +13,7 @@ export class MiniMatchComponent implements OnInit {
     title = 'Match';
 
     waitingPlayers$: Observable<any[]>;
-    myBattle$: Observable<any>;
+    player$: Observable<any>;
 
     isInBattle = false;
     uid: string;
@@ -48,7 +48,7 @@ export class MiniMatchComponent implements OnInit {
                 }),
             )
         );
-        this.myBattle$ = this.afs.collection('battlePlayers')
+        this.player$ = this.afs.collection('players')
             .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
                 map(
                     action => {

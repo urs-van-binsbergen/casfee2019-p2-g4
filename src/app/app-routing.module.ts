@@ -3,10 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { IndexComponent } from './index.component';
 import { PageNotFoundComponent } from './shared/page-not-found.component';
+import { LoginComponent } from './auth/components/login.component';
+import { RegisterComponent } from './auth/components/register.component';
+import { ResetPasswordComponent } from './auth/components/reset-password.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/hall', pathMatch: 'full' },
     { path: 'index', component: IndexComponent },
+
 
     {
         path: 'admin',
@@ -15,7 +19,13 @@ const routes: Routes = [
     },
     {
         path: 'auth',
-        loadChildren: () => import('./auth/auth.module').then(x => x.AuthModule),
+        children: [
+            { path: '', redirectTo: 'login', pathMatch: 'full' },
+            { path: 'login', component: LoginComponent },
+            { path: 'register', component: RegisterComponent },
+            { path: 'reset-password', component: ResetPasswordComponent },
+        ]
+        // (AuthModule must be eagerly loaded, otherwise its AuthState has no change tracking in other modules)
     },
     {
         path: 'battle',
