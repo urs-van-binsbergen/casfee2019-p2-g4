@@ -4,7 +4,7 @@
     <div class="all">
         <div class="yard">
             <app-preparation-ship *ngFor="let yardKey of yardKeys" [appDraggable]="{key: yardKey}" [key]="yardKey"
-                class="yardShip">
+                [place]="'yard'" class="yardShip">
             </app-preparation-ship>
         </div>
         <div class="board">
@@ -12,7 +12,7 @@
                 <div *ngFor="let xIndex of xIndexes" [appDroptarget]="{x: xIndex, y: yIndex}"
                     class="field drop-target {{possibleTarget(xIndex, yIndex)}}">
                     <app-preparation-ship *ngFor="let fieldKey of fieldKeys(xIndex, yIndex)"
-                        [appDraggable]="{key: fieldKey}" [key]="fieldKey"
+                        [appDraggable]="{key: fieldKey}" [key]="fieldKey" [place]="'board'"
                         class="fieldShip rot{{rotation(xIndex, yIndex)}}" (click)="onClick(xIndex, yIndex)">
                     </app-preparation-ship>
                 </div>

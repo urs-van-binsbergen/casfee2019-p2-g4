@@ -2,7 +2,7 @@
 
 $widthFactor: 4;
 
-.ship3 {
+.yardShip2, .boardShip2, .yardShip3, .boardShip3, .yardShip4, .boardShip4 {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,39 +11,45 @@ $widthFactor: 4;
     min-width: ($fieldMin + 2 * $fieldMargin) / $widthFactor;
     width: calc((#{$fieldFactor}vmin + #{2 * $fieldMargin}) / $widthFactor);
     max-width: ($fieldMax + 2 * $fieldMargin) / $widthFactor;
-    min-height: 3 * $fieldMin + 5 * $fieldMargin;
-    height: calc(#{3 * $fieldFactor}vmin + #{5 * $fieldMargin});
-    max-height: 3 * $fieldMax + 5 * $fieldMargin;
 
     cursor: move;
 }
 
-.ship5 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-
-    min-width: ($fieldMin + 2 * $fieldMargin) / $widthFactor;
-    width: calc((#{$fieldFactor}vmin + #{2 * $fieldMargin}) / $widthFactor);
-    max-width: ($fieldMax + 2 * $fieldMargin) / $widthFactor;
-    min-height: 5 * $fieldMin + 7 * $fieldMargin;
-    height: calc(#{5 * $fieldFactor}vmin + #{7 * $fieldMargin});
-    max-height: 5 * $fieldMax + 7 * $fieldMargin;
-
-    cursor: move;
+.yardShip2, .boardShip2 {
+    min-height: 2 * $fieldMin + 3 * $fieldMargin;
+    height: calc(#{2 * $fieldFactor}vmin + #{3 * $fieldMargin});
+    max-height: 2 * $fieldMax + 3 * $fieldMargin;
 }
 
-.field {
+.boardShip2 {
+    position: relative;
+    transform: translate(0, calc(-25%));
+}
+
+.yardShip3, .boardShip3 {
+    min-height: 3 * $fieldMin + 4 * $fieldMargin;
+    height: calc(#{3 * $fieldFactor}vmin + #{4 * $fieldMargin});
+    max-height: 3 * $fieldMax + 4 * $fieldMargin;
+}
+
+.yardShip4, .boardShip4 {
+    min-height: 4 * $fieldMin + 5 * $fieldMargin;
+    height: calc(#{4 * $fieldFactor}vmin + #{5 * $fieldMargin});
+    max-height: 4 * $fieldMax + 5 * $fieldMargin;
+}
+
+.boardShip4 {
+    position: relative;
+    transform: translate(0, calc(12.5%));
+}
+
+.towerField, .hullField {
     display: flex;
     flex-direction: row;
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
 
-    min-width: $fieldMin / $widthFactor;
-    width: #{$fieldFactor / $widthFactor}vmin;
-    max-width: $fieldMax / $widthFactor;
     min-height: $fieldMin;
     height: #{$fieldFactor}vmin;
     max-height: $fieldMax;
@@ -51,7 +57,19 @@ $widthFactor: 4;
     margin-top: $fieldMargin;
 }
 
-$backgroundOpacity: 0.3;
+.towerField {
+    min-width: $fieldMin;
+    width: #{$fieldFactor}vmin;
+    max-width: $fieldMax;
+}
+
+.hullField {
+    min-width: $fieldMin / $widthFactor;
+    width: #{$fieldFactor / $widthFactor}vmin;
+    max-width: $fieldMax / $widthFactor;
+}
+
+$backgroundOpacity: 0.2;
 
 .red {
     background-color: rgb(255, 0, 0, $backgroundOpacity);
@@ -65,8 +83,8 @@ $backgroundOpacity: 0.3;
     background-color: rgb(0, 0, 255, $backgroundOpacity);
 }
 
-.yellow {
-    background-color: rgb(255, 255, 0, $backgroundOpacity);
+.turquoise {
+    background-color: rgb(0, 255, 255, $backgroundOpacity);
 }
 
 .purple {
