@@ -18,9 +18,6 @@ import { Ship as CloudShip } from '@cloud-api/core-models';
 })
 export class PreparationComponent implements OnInit, DropDelegate {
 
-    private possibleX: number;
-    private possibleY: number;
-
     waiting = false;
 
     constructor(
@@ -121,7 +118,7 @@ export class PreparationComponent implements OnInit, DropDelegate {
     }
 
     possibleTarget(x: number, y: number): string {
-        if (this.possibleX === x && this.possibleY === y) {
+        if (this.dragService.x === x && this.dragService.y === y) {
             return 'possibleTarget';
         }
         return '';
@@ -154,18 +151,6 @@ export class PreparationComponent implements OnInit, DropDelegate {
     // DropDelegate
     canDropDraggable(key: string, x: number, y: number): boolean {
         return this.preparationService.canAddShip(key, x, y);
-    }
-
-    enterDropTarget(x: number, y: number): void {
-        this.possibleX = x;
-        this.possibleY = y;
-    }
-
-    leaveDropTarget(x: number, y: number): void {
-        if (this.possibleX === x && this.possibleY === y) {
-            this.possibleX = -1;
-            this.possibleY = -1;
-        }
     }
 
     dropDraggable(key: string, x: number, y: number): boolean {
