@@ -88,7 +88,22 @@ $boardSize: 12;
     margin-bottom: $fieldMargin;
 }
 
-.field {
+@keyframes color {
+    0% {
+        background-color: white;
+    }
+
+    50% {
+        background-color: red;
+    }
+
+    100% {
+        background-color: white;
+    }
+}
+
+.field,
+.clashField {
     display: flex;
     flex-direction: row;
     flex: 0 0 auto;
@@ -104,11 +119,21 @@ $boardSize: 12;
 
     margin-top: $fieldMargin;
     margin-left: $fieldMargin;
+}
+
+.field:last-child,
+.field:last-child {
+    margin-right: $fieldMargin;
+}
+
+.field {
     background-color: white;
 }
 
-.field:last-child {
-    margin-right: $fieldMargin;
+.clashField {
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
 }
 
 .possibleTarget {

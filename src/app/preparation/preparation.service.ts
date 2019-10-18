@@ -91,4 +91,14 @@ export class PreparationService {
         }
         return null;
     }
+
+    hasClash(x: number, y: number): boolean {
+        let i = 0;
+        for (const ship of this.ships) {
+            if (ship.isOnField(x, y)) {
+                i++;
+            }
+        }
+        return 1 < i;
+    }
 }

@@ -124,6 +124,13 @@ export class PreparationComponent implements OnInit, DropDelegate {
         return '';
     }
 
+    fieldClass(x: number, y: number): string {
+        if (this.preparationService.hasClash(x, y)) {
+            return 'clashField';
+        }
+        return 'field';
+    }
+
     fieldKeys(x: number, y: number): string[] {
         const ship = this.preparationService.getShipAt(x, y);
         if (ship === null) {
