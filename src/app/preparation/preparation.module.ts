@@ -6,6 +6,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { PreparationComponent } from './preparation.component';
 import { PreparationService } from './preparation.service';
 import { PreparationShipComponent } from './components/preparation-ship.component';
+import { PreparationYardComponent } from './components/preparation-yard.component';
 import { PreparationGuard } from './preparation.guard';
 import { YardService } from './yard.service';
 
@@ -19,7 +20,8 @@ const routes: Routes = [{
 @NgModule({
     declarations: [
         PreparationComponent,
-        PreparationShipComponent
+        PreparationShipComponent,
+        PreparationYardComponent
     ],
     imports: [
         SharedModule,

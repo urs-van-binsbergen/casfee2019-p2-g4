@@ -90,15 +90,6 @@ export class PreparationComponent implements OnInit, DropDelegate {
         this.preparationService.validate();
     }
 
-    get yardKeys(): string[] {
-        const ships = this.yardService.ships;
-        const keys: string[] = [];
-        ships.forEach((ship) => {
-            keys.push(ship.key);
-        });
-        return keys;
-    }
-
     get xIndexes(): number[] {
         const max: number = this.preparationService.width;
         const xIndexes: number[] = [];

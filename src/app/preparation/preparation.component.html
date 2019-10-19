@@ -2,11 +2,7 @@
     <h1 translate>preparation.title</h1>
     <p translate>preparation.body</p>
     <div class="all">
-        <div class="yard">
-            <app-preparation-ship *ngFor="let yardKey of yardKeys" [appDraggable]="{key: yardKey}" [key]="yardKey"
-                [place]="'yard'" class="yardShip">
-            </app-preparation-ship>
-        </div>
+        <app-preparation-yard></app-preparation-yard>
         <div class="board">
             <div class="row" *ngFor="let yIndex of yIndexes">
                 <div *ngFor="let xIndex of xIndexes" [appDroptarget]="{x: xIndex, y: yIndex}"
