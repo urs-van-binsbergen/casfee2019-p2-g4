@@ -81,12 +81,14 @@ export class Ship {
 
     private update() {
         this._fields = [];
-        if (this.key === 'red') {
-            this.update2();
-        } else if (this.key === 'green' || this.key === 'blue') {
-            this.update3();
-        } else {
-            this.update4();
+        if (0 <= this._x && 0 <= this._y) {
+            if (this.key === 'red') {
+                this.update2();
+            } else if (this.key === 'green' || this.key === 'blue') {
+                this.update3();
+            } else {
+                this.update4();
+            }
         }
     }
 
