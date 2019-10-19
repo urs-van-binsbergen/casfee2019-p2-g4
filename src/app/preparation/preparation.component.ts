@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PreparationService } from './preparation.service';
+import { YardService } from './yard.service';
 import { MatDialog } from '@angular/material';
 
 import { AngularFireFunctions } from '@angular/fire/functions';
@@ -18,12 +19,14 @@ export class PreparationComponent implements OnInit {
     constructor(
         private router: Router,
         public dialog: MatDialog,
+        private yardService: YardService,
         private preparationService: PreparationService,
         private fns: AngularFireFunctions,
     ) {
     }
 
     ngOnInit(): void {
+        this.yardService.reset();
         this.preparationService.reset();
     }
 
@@ -32,11 +35,7 @@ export class PreparationComponent implements OnInit {
     }
 
     get isContinueDisabled(): boolean {
-        return !(this.isValidated);
-    }
-
-    get isValidated(): boolean {
-        return this.preparationService.isValidated;
+        return !(this.preparationService.isValid);
     }
 
     onContinueClicked() {
@@ -72,14 +71,6 @@ export class PreparationComponent implements OnInit {
                 this.waiting = false;
             })
             ;
-    }
-
-    onChangedClicked() {
-        this.preparationService.change();
-    }
-
-    onValidatedClicked() {
-        this.preparationService.validate();
     }
 
 }

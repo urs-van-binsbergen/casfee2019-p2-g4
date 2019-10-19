@@ -6,6 +6,19 @@ export class YardService {
     private _ships: {};
 
     constructor() {
+        this.reset();
+    }
+
+    get ships() {
+        const keys = Object.keys(this._ships);
+        const ships = [];
+        keys.forEach((key) => {
+            ships.push(this._ships[key]);
+        });
+        return ships;
+    }
+
+    reset() {
         this._ships = {};
         this.addShip(new Ship('red'));
         this.addShip(new Ship('green'));
@@ -29,16 +42,4 @@ export class YardService {
         return ship;
     }
 
-    get ships() {
-        const keys = Object.keys(this._ships);
-        const ships = [];
-        keys.forEach((key) => {
-            ships.push(this._ships[key]);
-        });
-        return ships;
-    }
-
-    get count(): number {
-        return this.ships.length;
-    }
 }
