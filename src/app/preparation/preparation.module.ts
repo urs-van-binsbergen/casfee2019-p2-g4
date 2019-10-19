@@ -5,7 +5,7 @@ import { DragModule } from '../drag/drag.module';
 import { AuthGuard } from '../auth/auth.guard';
 import { PreparationComponent } from './preparation.component';
 import { PreparationService } from './preparation.service';
-import { PreparationShipComponent } from './preparation-ship.component';
+import { PreparationShipComponent } from './components/preparation-ship.component';
 import { PreparationGuard } from './preparation.guard';
 import { YardService } from './yard.service';
 
