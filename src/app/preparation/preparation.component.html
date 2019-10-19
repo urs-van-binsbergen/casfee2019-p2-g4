@@ -3,17 +3,7 @@
     <p translate>preparation.body</p>
     <div class="all">
         <app-preparation-yard></app-preparation-yard>
-        <div class="board">
-            <div class="row" *ngFor="let yIndex of yIndexes">
-                <div *ngFor="let xIndex of xIndexes" [appDroptarget]="{x: xIndex, y: yIndex}"
-                    class="{{fieldClass(xIndex, yIndex)}} drop-target {{possibleTarget(xIndex, yIndex)}}">
-                    <app-preparation-ship *ngFor="let fieldKey of fieldKeys(xIndex, yIndex)"
-                        [appDraggable]="{key: fieldKey}" [key]="fieldKey" [place]="'board'"
-                        class="fieldShip rot{{rotation(xIndex, yIndex)}}" (click)="onClick(xIndex, yIndex)">
-                    </app-preparation-ship>
-                </div>
-            </div>
-        </div>
+        <app-preparation-board></app-preparation-board>
     </div>
     <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
         <button mat-raised-button color="primary" (click)="onContinueClicked()" class="standard-button-width"
