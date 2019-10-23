@@ -51,7 +51,9 @@ export interface Player {
     fields: Array<TargetField>;
     ships: Array<Ship>;
     miniGameNumber: number; // TEMP
+    miniGameGuesses: number[]; // TEMP
     opponent: Opponent | null;
+    canShootNext: boolean; 
 }
 
 export interface Opponent {

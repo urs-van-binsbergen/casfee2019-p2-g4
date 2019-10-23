@@ -1,6 +1,7 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { loadData } from '../shared/db-utils';
+import { getData } from '../shared/db-utils';
 import COLL from '../public/firestore-collection-name-const';
+import { Player } from '../public/core-models';
 
 export default async function makeGuess(
     data: any,
@@ -24,20 +25,24 @@ export default async function makeGuess(
 
     const playerRef = db.collection(COLL.PLAYERS).doc(uid);
     const playerDoc = await playerRef.get();
-    const playerData = loadData(playerDoc);
+    const player = getData<Player>(playerDoc);
 
-    if (!playerData.canShootNext) {
+    if(!player.opponent) {
+        throw new Error('player is not in a battle');
+    }
+
+    if (!player.canShootNext) {
         throw new Error('player can not shoot now');
     }
 
-    const opponentUid = playerData.opponentUid;
-    const guesses = playerData.guesses || [];
+    const opponentUid = player.opponent.playerInfo.uid;
+    const guesses = player.miniGameGuesses || [];
 
-    const opponentRef = db.collection(COLL.PLAYERS).doc(opponentUid);
-    const opponentDoc = await opponentRef.get();
-    const opponentData = loadData(opponentDoc);
+    const playerORef = db.collection(COLL.PLAYERS).doc(opponentUid);
+    const playerODoc = await playerORef.get();
+    const playerO = getData<Player>(playerODoc);
 
-    const sign = Math.sign(currentGuess - opponentData.miniGameNumber);
+    const sign = Math.sign(currentGuess - playerO.miniGameNumber);
     let guessInfo: string;
     let currentStateInfo = null;
     let opponentStateInfo = null;

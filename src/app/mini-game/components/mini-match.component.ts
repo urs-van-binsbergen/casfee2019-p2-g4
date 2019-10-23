@@ -46,7 +46,7 @@ export class MiniMatchComponent implements OnInit {
                         waitingPlayer.uid !== this.uid &&
                         // ...and I did not already challenge him
                         (!waitingPlayer.challenges || 
-                            !waitingPlayer.challenges.find(x => x.uid === this.uid)
+                            !waitingPlayer.challenges.find(x => x.challengerInfo.uid === this.uid)
                         );
                     return { canChallenge, ...waitingPlayer };
                 }

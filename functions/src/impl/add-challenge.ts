@@ -67,8 +67,8 @@ export default function addChallengeImpl(
 
         if (isMatch) {
             // Start battle
-            tx.set(db.collection(COLL.PLAYERS).doc(uid), createPlayerInBattle(player, userO));
-            tx.set(db.collection(COLL.PLAYERS).doc(uidO), createPlayerInBattle(playerO, user));
+            tx.set(db.collection(COLL.PLAYERS).doc(uid), createPlayerInBattle(player, userO, true));
+            tx.set(db.collection(COLL.PLAYERS).doc(uidO), createPlayerInBattle(playerO, user, false));
             tx.delete(waitingPlayerRef);
             tx.delete(waitingPlayerORef);
             // TODO: remove references in challenges with other players!
@@ -99,14 +99,16 @@ function toAddChallengeArgs(data: any): AddChallengeArgs {
     };
 }
 
-function createPlayerInBattle(player: Player, opponentUser: User): Player {
+function createPlayerInBattle(player: Player, opponentUser: User, canShootNext: boolean): Player {
     return {
         uid: player.uid,
         playerStatus: PlayerStatus.Playing,
         fields: player.fields,
         ships: player.ships,
         miniGameNumber: player.miniGameNumber, // TEMP
-        opponent: createOpponent(opponentUser)
+        miniGameGuesses: [], // TEMP
+        opponent: createOpponent(opponentUser),
+        canShootNext
     };
 }
 

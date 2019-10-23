@@ -61,8 +61,10 @@ function createPlayer(user: User, args: PreparationArgs): Player {
         playerStatus: PlayerStatus.Preparing,
         fields: [], // todo
         ships: args.ships,
-        miniGameNumber: args.miniGameNumber,
-        opponent: null
+        miniGameNumber: args.miniGameNumber, // TEMP
+        miniGameGuesses: [], // TEMP
+        opponent: null,
+        canShootNext: false,
     };
 }
 
