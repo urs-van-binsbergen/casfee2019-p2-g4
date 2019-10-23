@@ -6,7 +6,7 @@ import { AuthStateService } from '../../auth/auth-state.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { AddChallengeArgs } from '@cloud-api/arguments';
-import { Player } from '@cloud-api/core-models';
+import { Player, WaitingPlayer } from '@cloud-api/core-models';
 
 @Component({
     templateUrl: './mini-match.component.html',
@@ -15,14 +15,13 @@ import { Player } from '@cloud-api/core-models';
 export class MiniMatchComponent implements OnInit {
     title = 'Match';
 
-    waitingPlayers$: Observable<any[]>;
+    waitingPlayers: WaitingPlayer[];
     player: Player;
 
     isInBattle = false;
     uid: string;
 
     constructor(
-        private afs: AngularFirestore,
         private cloudData: CloudDataService,
         private authState: AuthStateService,
         private cloudFunctions: CloudFunctionsService,
@@ -33,31 +32,27 @@ export class MiniMatchComponent implements OnInit {
 
         this.uid = this.authState.currentUser.uid;
 
-        // ( The following is ok when we only want the data
-        // ( this.waitingPlayers$ = this.afs.collection<any>('waitingPlayers').valueChanges();
-
-        // https://stackoverflow.com/questions/46900430/firestore-getting-documents-id-from-collection
-        // To obtain the id of the documents in a collection, you must use snapshotChanges()
-
-        const waitingPlayers = this.afs.collection<any>('waitingPlayers');
-        // .snapshotChanges() returns a DocumentChangeAction[], which contains
-        // a lot of information about "what happened" with each change. If you want to
-        // get the data and the id use the map operator.
-        this.waitingPlayers$ = waitingPlayers.snapshotChanges().pipe(
-            map(actions => actions.map(action => {
-                const data = action.payload.doc.data();
-                const id = action.payload.doc.id;
-                const canChallenge = id !== this.uid &&
-                    (!data.challenges || !data.challenges.find(x => x.uid === this.uid));
-                return { id, canChallenge, ...data };
-            }),
-            )
-        );
-
-        this.cloudData.getPlayer(this.authState.currentUser.uid)
+        // Load player (once)
+        this.cloudData.getPlayer(this.uid)
             .then(result => this.player = result)
             .catch(error => console.log(error))
         ;
+        
+        this.cloudData.getWaitingPlayers$().subscribe(
+            waitingPlayers => this.waitingPlayers = waitingPlayers.map(
+                waitingPlayer => {
+                    const canChallenge = 
+                        // it's not me...
+                        waitingPlayer.uid !== this.uid &&
+                        // ...and I did not already challenge him
+                        (!waitingPlayer.challenges || 
+                            !waitingPlayer.challenges.find(x => x.uid === this.uid)
+                        );
+                return { canChallenge, ...waitingPlayer };
+                }
+            ),
+            error => {}
+        );
     }
 
     challenge(opponentUid) {

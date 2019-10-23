@@ -1,6 +1,7 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 import { loadData } from '../shared/db-utils';
 import { Challenge } from '../public/core-models';
+import COLL from '../public/firestore-collection-name-const';
 
 export default function addChallengeImpl(
     data: any,
@@ -21,10 +22,10 @@ export default function addChallengeImpl(
     const uid = context.auth.uid;
     const name = context.auth.token.name || context.auth.token.email || uid;
 
-    const waitingPlayerRef = db.collection('waitingPlayers').doc(uid);
-    const playerRef = db.collection('players').doc(uid);
-    const waitingPlayerRefO = db.collection('waitingPlayers').doc(opponentUid);
-    const playerRefO = db.collection('players').doc(opponentUid);
+    const waitingPlayerRef = db.collection(COLL.WAITING_PLAYERS).doc(uid);
+    const playerRef = db.collection(COLL.PLAYERS).doc(uid);
+    const waitingPlayerRefO = db.collection(COLL.WAITING_PLAYERS).doc(opponentUid);
+    const playerRefO = db.collection(COLL.PLAYERS).doc(opponentUid);
 
     return db.runTransaction(tx => {
         return tx.getAll(waitingPlayerRef, playerRef, waitingPlayerRefO, playerRefO)
@@ -47,7 +48,7 @@ export default function addChallengeImpl(
                     // MATCH! -> start the battle
                     // (always do all reads before any writes)
 
-                    tx.set(db.collection('players').doc(uid), {
+                    tx.set(db.collection(COLL.PLAYERS).doc(uid), {
                         opponentUid,
                         startDate: now,
                         miniGameNumber: prepData.miniGameNumber,
@@ -55,7 +56,7 @@ export default function addChallengeImpl(
                         currentStateInfo: null,
                         canShootNext: true
                     });
-                    tx.set(db.collection('players').doc(opponentUid), {
+                    tx.set(db.collection(COLL.PLAYERS).doc(opponentUid), {
                         opponentUid: uid,
                         startDate: now,
                         miniGameNumber: prepDataO.miniGameNumber,

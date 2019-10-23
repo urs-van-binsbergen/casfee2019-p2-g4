@@ -3,7 +3,7 @@
         {{title}}
     </mat-card-title>
     <mat-card-content>
-        <div *ngIf="player$ | async as player">
+        <div *ngIf="player">
             <div style="color: green; font-size: 10px; margin-bottom: 10px;">
                 {{player | json}}
             </div>

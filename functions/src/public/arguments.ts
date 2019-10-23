@@ -6,11 +6,9 @@ export interface PreparationArgs {
 }
 
 export interface AddChallengeArgs {
-    opponentUid: string
+    opponentUid: string;
 }
 
 export interface MakeGuessArgs {
     currentGuess: number;
 }
-
-export interface PurgeMiniGameArgs { }

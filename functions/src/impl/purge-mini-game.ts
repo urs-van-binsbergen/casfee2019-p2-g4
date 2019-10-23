@@ -1,5 +1,6 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 import { PlayerStatus, Player } from '../public/core-models';
+import COLL from '../public/firestore-collection-name-const';
 
 /*
  * Remove all my game data (prep, waitingPlayers, battle)
@@ -17,7 +18,7 @@ export default async function purgeMiniGame(
 
     // (ich verzichte hier mal auf eine RW-Transaktion, obwohl es ws. sinnvoll wäre)
 
-    const playerRef = db.collection('players').doc(uid);
+    const playerRef = db.collection(COLL.PLAYERS).doc(uid);
     const playerDoc = await playerRef.get();
 
     let opponentRef: any = null;
@@ -25,13 +26,13 @@ export default async function purgeMiniGame(
         const playerData = playerDoc.data() as Player;
         if (playerData && playerData.opponent) {
             const opponentUid = playerData.opponent.playerInfo.uid;
-            opponentRef = db.collection('players').doc(opponentUid);
+            opponentRef = db.collection(COLL.PLAYERS).doc(opponentUid);
         }
     }
 
     const batch = db.batch()
         .delete(playerRef)
-        .delete(db.collection("waitingPlayers").doc(uid))
+        .delete(db.collection(COLL.WAITING_PLAYERS).doc(uid))
         ;
 
     if (opponentRef != null) {

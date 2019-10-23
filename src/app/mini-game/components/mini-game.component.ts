@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthStateService } from '../../auth/auth-state.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
-import { PurgeMiniGameArgs } from '@cloud-api/arguments';
 
 @Component({
     templateUrl: './mini-game.component.html',
@@ -20,26 +19,16 @@ export class MiniGameComponent implements OnInit {
     hasPlayerData = false;
 
     ngOnInit(): void {
-        /* this.cloudData.collection('players')
-            .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
-                map(
-                    action => {
-                        return action.payload.data();
-                    }
-                ),
-                tap(
-                    (x: Player | null) => {
-                        this.hasPlayerData = x != null;
-                    }
-                )
-            )
-            .subscribe(); */
+        this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
+            player => this.hasPlayerData = !!player,
+            error => this.hasPlayerData = false
+        );
     }
 
     async purge() {
         this.waiting = true;
 
-        const args: PurgeMiniGameArgs = {};
+        const args = {};
         this.cloudFunctions.purgeMiniGame(args).toPromise()
             .then(results => {
                 this.waiting = false;

@@ -9,4 +9,3 @@ export function loadData(doc: DocumentSnapshot): any {
     }
     return doc.data() || {};
 }
-

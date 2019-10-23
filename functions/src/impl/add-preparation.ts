@@ -1,10 +1,12 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { Ship, Player, PlayerStatus } from '../public/core-models';
+import { Ship, Player, PlayerStatus, WaitingPlayer, PlayerInfo, User } from '../public/core-models';
 import { PreparationArgs } from '../public/arguments';
-import { authenticate, AuthInfo } from '../shared/auth-utils';
+import { authenticate } from '../shared/auth-utils';
 import { toShip } from '../shared/model-converters';
+import COLL from '../public/firestore-collection-name-const';
+import { loadData } from '../shared/db-utils';
 
-export default function addPreparation(
+export default async function addPreparation(
     data: any,
     context: CallableContext,
     db: FirebaseFirestore.Firestore,
@@ -12,20 +14,22 @@ export default function addPreparation(
     const authInfo = authenticate(context.auth);
     const args = toPreparationArgs(data);
 
-    const player = getPlayer(authInfo, args);
+    const userDoc = await db.collection(COLL.USERS).doc(authInfo.uid).get();
+    const user = loadData(userDoc);
+
+    const player = createPlayer(user, args);
+    const waitingPlayer = createWaitingPlayer(user);
 
     const batch = db.batch();
-    batch.set(db.collection('players').doc(authInfo.uid), player);
-    batch.set(db.collection('waitingPlayers').doc(authInfo.uid), {
-        displayName: authInfo.displayName
-    });
+    batch.set(db.collection(COLL.PLAYERS).doc(authInfo.uid), player);
+    batch.set(db.collection(COLL.WAITING_PLAYERS).doc(authInfo.uid), waitingPlayer);
 
-    return batch.commit()
-        .catch(err => {
-            console.log(err);
-        });
+    return batch.commit();
 }
 
+/*
+ * Convert from whatever the client sent to the required argument structure
+ */
 function toPreparationArgs(data: any): PreparationArgs {
     if (!data) {
         throw new HttpsError('invalid-argument', 'data missing');
@@ -51,13 +55,30 @@ function toPreparationArgs(data: any): PreparationArgs {
     return { miniGameNumber, ships };
 }
 
-function getPlayer(authInfo: AuthInfo, args: PreparationArgs): Player {
+function createPlayer(user: User, args: PreparationArgs): Player {
     return {
-        uid: authInfo.uid,
+        uid: user.uid,
         playerStatus: PlayerStatus.Preparing,
         fields: [], // todo
         ships: args.ships,
         miniGameNumber: args.miniGameNumber,
         opponent: null
     };
+}
+
+function createWaitingPlayer(user: User): WaitingPlayer {
+    return {
+        uid: user.uid,
+        playerInfo: createPlayerInfo(user),
+        challenges: []
+    };
+}
+
+function createPlayerInfo(user: User): PlayerInfo {
+    return {
+        uid: user.uid,
+        displayName: user.displayName,
+        avatarFileName: user.avatarFileName,
+        level: user.level 
+    }
 }

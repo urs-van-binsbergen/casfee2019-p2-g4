@@ -4,4 +4,4 @@ export default {
     WAITING_PLAYERS: 'waitingPlayers',
     HALL_ENTRIES: 'hallEntries',
     HISTORIC_BATTLES: 'historicBattles',
-}
+};

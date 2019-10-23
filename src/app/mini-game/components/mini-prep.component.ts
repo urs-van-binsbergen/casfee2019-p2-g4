@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, tap } from 'rxjs/operators';
 import { AuthStateService } from '../../auth/auth-state.service';
 import { PreparationArgs } from '@cloud-api/arguments';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { NotificationService } from '../../auth/notification.service';
 import { Player } from '@cloud-api/core-models';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
+import { CloudDataService } from 'src/app/backend/cloud-data.service';
 
 @Component({
     templateUrl: './mini-prep.component.html',
@@ -24,27 +24,22 @@ export class MiniPrepComponent implements OnInit {
     constructor(
         private cloudFunctions: CloudFunctionsService,
         private afs: AngularFirestore,
+        private cloudData: CloudDataService,
         private authState: AuthStateService,
         private notification: NotificationService
     ) {
     }
 
     ngOnInit(): void {
-        this.afs.collection('players')
-            .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
-                map(
-                    action => {
-                        return action.payload.data();
-                    }
-                ),
-                tap(
-                    (x: Player | null) => {
-                        this.player = x;
-                        this.miniGameNumber.setValue(x ? x.miniGameNumber : null);
-                    }
-                )
-            )
-            .subscribe();
+        this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
+            player => {
+                this.player = player;
+                this.miniGameNumber.setValue(player ? player.miniGameNumber : null);
+            },
+            error => {
+
+            }
+        );
     }
 
     onSubmit() {

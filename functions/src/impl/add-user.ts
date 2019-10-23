@@ -1,5 +1,5 @@
 import { auth } from 'firebase-admin';
-import COLL from '@cloud-api/firestore-collection-name-const';
+import COLL from '../public/firestore-collection-name-const';
 
 export default function addUser(
     user: auth.UserRecord,
