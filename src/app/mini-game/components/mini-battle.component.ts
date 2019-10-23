@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { AuthStateService } from '../../auth/auth-state.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
-import { MakeGuessArgs } from '@cloud-api/mini-game';
+import { MakeGuessArgs } from '@cloud-api/arguments';
 
 @Component({
     templateUrl: './mini-battle.component.html',

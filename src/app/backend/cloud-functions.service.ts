@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { PreparationArgs } from '@cloud-api/preparation';
 import { Observable } from 'rxjs';
-import { AddChallengeArgs } from '@cloud-api/match';
-import { MakeGuessArgs, PurgeMiniGameArgs } from '@cloud-api/mini-game';
+import { PreparationArgs, AddChallengeArgs, MakeGuessArgs, PurgeMiniGameArgs } from '@cloud-api/arguments';
 
 @Injectable()
 export class CloudFunctionsService {

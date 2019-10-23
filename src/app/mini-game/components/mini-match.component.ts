@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AngularFireFunctions } from '@angular/fire/functions';
 import { AuthStateService } from '../../auth/auth-state.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
-import { AddChallengeArgs } from '@cloud-api/match';
+import { AddChallengeArgs } from '@cloud-api/arguments';
+import { Player } from '@cloud-api/core-models';
 
 @Component({
     templateUrl: './mini-match.component.html',
@@ -16,7 +16,7 @@ export class MiniMatchComponent implements OnInit {
     title = 'Match';
 
     waitingPlayers$: Observable<any[]>;
-    player$: Observable<any>;
+    player: Player;
 
     isInBattle = false;
     uid: string;
@@ -45,22 +45,19 @@ export class MiniMatchComponent implements OnInit {
         // get the data and the id use the map operator.
         this.waitingPlayers$ = waitingPlayers.snapshotChanges().pipe(
             map(actions => actions.map(action => {
-                    const data = action.payload.doc.data();
-                    const id = action.payload.doc.id;
-                    const canChallenge = id !== this.uid &&
-                        (!data.challenges || !data.challenges.find(x => x.uid === this.uid));
-                    return { id, canChallenge, ...data };
-                }),
+                const data = action.payload.doc.data();
+                const id = action.payload.doc.id;
+                const canChallenge = id !== this.uid &&
+                    (!data.challenges || !data.challenges.find(x => x.uid === this.uid));
+                return { id, canChallenge, ...data };
+            }),
             )
         );
-        this.player$ = this.afs.collection('players')
-            .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
-                map(
-                    action => {
-                        return action.payload.data();
-                    }
-                ),
-            );
+
+        this.cloudData.getPlayer(this.authState.currentUser.uid)
+            .then(result => this.player = result)
+            .catch(error => console.log(error))
+        ;
     }
 
     challenge(opponentUid) {

@@ -1,7 +1,7 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { PreparationArgs } from '../public/preparation';
-import { authenticate, AuthInfo } from '../shared/auth-utils';
 import { Ship, Player, PlayerStatus } from '../public/core-models';
+import { PreparationArgs } from '../public/arguments';
+import { authenticate, AuthInfo } from '../shared/auth-utils';
 import { toShip } from '../shared/model-converters';
 
 export default function addPreparation(

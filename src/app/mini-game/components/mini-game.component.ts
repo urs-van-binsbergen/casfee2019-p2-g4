@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthStateService } from '../../auth/auth-state.service';
-import { Player } from '@cloud-api/core-models';
-import { map, tap } from 'rxjs/operators';
-import { PurgeMiniGameArgs } from '@cloud-api/mini-game';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
+import { CloudDataService } from 'src/app/backend/cloud-data.service';
+import { PurgeMiniGameArgs } from '@cloud-api/arguments';
 
 @Component({
     templateUrl: './mini-game.component.html',
@@ -14,7 +11,7 @@ export class MiniGameComponent implements OnInit {
 
     constructor(
         private cloudFunctions: CloudFunctionsService,
-        private afs: AngularFirestore,
+        private cloudData: CloudDataService,
         private authState: AuthStateService
     ) {
     }
@@ -23,7 +20,7 @@ export class MiniGameComponent implements OnInit {
     hasPlayerData = false;
 
     ngOnInit(): void {
-        this.afs.collection('players')
+        /* this.cloudData.collection('players')
             .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
                 map(
                     action => {
@@ -36,7 +33,7 @@ export class MiniGameComponent implements OnInit {
                     }
                 )
             )
-            .subscribe();
+            .subscribe(); */
     }
 
     async purge() {

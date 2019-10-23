@@ -4,7 +4,7 @@ import { PreparationService } from './preparation.service';
 import { YardService } from './yard.service';
 import { MatDialog } from '@angular/material';
 
-import { PreparationArgs } from '@cloud-api/preparation';
+import { PreparationArgs } from '@cloud-api/arguments';
 import { Ship as CloudShip } from '@cloud-api/core-models';
 import { CloudFunctionsService } from '../backend/cloud-functions.service';
 
