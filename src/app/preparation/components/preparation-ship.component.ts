@@ -11,17 +11,19 @@ export class PreparationShipComponent implements OnInit {
 
     @Input() key: string = null;
 
+    @Input() place: string;
+
     ngOnInit(): void {
     }
 
     get shipClass(): string {
         let shipClass: string;
         if (this.key === 'red') {
-            shipClass = 'ship3';
+            shipClass = this.place + 'Ship2';
         } else if (this.key === 'green' || this.key === 'blue') {
-            shipClass = 'ship3';
+            shipClass = this.place + 'Ship3';
         } else {
-            shipClass = 'ship5';
+            shipClass = this.place + 'Ship4';
         }
         return shipClass;
     }
@@ -36,5 +38,15 @@ export class PreparationShipComponent implements OnInit {
             items = [0, 1, 2, 3];
         }
         return items;
+    }
+
+    fieldClass(item: number): string {
+        let fieldClass: string;
+        if (item === 1) {
+            fieldClass = 'towerField';
+        } else {
+            fieldClass = 'hullField';
+        }
+        return fieldClass;
     }
 }

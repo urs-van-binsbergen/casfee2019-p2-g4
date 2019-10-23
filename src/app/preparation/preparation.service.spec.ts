@@ -1,4 +1,5 @@
 import { PreparationService } from './preparation.service';
+import { Ship } from '../shared/ship';
 
 describe('PreparationService', () => {
     let preparationService: PreparationService;
@@ -16,12 +17,12 @@ describe('PreparationService', () => {
     });
 
     it('isChanged should be true after change', () => {
-        preparationService.change();
+        const ship = new Ship('red');
+        preparationService.addShip(ship, 2, 2);
         expect(preparationService.isChanged).toBeTruthy();
     });
 
     it('isChanged should be false after reset', () => {
-        preparationService.change();
         preparationService.reset();
         expect(preparationService.isChanged).toBeFalsy();
     });

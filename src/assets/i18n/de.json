@@ -79,7 +79,7 @@
         "title": "Herausforderung"
     },
     "preparation": {
-        "body": "Vorbereitung Text",
+        "body": "Alle Schiffe von der Werft auf das Brett ziehen. Klick auf den Turm des Schiffs rotiert um 90°. Schiffe auf dem Bretten beliebig repositionieren.",
         "title": "Vorbereitung",
         "dialog": {
             "body": "Du verlierst deine Daten!",

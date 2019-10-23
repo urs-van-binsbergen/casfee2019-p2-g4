@@ -19,8 +19,7 @@ export class DropTargetDirective {
 
     @HostListener('dragenter', ['$event'])
     onDragEnter(event: any) {
-        if (this.dragService.canDropDraggable(this.x, this.y)) {
-            this.dragService.enterDropTarget(this.x, this.y);
+        if (this.dragService.enterDropTarget(this.x, this.y)) {
             event.preventDefault();
         }
     }
@@ -34,17 +33,14 @@ export class DropTargetDirective {
 
     @HostListener('dragleave', ['$event'])
     onDragLeave(event: any) {
-        if (this.dragService.canDropDraggable(this.x, this.y)) {
-            this.dragService.leaveDropTarget(this.x, this.y);
+        if (this.dragService.leaveDropTarget(this.x, this.y)) {
             event.preventDefault();
         }
     }
 
     @HostListener('drop', ['$event'])
     onDrop(event: any) {
-        const key = this.dragService.dropDraggable(this.x, this.y);
-        if (key !== null) {
-            this.dragService.leaveDropTarget(this.x, this.y);
+        if (this.dragService.dropDraggable(this.x, this.y)) {
             event.preventDefault();
         }
     }

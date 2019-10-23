@@ -1,0 +1,97 @@
+@import './preparation-shared.component.scss';
+
+.rot0 {
+    transform: rotate(0deg);
+}
+
+.rot90 {
+    transform: rotate(90deg);
+}
+
+.rot180 {
+    transform: rotate(180deg);
+}
+
+.rot270 {
+    transform: rotate(270deg);
+}
+
+$boardSize: 12;
+
+.board {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    min-width: $boardSize * $fieldMin + ($boardSize - 1) * $fieldMargin;
+    width: calc(#{$boardSize * $fieldFactor}vmin + #{($boardSize - 1) * $fieldMargin});
+    max-width: $boardSize * $fieldMax + ($boardSize - 1) * $fieldMargin;
+    min-height: $boardSize * $fieldMin + ($boardSize - 1) * $fieldMargin;
+    height: calc(#{$boardSize * $fieldFactor}vmin + #{($boardSize - 1) * $fieldMargin});
+    max-height: $boardSize * $fieldMax + ($boardSize - 1) * $fieldMargin;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.row:last-child {
+    margin-bottom: $fieldMargin;
+}
+
+@keyframes color {
+    0% {
+        background-color: white;
+    }
+
+    50% {
+        background-color: red;
+    }
+
+    100% {
+        background-color: white;
+    }
+}
+
+.field,
+.clashField {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    min-width: $fieldMin;
+    width: #{$fieldFactor}vmin;
+    max-width: $fieldMax;
+    min-height: $fieldMin;
+    height: #{$fieldFactor}vmin;
+    max-height: $fieldMax;
+
+    margin-top: $fieldMargin;
+    margin-left: $fieldMargin;
+}
+
+.field:last-child,
+.field:last-child {
+    margin-right: $fieldMargin;
+}
+
+.field {
+    background-color: white;
+}
+
+.clashField {
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+.possibleTarget {
+    background-color: gray;
+}

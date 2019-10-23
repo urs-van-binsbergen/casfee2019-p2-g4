@@ -3,12 +3,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { MatIconModule, MatMenuModule, MatToolbarModule } from '@angular/material';
 import { AuthService } from './auth/auth.service';
+import { AuthStateService } from './auth/auth-state.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { LanguageModule } from './language/language.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 class MockAuthService {
+}
+
+class MockAuthStateService {
 }
 
 export function createTranslateLoader(http: HttpClient) {
@@ -37,7 +41,8 @@ describe('AppComponent', () => {
                 AppComponent
             ],
             providers: [
-                { provide: AuthService, useClass: MockAuthService }
+                { provide: AuthService, useClass: MockAuthService },
+                { provide: AuthStateService, useClass: MockAuthStateService }
             ]
         }).compileComponents();
     }));
