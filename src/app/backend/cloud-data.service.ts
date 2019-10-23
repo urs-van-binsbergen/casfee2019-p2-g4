@@ -80,7 +80,7 @@ export class CloudDataService {
 */
 function getData<TData>(doc: DocumentSnapshot<TData>): TData {
     if (!doc.exists) {
-        throw new Error("Document does not exist");
+        throw new Error('Document does not exist');
     }
     return doc.data();
 }
