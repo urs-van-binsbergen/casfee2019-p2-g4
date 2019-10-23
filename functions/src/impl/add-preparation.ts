@@ -79,6 +79,6 @@ function createPlayerInfo(user: User): PlayerInfo {
         uid: user.uid,
         displayName: user.displayName,
         avatarFileName: user.avatarFileName,
-        level: user.level 
-    }
+        level: user.level
+    };
 }

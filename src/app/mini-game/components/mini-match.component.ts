@@ -48,7 +48,7 @@ export class MiniMatchComponent implements OnInit {
                         (!waitingPlayer.challenges || 
                             !waitingPlayer.challenges.find(x => x.uid === this.uid)
                         );
-                return { canChallenge, ...waitingPlayer };
+                    return { canChallenge, ...waitingPlayer };
                 }
             ),
             error => {}

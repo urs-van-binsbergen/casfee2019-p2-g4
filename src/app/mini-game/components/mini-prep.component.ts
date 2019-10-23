@@ -23,7 +23,6 @@ export class MiniPrepComponent implements OnInit {
 
     constructor(
         private cloudFunctions: CloudFunctionsService,
-        private afs: AngularFirestore,
         private cloudData: CloudDataService,
         private authState: AuthStateService,
         private notification: NotificationService
@@ -60,9 +59,10 @@ export class MiniPrepComponent implements OnInit {
                 this.waiting = false;
             })
             .catch(error => {
+                this.notification.quickToast('Error when saving. Sorry.', 2000);
+                console.error(error);
                 this.waiting = false;
-            })
-            ;
+            });
     }
 
 }

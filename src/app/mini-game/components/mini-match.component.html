@@ -13,7 +13,7 @@
                     <button mat-button color="primary" (click)="challenge(waitingPlayer.uid)">Challenge</button>
                 </div>
                 <div>
-                    <b>{{waitingPlayer.displayName}}</b>
+                    <b>{{waitingPlayer.playerInfo.displayName}}</b>
                     <span *ngIf="waitingPlayer.uid === uid"> (me)</span>
                 </div>
                 <br>

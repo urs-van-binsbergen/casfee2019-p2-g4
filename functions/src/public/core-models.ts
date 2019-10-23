@@ -33,8 +33,8 @@ export enum PlayerLevel {
 
 export interface PlayerInfo {
     uid: string;
-    displayName: string;
-    avatarFileName: string;
+    displayName: string | null;
+    avatarFileName: string | null;
     level: PlayerLevel;
 }
 
@@ -81,9 +81,9 @@ export enum BattleResult {
 
 export interface User {
     uid: string;
-    email: string;
-    displayName: string;
-    avatarFileName: string;
+    displayName: string | null;
+    email: string | null;
+    avatarFileName: string | null;
     level: PlayerLevel;
     numberOfVictories: number;
 }
