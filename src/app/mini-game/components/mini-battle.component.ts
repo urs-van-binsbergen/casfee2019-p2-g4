@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireFunctions } from '@angular/fire/functions';
 import { map } from 'rxjs/operators';
 import { AuthStateService } from '../../auth/auth-state.service';
+import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
+import { MakeGuessArgs } from '@cloud-api/mini-game';
 
 @Component({
     templateUrl: './mini-battle.component.html',
@@ -12,14 +13,13 @@ export class MiniBattleComponent implements OnInit {
     title = 'Battle';
 
     player$: Observable<any>;
-    serviceResult$: Observable<any>;
 
     currentGuess: number;
 
     constructor(
         private afs: AngularFirestore,
         private authState: AuthStateService,
-        private fns: AngularFireFunctions
+        private cloudFunctions: CloudFunctionsService,
     ) {
     }
 
@@ -40,7 +40,8 @@ export class MiniBattleComponent implements OnInit {
             alert('number missing'); // TODO
             return;
         }
-        const callable = this.fns.httpsCallable('makeGuess');
-        this.serviceResult$ = callable({ currentGuess });
+
+        const args: MakeGuessArgs = { currentGuess };
+        this.cloudFunctions.makeGuess(args);
     }
 }

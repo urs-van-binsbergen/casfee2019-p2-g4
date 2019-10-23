@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AuthStateService } from '../../auth/auth-state.service';
+import { CloudDataService } from 'src/app/backend/cloud-data.service';
+import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
+import { AddChallengeArgs } from '@cloud-api/match';
 
 @Component({
     templateUrl: './mini-match.component.html',
@@ -20,12 +23,14 @@ export class MiniMatchComponent implements OnInit {
 
     constructor(
         private afs: AngularFirestore,
+        private cloudData: CloudDataService,
         private authState: AuthStateService,
-        private fns: AngularFireFunctions
+        private cloudFunctions: CloudFunctionsService,
     ) {
     }
 
     ngOnInit(): void {
+
         this.uid = this.authState.currentUser.uid;
 
         // ( The following is ok when we only want the data
@@ -58,9 +63,9 @@ export class MiniMatchComponent implements OnInit {
             );
     }
 
-    async challenge(opponentUid) {
-        const callable = this.fns.httpsCallable('addChallenge');
-        callable({ opponentUid });
+    challenge(opponentUid) {
+        var args: AddChallengeArgs = { opponentUid };
+        this.cloudFunctions.addChallenge(args);
     }
 }
 

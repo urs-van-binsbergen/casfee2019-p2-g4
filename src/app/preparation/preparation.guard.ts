@@ -8,7 +8,7 @@ import { ContinueCancelDialogComponent, ContinueCancelDialogData } from '../dial
 export class PreparationGuard implements CanDeactivate<PreparationComponent> {
 
     canDeactivate(target: PreparationComponent) {
-        if (target.isChanged) {
+        if (target.enableDeactivationWarning) {
             const dialog: MatDialog = target.dialog;
             const data: ContinueCancelDialogData = new ContinueCancelDialogData();
             data.title = 'preparation.dialog.title';

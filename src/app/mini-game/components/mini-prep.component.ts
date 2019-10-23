@@ -7,6 +7,7 @@ import { PreparationArgs } from '@cloud-api/preparation';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { NotificationService } from '../../auth/notification.service';
 import { Player } from '@cloud-api/core-models';
+import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 
 @Component({
     templateUrl: './mini-prep.component.html',
@@ -22,7 +23,7 @@ export class MiniPrepComponent implements OnInit {
     waiting = false;
 
     constructor(
-        private fns: AngularFireFunctions,
+        private cloudFunctions: CloudFunctionsService,
         private afs: AngularFirestore,
         private authState: AuthStateService,
         private notification: NotificationService
@@ -60,12 +61,11 @@ export class MiniPrepComponent implements OnInit {
             ships: []
         };
 
-        const callable = this.fns.httpsCallable('addPreparation');
-        callable(args).toPromise()
-            .then(x => {
+        this.cloudFunctions.addPreparation(args).toPromise()
+            .then(results => {
                 this.waiting = false;
             })
-            .catch(err => {
+            .catch(error => {
                 this.waiting = false;
             })
             ;
