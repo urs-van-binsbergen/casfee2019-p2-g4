@@ -76,7 +76,7 @@ export class CloudDataService {
 }
 
 /*
-* Helper: Read data from a DocumentSnapshot. Exception if it does not exist.
+* Helper: Read typed data from a DocumentSnapshot. Exception if it does not exist.
 */
 function getData<TData>(doc: DocumentSnapshot<TData>): TData {
     if (!doc.exists) {

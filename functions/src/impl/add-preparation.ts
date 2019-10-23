@@ -4,7 +4,7 @@ import { PreparationArgs } from '../public/arguments';
 import { authenticate } from '../shared/auth-utils';
 import { toShip } from '../shared/model-converters';
 import COLL from '../public/firestore-collection-name-const';
-import { loadData } from '../shared/db-utils';
+import { getData } from '../shared/db-utils';
 
 export default async function addPreparation(
     data: any,
@@ -15,7 +15,7 @@ export default async function addPreparation(
     const args = toPreparationArgs(data);
 
     const userDoc = await db.collection(COLL.USERS).doc(authInfo.uid).get();
-    const user = loadData(userDoc);
+    const user = getData<User>(userDoc);
 
     const player = createPlayer(user, args);
     const waitingPlayer = createWaitingPlayer(user);

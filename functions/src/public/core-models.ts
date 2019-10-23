@@ -63,7 +63,7 @@ export interface Opponent {
 }
 
 export interface Challenge {
-    uid: string;
+    challengerInfo: PlayerInfo;
     challengeDate: Date;
 }
 
