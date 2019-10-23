@@ -13,12 +13,12 @@
             <div style="margin-top: 10px;">
                 <div>Your guesses so far:</div>
                 <ul>
-                    <li *ngFor="let guess of player.guesses">
+                    <li *ngFor="let guess of player.miniGameGuesses">
                         <b>{{guess.currentGuess}}</b>: {{guess.guessInfo}}
                     </li>
                 </ul>
             </div>
-            <div>{{player.currentStateInfo}}</div>
+            <div>currentStateInfo (not available now)</div>
             <div *ngIf="player.canShootNext" style="font-weight: bold; color: orange;">Your turn!</div>
         </div>
         <p>
