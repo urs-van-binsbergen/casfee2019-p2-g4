@@ -5,7 +5,7 @@ import { Player, PlayerStatus, TargetFieldStatus } from '../public/core-models';
 import { ShootArgs } from '../public/arguments';
 import { toMiniGameNumber, toPos } from '../shared/argument-converters';
 import { authenticate } from '../shared/auth-utils';
-import { findShipByPos, findFieldByPos, findTargetFieldByPos } from '../public/core-methods';
+import { findShipByPos, findFieldByPos } from '../public/core-methods';
 
 export default async function shoot(
     data: any,
@@ -22,8 +22,9 @@ export default async function shoot(
     return db.runTransaction(async tx => {
         const playerDoc = await tx.get(playerRef);
         const player = getData<Player>(playerDoc);
+        const battle = player.battle; // (as seen by the current player!)
 
-        if (!player.battle) {
+        if (!battle) {
             throw new Error('player is not in a battle');
         }
 
@@ -32,7 +33,7 @@ export default async function shoot(
         }
 
         // Opponent data
-        const oppUid = player.battle.opponentInfo.uid;
+        const oppUid = battle.opponentInfo.uid;
         const oppPlayerRef = db.collection(COLL.PLAYERS).doc(oppUid);
         const oppPlayerDoc = await tx.get(oppPlayerRef);
         const oppPlayer = getData<Player>(oppPlayerDoc);
@@ -41,24 +42,23 @@ export default async function shoot(
 
         let playerWins: boolean;
 
-        const targetBoard = player.battle.targetBoard; // (will be updated in-place)
-        const oppBoard = oppPlayer.board; // (will be update in-place)
+        const targetBoard = battle.targetBoard;
+        const oppBoard = oppPlayer.board;
 
         // TEMP mini game
         const miniGameGuess = args.miniGameGuess;
-        let miniGameLastGuessSign = 0;
-        let miniGameGuesses: number[] = [];
 
         // Calcs begin here:
         if (miniGameGuess > 0) {
             // TEMP mini game
-            miniGameLastGuessSign = Math.sign(miniGameGuess - oppPlayer.miniGameSecret);
-            playerWins = miniGameLastGuessSign === 0;
-            miniGameGuesses = [...player.battle.miniGameGuesses, miniGameGuess];
+            const sign = Math.sign(miniGameGuess - oppPlayer.miniGameSecret);
+            playerWins = sign === 0;
+            battle.miniGameLastGuessSign = sign;
+            battle.miniGameGuesses = [...battle.miniGameGuesses, miniGameGuess];
         } else {
             const targetPos = args.targetPos;
-            const targetField = findTargetFieldByPos(targetBoard.fields, targetPos);
-            const oppField = findFieldByPos(oppBoard.fields, targetPos);
+            const targetField = findFieldByPos(targetBoard, targetPos);
+            const oppField = findFieldByPos(oppBoard, targetPos);
             const oppShipHit = findShipByPos(oppBoard.ships, targetPos);
             if (oppShipHit !== null) {
                 // TODO: detect repeated shoot on same target field
@@ -88,19 +88,14 @@ export default async function shoot(
 
         const lastMoveDate = new Date();
 
-        const playerPatch = {
+        const playerUpdate = {
             playerStatus: playerWins ? PlayerStatus.Victory : PlayerStatus.InBattle,
             canShootNext: false,
             lastMoveDate,
 
-            battle: {
-                targetBoard,
-                // TEMP mini game
-                miniGameLastGuessSign,
-                miniGameGuesses
-            }
+            battle
         };
-        const oppPlayerPatch = {
+        const oppPlayerUpdate = {
             playerStatus: playerWins ? PlayerStatus.Waterloo : PlayerStatus.InBattle,
             canShootNext: !playerWins,
             lastMoveDate,
@@ -113,9 +108,8 @@ export default async function shoot(
 
         // --- Do only WRITE after this point! ------------------------
 
-        // ...
-        tx.set(db.collection(COLL.PLAYERS).doc(uid), playerPatch);
-        tx.set(db.collection(COLL.PLAYERS).doc(oppUid), oppPlayerPatch);
+        tx.update(db.collection(COLL.PLAYERS).doc(uid), playerUpdate);
+        tx.update(db.collection(COLL.PLAYERS).doc(oppUid), oppPlayerUpdate);
     });
 }
 

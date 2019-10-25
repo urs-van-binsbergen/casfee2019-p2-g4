@@ -4,19 +4,19 @@ import { HttpsError } from 'firebase-functions/lib/providers/https';
 // Convert from whatever the client sent to the required interface
 
 export function toPos(data: any): Pos {
-    const x = parsePositiveNumber(data.x, 'x');
-    const y = parsePositiveNumber(data.y, 'y');
+    const x = parseNonNegativeNumber(data.x, 'x');
+    const y = parseNonNegativeNumber(data.y, 'y');
     return { x, y };
 }
 
 export function toSize(data: any): Size {
-    const w = parsePositiveNumber(data.w, 'w');
-    const h = parsePositiveNumber(data.h, 'h');
+    const w = parseNonNegativeNumber(data.w, 'w');
+    const h = parseNonNegativeNumber(data.h, 'h');
     return { w, h };
 }
 
 export function toShip(data: any): Ship {
-    const length = parsePositiveNumber(data.length, 'length');
+    const length = parseNonNegativeNumber(data.length, 'length');
     return {
         pos: toPos(data.pos),
         length,
@@ -27,7 +27,7 @@ export function toShip(data: any): Ship {
 }
 
 export function toMiniGameNumber(data: any): number {
-    const number = parsePositiveNumber(data, 'miniGameNumber');
+    const number = parseNonNegativeNumber(data, 'miniGameNumber');
     if (number < 1 || number > 100) {
         throw new HttpsError('out-of-range', 'number from 1 to 100');
         // TODO: decide whether model converters should throw HttpsErrors in general or not
@@ -36,10 +36,10 @@ export function toMiniGameNumber(data: any): number {
     return number;
 }
 
-export function parsePositiveNumber(x: any, description: string): number {
+export function parseNonNegativeNumber(x: any, description: string): number {
     const num = parseInt(x, 10);
-    if (!num || num < 1) {
-        throw new Error(`${description} must be a positive number`);
+    if (num !== num || num < 0) {
+        throw new Error(`${description} must be a non-negative number (is '${x}')`);
     }
     return num;
 }

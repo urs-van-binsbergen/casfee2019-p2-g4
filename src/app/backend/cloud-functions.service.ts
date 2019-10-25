@@ -23,7 +23,7 @@ export class CloudFunctionsService {
     }
 
     shoot(args: ShootArgs): Observable<any> {
-        const callable = this.fns.httpsCallable('makeGuess');
+        const callable = this.fns.httpsCallable('shoot');
         return callable(args);
     }
 

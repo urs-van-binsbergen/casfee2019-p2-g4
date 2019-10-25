@@ -1,11 +1,11 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 import * as uuid from 'uuid/v4';
 import { getData } from '../shared/db-utils';
-import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Battle, PlayerInfo, TargetBoard, Board, TargetFieldStatus } from '../public/core-models';
+import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Battle, PlayerInfo, TargetBoard, TargetFieldStatus, Size } from '../public/core-models';
 import COLL from '../public/firestore-collection-name-const';
 import { authenticate } from '../shared/auth-utils';
 import { AddChallengeArgs } from '../public/arguments';
-import { areEqualSize as sizesAreEqual } from '../public/core-methods';
+import { areEqualSize as sizesAreEqual, createFields } from '../public/core-methods';
 
 export default function addChallenge(
     data: any,
@@ -115,32 +115,26 @@ function createPlayerInBattle(
         ...player,
 
         playerStatus: PlayerStatus.InBattle,
-        battle: createBattle(opponentUser, player.board, battleId),
+        battle: createBattle(opponentUser, player.board.size, battleId),
         canShootNext
     };
 }
 
-function createTargetBoard(board: Board): TargetBoard {
+function createTargetBoard(size: Size): TargetBoard {
+    const fields = createFields(size, pos => ({ pos, status: TargetFieldStatus.Unknown }));
     return {
-        size: { ...board.size },
-        fields: board.fields.map(row =>
-            row.map(field =>
-                ({
-                    pos: { ...field.pos },
-                    status: TargetFieldStatus.Unknown
-                })
-            )
-        ),
+        size: { ...size },
+        fields,
         sunkShips: []
     };
 }
 
-function createBattle(user: User, board: Board, battleId: string): Battle {
+function createBattle(user: User, size: Size, battleId: string): Battle {
     return {
         battleId,
         opponentInfo: createPlayerInfo(user),
         opponentLastMoveDate: new Date(),
-        targetBoard: createTargetBoard(board),
+        targetBoard: createTargetBoard(size),
 
         // TEMP
         miniGameGuesses: [],

@@ -11,6 +11,15 @@ export interface Size {
     h: number;
 }
 
+/*
+ * Grid which holds its content in a flat list (insted of 2d array)
+ * Firestore requirement: no multidimensional arrays.
+ */
+export interface FlatGrid<TField> {
+    size: Size;
+    fields: TField[];
+}
+
 export interface Ship {
     pos: Pos; // (top-left)
     length: number;
@@ -24,9 +33,9 @@ export interface Field {
     isHit: boolean;
 }
 
-export interface Board {
+export interface Board extends FlatGrid<Field> {
     size: Size;
-    fields: Field[][];
+    fields: Field[];
     ships: Ship[];
 }
 
@@ -42,9 +51,9 @@ export interface TargetField {
     status: TargetFieldStatus;
 }
 
-export interface TargetBoard {
+export interface TargetBoard extends FlatGrid<TargetField> {
     size: Size;
-    fields: TargetField[][];
+    fields: TargetField[];
     sunkShips: Ship[];
 }
 
