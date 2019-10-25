@@ -4,9 +4,14 @@ import { Ship } from '../shared/ship';
 @Injectable()
 export class YardService {
     private _ships: {};
+    private _keys = ['red', 'green', 'blue', 'turquoise', 'purple'];
 
     constructor() {
         this.reset();
+    }
+
+    get keys() {
+        return [... this._keys];
     }
 
     get ships() {
@@ -20,11 +25,9 @@ export class YardService {
 
     reset() {
         this._ships = {};
-        this.addShip(new Ship('red'));
-        this.addShip(new Ship('green'));
-        this.addShip(new Ship('blue'));
-        this.addShip(new Ship('turquoise'));
-        this.addShip(new Ship('purple'));
+        for (const key of this._keys) {
+            this.addShip(new Ship(key));
+        }
     }
 
     addShip(ship: Ship) {

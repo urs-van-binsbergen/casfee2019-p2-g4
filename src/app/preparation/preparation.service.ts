@@ -110,4 +110,23 @@ export class PreparationService {
         }
         return 1 < i;
     }
+
+    isShipOk(key: string): boolean {
+        const ship = this._ships[key];
+        if (ship === undefined) {
+            return false;
+        }
+        if (!(ship.areFieldsInRange(0, this.width, 0, this.height))) {
+            return false;
+        }
+        const ships = this.ships;
+        for (const s of ships) {
+            if (s !== ship) {
+                if (s.hasClashWithShip(ship)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

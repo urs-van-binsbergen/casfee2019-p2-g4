@@ -1,0 +1,43 @@
+@import './preparation-shared.component.scss';
+
+.shipGhosts {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+.redGhost, .greenGhost, .blueGhost, .turquoiseGhost, .purpleGhost {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    min-width: $fieldMin;
+    width: #{$fieldFactor}vmin;
+    max-width: $fieldMax;
+
+    min-height: $fieldMin;
+    height: #{$fieldFactor}vmin;
+    max-height: $fieldMax;
+}
+
+.redGhost {
+    background-color: rgb(255, 0, 0, $backgroundOpacity);
+}
+
+.greenGhost {
+    background-color: rgb(0, 255, 0, $backgroundOpacity);
+}
+
+.blueGhost {
+    background-color: rgb(0, 0, 255, $backgroundOpacity);
+}
+
+.turquoiseGhost {
+    background-color: rgb(0, 255, 255, $backgroundOpacity);
+}
+
+.purpleGhost {
+    background-color: rgb(255, 0, 255, $backgroundOpacity);
+}
