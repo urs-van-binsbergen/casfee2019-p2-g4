@@ -4,9 +4,9 @@ import { PreparationService } from './preparation.service';
 import { YardService } from './yard.service';
 import { MatDialog } from '@angular/material';
 
-import { AngularFireFunctions } from '@angular/fire/functions';
-import { PreparationArgs } from '@cloud-api/preparation';
+import { PreparationArgs } from '@cloud-api/arguments';
 import { Ship as CloudShip } from '@cloud-api/core-models';
+import { CloudFunctionsService } from '../backend/cloud-functions.service';
 
 @Component({
     templateUrl: './preparation.component.html',
@@ -21,7 +21,7 @@ export class PreparationComponent implements OnInit {
         public dialog: MatDialog,
         private yardService: YardService,
         private preparationService: PreparationService,
-        private fns: AngularFireFunctions,
+        private cloudFunctions: CloudFunctionsService,
     ) {
     }
 
@@ -30,8 +30,8 @@ export class PreparationComponent implements OnInit {
         this.preparationService.reset();
     }
 
-    get isChanged(): boolean {
-        return this.preparationService.isChanged;
+    get enableDeactivationWarning(): boolean {
+        return !this.waiting && this.preparationService.isChanged;
     }
 
     get isContinueDisabled(): boolean {
@@ -39,7 +39,6 @@ export class PreparationComponent implements OnInit {
     }
 
     onContinueClicked() {
-
         this.waiting = true;
 
         const ships = this.preparationService.ships;
@@ -61,16 +60,19 @@ export class PreparationComponent implements OnInit {
             ships: cloudShips
         };
 
-        const callable = this.fns.httpsCallable('addPreparation');
-        callable(args).toPromise()
-            .then(x => {
-                this.waiting = false;
+        this.cloudFunctions.addPreparation(args).subscribe(
+            results => {
+                console.log(results);
                 this.router.navigateByUrl('/match');
-            })
-            .catch(err => {
+            },
+            error => {
+                console.log(error);
                 this.waiting = false;
-            })
-            ;
+            },
+            () => {
+                console.log('completed');
+            }
+        );
     }
 
 }

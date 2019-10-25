@@ -1,81 +1,132 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { loadData } from '../shared/db-utils';
-import { Challenge } from '../public/core-models';
+import { getData } from '../shared/db-utils';
+import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Opponent, PlayerInfo } from '../public/core-models';
+import COLL from '../public/firestore-collection-name-const';
+import { authenticate } from '../shared/auth-utils';
+import { AddChallengeArgs } from '../public/arguments';
 
 export default function addChallengeImpl(
     data: any,
     context: CallableContext,
     db: FirebaseFirestore.Firestore,
 ) {
-    if (!context.auth || !context.auth.uid) {
-        throw new HttpsError('permission-denied', 'auth or uid missing'); // TODO
-    }
-    if (!data) {
-        throw new HttpsError('invalid-argument', 'data missing'); // TODO
-    }
-    const opponentUid = data.opponentUid;
-    if (!opponentUid) {
-        throw new HttpsError('out-of-range', 'number from 1 to 100');
-    }
+    const authInfo = authenticate(context.auth);
+    const args = toAddChallengeArgs(data);
 
-    const uid = context.auth.uid;
-    const name = context.auth.token.name || context.auth.token.email || uid;
+    // My docs
+    const uid = authInfo.uid;
+    const waitingPlayerRef = db.collection(COLL.WAITING_PLAYERS).doc(uid);
+    const playerRef = db.collection(COLL.PLAYERS).doc(uid);
+    const userRef = db.collection(COLL.USERS).doc(uid);
 
-    const waitingPlayerRef = db.collection('waitingPlayers').doc(uid);
-    const playerRef = db.collection('players').doc(uid);
-    const waitingPlayerRefO = db.collection('waitingPlayers').doc(opponentUid);
-    const playerRefO = db.collection('players').doc(opponentUid);
+    // Opponent docs
+    const uidO = args.opponentUid;
+    const waitingPlayerORef = db.collection(COLL.WAITING_PLAYERS).doc(uidO);
+    const playerORef = db.collection(COLL.PLAYERS).doc(uidO);
+    const userORef = db.collection(COLL.USERS).doc(uidO);
 
-    return db.runTransaction(tx => {
-        return tx.getAll(waitingPlayerRef, playerRef, waitingPlayerRefO, playerRefO)
-            .then(docs => {
-                const now = Date();
+    return db.runTransaction(async tx => {
+        // Read docs
+        const docs = await tx.getAll(
+            waitingPlayerRef, 
+            playerRef, 
+            userRef,
+            waitingPlayerORef, 
+            playerORef,
+            userORef
+        );
+        const waitingPlayerDoc = docs[0];
+        const playerDoc = docs[1];
+        const userDoc = docs[2];
+        const waitingPlayerODoc = docs[3];
+        const playerODoc = docs[4];
+        const userODoc = docs[5];
 
-                const waitingPlayerData = loadData(docs[0]);
-                const challenges: Challenge[] = waitingPlayerData.challenges || [];
-                const prepData = loadData(docs[1]);
+        // My data
+        const waitingPlayer = getData<WaitingPlayer>(waitingPlayerDoc);
+        const player = getData<Player>(playerDoc);
+        const user = getData<User>(userDoc);
 
-                const waitingPlayerDataO = loadData(docs[2]);
-                const challengesO: Challenge[] = waitingPlayerDataO.challenges || [];
-                const prepDataO = loadData(docs[3]);
+        // Opponent data
+        const waitingPlayerO = getData<WaitingPlayer>(waitingPlayerODoc);
+        const playerO = getData<Player>(playerODoc);
+        const userO = getData<User>(userODoc);
 
-                if (challengesO.find(x => x.uid === uid)) {
-                    throw new Error('challenge already exists');
-                }
+        const challenges: Challenge[] = waitingPlayer.challenges || [];
+        const challengesO: Challenge[] = waitingPlayerO.challenges || [];
 
-                if (challenges.find(x => x.uid === opponentUid)) {
-                    // MATCH! -> start the battle
-                    // (always do all reads before any writes)
+        // Ignore call when challenge already was created before
+        if (challengesO.find(x => x.challengerInfo.uid === uid)) {
+            return;
+        }
 
-                    tx.set(db.collection('players').doc(uid), {
-                        opponentUid,
-                        startDate: now,
-                        miniGameNumber: prepData.miniGameNumber,
-                        guesses: [],
-                        currentStateInfo: null,
-                        canShootNext: true
-                    });
-                    tx.set(db.collection('players').doc(opponentUid), {
-                        opponentUid: uid,
-                        startDate: now,
-                        miniGameNumber: prepDataO.miniGameNumber,
-                        guesses: [],
-                        currentStateInfo: null,
-                        canShootNext: false
-                    });
-                    tx.delete(waitingPlayerRef)
-                        .delete(waitingPlayerRefO)
-                        .delete(playerRef)
-                        .delete(playerRefO);
-                    // TODO: remove references in challenges with other players!
-                } else {
-                    const newChallengesO = [...challengesO, { uid, name, challengeDate: now }];
-                    tx.update(waitingPlayerRefO, { challenges: newChallengesO });
-                }
+        const isMatch = !!challenges.find(x => x.challengerInfo.uid === uidO);
+        const now = new Date();
+
+        // (Do only write after this point!)
+
+        if (isMatch) {
+            // Start battle
+            tx.set(db.collection(COLL.PLAYERS).doc(uid), createPlayerInBattle(player, userO, true));
+            tx.set(db.collection(COLL.PLAYERS).doc(uidO), createPlayerInBattle(playerO, user, false));
+            tx.delete(waitingPlayerRef);
+            tx.delete(waitingPlayerORef);
+            // TODO: remove references in challenges with other players!
+        }
+        else {
+            // Add challenge for opponent
+            const newChallenge: Challenge = {
+                challengerInfo: createPlayerInfo(user),
+                challengeDate: now
+            };
+            tx.update(waitingPlayerORef, {
+                challenges: [...challengesO, newChallenge]
             });
-    }).then(() => {
-        console.log('Transaction successfully committed!');
-    }).catch(error => {
-        console.log('Transaction failed: ', error);
+        }
     });
+}
+
+/*
+ * Convert from whatever the client sent to the required argument structure
+ */
+function toAddChallengeArgs(data: any): AddChallengeArgs {
+    if (!data) {
+        throw new HttpsError('invalid-argument', 'data missing');
+    }
+
+    return {
+        opponentUid: (data.opponentUid || '').toString()
+    };
+}
+
+function createPlayerInBattle(player: Player, opponentUser: User, canShootNext: boolean): Player {
+    return {
+        uid: player.uid,
+        playerStatus: PlayerStatus.Playing,
+        fields: player.fields,
+        ships: player.ships,
+        miniGameNumber: player.miniGameNumber, // TEMP
+        miniGameGuesses: [], // TEMP
+        opponent: createOpponent(opponentUser),
+        canShootNext
+    };
+}
+
+function createOpponent(user: User): Opponent {
+    return {
+        battleId: '1', // TODO
+        playerInfo: createPlayerInfo(user),
+        fields: [], // TODO
+        sunkShips: [],
+        countdownDate: new Date()
+    };
+}
+
+function createPlayerInfo(user: User): PlayerInfo {
+    return {
+        uid: user.uid,
+        displayName: user.displayName,
+        avatarFileName: user.avatarFileName,
+        level: user.level
+    };
 }

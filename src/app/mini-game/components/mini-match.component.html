@@ -8,13 +8,13 @@
     <mat-card-content>
         <h2>Waiting Players:</h2>
         <ul class="waiting-players">
-            <li *ngFor="let waitingPlayer of waitingPlayers$ | async">
+            <li *ngFor="let waitingPlayer of waitingPlayers">
                 <div *ngIf="waitingPlayer.canChallenge" style="float:right;">
-                    <button mat-raised-button color="primary" (click)="challenge(waitingPlayer.id)">Challenge</button>
+                    <button mat-button color="primary" (click)="challenge(waitingPlayer.uid)">Challenge</button>
                 </div>
                 <div>
-                    <b>{{waitingPlayer.name}}</b>
-                    <span *ngIf="waitingPlayer.id === uid"> (me)</span>
+                    <b>{{waitingPlayer.playerInfo.displayName}}</b>
+                    <span *ngIf="waitingPlayer.uid === uid"> (me)</span>
                 </div>
                 <br>
                 <div *ngIf="waitingPlayer.challenges">
@@ -29,7 +29,7 @@
         </ul>
     </mat-card-content>
     <mat-card-actions>
-        <div *ngIf="player$ | async">
+        <div *ngIf="player">
             <a routerLink="../battle">Go to battle</a>
         </div>
     </mat-card-actions>

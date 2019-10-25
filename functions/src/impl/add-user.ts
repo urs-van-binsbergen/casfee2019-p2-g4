@@ -1,16 +1,20 @@
 import { auth } from 'firebase-admin';
+import COLL from '../public/firestore-collection-name-const';
+import { User, PlayerLevel } from '../public/core-models';
 
 export default function addUser(
-    user: auth.UserRecord,
+    userRecord: auth.UserRecord,
     db: FirebaseFirestore.Firestore
 ) {
-    const uid = user.uid;
-
-    const doc = {
-        numberOfVictories: 0,
-        level: 0
+    const user: User = {
+        uid: userRecord.uid,
+        email: userRecord.email || null,
+        displayName: userRecord.displayName || null,
+        avatarFileName: null,
+        level: PlayerLevel.Shipboy,
+        numberOfVictories: 0
     };
-    return db.collection('users').doc(uid).set(doc)
+    return db.collection(COLL.USERS).doc(user.uid).set(user)
         .then((docRef) => {
             console.log('Document written');
         })

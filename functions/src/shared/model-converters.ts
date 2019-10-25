@@ -1,5 +1,7 @@
 import { Ship, Pos } from '../public/core-models';
 
+// Convert from whatever the client sent to the required interface
+
 export function toShip(data: any): Ship {
     const length = parsePositiveNumber(data.length, 'length');
     return {

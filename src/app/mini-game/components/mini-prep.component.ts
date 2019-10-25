@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, tap } from 'rxjs/operators';
 import { AuthStateService } from '../../auth/auth-state.service';
-import { PreparationArgs } from '@cloud-api/preparation';
+import { PreparationArgs } from '@cloud-api/arguments';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { NotificationService } from '../../auth/notification.service';
 import { Player } from '@cloud-api/core-models';
+import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
+import { CloudDataService } from 'src/app/backend/cloud-data.service';
 
 @Component({
     templateUrl: './mini-prep.component.html',
@@ -22,29 +22,23 @@ export class MiniPrepComponent implements OnInit {
     waiting = false;
 
     constructor(
-        private fns: AngularFireFunctions,
-        private afs: AngularFirestore,
+        private cloudFunctions: CloudFunctionsService,
+        private cloudData: CloudDataService,
         private authState: AuthStateService,
         private notification: NotificationService
     ) {
     }
 
     ngOnInit(): void {
-        this.afs.collection('players')
-            .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
-                map(
-                    action => {
-                        return action.payload.data();
-                    }
-                ),
-                tap(
-                    (x: Player | null) => {
-                        this.player = x;
-                        this.miniGameNumber.setValue(x ? x.miniGameNumber : null);
-                    }
-                )
-            )
-            .subscribe();
+        this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
+            player => {
+                this.player = player;
+                this.miniGameNumber.setValue(player ? player.miniGameNumber : null);
+            },
+            error => {
+
+            }
+        );
     }
 
     onSubmit() {
@@ -60,15 +54,15 @@ export class MiniPrepComponent implements OnInit {
             ships: []
         };
 
-        const callable = this.fns.httpsCallable('addPreparation');
-        callable(args).toPromise()
-            .then(x => {
+        this.cloudFunctions.addPreparation(args).toPromise()
+            .then(results => {
                 this.waiting = false;
             })
-            .catch(err => {
+            .catch(error => {
+                this.notification.quickToast('Error when saving. Sorry.', 2000);
+                console.error(error);
                 this.waiting = false;
-            })
-            ;
+            });
     }
 
 }

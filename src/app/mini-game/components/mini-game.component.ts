@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthStateService } from '../../auth/auth-state.service';
-import { Player } from '@cloud-api/core-models';
-import { map, tap } from 'rxjs/operators';
+import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
+import { CloudDataService } from 'src/app/backend/cloud-data.service';
 
 @Component({
     templateUrl: './mini-game.component.html',
@@ -11,8 +9,8 @@ import { map, tap } from 'rxjs/operators';
 export class MiniGameComponent implements OnInit {
 
     constructor(
-        private fns: AngularFireFunctions,
-        private afs: AngularFirestore,
+        private cloudFunctions: CloudFunctionsService,
+        private cloudData: CloudDataService,
         private authState: AuthStateService
     ) {
     }
@@ -21,31 +19,21 @@ export class MiniGameComponent implements OnInit {
     hasPlayerData = false;
 
     ngOnInit(): void {
-        this.afs.collection('players')
-        .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
-            map(
-                action => {
-                    return action.payload.data();
-                }
-            ),
-            tap(
-                (x: Player | null) => {
-                    this.hasPlayerData = x != null;
-                }
-            )
-        )
-        .subscribe();
-}
+        this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
+            player => this.hasPlayerData = !!player,
+            error => this.hasPlayerData = false
+        );
+    }
 
     async purge() {
         this.waiting = true;
 
-        const callable = this.fns.httpsCallable('purgeMiniGame');
-        callable({}).toPromise()
-            .then(x => {
+        const args = {};
+        this.cloudFunctions.purgeMiniGame(args).toPromise()
+            .then(results => {
                 this.waiting = false;
             })
-            .catch(err => {
+            .catch(error => {
                 this.waiting = false;
             })
             ;

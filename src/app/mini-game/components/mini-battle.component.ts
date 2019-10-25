@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireFunctions } from '@angular/fire/functions';
-import { map } from 'rxjs/operators';
 import { AuthStateService } from '../../auth/auth-state.service';
+import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
+import { MakeGuessArgs } from '@cloud-api/arguments';
+import { CloudDataService } from 'src/app/backend/cloud-data.service';
+import { Player } from '@cloud-api/core-models';
 
 @Component({
     templateUrl: './mini-battle.component.html',
@@ -11,27 +11,23 @@ import { AuthStateService } from '../../auth/auth-state.service';
 export class MiniBattleComponent implements OnInit {
     title = 'Battle';
 
-    player$: Observable<any>;
-    serviceResult$: Observable<any>;
+    player: Player;
 
     currentGuess: number;
 
     constructor(
-        private afs: AngularFirestore,
+        private cloudData: CloudDataService,
         private authState: AuthStateService,
-        private fns: AngularFireFunctions
+        private cloudFunctions: CloudFunctionsService,
     ) {
     }
 
     ngOnInit(): void {
-        this.player$ = this.afs.collection('players')
-            .doc(this.authState.currentUser.uid).snapshotChanges().pipe(
-                map(
-                    action => {
-                        return action.payload.data();
-                    }
-                ),
-            );
+        // Load player (once)
+        this.cloudData.getPlayer(this.authState.currentUser.uid)
+            .then(result => this.player = result)
+            .catch(error => console.log(error))
+        ;
     }
 
     async submit() {
@@ -40,7 +36,8 @@ export class MiniBattleComponent implements OnInit {
             alert('number missing'); // TODO
             return;
         }
-        const callable = this.fns.httpsCallable('makeGuess');
-        this.serviceResult$ = callable({ currentGuess });
+
+        const args: MakeGuessArgs = { currentGuess };
+        this.cloudFunctions.makeGuess(args);
     }
 }

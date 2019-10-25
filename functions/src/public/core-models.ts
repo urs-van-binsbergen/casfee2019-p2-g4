@@ -33,8 +33,8 @@ export enum PlayerLevel {
 
 export interface PlayerInfo {
     uid: string;
-    displayName: string;
-    avatarFileName: string;
+    displayName: string | null;
+    avatarFileName: string | null;
     level: PlayerLevel;
 }
 
@@ -51,7 +51,9 @@ export interface Player {
     fields: Array<TargetField>;
     ships: Array<Ship>;
     miniGameNumber: number; // TEMP
+    miniGameGuesses: number[]; // TEMP
     opponent: Opponent | null;
+    canShootNext: boolean;
 }
 
 export interface Opponent {
@@ -63,7 +65,7 @@ export interface Opponent {
 }
 
 export interface Challenge {
-    uid: string;
+    challengerInfo: PlayerInfo;
     challengeDate: Date;
 }
 
@@ -81,9 +83,9 @@ export enum BattleResult {
 
 export interface User {
     uid: string;
-    email: string;
-    displayName: string;
-    avatarFileName: string;
+    displayName: string | null;
+    email: string | null;
+    avatarFileName: string | null;
     level: PlayerLevel;
     numberOfVictories: number;
 }
