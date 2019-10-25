@@ -24,7 +24,7 @@ export class PreparationService {
         return this._height;
     }
 
-    get ships(): Array<Ship> {
+    get ships(): Ship[] {
         const keys = Object.keys(this._ships);
         const ships = [];
         keys.forEach((key) => {

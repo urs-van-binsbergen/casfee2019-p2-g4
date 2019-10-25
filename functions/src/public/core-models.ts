@@ -6,12 +6,30 @@ export interface Pos {
     y: number;
 }
 
+export interface Size {
+    w: number;
+    h: number;
+}
+
 export interface Ship {
     pos: Pos; // (top-left)
     length: number;
     isVertical: boolean;
+    hits: number[]; // hit field index from top-left
     isSunk: boolean;
 }
+
+export interface Field {
+    pos: Pos;
+    isHit: boolean;
+}
+
+export interface Board {
+    size: Size;
+    fields: Field[][];
+    ships: Ship[];
+}
+
 
 export enum TargetFieldStatus {
     Unknown,
@@ -22,6 +40,12 @@ export enum TargetFieldStatus {
 export interface TargetField {
     pos: Pos;
     status: TargetFieldStatus;
+}
+
+export interface TargetBoard {
+    size: Size;
+    fields: TargetField[][];
+    sunkShips: Ship[];
 }
 
 export enum PlayerLevel {
@@ -39,29 +63,51 @@ export interface PlayerInfo {
 }
 
 export enum PlayerStatus {
+    /*
+     * Player still preparing (currently not used, because player enters
+     * waiting room as soon as he submits his preparation)
+     */
     Preparing,
+
+    /* Player is waiting, did not create a match with another player yet */
     Waiting,
-    Playing
+
+    /* Player is in the battle with another player */
+    InBattle,
+
+    Victory,
+
+    Waterloo
 }
 
 
 export interface Player {
     uid: string;
     playerStatus: PlayerStatus;
-    fields: Array<TargetField>;
-    ships: Array<Ship>;
-    miniGameNumber: number; // TEMP
-    miniGameGuesses: number[]; // TEMP
-    opponent: Opponent | null;
+
+    board: Board;
+
+    battle: Battle | null;
     canShootNext: boolean;
+    lastMoveDate: Date;
+
+    // Mini Game (TEMP): player's secret and the opponent's knowledge about it
+    miniGameSecret: number;
+    miniGameLastOpponentGuess: number;
 }
 
-export interface Opponent {
+/*
+ * Battle (as seen from one player)
+ */
+export interface Battle {
     battleId: string;
-    playerInfo: PlayerInfo;
-    fields: Array<TargetField>;
-    sunkShips: Array<Ship>;
-    countdownDate: Date;
+    opponentInfo: PlayerInfo;
+    opponentLastMoveDate: Date;
+    targetBoard: TargetBoard;
+
+    // Mini Game (TEMP): players knowledge about the opponent
+    miniGameGuesses: number[];
+    miniGameLastGuessSign: number;
 }
 
 export interface Challenge {
@@ -72,7 +118,7 @@ export interface Challenge {
 export interface WaitingPlayer {
     uid: string;
     playerInfo: PlayerInfo;
-    challenges: Array<Challenge>;
+    challenges: Challenge[];
 }
 
 export enum BattleResult {
@@ -104,4 +150,3 @@ export interface HistoricBattle {
     loserUid: string;
     isCapitulation: boolean;
 }
-

@@ -47,7 +47,8 @@ export class PreparationComponent implements OnInit {
                 pos: { x: s.x, y: s.y },
                 length: 2,
                 isVertical: s.rotation % 180 === 0,
-                isSunk: false
+                isSunk: false, // (will be ignored)
+                hits: [], // (will be ignored)
             };
 
             // TODO: This is a just a working draft, details are to be harmonized
@@ -56,8 +57,9 @@ export class PreparationComponent implements OnInit {
         }));
 
         const args: PreparationArgs = {
-            miniGameNumber: null,
-            ships: cloudShips
+            size: { w: 8, h: 8 }, // TODO: move magic number to some constant
+            ships: cloudShips,
+            miniGameSecret: null,
         };
 
         this.cloudFunctions.addPreparation(args).subscribe(

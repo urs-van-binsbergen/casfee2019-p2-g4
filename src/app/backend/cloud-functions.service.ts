@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Observable } from 'rxjs';
-import { PreparationArgs, AddChallengeArgs, MakeGuessArgs } from '@cloud-api/arguments';
+import { PreparationArgs, AddChallengeArgs, ShootArgs } from '@cloud-api/arguments';
 
 @Injectable()
 export class CloudFunctionsService {
@@ -22,7 +22,7 @@ export class CloudFunctionsService {
         return callable(args);
     }
 
-    makeGuess(args: MakeGuessArgs): Observable<any> {
+    shoot(args: ShootArgs): Observable<any> {
         const callable = this.fns.httpsCallable('makeGuess');
         return callable(args);
     }

@@ -6,13 +6,13 @@
             <mat-card-content>
                 <p>
                     <mat-form-field style="width: 140px;">
-                        <input matInput formControlName="miniGameNumber" required type="number" style="font-size: 36px;"
+                        <input matInput formControlName="miniGameSecret" required type="number" style="font-size: 36px;"
                             placeholder="Your secret number" />
-                        <mat-error *ngIf="miniGameNumber.invalid" [ngSwitch]="true">
-                            <div *ngSwitchCase="miniGameNumber.errors.required" translate>common.message.fieldRequired
+                        <mat-error *ngIf="miniGameSecret.invalid" [ngSwitch]="true">
+                            <div *ngSwitchCase="miniGameSecret.errors.required" translate>common.message.fieldRequired
                             </div>
-                            <div *ngSwitchCase="miniGameNumber.errors.min">Zu tief</div>
-                            <div *ngSwitchCase="miniGameNumber.errors.max">Zu hoch</div>
+                            <div *ngSwitchCase="miniGameSecret.errors.min">Zu tief</div>
+                            <div *ngSwitchCase="miniGameSecret.errors.max">Zu hoch</div>
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>

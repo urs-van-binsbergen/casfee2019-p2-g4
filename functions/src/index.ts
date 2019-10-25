@@ -30,9 +30,9 @@ import addChallengeImpl from './impl/add-challenge';
 export const addChallenge = https.onCall(
     (data, context) => addChallengeImpl(data, context, db));
 
-import makeGuessImpl from './impl/make-guess';
-export const makeGuess = https.onCall(
-    (data, context) => makeGuessImpl(data, context, db));
+import shootImpl from './impl/shoot';
+export const shoot = https.onCall(
+    (data, context) => shootImpl(data, context, db));
 
 import purgeMiniGameImpl from './impl/purge-mini-game';
 export const purgeMiniGame = https.onCall(

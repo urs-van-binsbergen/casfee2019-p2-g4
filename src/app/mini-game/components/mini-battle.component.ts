@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthStateService } from '../../auth/auth-state.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
-import { MakeGuessArgs } from '@cloud-api/arguments';
+import { ShootArgs } from '@cloud-api/arguments';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { Player } from '@cloud-api/core-models';
 
@@ -27,17 +27,17 @@ export class MiniBattleComponent implements OnInit {
         this.cloudData.getPlayer(this.authState.currentUser.uid)
             .then(result => this.player = result)
             .catch(error => console.log(error))
-        ;
+            ;
     }
 
     async submit() {
-        const currentGuess = this.currentGuess;
-        if (!currentGuess) {
+        const miniGameGuess = this.currentGuess;
+        if (!miniGameGuess) {
             alert('number missing'); // TODO
             return;
         }
 
-        const args: MakeGuessArgs = { currentGuess };
-        this.cloudFunctions.makeGuess(args);
+        const args: ShootArgs = { targetPos: { x: 0, y: 0 }, miniGameGuess };
+        this.cloudFunctions.shoot(args);
     }
 }

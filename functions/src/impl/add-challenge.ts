@@ -1,11 +1,13 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
+import * as uuid from 'uuid/v4';
 import { getData } from '../shared/db-utils';
-import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Opponent, PlayerInfo } from '../public/core-models';
+import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Battle, PlayerInfo, TargetBoard, Board, TargetFieldStatus } from '../public/core-models';
 import COLL from '../public/firestore-collection-name-const';
 import { authenticate } from '../shared/auth-utils';
 import { AddChallengeArgs } from '../public/arguments';
+import { areEqualSize as sizesAreEqual } from '../public/core-methods';
 
-export default function addChallengeImpl(
+export default function addChallenge(
     data: any,
     context: CallableContext,
     db: FirebaseFirestore.Firestore,
@@ -28,10 +30,10 @@ export default function addChallengeImpl(
     return db.runTransaction(async tx => {
         // Read docs
         const docs = await tx.getAll(
-            waitingPlayerRef, 
-            playerRef, 
+            waitingPlayerRef,
+            playerRef,
             userRef,
-            waitingPlayerORef, 
+            waitingPlayerORef,
             playerORef,
             userORef
         );
@@ -62,18 +64,24 @@ export default function addChallengeImpl(
 
         const isMatch = !!challenges.find(x => x.challengerInfo.uid === uidO);
         const now = new Date();
+        const battleId = uuid();
+        console.log(battleId);
 
-        // (Do only write after this point!)
+        // Check boards are of the same size
+        if (!sizesAreEqual(player.board.size, playerO.board.size)) {
+            throw new HttpsError('failed-precondition', 'Board sizes do not match');
+        }
+
+        // --- Do only WRITE after this point! ------------------------
 
         if (isMatch) {
             // Start battle
-            tx.set(db.collection(COLL.PLAYERS).doc(uid), createPlayerInBattle(player, userO, true));
-            tx.set(db.collection(COLL.PLAYERS).doc(uidO), createPlayerInBattle(playerO, user, false));
+            tx.set(db.collection(COLL.PLAYERS).doc(uid), createPlayerInBattle(player, userO, true, battleId));
+            tx.set(db.collection(COLL.PLAYERS).doc(uidO), createPlayerInBattle(playerO, user, false, battleId));
             tx.delete(waitingPlayerRef);
             tx.delete(waitingPlayerORef);
             // TODO: remove references in challenges with other players!
-        }
-        else {
+        } else {
             // Add challenge for opponent
             const newChallenge: Challenge = {
                 challengerInfo: createPlayerInfo(user),
@@ -99,26 +107,44 @@ function toAddChallengeArgs(data: any): AddChallengeArgs {
     };
 }
 
-function createPlayerInBattle(player: Player, opponentUser: User, canShootNext: boolean): Player {
+function createPlayerInBattle(
+    player: Player, opponentUser: User,
+    canShootNext: boolean, battleId: string
+): Player {
     return {
-        uid: player.uid,
-        playerStatus: PlayerStatus.Playing,
-        fields: player.fields,
-        ships: player.ships,
-        miniGameNumber: player.miniGameNumber, // TEMP
-        miniGameGuesses: [], // TEMP
-        opponent: createOpponent(opponentUser),
+        ...player,
+
+        playerStatus: PlayerStatus.InBattle,
+        battle: createBattle(opponentUser, player.board, battleId),
         canShootNext
     };
 }
 
-function createOpponent(user: User): Opponent {
+function createTargetBoard(board: Board): TargetBoard {
     return {
-        battleId: '1', // TODO
-        playerInfo: createPlayerInfo(user),
-        fields: [], // TODO
-        sunkShips: [],
-        countdownDate: new Date()
+        size: { ...board.size },
+        fields: board.fields.map(row =>
+            row.map(field =>
+                ({
+                    pos: { ...field.pos },
+                    status: TargetFieldStatus.Unknown
+                })
+            )
+        ),
+        sunkShips: []
+    };
+}
+
+function createBattle(user: User, board: Board, battleId: string): Battle {
+    return {
+        battleId,
+        opponentInfo: createPlayerInfo(user),
+        opponentLastMoveDate: new Date(),
+        targetBoard: createTargetBoard(board),
+
+        // TEMP
+        miniGameGuesses: [],
+        miniGameLastGuessSign: 0,
     };
 }
 

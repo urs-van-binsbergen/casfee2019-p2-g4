@@ -24,8 +24,8 @@ export default async function purgeMiniGame(
     let opponentRef: any = null;
     if (playerDoc.exists) {
         const playerData = playerDoc.data() as Player;
-        if (playerData && playerData.opponent) {
-            const opponentUid = playerData.opponent.playerInfo.uid;
+        if (playerData && playerData.battle) {
+            const opponentUid = playerData.battle.opponentInfo.uid;
             opponentRef = db.collection(COLL.PLAYERS).doc(opponentUid);
         }
     }
