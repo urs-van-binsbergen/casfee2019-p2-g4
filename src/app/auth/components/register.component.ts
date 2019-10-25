@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../auth.service';
 import { RedirectService } from '../redirect.service';
-import { AuthStateService } from '../auth-state.service';
 import { NotificationService } from '../notification.service';
 
 @Component({
@@ -30,7 +29,6 @@ export class RegisterComponent implements OnInit {
         private location: Location,
         private translate: TranslateService,
         private authService: AuthService,
-        private authStateService: AuthStateService,
         private redirect: RedirectService,
         private notification: NotificationService,
     ) { }

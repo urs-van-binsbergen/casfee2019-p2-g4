@@ -8,17 +8,11 @@ export default function addUser(
 ) {
     const user: User = {
         uid: userRecord.uid,
-        email: userRecord.email || null,
-        displayName: userRecord.displayName || null,
+        email: null,
+        displayName: null,
         avatarFileName: null,
         level: PlayerLevel.Shipboy,
         numberOfVictories: 0
     };
-    return db.collection(COLL.USERS).doc(user.uid).set(user)
-        .then((docRef) => {
-            console.log('Document written');
-        })
-        .catch((error) => {
-            console.error('Error adding document: ', error);
-        });
+    return db.collection(COLL.USERS).doc(user.uid).set(user);
 }
