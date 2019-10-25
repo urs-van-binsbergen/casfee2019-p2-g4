@@ -27,7 +27,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-                "src/DragDropTouch.js"
+                "./node_modules/drag-drop-touch/DragDropTouch.js"
             ]
           },
           "configurations": {
