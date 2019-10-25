@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { DropDelegate } from './drop.delegate';
+import { PreparationService } from '../preparation.service';
+import { Ship } from '../../shared/ship';
+import { YardService } from '../yard.service';
 
 @Injectable()
 export class DragService {
     private _x: number;
     private _y: number;
     private _key: string;
-    private _dropDelegate: DropDelegate;
 
-    set dropDelegate(dropDelegate: DropDelegate) {
-        this._dropDelegate = dropDelegate;
+    constructor(
+        private yardService: YardService,
+        private preparationService: PreparationService
+    ) {
     }
 
     get x(): number {
@@ -31,7 +34,7 @@ export class DragService {
 
     enterDropTarget(x: number, y: number): boolean {
         if (this._key !== null) {
-            if (this._dropDelegate.canDropDraggable(this._key, x, y)) {
+            if (this.preparationService.canAddShip(this._key, x, y)) {
                 this._x = x;
                 this._y = y;
                 return true;
@@ -51,7 +54,7 @@ export class DragService {
 
     dropDraggable(x: number, y: number): string {
         if (this._key !== null && this._x === x && this._y === y) {
-            if (this._dropDelegate.dropDraggable(this._key, x, y)) {
+            if (this.drop(this._key, x, y)) {
                 this._x = -1;
                 this._y = -1;
                 const key = this._key;
@@ -60,5 +63,19 @@ export class DragService {
             }
         }
         return null;
+    }
+
+    private drop(key: string, x: number, y: number): boolean {
+        if (this.preparationService.canAddShip(key, x, y)) {
+            let ship: Ship = this.yardService.removeShip(key);
+            if (ship === null) {
+                ship = this.preparationService.removeShip(key);
+            }
+            if (ship !== null) {
+                this.preparationService.addShip(ship, x, y);
+                return true;
+            }
+        }
+        return false;
     }
 }

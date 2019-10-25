@@ -1,27 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { PreparationService } from '../preparation.service';
-import { YardService } from '../yard.service';
-import { DragService } from '../../drag/drag.service';
-import { DropDelegate } from '../../drag/drop.delegate';
-import { Ship } from '../../shared/ship';
+import { DragService } from '../drag/drag.service';
 
 @Component({
     selector: 'app-preparation-board',
     templateUrl: './preparation-board.component.html',
     styleUrls: ['./preparation-board.component.scss']
 })
-export class PreparationBoardComponent implements OnInit, DropDelegate {
+export class PreparationBoardComponent implements OnInit {
 
     constructor(
         private preparationService: PreparationService,
-        private yardService: YardService,
         private dragService: DragService
     ) {
     }
 
     ngOnInit(): void {
         this.preparationService.reset();
-        this.dragService.dropDelegate = this;
     }
 
     get xIndexes(): number[] {
@@ -80,22 +75,4 @@ export class PreparationBoardComponent implements OnInit, DropDelegate {
         ship.rotate();
     }
 
-    // DropDelegate
-    canDropDraggable(key: string, x: number, y: number): boolean {
-        return this.preparationService.canAddShip(key, x, y);
-    }
-
-    dropDraggable(key: string, x: number, y: number): boolean {
-        if (this.preparationService.canAddShip(key, x, y)) {
-            let ship: Ship = this.yardService.removeShip(key);
-            if (ship === null) {
-                ship = this.preparationService.removeShip(key);
-            }
-            if (ship !== null) {
-                this.preparationService.addShip(ship, x, y);
-                return true;
-            }
-        }
-        return false;
-    }
 }
