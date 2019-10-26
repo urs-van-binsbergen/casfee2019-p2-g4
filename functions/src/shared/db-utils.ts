@@ -5,7 +5,7 @@ import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 */
 export function getData<TData>(doc: DocumentSnapshot): TData {
     if (!doc.exists) {
-        throw new Error("Document does not exist");
+        throw new Error('Document does not exist');
     }
     return doc.data() as TData;
 }

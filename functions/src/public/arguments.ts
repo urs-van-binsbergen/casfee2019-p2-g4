@@ -1,14 +1,28 @@
-import { Ship } from './core-models';
+// Argument structure of cloud funcxtions (used server AND client side)
+
+import { Ship, Size, Pos } from './core-models';
+
+export interface UpdateUserArgs {
+    displayName: string | null;
+    avatarFileName: string | null;
+    email: string | null;
+}
 
 export interface PreparationArgs {
-    miniGameNumber: number;
-    ships: Array<Ship>;
+    size: Size;
+    ships: Ship[];
+
+    // TEMP
+    miniGameSecret: number;
 }
 
 export interface AddChallengeArgs {
     opponentUid: string;
 }
 
-export interface MakeGuessArgs {
-    currentGuess: number;
+export interface ShootArgs {
+    targetPos: Pos;
+
+    // TEMP
+    miniGameGuess: number;
 }

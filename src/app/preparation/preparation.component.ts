@@ -8,6 +8,8 @@ import { PreparationArgs } from '@cloud-api/arguments';
 import { Ship as CloudShip } from '@cloud-api/core-models';
 import { CloudFunctionsService } from '../backend/cloud-functions.service';
 
+import { Ship as UiShip } from '../shared/ship';
+
 @Component({
     templateUrl: './preparation.component.html',
     styleUrls: ['./preparation.component.scss']
@@ -41,24 +43,7 @@ export class PreparationComponent implements OnInit {
     onContinueClicked() {
         this.waiting = true;
 
-        const ships = this.preparationService.ships;
-        const cloudShips = Array.from<CloudShip>(ships.map(s => {
-            const cloudShip: CloudShip = {
-                pos: { x: s.x, y: s.y },
-                length: 2,
-                isVertical: s.rotation % 180 === 0,
-                isSunk: false
-            };
-
-            // TODO: This is a just a working draft, details are to be harmonized
-
-            return cloudShip;
-        }));
-
-        const args: PreparationArgs = {
-            miniGameNumber: null,
-            ships: cloudShips
-        };
+        const args = this.createPreparationArgs(this.preparationService.ships);
 
         this.cloudFunctions.addPreparation(args).subscribe(
             results => {
@@ -73,6 +58,37 @@ export class PreparationComponent implements OnInit {
                 console.log('completed');
             }
         );
+    }
+
+    createPreparationArgs(uiShips: UiShip[]): PreparationArgs {
+        // TODO: move this method to some appropriate place
+        const cloudShips = uiShips.map(s => {
+            const isVertical = s.rotation % 180 === 0;
+            const x = Math.min(...s.fields.map(f => f.x));
+            const y = Math.min(...s.fields.map(f => f.y));
+            const length = isVertical ?
+                Math.max(...s.fields.map(f => f.y)) - y + 1 :
+                Math.max(...s.fields.map(f => f.x)) - x + 1
+                ;
+            const cloudShip: CloudShip = {
+                pos: { x, y },
+                length,
+                isVertical,
+                isSunk: false,
+                hits: [],
+            };
+
+            return cloudShip;
+        });
+
+        return {
+            size: { w: 8, h: 8 }, // TODO: move magic number to some constant
+            ships: [ ...cloudShips ],
+
+            // TEMP
+            miniGameSecret: 50,
+        };
+
     }
 
 }

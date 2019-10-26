@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthStateService } from '../../auth/auth-state.service';
 import { PreparationArgs } from '@cloud-api/arguments';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
@@ -12,9 +11,9 @@ import { CloudDataService } from 'src/app/backend/cloud-data.service';
     templateUrl: './mini-prep.component.html',
 })
 export class MiniPrepComponent implements OnInit {
-    miniGameNumber = new FormControl('', [Validators.required, Validators.min(1), Validators.max(100)]);
+    miniGameSecret = new FormControl('', [Validators.required, Validators.min(1), Validators.max(100)]);
     form = new FormGroup({
-        miniGameNumber: this.miniGameNumber,
+        miniGameSecret: this.miniGameSecret,
     });
 
     player: Player | null;
@@ -33,7 +32,7 @@ export class MiniPrepComponent implements OnInit {
         this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
             player => {
                 this.player = player;
-                this.miniGameNumber.setValue(player ? player.miniGameNumber : null);
+                this.miniGameSecret.setValue(player ? player.miniGameSecret : null);
             },
             error => {
 
@@ -50,8 +49,9 @@ export class MiniPrepComponent implements OnInit {
         this.waiting = true;
 
         const args: PreparationArgs = {
-            miniGameNumber: this.miniGameNumber.value,
-            ships: []
+            size: { w: 8, h: 8 }, // TODO: move magic number to some constant
+            ships: [],
+            miniGameSecret: this.miniGameSecret.value,
         };
 
         this.cloudFunctions.addPreparation(args).toPromise()

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthStateService } from './auth-state.service';
+import { CloudFunctionsService } from '../backend/cloud-functions.service';
 
 /*
  * Service to communicate with the auth backend
@@ -10,7 +11,8 @@ export class AuthService {
 
     constructor(
         private _afAuth: AngularFireAuth,
-        private _authState: AuthStateService
+        private _authState: AuthStateService,
+        private _cloudFunctions: CloudFunctionsService
     ) {
 
     }
@@ -66,6 +68,13 @@ export class AuthService {
         return firebaseUser.updateProfile({ displayName })
             .then(() => { firebaseUser.getIdToken(true); }) // forceRefresh! (*)
             .then(() => { this._authState.currentUser.displayName = displayName; })
+            .then(() => {
+                this._cloudFunctions.updateUser({
+                    displayName,
+                    avatarFileName: null,
+                    email: firebaseUser.email
+                });
+            })
             ;
 
         // (*) so server token will update too. This strangely still does not trigger

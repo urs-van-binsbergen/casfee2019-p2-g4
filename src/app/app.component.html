@@ -27,11 +27,6 @@
             <mat-icon>forward</mat-icon>
             <span>Login</span>
         </button>
-
-        <button mat-menu-item routerLink="mini-game">
-            <mat-icon>videogame_asset</mat-icon>
-            <span>Mini Game</span>
-        </button>
     </mat-menu>
     <p class="title" translate>application.title</p>
     <span class="fill-remaining-space"></span>
@@ -43,8 +38,8 @@
     <ng-container *ngIf="authState.currentUser as user">
         <button mat-button color="primary" routerLink="user">
             <mat-icon>perm_identity</mat-icon>
-            <span *ngIf="authState.currentUser as user">
-                {{ user.displayName }}
+            <span *ngIf="authState.currentUser as user" translate>
+                user.profile.title
             </span>
         </button>
         <button mat-button color="primary" routerLink="mini-game">
@@ -53,7 +48,13 @@
                 Mini Game
             </span>
         </button>
-        </ng-container>
+        <button mat-button color="primary" routerLink="preparation">
+            <mat-icon>waves</mat-icon>
+            <span>
+                Battle
+            </span>
+        </button>
+    </ng-container>
     <ng-container *ngIf="!authState.currentUser">
         <button mat-button color="primary" routerLink="auth/login">
             <mat-icon>perm_identity</mat-icon>

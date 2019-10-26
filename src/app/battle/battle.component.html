@@ -4,9 +4,15 @@
     <div class="container" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center">
         <div class="opponentboard" fxFlex="0 0 auto">
             opponentboard (8x8 1/1 units)
+            <div *ngIf="player && player.battle" style="font-size: 10px;">
+                {{ player.battle.targetBoard | json }}
+            </div>
         </div>
         <div class="ownboard" fxFlex="0 0 auto">
             ownboard (8x8 2/3 units)
+            <div *ngIf="player" style="font-size: 6px;">
+                {{ player.board | json }}
+            </div>
         </div>
     </div>
     <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">

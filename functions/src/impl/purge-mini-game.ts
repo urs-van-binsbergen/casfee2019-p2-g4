@@ -1,6 +1,6 @@
-import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { PlayerStatus, Player } from '../public/core-models';
+import { CallableContext } from 'firebase-functions/lib/providers/https';
 import COLL from '../public/firestore-collection-name-const';
+import { authenticate } from '../shared/auth-utils';
 
 /*
  * Remove all my game data (prep, waitingPlayers, battle)
@@ -10,39 +10,30 @@ export default async function purgeMiniGame(
     context: CallableContext,
     db: FirebaseFirestore.Firestore,
 ) {
-    if (!context.auth || !context.auth.uid) {
-        throw new HttpsError('permission-denied', 'auth or uid missing'); // TODO
-    }
+    const authInfo = authenticate(context.auth);
 
-    const uid = context.auth.uid;
+    // My docs
+    const uid = authInfo.uid;
 
-    // (ich verzichte hier mal auf eine RW-Transaktion, obwohl es ws. sinnvoll wäre)
+    return db.runTransaction(async tx => {
 
-    const playerRef = db.collection(COLL.PLAYERS).doc(uid);
-    const playerDoc = await playerRef.get();
+        const playerRef = db.collection(COLL.PLAYERS).doc(uid);
+        const playerDoc = await tx.get(playerRef);
 
-    let opponentRef: any = null;
-    if (playerDoc.exists) {
-        const playerData = playerDoc.data() as Player;
-        if (playerData && playerData.opponent) {
-            const opponentUid = playerData.opponent.playerInfo.uid;
-            opponentRef = db.collection(COLL.PLAYERS).doc(opponentUid);
+        const wPlayerRef = db.collection(COLL.WAITING_PLAYERS).doc(uid);
+        const wPlayerDoc = await tx.get(wPlayerRef);
+
+        // --- Do only WRITE after this point! ------------------------
+        if (playerDoc.exists) {
+            tx.delete(playerRef);
         }
-    }
 
-    const batch = db.batch()
-        .delete(playerRef)
-        .delete(db.collection(COLL.WAITING_PLAYERS).doc(uid))
-        ;
+        if (wPlayerDoc.exists) {
+            tx.delete(wPlayerRef);
+        }
 
-    if (opponentRef != null) {
-        batch.update(opponentRef, { opponent: null, status: PlayerStatus.Waiting });
-    }
-
-    // TODO: remove references in challenges with other players!
-
-    return batch.commit()
-        .catch(err => {
-            console.log(err);
-        });
+        // TODO: remove challenges in other waiting players
+        // TODO: update orphaned opponent
+    });
 }
+

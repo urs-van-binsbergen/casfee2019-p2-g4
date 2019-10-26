@@ -1,3 +1,5 @@
+// Firestore collection names (used server AND client side)
+
 export default {
     USERS: 'users',
     PLAYERS: 'players',

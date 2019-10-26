@@ -1,10 +1,11 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { Ship, Player, PlayerStatus, WaitingPlayer, PlayerInfo, User } from '../public/core-models';
+import { Player, PlayerStatus, WaitingPlayer, PlayerInfo, User } from '../public/core-models';
 import { PreparationArgs } from '../public/arguments';
 import { authenticate } from '../shared/auth-utils';
-import { toShip } from '../shared/model-converters';
+import { toShip, toMiniGameNumber, toSize, convertArray } from '../shared/common-argument-converters';
 import COLL from '../public/firestore-collection-name-const';
 import { getData } from '../shared/db-utils';
+import { createBoard } from '../public/core-methods';
 
 export default async function addPreparation(
     data: any,
@@ -36,35 +37,36 @@ function toPreparationArgs(data: any): PreparationArgs {
     }
 
     // TEMP mini-game
-    const miniGameNumber = data.miniGameNumber ? parseInt(data.miniGameNumber, 10) : 100;
-    if (!miniGameNumber || miniGameNumber < 1 || miniGameNumber > 100) {
-        throw new HttpsError('out-of-range', 'number from 1 to 100');
-    }
+    const miniGameSecret = toMiniGameNumber(data.miniGameSecret);
+
+    // size
+    const size = toSize(data.size);
 
     // ships
-    let ships: Array<Ship>;
-    try {
-        const tmp = Array.from<Ship>(data.ships.map((x: any) => {
-            return toShip(x);
-        }));
-        ships = tmp;
-    } catch (error) {
-        throw new HttpsError('invalid-argument', 'ships missing or of bad type');
-    }
+    const ships = convertArray(data.ships,
+        el => toShip(el),
+        () => new HttpsError('invalid-argument', 'ships missing or of bad type')
+    );
 
-    return { miniGameNumber, ships };
+    return { miniGameSecret, size, ships };
 }
 
 function createPlayer(user: User, args: PreparationArgs): Player {
+    const board = createBoard(args.size, args.ships);
+
     return {
         uid: user.uid,
-        playerStatus: PlayerStatus.Preparing,
-        fields: [], // todo
-        ships: args.ships,
-        miniGameNumber: args.miniGameNumber, // TEMP
-        miniGameGuesses: [], // TEMP
-        opponent: null,
+        playerStatus: PlayerStatus.Waiting,
+
+        board,
+
+        battle: null,
         canShootNext: false,
+        lastMoveDate: new Date(),
+
+        // Mini Game (TEMP)
+        miniGameSecret: args.miniGameSecret,
+        miniGameLastOpponentGuess: 0
     };
 }
 
