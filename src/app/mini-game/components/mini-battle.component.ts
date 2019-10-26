@@ -59,13 +59,13 @@ export class MiniBattleComponent implements OnInit {
         }
 
         // Mode 1: Fully working ship battle (with poor UX) -> toggle by commenting-in
-        // 1) Save a layout using '/preparation' (instead of 'mini-game/prep'). 
+        // 1) Save a layout using '/preparation' (instead of 'mini-game/prep').
         // 2) Come back to mini game > Start > Next... > Make a match
         // 3) Go to battle (here)
         //    Submit a number between 1 and 64 to shoot a field on the board (numbered from top-left)
         //    Shoot until victory or waterloo.
-        //const targetPos = getPosFromIndex(currentGuess - 1, { w: 8, h: 8 });
-        //const miniGameGuess = 0;
+        // const targetPos = getPosFromIndex(currentGuess - 1, { w: 8, h: 8 });
+        // const miniGameGuess = 0;
 
         // Mode 2: plain number guessing game:
         const miniGameGuess = currentGuess;
