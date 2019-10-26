@@ -2,7 +2,7 @@ import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/ht
 import { Player, PlayerStatus, WaitingPlayer, PlayerInfo, User } from '../public/core-models';
 import { PreparationArgs } from '../public/arguments';
 import { authenticate } from '../shared/auth-utils';
-import { toShip, toMiniGameNumber, toSize, convertArray } from '../shared/argument-converters';
+import { toShip, toMiniGameNumber, toSize, convertArray } from '../shared/common-argument-converters';
 import COLL from '../public/firestore-collection-name-const';
 import { getData } from '../shared/db-utils';
 import { createBoard } from '../public/core-methods';

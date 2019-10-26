@@ -18,8 +18,8 @@
                     challenged by:
                     <span *ngFor="let challenge of waitingPlayer.challenges"
                         style="border: 1px solid black; display:inline-block; margin-right: 10px;">
-                        {{challenge.name || '?'}}
-                        <span *ngIf=" challenge.uid === uid"> (me)</span>
+                        {{challenge.challengerInfo.displayName || '?'}}
+                        <span *ngIf=" challenge.challengerInfo.uid === uid"> (me)</span>
                     </span>
                 </div>
             </li>

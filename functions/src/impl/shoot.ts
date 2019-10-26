@@ -1,11 +1,15 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { getData } from '../shared/db-utils';
-import COLL from '../public/firestore-collection-name-const';
-import { Player, PlayerStatus, TargetFieldStatus } from '../public/core-models';
-import { ShootArgs } from '../public/arguments';
-import { toMiniGameNumber, toPos } from '../shared/argument-converters';
+
 import { authenticate } from '../shared/auth-utils';
+import { getData } from '../shared/db-utils';
+
+import COLL from '../public/firestore-collection-name-const';
+
+import { Player, PlayerStatus, FieldStatus } from '../public/core-models';
 import { findShipByPos, findFieldByPos } from '../public/core-methods';
+
+import { ShootArgs } from '../public/arguments';
+import { toMiniGameNumber, toPos } from '../shared/common-argument-converters';
 
 export default async function shoot(
     data: any,
@@ -59,31 +63,28 @@ export default async function shoot(
             const targetPos = args.targetPos;
             const targetField = findFieldByPos(targetBoard, targetPos);
             const oppField = findFieldByPos(oppBoard, targetPos);
-            const oppShipHit = findShipByPos(oppBoard.ships, targetPos);
-            if (oppShipHit !== null) {
+            const hit = findShipByPos(oppBoard.ships, targetPos);
+            if (hit !== null) {
                 // TODO: detect repeated shoot on same target field
 
-                // player state:
-                targetField.status = TargetFieldStatus.Hit;
+                oppField.status = FieldStatus.Hit;
+                targetField.status = FieldStatus.Hit;
 
-                // opponent state:
-                const ship = oppShipHit.ship;
-                oppField.isHit = true;
-                ship.hits.push(oppShipHit.fieldIndex);
-
-                // sunk?
+                const ship = hit.ship;
+                ship.hits.push(hit.fieldIndex);
                 if (ship.hits.length === ship.length) {
-                    // player state:
+                    // sunk!
                     targetBoard.sunkShips.push(ship);
-                    // opponent state:
                     ship.isSunk = true;
                 }
+
+                playerWins = oppBoard.ships.every(s => s.isSunk);
             } else {
-                targetField.status = TargetFieldStatus.Miss;
+                oppField.status = FieldStatus.Miss;
+                targetField.status = FieldStatus.Miss;
+                playerWins = false; 
             }
 
-
-            playerWins = false; // TODO
         }
 
         const lastMoveDate = new Date();
@@ -122,7 +123,7 @@ function toShootArgs(data: any): ShootArgs {
     const targetPos = toPos(data.targetPos);
 
     // TEMP mini-game
-    const miniGameGuess = toMiniGameNumber(data.miniGameGuess);
+    const miniGameGuess = data.miniGameGuess ? toMiniGameNumber(data.miniGameGuess) : 0;
 
     return { targetPos, miniGameGuess };
 }

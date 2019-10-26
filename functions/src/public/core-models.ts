@@ -28,9 +28,15 @@ export interface Ship {
     isSunk: boolean;
 }
 
+export enum FieldStatus {
+    Unknown,
+    Miss,
+    Hit
+}
+
 export interface Field {
     pos: Pos;
-    isHit: boolean;
+    status: FieldStatus;
 }
 
 export interface Board extends FlatGrid<Field> {
@@ -40,15 +46,9 @@ export interface Board extends FlatGrid<Field> {
 }
 
 
-export enum TargetFieldStatus {
-    Unknown,
-    Miss,
-    Hit
-}
-
 export interface TargetField {
     pos: Pos;
-    status: TargetFieldStatus;
+    status: FieldStatus;
 }
 
 export interface TargetBoard extends FlatGrid<TargetField> {

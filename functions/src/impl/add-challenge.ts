@@ -1,7 +1,7 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 import * as uuid from 'uuid/v4';
 import { getData } from '../shared/db-utils';
-import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Battle, PlayerInfo, TargetBoard, TargetFieldStatus, Size } from '../public/core-models';
+import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Battle, PlayerInfo, TargetBoard, FieldStatus, Size } from '../public/core-models';
 import COLL from '../public/firestore-collection-name-const';
 import { authenticate } from '../shared/auth-utils';
 import { AddChallengeArgs } from '../public/arguments';
@@ -121,7 +121,7 @@ function createPlayerInBattle(
 }
 
 function createTargetBoard(size: Size): TargetBoard {
-    const fields = createFields(size, pos => ({ pos, status: TargetFieldStatus.Unknown }));
+    const fields = createFields(size, pos => ({ pos, status: FieldStatus.Unknown }));
     return {
         size: { ...size },
         fields,

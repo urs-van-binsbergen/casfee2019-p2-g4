@@ -1,4 +1,6 @@
-import { Size, Pos, Ship, Board, FlatGrid } from './core-models';
+// Elementary methods (used server AND client side)
+
+import { Size, Pos, Ship, Board, FlatGrid, FieldStatus } from './core-models';
 
 export function areEqualPos(pos1: Pos, pos2: Pos): boolean {
     return pos1.x === pos2.x &&
@@ -10,12 +12,18 @@ export function areEqualSize(size1: Size, size2: Size): boolean {
         size1.w === size2.w;
 }
 
-export function getFlatGridIndex(pos: Pos, size: Size) {
+export function getIndexFromPos(pos: Pos, size: Size) {
     return pos.y * size.w + pos.x;
 }
 
+export function getPosFromIndex(index: number, size: Size): Pos {
+    const y = Math.floor(index / size.w);
+    const x = index % size.w;
+    return { x, y };
+}
+
 export function findFieldByPos<TField>(grid: FlatGrid<TField>, pos: Pos): TField {
-    const index = getFlatGridIndex(pos, grid.size);
+    const index = getIndexFromPos(pos, grid.size);
     return grid.fields[index];
 }
 
@@ -24,7 +32,7 @@ export function createFields<TField>(size: Size, createField: (pos: Pos) => TFie
     for (let y = 0; y < size.h; y++) {
         for (let x = 0; x < size.h; x++) {
             const pos = { x, y };
-            const index = getFlatGridIndex(pos, size);
+            const index = getIndexFromPos(pos, size);
             fields[index] = createField(pos);
         }
     }
@@ -65,7 +73,7 @@ function getShipPositions(ship: Ship): Pos[] {
 }
 
 export function createBoard(size: Size, ships: Ship[]): Board {
-    const fields = createFields(size, pos => ({ pos, isHit: false }));
+    const fields = createFields(size, pos => ({ pos, status: FieldStatus.Unknown }));
 
     return { size, ships, fields };
 }

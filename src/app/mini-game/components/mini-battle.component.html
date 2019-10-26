@@ -5,7 +5,7 @@
         <div>
             <span style="font-size: 20px;">Your secret: {{player.miniGameSecret}}</span>
             <div>
-                Opponent's last guess: {{ player.miniGameLastOpponentGuess }}
+                {{ player.battle.opponentInfo.displayName || 'Opponent' }}'s last guess: {{ player.miniGameLastOpponentGuess }}
             </div>
         </div>
         <div style="margin-top: 10px;">

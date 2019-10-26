@@ -11,7 +11,7 @@ import { Player } from '@cloud-api/core-models';
 })
 export class BattleComponent implements OnInit {
 
-    player: Player | null; 
+    player: Player | null;
 
     constructor(
         private router: Router,

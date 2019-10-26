@@ -16,7 +16,7 @@
                 </p>
                 <p>
                     <mat-form-field>
-                        <input matInput type="email" formControlName="username" required
+                        <input matInput type="email" formControlName="username" required autocomplete="username"
                             placeholder="{{'auth.register.username' | translate}}" />
                         <mat-error *ngIf="username.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="username.errors.required" translate>common.message.fieldRequired</div>
@@ -38,7 +38,7 @@
                 </p>
                 <p>
                     <mat-form-field>
-                        <input matInput type="password" formControlName="passwordRepeat" required
+                        <input matInput type="password" formControlName="passwordRepeat" required autocomplete="new-password"
                             placeholder="{{'auth.register.passwordRepeat' | translate}}" />
                         <mat-error *ngIf="passwordRepeat.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="passwordRepeat.errors.required" translate>common.message.fieldRequired</div>
