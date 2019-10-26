@@ -9,7 +9,7 @@ import { PreparationComponent } from './preparation.component';
 import { PreparationService } from './preparation.service';
 import { PreparationBoardComponent } from './components/preparation-board.component';
 import { PreparationShipComponent } from './components/preparation-ship.component';
-import { PreparationShipGhostComponent } from './components/preparation-ship-ghost.component';
+import { PreparationStatusComponent } from './components/preparation-status.component';
 import { PreparationYardComponent } from './components/preparation-yard.component';
 import { PreparationGuard } from './preparation.guard';
 import { YardService } from './yard.service';
@@ -28,7 +28,7 @@ const routes: Routes = [{
         PreparationComponent,
         PreparationBoardComponent,
         PreparationShipComponent,
-        PreparationShipGhostComponent,
+        PreparationStatusComponent,
         PreparationYardComponent
     ],
     imports: [

@@ -3,11 +3,11 @@ import { PreparationService } from '../preparation.service';
 import { YardService } from '../yard.service';
 
 @Component({
-    selector: 'app-preparation-ship-ghost',
-    templateUrl: './preparation-ship-ghost.component.html',
-    styleUrls: ['./preparation-ship-ghost.component.scss']
+    selector: 'app-preparation-status',
+    templateUrl: './preparation-status.component.html',
+    styleUrls: ['./preparation-status.component.scss']
 })
-export class PreparationShipGhostComponent implements OnInit {
+export class PreparationStatusComponent implements OnInit {
 
     constructor(private yardService: YardService, private preparationService: PreparationService) {
     }

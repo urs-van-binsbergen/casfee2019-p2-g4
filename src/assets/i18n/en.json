@@ -84,6 +84,10 @@
         "dialog": {
             "body": "Your data will get lost!",
             "title": "Warning"
+        },
+        "status": {
+            "nokLabel": "Not ok:",
+            "okLabel": "Ok:"
         }
     },
     "user": {
