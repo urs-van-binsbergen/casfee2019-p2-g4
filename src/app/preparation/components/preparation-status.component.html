@@ -1,6 +1,11 @@
 <div class="shipStatus">
-    <div *ngIf="hasOkKeys" class="okLabel" translate>preparation.status.okLabel</div>
-    <div *ngFor="let okKey of okKeys" id="{{okKey}}Ghost" class="{{okKey}}">╳</div>
-    <div *ngIf="hasErrorKeys" class="nokLabel" translate>preparation.status.nokLabel</div>
-    <div *ngFor="let errorKey of errorKeys" id="{{errorKey}}Ghost" class="{{errorKey}}">╳</div>
+    <div *ngIf="hasOkKeys" class="okShipStatus">
+        <div class="okLabel" translate>preparation.status.okLabel</div>
+        <div *ngFor="let okKey of okKeys" id="{{okKey}}Ghost" class="{{okKey}}">╳</div>
+        <div class="extraSpace"></div>
+    </div>
+    <div *ngIf="hasErrorKeys" class="nokShipStatus">
+        <div class="nokLabel" translate>preparation.status.nokLabel</div>
+        <div *ngFor="let errorKey of errorKeys" id="{{errorKey}}Ghost" class="{{errorKey}}">╳</div>
+    </div>
 </div>
