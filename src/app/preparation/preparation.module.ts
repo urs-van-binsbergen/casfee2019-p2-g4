@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { DragModule } from '../drag/drag.module';
+import { DraggableDirective } from './drag/draggable.directive';
+import { DropTargetDirective } from './drag/droptarget.directive';
+import { DragService } from './drag/drag.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { PreparationComponent } from './preparation.component';
 import { PreparationService } from './preparation.service';
 import { PreparationBoardComponent } from './components/preparation-board.component';
 import { PreparationShipComponent } from './components/preparation-ship.component';
+import { PreparationStatusComponent } from './components/preparation-status.component';
 import { PreparationYardComponent } from './components/preparation-yard.component';
 import { PreparationGuard } from './preparation.guard';
 import { YardService } from './yard.service';
@@ -20,17 +23,20 @@ const routes: Routes = [{
 
 @NgModule({
     declarations: [
+        DraggableDirective,
+        DropTargetDirective,
         PreparationComponent,
         PreparationBoardComponent,
         PreparationShipComponent,
+        PreparationStatusComponent,
         PreparationYardComponent
     ],
     imports: [
         SharedModule,
-        DragModule,
         RouterModule.forChild(routes)
     ],
     providers: [
+        DragService,
         PreparationGuard,
         PreparationService,
         YardService

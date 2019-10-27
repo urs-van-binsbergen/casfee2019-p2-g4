@@ -1,0 +1,57 @@
+@import './preparation-shared.component.scss';
+
+.shipStatus {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.okShipStatus, .nokShipStatus {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.red, .green, .blue, .turquoise, .purple, .extraSpace {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    min-width: $fieldMin;
+    width: #{$fieldFactor}vmin;
+    max-width: $fieldMax;
+
+    min-height: $fieldMin;
+    height: #{$fieldFactor}vmin;
+    max-height: $fieldMax;
+
+    margin: 1px;
+}
+
+.red {
+    background-color: rgb(255, 0, 0, $backgroundOpacity);
+}
+
+.green {
+    background-color: rgb(0, 255, 0, $backgroundOpacity);
+}
+
+.blue {
+    background-color: rgb(0, 0, 255, $backgroundOpacity);
+}
+
+.turquoise {
+    background-color: rgb(0, 255, 255, $backgroundOpacity);
+}
+
+.purple {
+    background-color: rgb(255, 0, 255, $backgroundOpacity);
+}
+
+.okLabel, .nokLabel {
+    margin: 1px 3px 1px 0px;
+}

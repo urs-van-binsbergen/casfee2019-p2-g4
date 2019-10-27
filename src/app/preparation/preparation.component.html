@@ -1,9 +1,12 @@
 <div class="page">
     <h1 translate>preparation.title</h1>
     <p translate>preparation.body</p>
-    <div class="all">
-        <app-preparation-yard></app-preparation-yard>
-        <app-preparation-board></app-preparation-board>
+    <div class="prepartion">
+        <div class="preparationArea">
+            <app-preparation-yard></app-preparation-yard>
+            <app-preparation-board></app-preparation-board>
+        </div>
+        <app-preparation-status></app-preparation-status>
     </div>
     <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
         <button mat-raised-button color="primary" (click)="onContinueClicked()" class="standard-button-width"

@@ -79,11 +79,15 @@
         "title": "Opponent Match"
     },
     "preparation": {
-        "body": "Drag and drop all ships from the yard to the board. Click on the ship's tower to rotate 90°. Drag and drop ships on the board to reposition.",
+        "body": "Drag all ships from the yard and drop them to the board. Click on the ship's tower to rotate 90°. Drag and drop ships on the board to reposition.",
         "title": "Preparation",
         "dialog": {
             "body": "Your data will get lost!",
             "title": "Warning"
+        },
+        "status": {
+            "nokLabel": "Not ok:",
+            "okLabel": "Ok:"
         }
     },
     "user": {
