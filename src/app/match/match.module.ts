@@ -5,7 +5,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { MatchComponent } from './match.component';
 import { MatchItemComponent } from './components/match-item.component';
 import { MatchItemsComponent } from './components/match-items.component';
-import { MatchService } from './match.service'
+import { MatchService } from './match.service';
 
 const routes: Routes = [{
     path: '',
