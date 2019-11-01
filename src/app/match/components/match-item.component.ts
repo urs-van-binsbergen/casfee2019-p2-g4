@@ -13,6 +13,10 @@ export class MatchItemComponent {
     @Output()
     public challenge: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+    get isOpponentChallenging(): boolean {
+        return this.item.isOpponentChellanging;
+    }
+
     public onChallengeChange(challenge: boolean) {
         this.challenge.emit(challenge);
     }

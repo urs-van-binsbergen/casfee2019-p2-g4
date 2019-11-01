@@ -1,6 +1,54 @@
 .mat-list-item {
-    width: 90%;
-    height: 5em;
+    height: 68px;
     margin-top: 2px;
-    background-color: yellow;
+    background-color: white;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}
+
+.statistic {
+    width: 10%;
+}
+
+.name {
+    width: 30%;
+}
+
+.avatar {
+    width: 48px;
+    height: 64px;
+    font-size: 60%;
+    color: white;
+    margin-right: 1%;
+    background-color: black;
+}
+
+.challenged {
+    width: 20%;
+}
+
+@keyframes color {
+    0% {
+        background-color: white;
+    }
+
+    50% {
+        background-color: orange;
+    }
+
+    100% {
+        background-color: white;
+    }
+}
+
+.challenging {
+    padding: 2px;
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
 }
