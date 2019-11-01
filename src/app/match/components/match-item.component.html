@@ -1,0 +1,7 @@
+<mat-list-item>
+    <div class="item">
+        <mat-checkbox [ngModel]="item.isChallenged" (ngModelChange)="onChallengeChange($event)">
+            {{item.opponentName}}
+        </mat-checkbox>
+    </div>
+</mat-list-item>
