@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatchItem } from '../match-item';
+import { MatchService } from '../match.service';
 
 @Component({
     selector: 'app-match-items',
@@ -8,10 +9,14 @@ import { MatchItem } from '../match-item';
 })
 export class MatchItemsComponent {
 
-    @Input()
-    public items: MatchItem[];
+    constructor(private matchService: MatchService) {
+    }
 
-    public onChallengeChange(challenge: boolean, item: MatchItem) {
-        item.challenge(challenge);
+    public get items(): MatchItem[] {
+        return this.matchService.items;
+    }
+
+    public onChallengeChange(item: MatchItem, challenge: boolean) {
+        this.matchService.challenge(item, challenge);
     }
 }

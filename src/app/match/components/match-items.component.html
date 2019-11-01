@@ -1,4 +1,4 @@
 <mat-list>
-    <app-match-item *ngFor="let item of items" [item]="item" (challenge)="onChallengeChange($event, item)">
+    <app-match-item *ngFor="let item of items" [item]="item" (challenge)="onChallengeChange(item, $event)">
     </app-match-item>
 </mat-list>

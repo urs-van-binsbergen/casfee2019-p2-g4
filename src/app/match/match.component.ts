@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatchItem } from './match-item';
-import { MatchService } from './match.service';
 
 @Component({
     selector: 'app-match',
@@ -10,13 +8,9 @@ import { MatchService } from './match.service';
 })
 export class MatchComponent {
 
-    constructor(private router: Router, private matchService: MatchService) { }
+    constructor(private router: Router) { }
 
     onMatchClicked() {
         this.router.navigateByUrl('/battle');
-    }
-
-    get items(): MatchItem[] {
-        return this.matchService.items;
     }
 }

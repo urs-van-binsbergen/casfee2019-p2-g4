@@ -1,16 +1,27 @@
 export class MatchItem {
+    private _opponentUid: string;
     private _victories: number;
     private _defeats: number;
     private _opponentName: string;
-    private _isOpponentChellanged: boolean;
-    private _isOpponentChellanging: boolean;
+    private _isOpponentChallenged: boolean;
+    private _isOpponentChallenging: boolean;
 
-    constructor(opponentName: string) {
+    constructor(
+        opponentUid: string,
+        opponentName: string,
+        isOpponentChallenged: boolean,
+        isOpponentChallenging: boolean
+    ) {
+        this._opponentUid = opponentUid;
         this._victories = 12;
         this._defeats = 23;
         this._opponentName = opponentName;
-        this._isOpponentChellanged = false;
-        this._isOpponentChellanging = true;
+        this._isOpponentChallenged = isOpponentChallenged;
+        this._isOpponentChallenging = isOpponentChallenging;
+    }
+
+    get opponentUid(): string {
+        return this._opponentUid;
     }
 
     get victories(): number {
@@ -25,15 +36,19 @@ export class MatchItem {
         return this._opponentName;
     }
 
-    get isOpponentChellanged(): boolean {
-        return this._isOpponentChellanged;
+    get isOpponentChallenged(): boolean {
+        return this._isOpponentChallenged;
     }
 
-    get isOpponentChellanging(): boolean {
-        return this._isOpponentChellanging;
+    get isOpponentChallenging(): boolean {
+        return this._isOpponentChallenging;
     }
 
     challenge(challenge: boolean) {
-        this._isOpponentChellanged = challenge;
+        this._isOpponentChallenged = challenge;
+    }
+
+    challenging(challenging: boolean) {
+        this._isOpponentChallenging = challenging;
     }
 }

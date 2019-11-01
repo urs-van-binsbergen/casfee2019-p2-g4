@@ -23,7 +23,6 @@ export class DraggableDirective {
     @HostListener('dragstart', ['$event'])
     onDragStart(event: any) {
         const img = document.getElementById(this.key + 'Ghost');
-        console.log('FUCK ' + img);
         event.dataTransfer.setDragImage(img, 0, 0);
         this.dragService.start(this.key);
         event.dataTransfer.setData('key', this.key); // required for FF to work
