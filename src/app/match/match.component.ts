@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatchService } from './match.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,9 +9,14 @@ import { Router } from '@angular/router';
 })
 export class MatchComponent {
 
-    constructor(private router: Router) { }
-
-    onMatchClicked() {
-        this.router.navigateByUrl('/battle');
+    constructor(private matchService: MatchService, private router: Router) {
+        this.matchService.isMatchCompleted$.subscribe(
+            isMatchCompleted => {
+                console.log('FUCK ' + isMatchCompleted);
+                if (isMatchCompleted) {
+                    this.router.navigateByUrl('/battle');
+                }
+            }
+        );
     }
 }
