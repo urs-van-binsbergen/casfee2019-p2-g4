@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatDialogModule, MatMenuModule, MatToolbarModule,
+import { MatButtonModule, MatCheckboxModule, MatCardModule, MatDialogModule, MatMenuModule, MatToolbarModule,
     MatSnackBarModule, MatProgressSpinnerModule, MatInputModule, MatTooltipModule, MatDividerModule, MatListModule
 } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,6 +32,7 @@ export function createTranslateLoader(http: HttpClient) {
         FormsModule,
         ReactiveFormsModule,
         MatButtonModule,
+        MatCheckboxModule,
         MatCardModule,
         MatDialogModule,
         MatIconModule,
