@@ -12,14 +12,17 @@
 }
 
 .statistic {
-    width: 10%;
+    flex: 0 0 auto;
+    width: 5em;
 }
 
 .name {
-    width: 30%;
+    flex: 1 1 auto;
+    width: 100%em;
 }
 
 .avatar {
+    flex: 0 0 auto;
     width: 48px;
     height: 64px;
     font-size: 60%;
@@ -29,25 +32,27 @@
 }
 
 .challenged {
-    width: 20%;
+    flex: 0 0 auto;
+    width: 15em;
 }
 
 @keyframes color {
     0% {
-        background-color: white;
+        color: black;
     }
 
     50% {
-        background-color: orange;
+        color: orange;
     }
 
     100% {
-        background-color: white;
+        color: black;
     }
 }
 
 .challenging {
-    padding: 2px;
+    flex: 0 0 auto;
+    width: 15em;
     animation-name: color;
     animation-duration: 2s;
     animation-iteration-count: infinite;

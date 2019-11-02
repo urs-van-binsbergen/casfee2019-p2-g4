@@ -5,10 +5,12 @@
         <div class="avatar">Avatar</div>
         <mat-checkbox [ngModel]="item.isOpponentChallenged" (ngModelChange)="onChallengeChange($event)"
             class="challenged">
-            Challenged
+            {{'match.item.challenged' | translate}}
         </mat-checkbox>
-        <div *ngIf="item.isOpponentChallenging" class="challenging">
-            Challenging you
+        <div class="challenging">
+            <p *ngIf="item.isOpponentChallenging" class="challenging-text">
+                {{'match.item.challenging' | translate}}
+            </p>
         </div>
     </div>
 </mat-list-item>

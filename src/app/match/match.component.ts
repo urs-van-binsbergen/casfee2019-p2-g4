@@ -12,7 +12,6 @@ export class MatchComponent {
     constructor(private matchService: MatchService, private router: Router) {
         this.matchService.isMatchCompleted$.subscribe(
             isMatchCompleted => {
-                console.log('FUCK ' + isMatchCompleted);
                 if (isMatchCompleted) {
                     this.router.navigateByUrl('/battle');
                 }

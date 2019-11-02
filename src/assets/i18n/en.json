@@ -76,7 +76,11 @@
     },
     "match": {
         "body": "Match Text",
-        "title": "Opponent Match"
+        "title": "Opponent Match",
+        "item": {
+            "challenged": "Challenge opponent",
+            "challenging": "Opponent is challenging you"
+        }
     },
     "preparation": {
         "body": "Drag all ships from the yard and drop them to the board. Click on the ship's tower to rotate 90°. Drag and drop ships on the board to reposition.",

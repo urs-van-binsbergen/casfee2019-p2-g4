@@ -76,7 +76,11 @@
     },
     "match": {
         "body": "Herausforderung Text",
-        "title": "Herausforderung"
+        "title": "Herausforderung",
+        "item": {
+            "challenged": "Gegner herausfordern",
+            "challenging": "Gegner fordert dich heraus"
+        }
     },
     "preparation": {
         "body": "Alle Schiffe von der Werft auf das Brett ziehen. Klick auf den Turm des Schiffs rotiert um 90°. Schiffe auf dem Bretten beliebig repositionieren.",
