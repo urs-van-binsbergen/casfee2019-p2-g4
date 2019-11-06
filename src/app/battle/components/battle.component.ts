@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { AuthStateService } from 'src/app/auth/auth-state.service';
-import { BattleBoard, createRowsAndFields, Field } from '../battle-models';
+import { BattleBoard, BattleField } from '../battle-models';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { ShootArgs } from '@cloud-api/arguments';
 import { PlayerInfo, PlayerStatus } from '@cloud-api/core-models';
+import * as battleMethods from '../battle-methods';
 
 @Component({
     selector: 'app-battle',
@@ -32,22 +33,16 @@ export class BattleComponent implements OnInit {
             player => {
                 if (player && player.battle) {
                     this.opponentInfo = player.battle.opponentInfo;
-
-                    const targetBoard = player.battle.targetBoard;
-                    const targetRows = createRowsAndFields(targetBoard);
-                    const canShoot = player.canShootNext;
-                    this.targetBoard = new BattleBoard(targetRows, targetBoard.ships, canShoot);
-
-                    const ownBoard = player.board;
-                    const ownRows = createRowsAndFields(ownBoard);
-                    this.ownBoard = new BattleBoard(ownRows, ownBoard.ships, false);
-
+                    this.targetBoard = battleMethods.createTargetBoard(player);
+                    this.ownBoard = battleMethods.createOwnBoard(player);
                     this.isVictory = player.playerStatus === PlayerStatus.Victory;
                     this.isWaterloo = player.playerStatus === PlayerStatus.Waterloo;
-                    }
-                else {
+                } else {
+                    this.opponentInfo = null;
                     this.targetBoard = null;
                     this.ownBoard = null;
+                    this.isVictory = false;
+                    this.isWaterloo = false;
                 }
             },
             error => {
@@ -56,7 +51,7 @@ export class BattleComponent implements OnInit {
         );
     }
 
-    onShoot(field: Field) {
+    onShoot(field: BattleField) {
         if (!this.targetBoard.canShoot || !field.shootable) {
             return;
         }

@@ -43,7 +43,10 @@
     },
     "battle": {
         "title": "Battle",
-        "body": "Click to shoot"
+        "pleaseShoot": "Please shoot now",
+        "waitingForOpponent": "Waiting for opponent",
+        "sBoard": "'s board",
+        "yourBoard": "Your board"
     },
     "button": {
         "battle": "Battle",

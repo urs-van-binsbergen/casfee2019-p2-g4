@@ -43,7 +43,10 @@
     },
     "battle": {
         "title": "Seeschlacht",
-        "battle": "Klicken um das Torpedo loszulassen"
+        "pleaseShoot": "Du kannst jetzt schiessen",
+        "waitingForOpponent": "Gegner wird demnächst schiessen...",
+        "sBoard": " Spielfeld",
+        "yourBoard": "Dein Spielfeld"
     },
     "button": {
         "battle": "Schlacht",
