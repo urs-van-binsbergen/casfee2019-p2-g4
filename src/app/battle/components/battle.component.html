@@ -1,10 +1,10 @@
 <div class="mat-typography">
     <div class="inset-1">
         <h2 translate>battle.title</h2>
-        <p *ngIf="targetBoard.canShoot" style="font-weight: bold; color: orange;">
+        <p *ngIf="shootNow" style="font-weight: bold; color: orange;">
             <span translate>battle.pleaseShoot</span>
         </p>
-        <p *ngIf="!targetBoard.canShoot && !isVictory && !isWaterloo" style="font-weight: bold; color: blue;">
+        <p *ngIf="waitingForOpponentShoot" style="font-weight: bold; color: blue;">
             <span translate>battle.waitingForOpponent</span>
         </p>
     </div>
@@ -14,7 +14,7 @@
 
     <div class="" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center">
         <div class="opponent-container" fxFlex="0 0 auto">
-            <h3>
+            <h3 *ngIf="opponentInfo">
                 {{ opponentInfo.displayName }}<span translate>battle.sBoard</span>
             </h3>
             <div *ngIf="targetBoard">
@@ -28,9 +28,9 @@
             </div>
         </div>
     </div>
-    <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
+    <!-- <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
         <button mat-raised-button color="primary" class="standard-button-width"
             (click)="onCapitulationClicked()">{{'button.capitulation' | translate}}</button>
-    </div>
+    </div> -->
 
 </div>
