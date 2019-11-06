@@ -1,4 +1,4 @@
-import { FieldStatus, Ship, Field as CoreField, Pos } from '@cloud-api/core-models'
+import { FieldStatus, Ship, Field as CoreField, Pos } from '@cloud-api/core-models';
 
 export class Row {
     constructor(
@@ -17,10 +17,9 @@ export class BattleField implements CoreField {
 
     shooting = false;
 
-    get shootable(): boolean
-    {
+    get shootable(): boolean {
         return this.status === FieldStatus.Unknown && !this.shooting;
-    } 
+    }
 }
 
 export class BattleBoard {

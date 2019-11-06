@@ -3,7 +3,7 @@ import { Row, BattleField, BattleBoard } from './battle-models';
 import { findFieldByPos } from '@cloud-api/core-methods';
 
 function createRowsAndFields(grid: FlatGrid<CoreField>): Row[] {
-    var rows: Row[] = [];
+    const rows: Row[] = [];
     const size = grid.size;
     for (let y = 0; y < size.h; y++) {
         const fields: BattleField[] = [];
@@ -33,4 +33,3 @@ export function createOwnBoard(player: Player): BattleBoard {
     const battleBoard = new BattleBoard(ownRows, ownBoard.ships, false);
     return battleBoard;
 }
- 

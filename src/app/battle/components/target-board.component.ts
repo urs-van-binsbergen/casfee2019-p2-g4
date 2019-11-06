@@ -3,19 +3,19 @@ import { BattleBoard } from '../battle-models';
 import { Pos } from '@cloud-api/core-models';
 
 @Component({
-    selector: 'target-board',
+    selector: 'app-target-board',
     templateUrl: './target-board.component.html',
-    styleUrls: [ './target-board.component.scss' ]
+    styleUrls: ['./target-board.component.scss']
 })
 export class TargetBoardComponent {
-    @Input() 
+    @Input()
     public targetBoard: BattleBoard;
 
     @Output()
-    onShoot = new EventEmitter<Pos>();
+    shoot = new EventEmitter<Pos>();
 
     onFieldClick(targetPos: Pos): void {
-        this.onShoot.emit(targetPos);
+        this.shoot.emit(targetPos);
     }
 
 }

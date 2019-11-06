@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { BattleBoard } from '../battle-models';
 
 @Component({
-    selector: 'own-board',
+    selector: 'app-own-board',
     templateUrl: './own-board.component.html',
-    styleUrls: [ './own-board.component.scss' ]
+    styleUrls: ['./own-board.component.scss']
 })
 export class OwnBoardComponent {
-    @Input() 
+    @Input()
     public ownBoard: BattleBoard;
 }

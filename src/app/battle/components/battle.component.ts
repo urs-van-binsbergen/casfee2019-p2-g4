@@ -60,7 +60,8 @@ export class BattleComponent implements OnInit {
         const args: ShootArgs = {
             targetPos: field.pos,
             miniGameGuess: null
-        }
+        };
+
         this.cloudFunctions.shoot(args).toPromise()
             .then(results => {
                 field.shooting = false;
