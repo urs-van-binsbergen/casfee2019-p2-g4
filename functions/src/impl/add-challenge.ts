@@ -1,7 +1,7 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 import * as uuid from 'uuid/v4';
 import { getData } from '../shared/db-utils';
-import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Battle, PlayerInfo, TargetBoard, FieldStatus, Size } from '../public/core-models';
+import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Battle, PlayerInfo, Board, FieldStatus, Size } from '../public/core-models';
 import COLL from '../public/firestore-collection-name-const';
 import { authenticate } from '../shared/auth-utils';
 import { AddChallengeArgs } from '../public/arguments';
@@ -120,12 +120,12 @@ function createPlayerInBattle(
     };
 }
 
-function createTargetBoard(size: Size): TargetBoard {
+function createBoard(size: Size): Board {
     const fields = createFields(size, pos => ({ pos, status: FieldStatus.Unknown }));
     return {
         size: { ...size },
         fields,
-        sunkShips: []
+        ships: []
     };
 }
 
@@ -134,7 +134,7 @@ function createBattle(user: User, size: Size, battleId: string): Battle {
         battleId,
         opponentInfo: createPlayerInfo(user),
         opponentLastMoveDate: new Date(),
-        targetBoard: createTargetBoard(size),
+        targetBoard: createBoard(size),
 
         // TEMP
         miniGameGuesses: [],

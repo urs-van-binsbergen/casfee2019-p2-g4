@@ -1,0 +1,36 @@
+<div class="mat-typography">
+    <div class="inset-1">
+        <h2 translate>battle.title</h2>
+        <p *ngIf="targetBoard.canShoot" style="font-weight: bold; color: orange;">
+            <span translate>battle.pleaseShoot</span>
+        </p>
+        <p *ngIf="!targetBoard.canShoot && !isVictory && !isWaterloo" style="font-weight: bold; color: blue;">
+            <span translate>battle.waitingForOpponent</span>
+        </p>
+    </div>
+    <h1 *ngIf="isVictory" style="background-color: pink;">Victory!!!!</h1>
+
+    <h1 *ngIf="isWaterloo" style="background-color: black; color: white;">Waterloo :(</h1>
+
+    <div class="" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center">
+        <div class="opponent-container" fxFlex="0 0 auto">
+            <h3>
+                {{ opponentInfo.displayName }}<span translate>battle.sBoard</span>
+            </h3>
+            <div *ngIf="targetBoard">
+                <target-board [targetBoard]="targetBoard" (onShoot)="onShoot($event)"></target-board>
+            </div>
+        </div>
+        <div class="own-board-container" fxFlex="0 0 auto">
+            <h3 translate>battle.yourBoard</h3>
+            <div *ngIf="ownBoard">
+                <own-board [ownBoard]="ownBoard"></own-board>
+            </div>
+        </div>
+    </div>
+    <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
+        <button mat-raised-button color="primary" class="standard-button-width"
+            (click)="onCapitulationClicked()">{{'button.capitulation' | translate}}</button>
+    </div>
+
+</div>

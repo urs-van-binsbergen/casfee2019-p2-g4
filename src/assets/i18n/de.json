@@ -42,8 +42,8 @@
         }
     },
     "battle": {
-        "body": "Schlacht Text",
-        "title": "Schlacht"
+        "title": "Seeschlacht",
+        "battle": "Klicken um das Torpedo loszulassen"
     },
     "button": {
         "battle": "Schlacht",

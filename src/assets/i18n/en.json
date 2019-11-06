@@ -42,8 +42,8 @@
         }
     },
     "battle": {
-        "body": "Battle Text",
-        "title": "Battle"
+        "title": "Battle",
+        "body": "Click to shoot"
     },
     "button": {
         "battle": "Battle",
