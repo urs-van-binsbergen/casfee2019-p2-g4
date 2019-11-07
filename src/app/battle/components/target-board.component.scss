@@ -1,0 +1,11 @@
+@import '../battle-common.scss';
+
+.target-board {
+    position: relative;
+    width: calc(11.1vmin * 8);
+    min-width: 300px;
+    max-width: 420px;
+    height: calc(11.1vmin * 8);
+    min-height: 300px;
+    max-height: 420px;
+}

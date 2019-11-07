@@ -42,8 +42,15 @@
         }
     },
     "battle": {
-        "body": "Battle Text",
-        "title": "Battle"
+        "title": "Battle",
+        "pleaseShoot": "Please shoot now",
+        "waitingForOpponent": "Waiting for opponent",
+        "sBoard": "'s board",
+        "yourBoard": "Your board",
+        "apiError": {
+            "shooting": "Failure transmitting to server: {{errorDetail}}",
+            "loading": "Failure loading data: {{errorDetail}}"
+        }
     },
     "button": {
         "battle": "Battle",

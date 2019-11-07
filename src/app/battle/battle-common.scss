@@ -1,0 +1,56 @@
+.row {
+    display: flex;
+    height: 12.5%;
+    border-bottom: 1px solid #e3f2fd;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.field {
+    flex: 1 0 0;
+    background-color: white;
+    text-align: center;
+    border-right: 1px solid #e3f2fd;
+}
+
+.field:last-child {
+    border-right: none;
+}
+
+.field-status-0 { // unknown
+    background-color: dodgerblue;
+}
+
+.field-status-1 { // miss
+    background-color: white;
+}
+
+.field-status-2 { // hit
+    background-color: black;
+}
+
+.active-field {
+    cursor: pointer;
+
+    &:hover {
+        background-color: yellow;
+    }
+}
+
+.shooting-field {
+    background-color: gray;
+}
+
+.ship {
+    position: absolute; 
+    border: 1px solid white;
+    background-color: white; 
+    opacity: 0.7;
+}
+
+.sunk-ship {
+    background-color: tomato;
+    opacity: 1;
+}

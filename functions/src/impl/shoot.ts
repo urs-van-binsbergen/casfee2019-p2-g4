@@ -74,7 +74,7 @@ export default async function shoot(
                 ship.hits.push(hit.fieldIndex);
                 if (ship.hits.length === ship.length) {
                     // sunk!
-                    targetBoard.sunkShips.push(ship);
+                    targetBoard.ships.push(ship);
                     ship.isSunk = true;
                 }
 
@@ -82,7 +82,7 @@ export default async function shoot(
             } else {
                 oppField.status = FieldStatus.Miss;
                 targetField.status = FieldStatus.Miss;
-                playerWins = false; 
+                playerWins = false;
             }
 
         }

@@ -2,11 +2,17 @@
 
 import { Size, Pos, Ship, Board, FlatGrid, FieldStatus } from './core-models';
 
+/*
+ * Are these two positions equal?
+ */
 export function areEqualPos(pos1: Pos, pos2: Pos): boolean {
     return pos1.x === pos2.x &&
         pos1.y === pos2.y;
 }
 
+/*
+ * Are these two sizes equal?
+ */
 export function areEqualSize(size1: Size, size2: Size): boolean {
     return size1.h === size2.h &&
         size1.w === size2.w;

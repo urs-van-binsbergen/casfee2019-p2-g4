@@ -29,9 +29,9 @@ export interface Ship {
 }
 
 export enum FieldStatus {
-    Unknown,
-    Miss,
-    Hit
+    Unknown = 0,
+    Miss = 1,
+    Hit = 2
 }
 
 export interface Field {
@@ -43,18 +43,6 @@ export interface Board extends FlatGrid<Field> {
     size: Size;
     fields: Field[];
     ships: Ship[];
-}
-
-
-export interface TargetField {
-    pos: Pos;
-    status: FieldStatus;
-}
-
-export interface TargetBoard extends FlatGrid<TargetField> {
-    size: Size;
-    fields: TargetField[];
-    sunkShips: Ship[];
 }
 
 export enum PlayerLevel {
@@ -112,7 +100,7 @@ export interface Battle {
     battleId: string;
     opponentInfo: PlayerInfo;
     opponentLastMoveDate: Date;
-    targetBoard: TargetBoard;
+    targetBoard: Board;
 
     // Mini Game (TEMP): players knowledge about the opponent
     miniGameGuesses: number[];

@@ -42,8 +42,15 @@
         }
     },
     "battle": {
-        "body": "Schlacht Text",
-        "title": "Schlacht"
+        "title": "Seeschlacht",
+        "pleaseShoot": "Du kannst jetzt schiessen",
+        "waitingForOpponent": "Gegner wird demnächst schiessen...",
+        "sBoard": " Spielfeld",
+        "yourBoard": "Dein Spielfeld",
+        "apiError": {
+            "shooting": "Fehler beim Übermitteln auf den Server: {{errorDetail}}",
+            "loading": "Fehler beim Laden der Daten: {{errorDetail}}"
+        }
     },
     "button": {
         "battle": "Schlacht",
