@@ -48,8 +48,8 @@ export class BattleComponent implements OnInit {
                     this.isVictory = player.playerStatus === PlayerStatus.Victory;
                     this.isWaterloo = player.playerStatus === PlayerStatus.Waterloo;
                     this.shootNow = this.targetBoard.canShoot;
-                    this.waitingForOpponentShoot = !this.targetBoard.canShoot && 
-                                                    !this.isVictory && 
+                    this.waitingForOpponentShoot = !this.targetBoard.canShoot &&
+                                                    !this.isVictory &&
                                                     !this.isWaterloo;
                 } else {
                     this.opponentInfo = null;
@@ -62,7 +62,7 @@ export class BattleComponent implements OnInit {
                 }
             },
             error => {
-                console.log("error")
+                console.log('error');
                 const errorDetail = this.notification.localizeFirebaseError(error);
                 const msg = this.translate.instant('battle.apiError.loading', { errorDetail });
                 this.notification.toastToConfirm(msg);
