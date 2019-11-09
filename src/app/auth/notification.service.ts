@@ -58,4 +58,10 @@ export class NotificationService {
         return errorDetail;
     }
 
+    localizeFirebaseErrorCode(errorCode: string): string {
+        const key = 'firebase.errorCodes.' + errorCode;
+        const error: string = this.translate.instant(key);
+        return error;
+    }
+
 }

@@ -74,7 +74,8 @@
             "auth/wrong-password": "Falsches Passwort",
             "auth/user-not-found": "Benutzer nicht gefunden",
             "auth/email-already-in-use": "E-Mail wird bereits verwendet",
-            "auth/invalid-email": "E-Mail ungültig"
+            "auth/invalid-email": "E-Mail ungültig",
+            "undefined": "Nicht definiert"
         }
     },
     "hall": {
