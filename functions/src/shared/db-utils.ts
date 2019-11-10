@@ -9,3 +9,13 @@ export function getData<TData>(doc: DocumentSnapshot): TData {
     }
     return doc.data() as TData;
 }
+
+/*
+* Helper: Read typed data from a DocumentSnapshot. Return null if it does not exist.
+*/
+export function getDataOrNull<TData>(doc: DocumentSnapshot): TData | null {
+    if (!doc.exists) {
+        return null;
+    }
+    return doc.data() as TData;
+}

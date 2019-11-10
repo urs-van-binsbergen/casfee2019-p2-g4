@@ -1,7 +1,7 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 
 import { authenticate } from '../shared/auth-utils';
-import { getData } from '../shared/db-utils';
+import { getData, getDataOrNull } from '../shared/db-utils';
 
 import COLL from '../public/firestore-collection-name-const';
 
@@ -40,7 +40,16 @@ export default async function shoot(
         const oppUid = battle.opponentInfo.uid;
         const oppPlayerRef = db.collection(COLL.PLAYERS).doc(oppUid);
         const oppPlayerDoc = await tx.get(oppPlayerRef);
-        const oppPlayer = getData<Player>(oppPlayerDoc);
+        const oppPlayer = getDataOrNull<Player>(oppPlayerDoc);
+
+        if (oppPlayer == null) {
+            throw new Error('opponent does not exist in db');
+        }
+
+        if (oppPlayer.battle == null || oppPlayer.battle.battleId !== battle.battleId) {
+            throw new Error('opponent is not in a battle with player');
+            // (this is an inconsistency in data)
+        }
 
         // State to be patched-back to db
 
@@ -127,4 +136,3 @@ function toShootArgs(data: any): ShootArgs {
 
     return { targetPos, miniGameGuess };
 }
-
