@@ -144,8 +144,10 @@ export class BattleServiceCloud implements BattleService {
             player => {
                 if (player && player.battle) {
                     this._opponentInfo = player.battle.opponentInfo;
-                    this._targetBoard = battleMethods.createTargetBoard(player);
-                    this._ownBoard = battleMethods.createOwnBoard(player);
+                    const targetBoard = battleMethods.createTargetBoard(player);
+                    this._targetBoard = battleMethods.reduceBoardWithBoard(this._targetBoard, targetBoard);
+                    const ownBoard = battleMethods.createOwnBoard(player);
+                    this._ownBoard = battleMethods.reduceBoardWithBoard(this._ownBoard, ownBoard);
                     this._isVictory = player.playerStatus === PlayerStatus.Victory;
                     this._isWaterloo = player.playerStatus === PlayerStatus.Waterloo;
                     this._shootNow = this.targetBoard.canShoot;
