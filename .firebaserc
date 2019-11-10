@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "casfee2019-p2-g4"
+    "default": "casfee2019-p2-g4",
+    "staging": "uvb-firebase-test"
   }
 }

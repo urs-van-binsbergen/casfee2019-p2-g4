@@ -31,6 +31,14 @@
             ]
           },
           "configurations": {
+            "dev2": {
+                "fileReplacements": [
+                  {
+                    "replace": "src/environments/environment.ts",
+                    "with": "src/environments/environment.dev2.ts"
+                  }
+                ],
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -70,6 +78,9 @@
           "configurations": {
             "production": {
               "browserTarget": "casfee2019-p2-g4:build:production"
+            },
+            "dev2": {
+                "browserTarget": "casfee2019-p2-g4:build:dev2"
             }
           }
         },
