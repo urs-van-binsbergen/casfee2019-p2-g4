@@ -55,3 +55,28 @@ firebase deploy --only firestore
 firebase deploy --only firestore,functions
 ```
 
+## Alternate Backend (dev2)
+
+There is a second firebase project used to test new backend
+features. 
+
+To select `dev2` environment as target before deploying: 
+
+```sh
+firebase use dev2
+```
+
+To select the `default` environment again: 
+
+```sh
+firebase use default
+```
+
+To enable the `dev2` environment in local dev server:
+
+```sh
+ng serve -c=dev2
+```
+
+
+
