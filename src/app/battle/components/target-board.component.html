@@ -1,13 +1,9 @@
 <div class="target-board">
 
     <div *ngFor="let row of targetBoard.rows" class="row">
-        <div *ngFor="let field of row.fields" 
-            class="field field-status-{{ field.status }}"
-            [class.active-field]="targetBoard.canShoot && field.shootable"
-            [class.shooting-field]="field.shooting"
-            (click)="onFieldClick(field)">
-            
-        </div>
+        <app-target-field *ngFor="let field of row.fields" class="field" [field]="field" [canShoot]="targetBoard.canShoot"
+            (shoot)="onShoot($event)">
+        </app-target-field>
     </div>
 
     <div *ngFor="let ship of targetBoard.ships" 

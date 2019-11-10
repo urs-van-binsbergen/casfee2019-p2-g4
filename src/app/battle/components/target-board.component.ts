@@ -14,7 +14,7 @@ export class TargetBoardComponent {
     @Output()
     shoot = new EventEmitter<Pos>();
 
-    onFieldClick(targetPos: Pos): void {
+    onShoot(targetPos: Pos): void {
         this.shoot.emit(targetPos);
     }
 

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { AuthStateService } from 'src/app/auth/auth-state.service';
-import { BattleBoard, BattleField } from './battle-models';
+import { BattleBoard, BattleField, Row } from './battle-models';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { ShootArgs } from '@cloud-api/arguments';
-import { PlayerInfo, PlayerStatus } from '@cloud-api/core-models';
+import { PlayerInfo, PlayerStatus, PlayerLevel, Pos, FieldStatus } from '@cloud-api/core-models';
 import * as battleMethods from './battle-methods';
 import { Observable, Subject } from 'rxjs';
 
@@ -171,3 +171,98 @@ export class BattleServiceCloud implements BattleService {
     }
 
 }
+
+@Injectable()
+export class BattleServiceLoop implements BattleService {
+
+    private _opponentInfo: PlayerInfo | null = null;
+    private _board: BattleBoard | null = null;
+    private _state = BattleState.State.Battle;
+    private _timeOut = null;
+    private _battleState$: Subject<BattleState>;
+
+    constructor() {
+        this._battleState$ = new Subject<BattleState>();
+        this._battleState$.next(new BattleState(BattleState.State.Battle, null));
+        this.subscribeData();
+    }
+
+    get opponentInfo(): PlayerInfo {
+        return this._opponentInfo;
+    }
+
+    get targetBoard(): BattleBoard {
+        return this._board;
+    }
+
+    get ownBoard(): BattleBoard {
+        return this._board;
+    }
+
+    get shootNow(): boolean {
+        return true;
+    }
+
+    get waitingForOpponentShoot(): boolean {
+        return false;
+    }
+
+    get isVictory(): boolean {
+        return this._state === BattleState.State.Victory;
+    }
+
+    get isWaterloo(): boolean {
+        return this._state === BattleState.State.Defeat;
+    }
+
+    get battleState$(): Observable<BattleState> {
+        return this._battleState$.asObservable();
+    }
+
+    public onShoot(field: BattleField): void {
+        field.status = FieldStatus.Miss;
+        clearTimeout(this._timeOut);
+        this._timeOut = setTimeout(() => {
+            this.shoot(field);
+        }, 1000);
+    }
+
+    private shoot(field: BattleField): void {
+        if (field.pos.x === 7 && field.pos.y === 0) {
+            this._state = BattleState.State.Victory;
+            this._battleState$.next(new BattleState(this._state, null));
+        } else if (field.pos.x === 7 && field.pos.y === 1) {
+            this._state = BattleState.State.Defeat;
+            this._battleState$.next(new BattleState(this._state, null));
+        } else if (field.pos.x === 7 && field.pos.y === 2) {
+            this._battleState$.next(new BattleState(this._state, 'undefined'));
+        } else if (field.pos.x < 4) {
+            field.status = FieldStatus.Miss;
+        } else {
+            field.status = FieldStatus.Hit;
+        }
+    }
+
+    private subscribeData() {
+        this._opponentInfo = {
+            uid: 'uid',
+            displayName: 'displayName',
+            avatarFileName: '',
+            level: PlayerLevel.Admiral
+        };
+        const rows: Row[] = [];
+        for (let y = 0 ; y < 8; y++) {
+            const battleFields: BattleField[] = [];
+            for (let x = 0; x < 8; x++) {
+                const pos: Pos = {x, y};
+                const battleField = new BattleField(pos, FieldStatus.Unknown);
+                battleFields.push(battleField);
+            }
+            const row = new Row(battleFields);
+            rows.push(row);
+        }
+        this._board = new BattleBoard(rows, [], true);
+    }
+
+}
+

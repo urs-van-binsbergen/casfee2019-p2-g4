@@ -6,6 +6,7 @@ import { BattleComponent } from './components/battle.component';
 import { BattleService, BattleServiceCloud } from './battle.service';
 import { OwnBoardComponent } from './components/own-board.component';
 import { TargetBoardComponent } from './components/target-board.component';
+import { TargetFieldComponent } from './components/target-field.component';
 
 const routes: Routes = [{
     path: '',
@@ -17,7 +18,8 @@ const routes: Routes = [{
     declarations: [
         BattleComponent,
         OwnBoardComponent,
-        TargetBoardComponent
+        TargetBoardComponent,
+        TargetFieldComponent
     ],
     imports: [
         SharedModule,
