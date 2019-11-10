@@ -83,10 +83,7 @@ export class PreparationComponent implements OnInit {
 
         return {
             size: { w: 8, h: 8 }, // TODO: move magic number to some constant
-            ships: [ ...cloudShips ],
-
-            // TEMP
-            miniGameSecret: 50,
+            ships: [ ...cloudShips ]
         };
 
     }

@@ -87,10 +87,6 @@ export interface Player {
     battle: Battle | null;
     canShootNext: boolean;
     lastMoveDate: Date;
-
-    // Mini Game (TEMP): player's secret and the opponent's knowledge about it
-    miniGameSecret: number;
-    miniGameLastOpponentGuess: number;
 }
 
 /*
@@ -101,10 +97,6 @@ export interface Battle {
     opponentInfo: PlayerInfo;
     opponentLastMoveDate: Date;
     targetBoard: Board;
-
-    // Mini Game (TEMP): players knowledge about the opponent
-    miniGameGuesses: number[];
-    miniGameLastGuessSign: number;
 }
 
 export interface Challenge {

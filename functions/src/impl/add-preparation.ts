@@ -2,7 +2,7 @@ import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/ht
 import { Player, PlayerStatus, WaitingPlayer, PlayerInfo, User } from '../public/core-models';
 import { PreparationArgs } from '../public/arguments';
 import { authenticate } from '../shared/auth-utils';
-import { toShip, toMiniGameNumber, toSize, convertArray } from '../shared/common-argument-converters';
+import { toShip, toSize, convertArray } from '../shared/common-argument-converters';
 import COLL from '../public/firestore-collection-name-const';
 import { getData } from '../shared/db-utils';
 import { createBoard } from '../public/core-methods';
@@ -36,9 +36,6 @@ function toPreparationArgs(data: any): PreparationArgs {
         throw new HttpsError('invalid-argument', 'data missing');
     }
 
-    // TEMP mini-game
-    const miniGameSecret = toMiniGameNumber(data.miniGameSecret);
-
     // size
     const size = toSize(data.size);
 
@@ -48,7 +45,7 @@ function toPreparationArgs(data: any): PreparationArgs {
         () => new HttpsError('invalid-argument', 'ships missing or of bad type')
     );
 
-    return { miniGameSecret, size, ships };
+    return { size, ships };
 }
 
 function createPlayer(user: User, args: PreparationArgs): Player {
@@ -63,10 +60,6 @@ function createPlayer(user: User, args: PreparationArgs): Player {
         battle: null,
         canShootNext: false,
         lastMoveDate: new Date(),
-
-        // Mini Game (TEMP)
-        miniGameSecret: args.miniGameSecret,
-        miniGameLastOpponentGuess: 0
     };
 }
 

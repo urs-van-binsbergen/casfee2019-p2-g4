@@ -1,16 +1,15 @@
 <div class="mini-game-content mat-typography">
     <mat-card class="small-form">
-        <h2>Mini game</h2>
-
+        <h2>Debugging</h2>
+        <p>
+            Former "Mini Game", for debugging only.<br>
+            The button removes the current preparation, matching and battle data
+            (which is not implemented by the battle)
+        </p>
         <mat-card-content>
             <div class="button-row">
-                <div>
-                    <a mat-button mat-raised-button color="accent" routerLink="prep">
-                        Start
-                    </a>
-                </div>
                 <div *ngIf="hasPlayerData">
-                    <button mat-button (click)="purge()">
+                    <button mat-raised-button (click)="purge()" color="primary">
                         Purge my data
                     </button>
                 </div>

@@ -11,9 +11,6 @@ export interface UpdateUserArgs {
 export interface PreparationArgs {
     size: Size;
     ships: Ship[];
-
-    // TEMP
-    miniGameSecret: number;
 }
 
 export interface AddChallengeArgs {
@@ -22,7 +19,4 @@ export interface AddChallengeArgs {
 
 export interface ShootArgs {
     targetPos: Pos;
-
-    // TEMP
-    miniGameGuess: number;
 }
