@@ -112,6 +112,31 @@ export function reduceFieldWithField(state: BattleField, action: BattleField): B
     return field;
 }
 
+export function laodBoard(): BattleBoard {
+    const rows: Row[] = [];
+    for (let y = 0 ; y < 8; y++) {
+        const battleFields: BattleField[] = [];
+        for (let x = 0; x < 8; x++) {
+            const pos: Pos = {x, y};
+            const battleField = new BattleField(pos, FieldStatus.Unknown);
+            battleFields.push(battleField);
+        }
+        const row = new Row(battleFields);
+        rows.push(row);
+    }
+    const ships = [
+        {
+            pos: {x: 2, y: 3},
+            length: 3,
+            isVertical: true,
+            hits: [],
+            isSunk: false
+        }
+    ];
+    const board = new BattleBoard(rows, ships, true);
+    return board;
+}
+
 export function reduceBoardWithBoard(state: BattleBoard, action: BattleBoard): BattleBoard {
     const board = copyBoard(action);
     if (board && board.rows) {
@@ -139,12 +164,22 @@ export function reduceBoardWithShootingField(state: BattleBoard, action: BattleF
     return board;
 }
 
-export function reduceBoardUncoveredField(state: BattleBoard, action: BattleField): BattleBoard {
+export function reduceBoardWithUncoveringField(state: BattleBoard, action: BattleField, hit: boolean): BattleBoard {
     const x = action.pos.x;
     const y = action.pos.y;
     const board = copyBoard(state);
     if (state && state.rows && y < state.rows.length && state.rows[y].fields && x < state.rows[y].fields.length) {
-        board.rows[y].fields[x].shooting = true;
+        board.rows[y].fields[x].status = hit ? FieldStatus.Hit : FieldStatus.Miss;
+    }
+    return board;
+}
+
+export function reduceBoardWithUncoveredField(state: BattleBoard, action: BattleField): BattleBoard {
+    const x = action.pos.x;
+    const y = action.pos.y;
+    const board = copyBoard(state);
+    if (state && state.rows && y < state.rows.length && state.rows[y].fields && x < state.rows[y].fields.length) {
+        board.rows[y].fields[x].shooting = false;
     }
     return board;
 }

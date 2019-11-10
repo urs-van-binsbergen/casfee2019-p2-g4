@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { AuthStateService } from 'src/app/auth/auth-state.service';
-import { BattleBoard, BattleField, Row } from './battle-models';
+import { BattleBoard, BattleField } from './battle-models';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { ShootArgs } from '@cloud-api/arguments';
-import { PlayerInfo, PlayerStatus, PlayerLevel, Pos, FieldStatus } from '@cloud-api/core-models';
+import { PlayerInfo, PlayerStatus, PlayerLevel } from '@cloud-api/core-models';
 import * as battleMethods from './battle-methods';
 import { Observable, Subject } from 'rxjs';
 
@@ -61,6 +61,7 @@ export abstract class BattleService {
     readonly isWaterloo: boolean;
     readonly battleState$: Observable<BattleState>;
     abstract onShoot(field: BattleField): void;
+    abstract onUncovered(field: BattleField): void;
 }
 
 @Injectable()
@@ -122,7 +123,7 @@ export class BattleServiceCloud implements BattleService {
             return;
         }
 
-        field.shooting = true;
+        this._targetBoard = battleMethods.reduceBoardWithShootingField(this._targetBoard, field);
         const args: ShootArgs = {
             targetPos: field.pos,
             miniGameGuess: null
@@ -130,13 +131,16 @@ export class BattleServiceCloud implements BattleService {
 
         this.cloudFunctions.shoot(args).toPromise()
             .then(results => {
-                field.shooting = false;
             })
             .catch(error => {
                 console.log('battle.service' + _errorLogMessage(error));
                 this._battleState$.next(new BattleState(BattleState.State.Battle, _errorCode(error)));
             })
             ;
+    }
+
+    public onUncovered(field: BattleField): void {
+        this._targetBoard = battleMethods.reduceBoardWithUncoveredField(this._targetBoard, field);
     }
 
     private subscribeData() {
@@ -222,14 +226,20 @@ export class BattleServiceLoop implements BattleService {
     }
 
     public onShoot(field: BattleField): void {
-        field.status = FieldStatus.Miss;
+        this._board = battleMethods.reduceBoardWithShootingField(this._board, field);
+        const board = battleMethods.copyBoard(this._board);
         clearTimeout(this._timeOut);
         this._timeOut = setTimeout(() => {
-            this.shoot(field);
+            this.shoot(board, field);
         }, 1000);
     }
 
-    private shoot(field: BattleField): void {
+    public onUncovered(field: BattleField): void {
+        this._board = battleMethods.reduceBoardWithUncoveredField(this._board, field);
+    }
+
+    private shoot(board: BattleBoard, field: BattleField): void {
+        this._board = battleMethods.reduceBoardWithUncoveringField(board, field, true);
         if (field.pos.x === 7 && field.pos.y === 0) {
             this._state = BattleState.State.Victory;
             this._battleState$.next(new BattleState(this._state, null));
@@ -238,10 +248,6 @@ export class BattleServiceLoop implements BattleService {
             this._battleState$.next(new BattleState(this._state, null));
         } else if (field.pos.x === 7 && field.pos.y === 2) {
             this._battleState$.next(new BattleState(this._state, 'undefined'));
-        } else if (field.pos.x < 4) {
-            field.status = FieldStatus.Miss;
-        } else {
-            field.status = FieldStatus.Hit;
         }
     }
 
@@ -252,18 +258,7 @@ export class BattleServiceLoop implements BattleService {
             avatarFileName: '',
             level: PlayerLevel.Admiral
         };
-        const rows: Row[] = [];
-        for (let y = 0 ; y < 8; y++) {
-            const battleFields: BattleField[] = [];
-            for (let x = 0; x < 8; x++) {
-                const pos: Pos = {x, y};
-                const battleField = new BattleField(pos, FieldStatus.Unknown);
-                battleFields.push(battleField);
-            }
-            const row = new Row(battleFields);
-            rows.push(row);
-        }
-        this._board = new BattleBoard(rows, [], true);
+        this._board = battleMethods.laodBoard();
     }
 
 }

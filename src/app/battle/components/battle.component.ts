@@ -66,6 +66,10 @@ export class BattleComponent implements OnInit {
         this.battleService.onShoot(field);
     }
 
+    onUncovered(field: BattleField) {
+        this.battleService.onUncovered(field);
+    }
+
     onCapitulationClicked() {
         this.router.navigateByUrl('/hall');
     }

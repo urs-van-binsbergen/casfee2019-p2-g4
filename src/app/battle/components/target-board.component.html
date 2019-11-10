@@ -1,8 +1,8 @@
 <div class="target-board">
 
     <div *ngFor="let row of targetBoard.rows" class="row">
-        <app-target-field *ngFor="let field of row.fields" class="field" [field]="field" [canShoot]="targetBoard.canShoot"
-            (shoot)="onShoot($event)">
+        <app-target-field *ngFor="let field of row.fields" class="field field-status-{{ field.status }}" [field]="field"
+            [canShoot]="canShoot" (shoot)="onShoot($event)" (uncovered)="onUncovered($event)">
         </app-target-field>
     </div>
 
