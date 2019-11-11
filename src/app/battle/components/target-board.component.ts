@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { BattleBoard, BattleField } from '../battle-models';
-import * as battleMethods from '../battle-methods';
 
 @Component({
     selector: 'app-target-board',
@@ -18,7 +17,7 @@ export class TargetBoardComponent {
     uncovered = new EventEmitter<BattleField>();
 
     get canShoot(): boolean {
-        return this.targetBoard.canShoot && !(battleMethods.isShooting(this.targetBoard));
+        return this.targetBoard.canShoot && !(this.targetBoard.isShooting);
     }
 
     onShoot(field: BattleField): void {

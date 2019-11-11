@@ -4,6 +4,9 @@
         <p *ngIf="shootNow" style="font-weight: bold; color: orange;">
             <span translate>battle.pleaseShoot</span>
         </p>
+        <p *ngIf="pending" style="font-weight: bold; color: blue;">
+            <span>...</span>
+        </p>
         <p *ngIf="waitingForOpponentShoot" style="font-weight: bold; color: blue;">
             <span translate>battle.waitingForOpponent</span>
         </p>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BattleBoard, BattleField } from '../battle-models';
-import { BattleService, BattleState } from '../battle.service';
-import { PlayerInfo } from '@cloud-api/core-models';
+import { BattleBoard, BattleField, BattleState } from '../battle-models';
+import { BattleService } from '../battle.service';
+import { PlayerInfo, PlayerStatus } from '@cloud-api/core-models';
 import { NotificationService } from 'src/app/auth/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -12,6 +12,9 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./battle.component.scss']
 })
 export class BattleComponent implements OnInit {
+
+    private _isVictory = false;
+    private _isWaterloo = false;
 
     constructor(
         private router: Router,
@@ -26,11 +29,9 @@ export class BattleComponent implements OnInit {
                 const errorDetail = this.notification.localizeFirebaseErrorCode(battleState.errorCode);
                 const msg = this.translate.instant('battle.apiError.loading', { errorDetail });
                 this.notification.toastToConfirm(msg);
-            } else if (battleState.state === BattleState.State.Defeat) {
-                // route
-            } else if (battleState.state === BattleState.State.Victory) {
-                // route
             }
+            this._isVictory = (battleState.status === PlayerStatus.Victory);
+            this._isWaterloo = (battleState.status === PlayerStatus.Waterloo);
         });
     }
 
@@ -47,19 +48,25 @@ export class BattleComponent implements OnInit {
     }
 
     get shootNow(): boolean {
-        return this.battleService.shootNow;
+        return this.battleService.targetBoard.canShoot && !(this.battleService.targetBoard.isShooting) &&
+        !(this._isVictory) && !(this._isWaterloo);
+    }
+
+    get pending(): boolean {
+        return this.battleService.targetBoard.canShoot && this.battleService.targetBoard.isShooting &&
+        !(this._isVictory) && !(this._isWaterloo);
     }
 
     get waitingForOpponentShoot(): boolean {
-        return this.battleService.waitingForOpponentShoot;
+        return !(this.battleService.targetBoard.canShoot) && !(this._isVictory) && !(this._isWaterloo);
     }
 
     get isVictory(): boolean {
-        return this.battleService.isVictory;
+        return this._isVictory;
     }
 
     get isWaterloo(): boolean {
-        return this.battleService.isWaterloo;
+        return this._isWaterloo;
     }
 
     onShoot(field: BattleField) {

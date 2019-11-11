@@ -1,6 +1,26 @@
-import { FlatGrid, Field as CoreField, FieldStatus, Player, Pos, Ship } from '@cloud-api/core-models';
-import { Row, BattleField, BattleBoard } from './battle-models';
+import { FlatGrid, Field as CoreField, FieldStatus, Player, PlayerStatus, Pos, Ship } from '@cloud-api/core-models';
+import { Row, BattleField, BattleBoard, BattleState } from './battle-models';
 import { findFieldByPos } from '@cloud-api/core-methods';
+
+export function errorCode(error: firebase.FirebaseError): string {
+    if (!error || error.code === undefined) {
+        return 'undefined';
+    }
+    return error.code;
+}
+
+export function errorLogMessage(error: firebase.FirebaseError): string {
+    let m = '';
+    if (error) {
+        if (error.code) {
+            m = m + ' ' + error.code;
+        }
+        if (error.message) {
+            m = m + ' ' + error.message;
+        }
+    }
+    return m;
+}
 
 function createRowsAndFields(grid: FlatGrid<CoreField>): Row[] {
     const rows: Row[] = [];
@@ -87,21 +107,6 @@ export function copyBoard(b: BattleBoard): BattleBoard {
     return board;
 }
 
-export function isShooting(board: BattleBoard): boolean {
-    if (board && board.rows) {
-        for (const row of board.rows) {
-            if (row.fields) {
-                for (const field of row.fields) {
-                    if (field.shooting) {
-                        return true;
-                    }
-                }
-            }
-        }
-    }
-    return false;
-}
-
 export function reduceFieldWithField(state: BattleField, action: BattleField): BattleField {
     const field = copyField(action);
     if (state && field) {
@@ -164,6 +169,16 @@ export function reduceBoardWithShootingField(state: BattleBoard, action: BattleF
     return board;
 }
 
+export function reduceBoardWithFailedField(state: BattleBoard, action: BattleField): BattleBoard {
+    const x = action.pos.x;
+    const y = action.pos.y;
+    const board = copyBoard(state);
+    if (state && state.rows && y < state.rows.length && state.rows[y].fields && x < state.rows[y].fields.length) {
+        board.rows[y].fields[x].shooting = false;
+    }
+    return board;
+}
+
 export function reduceBoardWithUncoveringField(state: BattleBoard, action: BattleField, hit: boolean): BattleBoard {
     const x = action.pos.x;
     const y = action.pos.y;
@@ -182,4 +197,14 @@ export function reduceBoardWithUncoveredField(state: BattleBoard, action: Battle
         board.rows[y].fields[x].shooting = false;
     }
     return board;
+}
+
+export function reduceStateWithStatus(state: BattleState, action: PlayerStatus): BattleState {
+    const battleState = new BattleState(action, null);
+    return battleState;
+}
+
+export function reduceStateWithErrorCode(state: BattleState, error: string): BattleState {
+    const battleState = new BattleState(state.status, error);
+    return battleState;
 }
