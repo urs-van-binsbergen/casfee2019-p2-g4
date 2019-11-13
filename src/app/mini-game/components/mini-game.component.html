@@ -2,15 +2,16 @@
     <mat-card class="small-form">
         <h2>Debugging</h2>
         <p>
-            Former "Mini Game", for debugging only.<br>
-            The button removes the current preparation, matching and battle data
-            (which is not implemented by the battle)
+            When clicking the button your current preparation, matching and battle data is deleted
+            (but not your user data of course). If the button is disabled you currently don't have game data.
         </p>
         <mat-card-content>
             <div class="button-row">
-                <div *ngIf="hasPlayerData">
-                    <button mat-raised-button (click)="purge()" color="primary">
-                        Purge my data
+                <div>
+                    <button mat-raised-button (click)="purge()" color="primary"
+                        [disabled]="!hasPlayerData"
+                    >
+                        Delete Game Data
                     </button>
                 </div>
                 <div class="spinner-cell">
@@ -19,7 +20,4 @@
                 </div>
         </mat-card-content>
     </mat-card>
-    <div class="inset-1">
-        DEBUG - hasPlayerData = {{ hasPlayerData }}
-    </div>
 </div>
