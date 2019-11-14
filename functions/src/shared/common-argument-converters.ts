@@ -27,14 +27,6 @@ export function toShip(data: any): Ship {
     };
 }
 
-export function toMiniGameNumber(data: any): number {
-    const number = parseNonNegativeNumber(data, 'miniGameNumber');
-    if (number < 1 || number > 100) {
-        throw new HttpsError('out-of-range', 'number from 1 to 100');
-    }
-    return number;
-}
-
 export function parseNonNegativeNumber(x: any, description: string): number {
     const num = parseInt(x, 10);
     if (num !== num || num < 0) {

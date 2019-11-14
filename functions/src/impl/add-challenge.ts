@@ -135,10 +135,6 @@ function createBattle(user: User, size: Size, battleId: string): Battle {
         opponentInfo: createPlayerInfo(user),
         opponentLastMoveDate: new Date(),
         targetBoard: createBoard(size),
-
-        // TEMP
-        miniGameGuesses: [],
-        miniGameLastGuessSign: 0,
     };
 }
 
