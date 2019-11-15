@@ -1,18 +1,18 @@
 import { expect } from 'chai';
 import { Orientation } from './core-models';
-import { getShipPositions, posOf, shipOf } from './core-methods';
+import { getShipPositions, newPos, newShip } from './core-methods';
 
 describe('getShipPositions()', () => {
 
-    it('a length 2 shipOf at 0/0 oriented east should be at 0-1/0', () => {
+    it('a length 2 newShip at 0/0 oriented east should be at 0-1/0', () => {
         expect(
-            getShipPositions(shipOf(posOf(0, 0), 2, Orientation.East))
-        ).to.eql([ posOf(0, 0), posOf(1, 0) ]);
+            getShipPositions(newShip(newPos(0, 0), 2, Orientation.East))
+        ).to.eql([ newPos(0, 0), newPos(1, 0) ]);
     });
-    it('a length 4 shipOf at 4/4 oriented north should be at 4/4-1', () => {
+    it('a length 4 newShip at 4/4 oriented north should be at 4/4-1', () => {
         expect(
-            getShipPositions(shipOf(posOf(4, 4), 4, Orientation.North))
-        ).to.eql([ posOf(4, 4), posOf(4, 3), posOf(4, 2), posOf(4, 1) ]);
+            getShipPositions(newShip(newPos(4, 4), 4, Orientation.North))
+        ).to.eql([ newPos(4, 4), newPos(4, 3), newPos(4, 2), newPos(4, 1) ]);
     });
 
 });

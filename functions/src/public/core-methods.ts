@@ -192,7 +192,7 @@ export function isValidBoard(board: Board): boolean {
     // Check no field is covered by more than one ship
     for (const ships of flattenFields(shipsByField)) {
         if (ships.length > 1) {
-            console.log('clash', ships)
+            console.log('clash', ships);
             return false;
         }
     }
