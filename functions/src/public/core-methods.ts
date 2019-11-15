@@ -22,6 +22,12 @@ export function areEqualSize(size1: Size, size2: Size): boolean {
 }
 
 /*
+ * Is the position with the size
+ */
+export function isPosInSize(pos: Pos, size: Size): boolean {
+    return pos.x >= 0 && pos.y >= 0 && pos.x < size.w && pos.y < size.h;
+}
+/*
  * Gets the position after shifting by x steps in direction of orientation x
  */
 export function shiftPos(origPos: Pos, orientation: Orientation, steps: number): Pos {
@@ -42,11 +48,11 @@ export function shiftPos(origPos: Pos, orientation: Orientation, steps: number):
 
 // ==== Basic object creators
 
-export function posOf(x: number, y: number): Pos {
+export function newPos(x: number, y: number): Pos {
     return { x, y };
 }
 
-export function shipOf(pos: Pos, length: number, orientation: Orientation): Ship {
+export function newShip(pos: Pos, length: number, orientation: Orientation): Ship {
     return {
         pos: { ...pos },
         length,
@@ -73,26 +79,54 @@ export function findFieldByPos<TField>(grid: FlatGrid<TField>, pos: Pos): TField
  * Create a board of this size with these ships
  */
 export function createBoard(size: Size, ships: Ship[]): Board {
-    const fields = createFields(size, pos => ({ pos, status: FieldStatus.Unknown }));
+    const grid = createFlatGrid(size, pos => ({ pos, status: FieldStatus.Unknown }));
 
-    return { size: { ...size }, ships: [...ships], fields };
+    return { size: grid.size, fields: grid.fields, ships: [...ships] };
 }
 
-// Private, see createBoard
-function createFields<TField>(size: Size, createField: (pos: Pos) => TField): TField[] {
+/*
+ * Create a FlatGrid of this size
+ */
+function createFlatGrid<TField>(size: Size, createField: (pos: Pos) => TField): FlatGrid<TField> {
     const fields: TField[] = [];
     for (let y = 0; y < size.h; y++) {
-        for (let x = 0; x < size.h; x++) {
+        for (let x = 0; x < size.w; x++) {
             const pos = { x, y };
             const index = getIndexFromPos(pos, size);
             fields[index] = createField(pos);
         }
     }
+    return { size: { ...size }, fields };
+}
+
+/*
+ * Create a 2d array of this size
+ */
+function createFields2dArray<TField>(size: Size, createField: (pos: Pos) => TField): TField[][] {
+    const fields: TField[][] = [];
+    for (let y = 0; y < size.h; y++) {
+        fields[y] = [];
+        for (let x = 0; x < size.w; x++) {
+            const pos = { x, y };
+            fields[y][x] = createField(pos);
+        }
+    }
     return fields;
 }
 
+/*
+ * Flatten a fields 2d array
+ */
+function* flattenFields<TField>(fields: TField[][]): Iterable<TField> {
+    for (const row of fields) {
+        for (const field of row) {
+            yield field;
+        }
+    }
+}
 
-// ==== Finding ships
+
+// ==== Ship vs Pos
 
 interface ShipFindResult {
     ship: Ship;
@@ -125,10 +159,43 @@ export function findShipByPos(ships: Ship[], pos: Pos): ShipFindResult | null {
  */
 export function getShipPositions(ship: Ship): Pos[] {
     let pos = { ...ship.pos };
-    const positions: Pos[] = [ ];
+    const positions: Pos[] = [];
     for (const _ of new Array(ship.length)) {
         positions.push(pos);
         pos = shiftPos(pos, ship.orientation, 1);
     }
     return positions;
+}
+
+
+// ==== Validation
+
+export function fleetsHaveEqualLengths(fleet1: Ship[], fleet2: Ship[]): boolean {
+    return JSON.stringify(fleet1.map(x => x.length).sort()) ===
+        JSON.stringify(fleet2.map(x => x.length).sort());
+}
+
+export function isValidBoard(board: Board): boolean {
+    const shipsByField = createFields2dArray<Ship[]>(board.size, (_) => []);
+
+    // Check no ship is out of board
+    for (const ship of board.ships) {
+        for (const pos of getShipPositions(ship)) {
+            if (!isPosInSize(pos, board.size)) {
+                console.log('not in size', pos, board.size);
+                return false;
+            }
+            shipsByField[pos.y][pos.x].push(ship);
+        }
+    }
+
+    // Check no field is covered by more than one ship
+    for (const ships of flattenFields(shipsByField)) {
+        if (ships.length > 1) {
+            console.log('clash', ships)
+            return false;
+        }
+    }
+
+    return true;
 }

@@ -1,5 +1,5 @@
 import { FlatGrid, Field as CoreField, Player } from '@cloud-api/core-models';
-import { Row, BattleField, BattleBoard } from './battle-models';
+import { Row, BattleField, BattleBoard, BattleShip } from './battle-models';
 import { findFieldByPos } from '@cloud-api/core-methods';
 
 function createRowsAndFields(grid: FlatGrid<CoreField>): Row[] {
@@ -23,13 +23,15 @@ export function createTargetBoard(player: Player): BattleBoard {
     const targetBoard = player.battle.targetBoard;
     const targetRows = createRowsAndFields(targetBoard);
     const canShoot = player.canShootNext;
-    const battleBoard = new BattleBoard(targetRows, targetBoard.ships, canShoot);
+    const ships = targetBoard.ships.map(x => new BattleShip(x));
+    const battleBoard = new BattleBoard(targetRows, [...ships], canShoot);
     return battleBoard;
 }
 
 export function createOwnBoard(player: Player): BattleBoard {
     const ownBoard = player.board;
     const ownRows = createRowsAndFields(ownBoard);
-    const battleBoard = new BattleBoard(ownRows, ownBoard.ships, false);
+    const ships = ownBoard.ships.map(x => new BattleShip(x));
+    const battleBoard = new BattleBoard(ownRows, ships, false);
     return battleBoard;
 }

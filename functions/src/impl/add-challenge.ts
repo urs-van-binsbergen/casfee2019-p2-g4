@@ -5,7 +5,7 @@ import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Battle, PlayerInf
 import COLL from '../public/firestore-collection-name-const';
 import { authenticate } from '../shared/auth-utils';
 import { AddChallengeArgs } from '../public/arguments';
-import { areEqualSize as sizesAreEqual, createBoard } from '../public/core-methods';
+import { areEqualSize as sizesAreEqual, createBoard, fleetsHaveEqualLengths } from '../public/core-methods';
 
 export default function addChallenge(
     data: any,
@@ -70,6 +70,10 @@ export default function addChallenge(
         // Check boards are of the same size
         if (!sizesAreEqual(player.board.size, playerO.board.size)) {
             throw new HttpsError('failed-precondition', 'Board sizes do not match');
+        }
+        // Check ships are of the same length
+        if (!fleetsHaveEqualLengths(player.board.ships, playerO.board.ships)) {
+            throw new HttpsError('failed-precondition', 'Ship lengths do not match');
         }
 
         // --- Do only WRITE after this point! ------------------------

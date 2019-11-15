@@ -5,7 +5,7 @@ import { YardService } from './yard.service';
 import { MatDialog } from '@angular/material';
 
 import { PreparationArgs } from '@cloud-api/arguments';
-import { Ship as CloudShip, Orientation } from '@cloud-api/core-models';
+import { Ship as CloudShip, Orientation, Pos } from '@cloud-api/core-models';
 import { CloudFunctionsService } from '../backend/cloud-functions.service';
 
 import { Ship as UiShip } from '../shared/ship';
@@ -44,6 +44,7 @@ export class PreparationComponent implements OnInit {
         this.waiting = true;
 
         const args = this.createPreparationArgs(this.preparationService.ships);
+        console.log(args);
 
         this.cloudFunctions.addPreparation(args).subscribe(
             results => {
@@ -76,20 +77,32 @@ export class PreparationComponent implements OnInit {
         }
     }
 
-    getLength(s: UiShip): number {
-        const w = Math.max(...s.fields.map(f => f.x)) - Math.min(...s.fields.map(f => f.x));
-        const h = Math.max(...s.fields.map(f => f.y)) - Math.min(...s.fields.map(f => f.y));
-        const length = Math.max(w, h);
-        return length;
+    getLengthAndPos(s: UiShip, orientation: Orientation): { length: number, pos: Pos } {
+        const xMin = Math.min(...s.fields.map(f => f.x));
+        const xMax = Math.max(...s.fields.map(f => f.x));
+        const yMin = Math.min(...s.fields.map(f => f.y));
+        const yMax = Math.max(...s.fields.map(f => f.y));
+        switch (orientation) {
+            case Orientation.East:
+                return { length: xMax - xMin + 1, pos: { x: xMin, y: yMin } };
+            case Orientation.South:
+                return { length: yMax - yMin + 1, pos: { x: xMin, y: yMin } };
+            case Orientation.West:
+                return { length: xMax - xMin + 1, pos: { x: xMax, y: yMax } };
+            case Orientation.North:
+                return { length: yMax - yMin + 1, pos: { x: xMax, y: yMax } };
+            default:
+                throw new Error(`out of range orientation <${orientation}>`);
+        }
     }
 
     createPreparationArgs(uiShips: UiShip[]): PreparationArgs {
         // TODO: move this method to some appropriate place
         const cloudShips = uiShips.map(s => {
             const orientation = this.getOrientation(s.rotation);
-            const length = this.getLength(s);
+            const { length, pos } = this.getLengthAndPos(s, orientation);
             const cloudShip: CloudShip = {
-                pos: { x: s.x, y: s.y },
+                pos,
                 length,
                 orientation,
                 design: 0, // TODO: map appearance/color
