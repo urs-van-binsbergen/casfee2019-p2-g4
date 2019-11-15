@@ -11,6 +11,13 @@ export interface Size {
     h: number;
 }
 
+export enum Orientation {
+    East = 0,
+    South = 1,
+    West = 2,
+    North = 3
+}
+
 /*
  * Grid which holds its fields in a flat list (instead of 2-dimensional array)
  * (Reason for this: Firestore does not allow multidimensional arrays)
@@ -21,10 +28,11 @@ export interface FlatGrid<TField> {
 }
 
 export interface Ship {
-    pos: Pos; // (top-left)
+    pos: Pos; // stern position
     length: number;
-    isVertical: boolean;
-    hits: number[]; // hit field index from top-left
+    orientation: Orientation; // seen from the stern
+    design: number; // client can use this freely to store the ship's look
+    hits: number[]; // hit field index from stern
     isSunk: boolean;
 }
 

@@ -1,9 +1,9 @@
 // Core methods (used server AND client side)
 
-import { Size, Pos, Ship, Board, FlatGrid, FieldStatus } from './core-models';
+import { Size, Pos, Ship, Board, FlatGrid, FieldStatus, Orientation } from './core-models';
 
 
-// ==== Basics
+// ==== Basic Geometry
 
 /*
  * Are these two positions equal?
@@ -21,8 +21,43 @@ export function areEqualSize(size1: Size, size2: Size): boolean {
         size1.w === size2.w;
 }
 
+/*
+ * Gets the position after shifting by x steps in direction of orientation x
+ */
+export function shiftPos(origPos: Pos, orientation: Orientation, steps: number): Pos {
+    switch (orientation) {
+        case Orientation.East:
+            return { ...origPos, x: origPos.x + steps };
+        case Orientation.South:
+            return { ...origPos, y: origPos.y + steps };
+        case Orientation.West:
+            return { ...origPos, x: origPos.x - steps };
+        case Orientation.North:
+            return { ...origPos, y: origPos.y - steps };
+        default:
+            throw new Error('argument out of range: orientation');
+    }
+}
 
-// ==== FlatGrid Board (mapping 2d fields to a 1d array and vice versa)
+
+// ==== Basic object creators
+
+export function posOf(x: number, y: number): Pos {
+    return { x, y };
+}
+
+export function shipOf(pos: Pos, length: number, orientation: Orientation): Ship {
+    return {
+        pos: { ...pos },
+        length,
+        orientation,
+        design: 0,
+        hits: [],
+        isSunk: false
+    };
+}
+
+// ==== FlatGrid and Board (mapping 2d fields to a 1d array and vice versa)
 
 const getIndexFromPos = (pos: Pos, size: Size) => pos.y * size.w + pos.x;
 
@@ -40,7 +75,7 @@ export function findFieldByPos<TField>(grid: FlatGrid<TField>, pos: Pos): TField
 export function createBoard(size: Size, ships: Ship[]): Board {
     const fields = createFields(size, pos => ({ pos, status: FieldStatus.Unknown }));
 
-    return { size: { ...size }, ships: [ ...ships ], fields };
+    return { size: { ...size }, ships: [...ships], fields };
 }
 
 // Private, see createBoard
@@ -69,8 +104,8 @@ interface ShipFindResult {
 /*
  * Find the ship covering this field position
  * - null for a water field
- * - when the field is covered by more than one ship, the first one of 
- *   the list is returned 
+ * - when the field is covered by more than one ship, the first one of
+ *   the list is returned
  */
 export function findShipByPos(ships: Ship[], pos: Pos): ShipFindResult | null {
     for (const ship of ships) {
@@ -88,15 +123,12 @@ export function findShipByPos(ships: Ship[], pos: Pos): ShipFindResult | null {
 /*
  * Get positions (fields) covered by this ship
  */
-function getShipPositions(ship: Ship): Pos[] {
-    const positions: Pos[] = [];
-    const x = ship.pos.x;
-    const y = ship.pos.y;
-    for (let index = 0; index < ship.length; index++) {
-        const pos = ship.isVertical ?
-            { x, y: y + index } :
-            { x: x + index, y };
+export function getShipPositions(ship: Ship): Pos[] {
+    let pos = { ...ship.pos };
+    const positions: Pos[] = [ ];
+    for (const _ of new Array(ship.length)) {
         positions.push(pos);
+        pos = shiftPos(pos, ship.orientation, 1);
     }
     return positions;
 }

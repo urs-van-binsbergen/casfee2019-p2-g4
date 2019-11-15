@@ -1,4 +1,4 @@
-import { Ship, Pos, Size } from '../public/core-models';
+import { Ship, Pos, Size, Orientation } from '../public/core-models';
 import { HttpsError } from 'firebase-functions/lib/providers/https';
 
 // Convert from whatever the client sent to the required interface
@@ -21,7 +21,8 @@ export function toShip(data: any): Ship {
     return {
         pos: toPos(data.pos),
         length,
-        isVertical: !!data.isVertical,
+        orientation: convertEnum<Orientation>(Orientation, data.orientation),
+        design: parseNonNegativeNumber(data.design, 'design'),
         isSunk: false, // not to be set by client
         hits: [], // not to be set by client
     };
@@ -45,4 +46,19 @@ export function convertArray<TElement>(
     } catch (error) {
         throw createError();
     }
+}
+
+/*
+ * Converts the numeric or string value to this enum type, throws
+ * on out of range values.
+ */
+export function convertEnum<TEnum>(enumType: any, value: any): TEnum {
+    const values = Object.values(enumType);
+    if (values.includes(value)) {
+        if (typeof value === 'string') {
+            return enumType[value];
+        }
+        return value;
+    }
+    throw new HttpsError('out-of-range', `argument out of range <${values}>, actual is <${value}>)`);
 }
