@@ -1,11 +1,11 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 import * as uuid from 'uuid/v4';
 import { getData } from '../shared/db-utils';
-import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Battle, PlayerInfo, Board, FieldStatus, Size } from '../public/core-models';
+import { Challenge, WaitingPlayer, Player, User, PlayerStatus, Battle, PlayerInfo, Size } from '../public/core-models';
 import COLL from '../public/firestore-collection-name-const';
 import { authenticate } from '../shared/auth-utils';
 import { AddChallengeArgs } from '../public/arguments';
-import { areEqualSize as sizesAreEqual, createFields } from '../public/core-methods';
+import { areEqualSize as sizesAreEqual, createBoard } from '../public/core-methods';
 
 export default function addChallenge(
     data: any,
@@ -120,21 +120,12 @@ function createPlayerInBattle(
     };
 }
 
-function createBoard(size: Size): Board {
-    const fields = createFields(size, pos => ({ pos, status: FieldStatus.Unknown }));
-    return {
-        size: { ...size },
-        fields,
-        ships: []
-    };
-}
-
 function createBattle(user: User, size: Size, battleId: string): Battle {
     return {
         battleId,
         opponentInfo: createPlayerInfo(user),
         opponentLastMoveDate: new Date(),
-        targetBoard: createBoard(size),
+        targetBoard: createBoard(size, []),
     };
 }
 

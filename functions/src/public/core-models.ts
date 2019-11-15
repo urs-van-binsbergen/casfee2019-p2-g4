@@ -12,8 +12,8 @@ export interface Size {
 }
 
 /*
- * Grid which holds its content in a flat list (insted of 2d array)
- * Firestore requirement: no multidimensional arrays.
+ * Grid which holds its fields in a flat list (instead of 2-dimensional array)
+ * (Reason for this: Firestore does not allow multidimensional arrays)
  */
 export interface FlatGrid<TField> {
     size: Size;
