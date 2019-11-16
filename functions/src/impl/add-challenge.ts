@@ -6,6 +6,7 @@ import COLL from '../public/firestore-collection-name-const';
 import { authenticate } from '../shared/auth-utils';
 import { AddChallengeArgs } from '../public/arguments';
 import { areEqualSize as sizesAreEqual, createBoard, fleetsHaveEqualLengths } from '../public/core-methods';
+import { DocumentReference } from '@google-cloud/firestore';
 
 export default function addChallenge(
     data: any,
@@ -14,85 +15,101 @@ export default function addChallenge(
 ) {
     const authInfo = authenticate(context.auth);
     const args = toAddChallengeArgs(data);
-
-    // My docs
     const uid = authInfo.uid;
-    const waitingPlayerRef = db.collection(COLL.WAITING_PLAYERS).doc(uid);
-    const playerRef = db.collection(COLL.PLAYERS).doc(uid);
-    const userRef = db.collection(COLL.USERS).doc(uid);
+    const oppUid = args.opponentUid;
 
-    // Opponent docs
-    const uidO = args.opponentUid;
-    const waitingPlayerORef = db.collection(COLL.WAITING_PLAYERS).doc(uidO);
-    const playerORef = db.collection(COLL.PLAYERS).doc(uidO);
-    const userORef = db.collection(COLL.USERS).doc(uidO);
+    // Disallow self-challenge
+    if (uid === oppUid) {
+        throw new HttpsError('invalid-argument', 'can not challenge yourself');
+    }
+
+    // Refs
+    const playerRef = db.collection(COLL.PLAYERS).doc(uid);
+    const wPlayerRef = db.collection(COLL.WAITING_PLAYERS).doc(uid);
+    const userRef = db.collection(COLL.USERS).doc(uid);
+    const oppPlayerRef = db.collection(COLL.PLAYERS).doc(oppUid);
+    const oppWPlayerRef = db.collection(COLL.WAITING_PLAYERS).doc(oppUid);
+    const oppUserRef = db.collection(COLL.USERS).doc(oppUid);
 
     return db.runTransaction(async tx => {
-        // Read docs
+        // Load docs in one query (except waiting player, which will be load in a coll query)
         const docs = await tx.getAll(
-            waitingPlayerRef,
             playerRef,
             userRef,
-            waitingPlayerORef,
-            playerORef,
-            userORef
+            oppPlayerRef,
+            oppUserRef
         );
-        const waitingPlayerDoc = docs[0];
-        const playerDoc = docs[1];
-        const userDoc = docs[2];
-        const waitingPlayerODoc = docs[3];
-        const playerODoc = docs[4];
-        const userODoc = docs[5];
+        const playerDoc = docs[0];
+        const userDoc = docs[1];
+        const oppPlayerDoc = docs[2];
+        const oppUserDoc = docs[3];
 
-        // My data
-        const waitingPlayer = getData<WaitingPlayer>(waitingPlayerDoc);
+        // Get data
         const player = getData<Player>(playerDoc);
         const user = getData<User>(userDoc);
+        const oppPlayer = getData<Player>(oppPlayerDoc);
+        const oppUser = getData<User>(oppUserDoc);
 
-        // Opponent data
-        const waitingPlayerO = getData<WaitingPlayer>(waitingPlayerODoc);
-        const playerO = getData<Player>(playerODoc);
-        const userO = getData<User>(userODoc);
-
-        const challenges: Challenge[] = waitingPlayer.challenges || [];
-        const challengesO: Challenge[] = waitingPlayerO.challenges || [];
-
-        // Ignore call when challenge already was created before
-        if (challengesO.find(x => x.challengerInfo.uid === uid)) {
-            return;
+        // Preconditions (player documents must exist and be in status 'Preparing')
+        const allowedStatusses = [PlayerStatus.Waiting];
+        if (!player || !allowedStatusses.includes(player.playerStatus)) {
+            throw new HttpsError('failed-precondition',
+                `PlayerStatus '${player.playerStatus}' disallows this operation`);
+        }
+        if (!oppPlayer || !allowedStatusses.includes(oppPlayer.playerStatus)) {
+            throw new HttpsError('failed-precondition',
+                `Opponent PlayerStatus '${oppPlayer.playerStatus}' disallows this operation`);
         }
 
-        const isMatch = !!challenges.find(x => x.challengerInfo.uid === uidO);
+        const waitingPlayers = await getWaitingPlayersData(db, tx, uid, oppUid);
+
+        // Exception when waitingPlayer documents do not exist (data inconsistency!)
+        if (waitingPlayers.wPlayer === null) {
+            throw new HttpsError('failed-precondition', 'challenger not found in waiting players');
+        }
+        if (waitingPlayers.oppWPlayer === null) {
+            throw new HttpsError('failed-precondition', 'challenged player not found in waiting players');
+        }
+
+        // Exception when challenge does already exist
+        const challengesByMe = waitingPlayers.challengeMap.filter(x => x.challengerUid === uid);
+        if (challengesByMe.find(x => x.challengeTarget.uid === oppUid)) {
+            throw new HttpsError('failed-precondition', 'challenge already exists');
+        }
+
+        const challengesByOpp = waitingPlayers.challengeMap.filter(x => x.challengerUid === oppUid);
+        const isMatch = !!challengesByOpp.find(x => x.challengeTarget.uid === uid);
         const now = new Date();
-        const battleId = uuid();
-        console.log(battleId);
-
-        // Check boards are of the same size
-        if (!sizesAreEqual(player.board.size, playerO.board.size)) {
-            throw new HttpsError('failed-precondition', 'Board sizes do not match');
-        }
-        // Check ships are of the same length
-        if (!fleetsHaveEqualLengths(player.board.ships, playerO.board.ships)) {
-            throw new HttpsError('failed-precondition', 'Ship lengths do not match');
-        }
 
         // --- Do only WRITE after this point! ------------------------
 
         if (isMatch) {
+            // Check boards are of the same size
+            if (!sizesAreEqual(player.board.size, oppPlayer.board.size)) {
+                throw new HttpsError('failed-precondition', 'Board sizes do not match');
+            }
+            // Check ships are of the same length
+            if (!fleetsHaveEqualLengths(player.board.ships, oppPlayer.board.ships)) {
+                throw new HttpsError('failed-precondition', 'Ship lengths do not match');
+            }
+
+            // Before battle starts: remove all challenges at 3rd party players
+            removePassiveChallenges(waitingPlayers.challengeMap, tx, [uid, oppUid]);
+
             // Start battle
-            tx.set(db.collection(COLL.PLAYERS).doc(uid), createPlayerInBattle(player, userO, true, battleId));
-            tx.set(db.collection(COLL.PLAYERS).doc(uidO), createPlayerInBattle(playerO, user, false, battleId));
-            tx.delete(waitingPlayerRef);
-            tx.delete(waitingPlayerORef);
-            // TODO: remove references in challenges with other players!
+            const battleId = uuid();
+            tx.set(playerRef, createPlayerInBattle(player, oppUser, true, battleId));
+            tx.set(oppPlayerRef, createPlayerInBattle(oppPlayer, user, false, battleId));
+            tx.delete(wPlayerRef);
+            tx.delete(oppWPlayerRef);
         } else {
             // Add challenge for opponent
             const newChallenge: Challenge = {
                 challengerInfo: createPlayerInfo(user),
                 challengeDate: now
             };
-            tx.update(waitingPlayerORef, {
-                challenges: [...challengesO, newChallenge]
+            tx.update(oppWPlayerRef, {
+                challenges: [...waitingPlayers.oppWPlayer.challenges, newChallenge]
             });
         }
     });
@@ -109,6 +126,78 @@ function toAddChallengeArgs(data: any): AddChallengeArgs {
     return {
         opponentUid: (data.opponentUid || '').toString()
     };
+}
+
+interface WaitingPlayersData {
+    wPlayer: WaitingPlayer | null;
+    oppWPlayer: WaitingPlayer | null;
+    challengeMap: ChallengeMapEntry[];
+}
+
+interface ChallengeMapEntry {
+    challengeTargetRef: DocumentReference;
+    challengerUid: string;
+    challengeTarget: WaitingPlayer;
+}
+
+async function getWaitingPlayersData(
+    db: FirebaseFirestore.Firestore,
+    tx: FirebaseFirestore.Transaction,
+    uid: string, oppUid: string
+): Promise<WaitingPlayersData> {
+    const wPlayerCollRef = db.collection(COLL.WAITING_PLAYERS);
+
+    const data: WaitingPlayersData = {
+        wPlayer: null,
+        oppWPlayer: null,
+        challengeMap: []
+    };
+
+    await tx.get(wPlayerCollRef).then(snapshot => {
+        snapshot.forEach(doc => {
+            const wPlayer = getData<WaitingPlayer>(doc);
+            if (wPlayer.uid === uid) {
+                data.wPlayer = wPlayer;
+            } else if (wPlayer.uid === oppUid) {
+                data.oppWPlayer = wPlayer;
+            }
+            for (const challenge of wPlayer.challenges) {
+                data.challengeMap.push({
+                    challengeTargetRef: doc.ref,
+                    challengeTarget: wPlayer,
+                    challengerUid: challenge.challengerInfo.uid
+                });
+            }
+        });
+    });
+
+    return data;
+}
+
+function removePassiveChallenges(
+    challengeMap: ChallengeMapEntry[],
+    tx: FirebaseFirestore.Transaction,
+    challengerUids: string[]
+) {
+    const challengeTargets: { ref: DocumentReference, challengeTarget: WaitingPlayer }[] = [];
+    for (const m of challengeMap.filter(x => challengerUids.includes(x.challengerUid))) {
+        challengeTargets.push({
+            ref: m.challengeTargetRef,
+            challengeTarget: m.challengeTarget
+        });
+    }
+
+    for (const t of challengeTargets) {
+        // Do not alter challenger's entry (will typically be delete anyway)
+        if (challengerUids.includes(t.challengeTarget.uid)) {
+            continue;
+        }
+        tx.update(t.ref, {
+            challenges: t.challengeTarget.challenges.filter(
+                x => !challengerUids.includes(x.challengerInfo.uid)
+            )
+        });
+    }
 }
 
 function createPlayerInBattle(
