@@ -25,11 +25,25 @@ export class MiniGameComponent implements OnInit {
         );
     }
 
-    async purge() {
+    purge() {
         this.waiting = true;
 
         const args = {};
         this.cloudFunctions.purgeMiniGame(args).toPromise()
+            .then(results => {
+                this.waiting = false;
+            })
+            .catch(error => {
+                this.waiting = false;
+            })
+            ;
+    }
+
+    removePreparation() {
+        this.waiting = true;
+
+        const args = {};
+        this.cloudFunctions.removePreparation(args).toPromise()
             .then(results => {
                 this.waiting = false;
             })

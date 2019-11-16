@@ -22,6 +22,11 @@ export class CloudFunctionsService {
         return callable(args);
     }
 
+    removePreparation(args: {}): Observable<any> {
+        const callable = this.fns.httpsCallable('removePreparation');
+        return callable(args);
+    }
+
     addChallenge(args: AddChallengeArgs): Observable<any> {
         const callable = this.fns.httpsCallable('addChallenge');
         return callable(args);

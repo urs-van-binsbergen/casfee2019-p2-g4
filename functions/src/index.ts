@@ -25,6 +25,10 @@ import addPreparationImpl from './impl/add-preparation';
 export const addPreparation = https.onCall(
     (data, context) => addPreparationImpl(data, context, db));
 
+import removePreparationImpl from './impl/remove-preparation';
+export const removePreparation = https.onCall(
+    (data, context) => removePreparationImpl(data, context, db));
+
 import addChallengeImpl from './impl/add-challenge';
 export const addChallenge = https.onCall(
     (data, context) => addChallengeImpl(data, context, db));
