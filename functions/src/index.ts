@@ -29,6 +29,10 @@ import addChallengeImpl from './impl/add-challenge';
 export const addChallenge = https.onCall(
     (data, context) => addChallengeImpl(data, context, db));
 
+import removeChallengeImpl from './impl/remove-challenge';
+export const removeChallenge = https.onCall(
+    (data, context) => removeChallengeImpl(data, context, db));
+
 import shootImpl from './impl/shoot';
 export const shoot = https.onCall(
     (data, context) => shootImpl(data, context, db));

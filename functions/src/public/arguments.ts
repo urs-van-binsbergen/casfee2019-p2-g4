@@ -17,6 +17,10 @@ export interface AddChallengeArgs {
     opponentUid: string;
 }
 
+export interface RemoveChallengeArgs {
+    opponentUid: string;
+}
+
 export interface ShootArgs {
     targetPos: Pos;
 }
