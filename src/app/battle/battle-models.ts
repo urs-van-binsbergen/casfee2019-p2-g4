@@ -36,26 +36,25 @@ export class BattleShip {
     // TODO: just a temporary back compat wrapper, since the view does not implement orientation yet
 
     get isVertical(): boolean {
-        return this._ship.orientation == Orientation.North ||
-            this._ship.orientation == Orientation.South;
+        return this._ship.orientation === Orientation.North ||
+            this._ship.orientation === Orientation.South;
     }
 
     get isInverse(): boolean {
-        return this._ship.orientation == Orientation.North ||
-            this._ship.orientation == Orientation.West;
+        return this._ship.orientation === Orientation.North ||
+            this._ship.orientation === Orientation.West;
     }
 
     get pos(): Pos {
         if (this.isInverse) {
             if (this.isVertical) {
                 return {
-                    x: this._ship.pos.x, 
+                    x: this._ship.pos.x,
                     y: this._ship.pos.y - this._ship.length + 1
                 };
-            }
-            else {
+            } else {
                 return {
-                    x: this._ship.pos.x - this._ship.length + 1, 
+                    x: this._ship.pos.x - this._ship.length + 1,
                     y: this._ship.pos.y
                 };
             }
