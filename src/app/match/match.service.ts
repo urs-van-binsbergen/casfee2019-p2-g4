@@ -49,7 +49,11 @@ export class MatchService {
 
     challenge(item: MatchItem, challenge: boolean) {
         const opponentUid = item.opponentUid;
-        this.cloudFunctions.addChallenge({ opponentUid });
+        if (challenge) {
+            this.cloudFunctions.addChallenge({ opponentUid });
+        } else {
+            this.cloudFunctions.removeChallenge({ opponentUid });
+        }
     }
 
     private set waitingPlayers(waitingPlayers: WaitingPlayer[]) {
