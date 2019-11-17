@@ -1,23 +1,24 @@
 <div class="target-board">
 
     <div *ngFor="let row of targetBoard.rows" class="row">
-        <div *ngFor="let field of row.fields" 
+        <app-battle-field *ngFor="let field of row.fields"
             class="field field-status-{{ field.status }}"
-            [class.active-field]="targetBoard.canShoot && field.shootable"
-            [class.shooting-field]="field.shooting"
-            (click)="onFieldClick(field)">
-            
-        </div>
+            [field]="field"
+            [canShoot]="canShoot"
+            (shoot)="onShoot($event)"
+            (uncovered)="onUncovered($event)">
+
+        </app-battle-field>
     </div>
 
-    <div *ngFor="let ship of targetBoard.ships" 
-        [style.top]="(ship.pos.y * 100 / 8 + 2) + '%'"   
+    <div *ngFor="let ship of targetBoard.ships"
+        [style.top]="(ship.pos.y * 100 / 8 + 2) + '%'"
         [style.left]="(ship.pos.x * 100/ 8 + 2) + '%'"
-        [style.width]="((ship.isVertical ? 1 : ship.length) * 100 / 8 - 4) + '%'"   
+        [style.width]="((ship.isVertical ? 1 : ship.length) * 100 / 8 - 4) + '%'"
         [style.height]="((ship.isVertical ? ship.length : 1) * 100/ 8 - 4) + '%'"
         class="ship" [class.sunk-ship]="ship.isSunk"
     >
-        
+
     </div>
 
 </div>

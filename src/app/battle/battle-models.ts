@@ -48,6 +48,21 @@ export class BattleBoard {
     ) {
     }
 
+    get isShooting(): boolean {
+        if (this.rows) {
+            for (const row of this.rows) {
+                if (row.fields) {
+                    for (const field of row.fields) {
+                        if (field.shooting) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     copy() {
         let rows: Row[];
         if (this.rows) {
