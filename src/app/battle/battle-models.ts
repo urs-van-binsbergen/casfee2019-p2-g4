@@ -4,7 +4,19 @@ export class Row {
     constructor(
         public fields: BattleField[]
     ) {
+    }
 
+    copy() {
+        let fields: BattleField[];
+        if (this.fields) {
+            fields = this.fields.map((field: BattleField) => {
+                return field.copy();
+            });
+        } else {
+            fields = null;
+        }
+        const row = new Row(fields);
+        return row;
     }
 }
 
@@ -20,6 +32,12 @@ export class BattleField implements CoreField {
     get shootable(): boolean {
         return this.status === FieldStatus.Unknown && !this.shooting;
     }
+
+    copy(): BattleField {
+        const field = new BattleField({x: this.pos.x, y: this.pos.y}, this.status);
+        field.shooting = this.shooting;
+        return field;
+    }
 }
 
 export class BattleBoard {
@@ -28,7 +46,27 @@ export class BattleBoard {
         public ships: BattleShip[],
         public canShoot: boolean
     ) {
+    }
 
+    copy() {
+        let rows: Row[];
+        if (this.rows) {
+            rows = this.rows.map((row: Row) => {
+                return row.copy();
+            });
+        } else {
+            rows = null;
+        }
+        let ships: BattleShip[];
+        if (this.ships) {
+            ships = this.ships.map((ship: BattleShip) => {
+                return ship.copy();
+            });
+        } else {
+            ships = null;
+        }
+        const board = new BattleBoard(rows, ships, this.canShoot);
+        return board;
     }
 }
 
@@ -75,5 +113,17 @@ export class BattleShip {
         private _ship: Ship
     ) {
 
+    }
+
+    copy(): BattleShip {
+        const ship: Ship = {
+            pos: {x: this._ship.pos.x, y: this._ship.pos.y},
+            length: this._ship.length,
+            orientation: this._ship.orientation,
+            design: this._ship.design,
+            hits: [ ...this._ship.hits],
+            isSunk: this._ship.isSunk
+        };
+        return new BattleShip(ship);
     }
 }
