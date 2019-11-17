@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { BattleBoard } from '../battle-models';
-import { Pos } from '@cloud-api/core-models';
+import { BattleBoard, BattleField } from '../battle-models';
 
 @Component({
     selector: 'app-target-board',
@@ -12,10 +11,21 @@ export class TargetBoardComponent {
     public targetBoard: BattleBoard;
 
     @Output()
-    shoot = new EventEmitter<Pos>();
+    shoot = new EventEmitter<BattleField>();
 
-    onFieldClick(targetPos: Pos): void {
-        this.shoot.emit(targetPos);
+    @Output()
+    uncovered = new EventEmitter<BattleField>();
+
+    get canShoot(): boolean {
+        return this.targetBoard.canShoot && !(this.targetBoard.isShooting);
+    }
+
+    onShoot(field: BattleField): void {
+        this.shoot.emit(field);
+    }
+
+    onUncovered(field: BattleField): void {
+        this.uncovered.emit(field);
     }
 
 }

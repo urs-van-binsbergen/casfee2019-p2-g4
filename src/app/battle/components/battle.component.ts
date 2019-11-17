@@ -6,7 +6,7 @@ import { BattleBoard, BattleField } from '../battle-models';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { ShootArgs } from '@cloud-api/arguments';
 import { PlayerInfo, PlayerStatus } from '@cloud-api/core-models';
-import * as battleMethods from '../battle-methods';
+import * as BattleMethods from '../battle-methods';
 import { NotificationService } from 'src/app/auth/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -20,10 +20,7 @@ export class BattleComponent implements OnInit {
     opponentInfo: PlayerInfo | null = null;
     targetBoard: BattleBoard | null = null;
     ownBoard: BattleBoard | null = null;
-    shootNow = false;
-    waitingForOpponentShoot = false;
-    isVictory = false;
-    isWaterloo = false;
+    playerStatus = PlayerStatus.Waiting;
 
     constructor(
         private router: Router,
@@ -38,27 +35,43 @@ export class BattleComponent implements OnInit {
         this.subscribeData();
     }
 
+    get shootNow(): boolean {
+        return this.targetBoard && this.targetBoard.canShoot && !(this.targetBoard.isShooting) &&
+        this.playerStatus !== PlayerStatus.Victory && this.playerStatus !== PlayerStatus.Waterloo;
+    }
+
+    get pending(): boolean {
+        return !(this.shootNow) && !(this.waitingForOpponentShoot);
+    }
+
+    get waitingForOpponentShoot(): boolean {
+        return this.targetBoard && !(this.targetBoard.canShoot) &&
+        this.playerStatus !== PlayerStatus.Victory && this.playerStatus !== PlayerStatus.Waterloo;
+    }
+
+    get isVictory(): boolean {
+        return this.playerStatus === PlayerStatus.Victory;
+    }
+
+    get isWaterloo(): boolean {
+        return this.playerStatus === PlayerStatus.Waterloo;
+    }
+
     subscribeData() {
         this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
             player => {
                 if (player && player.battle) {
                     this.opponentInfo = player.battle.opponentInfo;
-                    this.targetBoard = battleMethods.createTargetBoard(player);
-                    this.ownBoard = battleMethods.createOwnBoard(player);
-                    this.isVictory = player.playerStatus === PlayerStatus.Victory;
-                    this.isWaterloo = player.playerStatus === PlayerStatus.Waterloo;
-                    this.shootNow = this.targetBoard.canShoot;
-                    this.waitingForOpponentShoot = !this.targetBoard.canShoot &&
-                        !this.isVictory &&
-                        !this.isWaterloo;
+                    const targetBoard = BattleMethods.createTargetBoard(player);
+                    this.targetBoard = BattleMethods.reduceBoardWithBoard(this.targetBoard, targetBoard);
+                    const ownBoard = BattleMethods.createOwnBoard(player);
+                    this.ownBoard = BattleMethods.reduceBoardWithBoard(this.ownBoard, ownBoard);
+                    this.playerStatus = player.playerStatus;
                 } else {
                     this.opponentInfo = null;
                     this.targetBoard = null;
                     this.ownBoard = null;
-                    this.isVictory = false;
-                    this.isWaterloo = false;
-                    this.shootNow = false;
-                    this.waitingForOpponentShoot = false;
+                    this.playerStatus = PlayerStatus.Waiting;
                 }
             },
             error => {
@@ -74,21 +87,25 @@ export class BattleComponent implements OnInit {
             return;
         }
 
-        field.shooting = true;
+        this.targetBoard = BattleMethods.reduceBoardWithShootingField(this.targetBoard, field);
         const args: ShootArgs = {
             targetPos: field.pos
         };
 
         this.cloudFunctions.shoot(args).toPromise()
             .then(results => {
-                field.shooting = false;
             })
             .catch(error => {
+                this.targetBoard = BattleMethods.reduceBoardWithShootingFieldReset(this.targetBoard, field);
                 const errorDetail = this.notification.localizeFirebaseError(error);
                 const msg = this.translate.instant('battle.apiError.shooting', { errorDetail });
                 this.notification.toastToConfirm(msg);
             })
             ;
+    }
+
+    onUncovered(field: BattleField) {
+        this.targetBoard = BattleMethods.reduceBoardWithShootingFieldReset(this.targetBoard, field);
     }
 
     onCapitulationClicked() {

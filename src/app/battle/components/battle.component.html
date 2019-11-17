@@ -4,6 +4,9 @@
         <p *ngIf="shootNow" style="font-weight: bold; color: orange;">
             <span translate>battle.pleaseShoot</span>
         </p>
+        <p *ngIf="pending" style="font-weight: bold; color: blue;">
+            <span>...</span>
+        </p>
         <p *ngIf="waitingForOpponentShoot" style="font-weight: bold; color: blue;">
             <span translate>battle.waitingForOpponent</span>
         </p>
@@ -18,7 +21,7 @@
                 {{ opponentInfo.displayName }}<span translate>battle.sBoard</span>
             </h3>
             <div *ngIf="targetBoard">
-                <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)"></app-target-board>
+                <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)" (uncovered)="onUncovered($event)"></app-target-board>
             </div>
         </div>
         <div class="own-board-container" fxFlex="0 0 auto">
