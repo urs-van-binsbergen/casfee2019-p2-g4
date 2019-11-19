@@ -126,5 +126,9 @@
             "successMessage": "Password changed",
             "apiError": "Failure changing password: {{errorDetail}}"
         }
+    },
+    "victory": {
+        "body": "You won the battle. Congratulations!",
+        "title": "Victory"
     }
 }
