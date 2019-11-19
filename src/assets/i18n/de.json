@@ -130,5 +130,9 @@
     "victory": {
         "body": "Du hast die Schacht gewonnen. Gratulation!",
         "title": "Sieg"
+    },
+    "waterloo": {
+        "body": "Du hast die Schacht verloren",
+        "title": "Niederlage"
     }
 }

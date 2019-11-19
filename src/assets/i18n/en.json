@@ -130,5 +130,9 @@
     "victory": {
         "body": "You won the battle. Congratulations!",
         "title": "Victory"
+    },
+    "waterloo": {
+        "body": "You lost the battle.",
+        "title": "Defeat"
     }
 }
