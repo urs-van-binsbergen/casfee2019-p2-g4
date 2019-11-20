@@ -5,8 +5,8 @@ import { ShootArgs } from '../public/arguments';
 import * as FlatTable from '../public/flat-table';
 import { toPos } from '../shared/argument-converters';
 import { authenticate } from '../shared/auth-utils';
-import { findShipByPos } from './ship';
-import { loadBattleData } from '../shared/db/battle';
+import { findShipByPos } from '../public/ship';
+import { loadBattleData, prepareHistoryUpdate } from '../shared/db/battle';
 
 export default async function shoot(
     data: any,
@@ -61,27 +61,36 @@ export default async function shoot(
             playerWins = false;
         }
 
-        const lastMoveDate = new Date();
+        const date = new Date();
 
         const playerUpdate = {
             playerStatus: playerWins ? PlayerStatus.Victory : PlayerStatus.InBattle,
-            canShootNext: false,
-            lastMoveDate,
+            canShootNext: !playerWins && !!hit,
+            lastMoveDate: date,
 
             battle
         };
         const oppPlayerUpdate = {
             playerStatus: playerWins ? PlayerStatus.Waterloo : PlayerStatus.InBattle,
-            canShootNext: !playerWins,
-            lastMoveDate,
+            canShootNext: !playerWins && !hit,
+            lastMoveDate: date,
 
             board: oppBoard,
         };
+
+        // History
+        const writeHistory = playerWins ?
+            await prepareHistoryUpdate(db, tx, uid, oppUid, battle.battleId, date) :
+            null;
 
         // --- Do only WRITE after this point! ------------------------
 
         tx.update(db.collection(COLL.PLAYERS).doc(uid), playerUpdate);
         tx.update(db.collection(COLL.PLAYERS).doc(oppUid), oppPlayerUpdate);
+
+        if (writeHistory) {
+            writeHistory();
+        }
     });
 }
 

@@ -106,7 +106,7 @@
             "title": "Mein Profil",
             "displayName": "Anzeigename",
             "username": "Benutzername (E-Mail-Adresse)",
-            "photoURL": "Avatar"
+            "level": "Stufe"
         },
         "updateProfile": {
             "title": "Profil ändern",

@@ -1,13 +1,14 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 import * as uuid from 'uuid/v4';
 import { areEqualSize, Size } from '../public/geometry';
-import { Challenge, Player, User, PlayerStatus, Battle, PlayerInfo, Ship } from '../public/core-models';
+import { Challenge, Player, User, PlayerStatus, Battle, Ship } from '../public/core-models';
 import COLL from '../public/collection-names';
 import { AddChallengeArgs } from '../public/arguments';
 import { createBoard } from '../public/board';
 import { getData } from '../shared/db/db-utils';
 import { getWaitingPlayersData, removePassiveChallenges } from '../shared/db/waiting-player';
 import { authenticate } from '../shared/auth-utils';
+import { createPlayerInfo } from '../public/player-info';
 
 export default function addChallenge(
     data: any,
@@ -152,14 +153,6 @@ function createBattle(user: User, size: Size, battleId: string): Battle {
     };
 }
 
-function createPlayerInfo(user: User): PlayerInfo {
-    return {
-        uid: user.uid,
-        displayName: user.displayName,
-        avatarFileName: user.avatarFileName,
-        level: user.level
-    };
-}
 
 function fleetsHaveEqualLengths(fleet1: Ship[], fleet2: Ship[]): boolean {
     return JSON.stringify(fleet1.map(x => x.length).sort()) ===

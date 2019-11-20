@@ -9,7 +9,6 @@ export interface AuthUser {
     displayName: string;
     email: string;
     emailVerified: boolean;
-    photoURL: string | null;
 }
 
 /*
@@ -52,8 +51,7 @@ export class AuthStateService {
             uid: firebaseUser.uid,
             displayName: firebaseUser.displayName || 'no name',
             email: firebaseUser.email,
-            emailVerified: firebaseUser.emailVerified,
-            photoURL: firebaseUser.photoURL
+            emailVerified: firebaseUser.emailVerified
         };
     }
 

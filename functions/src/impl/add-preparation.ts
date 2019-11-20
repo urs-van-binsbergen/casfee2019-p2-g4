@@ -1,12 +1,13 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { Player, PlayerStatus, WaitingPlayer, PlayerInfo, User, Board } from '../public/core-models';
+import { Player, PlayerStatus, WaitingPlayer, User, Board } from '../public/core-models';
 import { PreparationArgs } from '../public/arguments';
 import COLL from '../public/collection-names';
 import { createBoard } from '../public/board';
 import { authenticate } from '../shared/auth-utils';
 import { toShip, toSize, convertArray } from '../shared/argument-converters';
 import { getData, getDataOrNull } from '../shared/db/db-utils';
-import { validateShipLayout } from './ship';
+import { validateShipLayout } from '../public/ship';
+import { createPlayerInfo } from '../public/player-info';
 
 export default async function addPreparation(
     data: any,
@@ -89,12 +90,4 @@ function createWaitingPlayer(user: User): WaitingPlayer {
     };
 }
 
-function createPlayerInfo(user: User): PlayerInfo {
-    return {
-        uid: user.uid,
-        displayName: user.displayName,
-        avatarFileName: user.avatarFileName,
-        level: user.level
-    };
-}
 

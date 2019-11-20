@@ -19,3 +19,17 @@
         <button mat-raised-button color="primary" (click)="onBattleClicked()">{{'button.battle' | translate}}</button>
     </div>
 </div>
+
+<h1>Debug hall entries</h1>
+<ul>
+    <li *ngFor="let hallEntry of hallEntries">
+        {{ hallEntry | json }}
+    </li>
+</ul>
+
+<h1>Debug historic battles</h1>
+<ul>
+    <li *ngFor="let historicBattle of historicBattles">
+        {{ historicBattle | json }}
+    </li>
+</ul>

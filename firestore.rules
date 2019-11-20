@@ -23,6 +23,16 @@ service cloud.firestore {
             allow write: if false;
         }
 
+        match /hallEntries/{userId} {
+            allow read: if true;
+            allow write: if false;
+        }
+
+        match /historicBattles/{document} {
+            allow read: if true;
+            allow write: if false;
+        }
+
         // (alle nicht erwähnten Collections sind deny all)
     }
 }

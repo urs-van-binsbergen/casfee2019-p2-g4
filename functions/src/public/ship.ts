@@ -1,7 +1,7 @@
-import * as FlatTable from '../public/flat-table';
-import * as Table from '../public/table';
-import { Ship } from '../public/core-models';
-import { Pos, Vector, Size, Orientation, areEqualPos, sliceVector } from '../public/geometry';
+import * as FlatTable from './flat-table';
+import * as Table from './table';
+import { Ship } from './core-models';
+import { Pos, Vector, Size, Orientation, areEqualPos, sliceVector } from './geometry';
 
 export function createShip(pos: Pos, length: number, orientation: Orientation): Ship {
     return {

@@ -20,8 +20,7 @@ export function setUser(
                 email: args.email,
                 displayName: args.displayName,
                 avatarFileName: args.avatarFileName,
-                level: PlayerLevel.Shipboy,
-                numberOfVictories: 0
+                level: PlayerLevel.Shipboy
             };
             tx.create(userRef, user);
         } else if (allowUpdate) {

@@ -106,7 +106,7 @@
             "title": "My profile",
             "displayName": "Display name",
             "username": "User name (email address)",
-            "photoURL": "Avatar"
+            "level": "Rank"
         },
         "updateProfile": {
             "title": "Update profile",

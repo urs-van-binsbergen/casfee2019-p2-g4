@@ -128,12 +128,12 @@ export interface User {
     email: string | null;
     avatarFileName: string | null;
     level: PlayerLevel;
-    numberOfVictories: number;
 }
 
 export interface HallEntry {
     playerInfo: PlayerInfo;
     numberOfVictories: number;
+    numberOfWaterloos: number;
 }
 
 export interface HistoricBattle {

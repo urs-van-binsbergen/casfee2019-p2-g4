@@ -2,7 +2,7 @@ import { CallableContext } from 'firebase-functions/lib/providers/https';
 import COLL from '../public/collection-names';
 import { PlayerStatus } from '../public/core-models';
 import { authenticate } from '../shared/auth-utils';
-import { loadBattleData } from '../shared/db/battle';
+import { loadBattleData, prepareHistoryUpdate } from '../shared/db/battle';
 
 export default async function capitulate(
     data: any,
@@ -13,10 +13,11 @@ export default async function capitulate(
     const uid = authInfo.uid;
 
     return db.runTransaction(async tx => {
-        const { oppPlayer } = await loadBattleData(db, tx, uid);
+        const { player, oppPlayer, battle } = await loadBattleData(db, tx, uid);
         const oppUid = oppPlayer.uid;
+        const date = new Date();
 
-        // State to be patched-back to db
+        // Player updates
         const playerUpdate = {
             playerStatus: PlayerStatus.Waterloo,
             canShootNext: false
@@ -26,9 +27,18 @@ export default async function capitulate(
             canShootNext: false
         };
 
+        const isWinner = player.playerStatus === PlayerStatus.Victory;
+        const winnerUid = isWinner ? uid : oppUid;
+        const loserUid = isWinner ? oppUid : uid;
+
+        // History
+        const writeHistory = await prepareHistoryUpdate(db, tx, winnerUid, loserUid, battle.battleId, date);
+
         // --- Do only WRITE after this point! ------------------------
 
         tx.update(db.collection(COLL.PLAYERS).doc(uid), playerUpdate);
         tx.update(db.collection(COLL.PLAYERS).doc(oppUid), oppPlayerUpdate);
+
+        writeHistory();
     });
 }
