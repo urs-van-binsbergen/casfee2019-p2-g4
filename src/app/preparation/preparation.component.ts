@@ -5,7 +5,8 @@ import { YardService } from './yard.service';
 import { MatDialog } from '@angular/material';
 
 import { PreparationArgs } from '@cloud-api/arguments';
-import { Ship as CloudShip, Orientation, Pos } from '@cloud-api/core-models';
+import { Ship as CloudShip } from '@cloud-api/core-models';
+import { Orientation, Pos } from '@cloud-api/geometry';
 import { CloudFunctionsService } from '../backend/cloud-functions.service';
 
 import { Ship as UiShip } from '../shared/ship';

@@ -1,7 +1,7 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { getDataOrNull } from '../shared/db-utils';
+import { getDataOrNull } from '../shared/db/db-utils';
 import { WaitingPlayer } from '../public/core-models';
-import COLL from '../public/firestore-collection-name-const';
+import COLL from '../public/collection-names';
 import { authenticate } from '../shared/auth-utils';
 import { RemoveChallengeArgs } from '../public/arguments';
 

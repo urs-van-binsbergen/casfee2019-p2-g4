@@ -1,5 +1,5 @@
 import { auth } from 'firebase-admin';
-import { setUser } from '../shared/common-db-methods';
+import { setUser } from '../shared/db/user';
 
 /*
  * Auth trigger: create a user record in the database on registration

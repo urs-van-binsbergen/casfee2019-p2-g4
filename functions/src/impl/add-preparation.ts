@@ -1,11 +1,12 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 import { Player, PlayerStatus, WaitingPlayer, PlayerInfo, User, Board } from '../public/core-models';
 import { PreparationArgs } from '../public/arguments';
+import COLL from '../public/collection-names';
+import { createBoard } from '../public/board';
 import { authenticate } from '../shared/auth-utils';
-import { toShip, toSize, convertArray } from '../shared/common-argument-converters';
-import COLL from '../public/firestore-collection-name-const';
-import { getData, getDataOrNull } from '../shared/db-utils';
-import { createBoard, isValidBoard } from '../public/core-methods';
+import { toShip, toSize, convertArray } from '../shared/argument-converters';
+import { getData, getDataOrNull } from '../shared/db/db-utils';
+import { validateShipLayout } from './ship';
 
 export default async function addPreparation(
     data: any,
@@ -15,7 +16,8 @@ export default async function addPreparation(
     const authInfo = authenticate(context.auth);
     const args = toPreparationArgs(data);
     const board = createBoard(args.size, args.ships);
-    validateBoard(board);
+
+    validateShipLayout(board.size, board.ships);
 
     return db.runTransaction(async tx => {
         const userRef = db.collection(COLL.USERS).doc(authInfo.uid);
@@ -63,11 +65,7 @@ function toPreparationArgs(data: any): PreparationArgs {
     return { size, ships };
 }
 
-function validateBoard(board: Board): void {
-    if (!isValidBoard(board)) {
-        throw new HttpsError('invalid-argument', 'board is not valid');
-    }
-}
+
 
 function createPlayer(user: User, board: Board): Player {
 
@@ -99,3 +97,4 @@ function createPlayerInfo(user: User): PlayerInfo {
         level: user.level
     };
 }
+

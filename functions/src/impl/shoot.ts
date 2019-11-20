@@ -1,15 +1,12 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-
-import { authenticate } from '../shared/auth-utils';
-import { getData, getDataOrNull } from '../shared/db-utils';
-
-import COLL from '../public/firestore-collection-name-const';
-
+import COLL from '../public/collection-names';
 import { Player, PlayerStatus, FieldStatus } from '../public/core-models';
-import { findShipByPos, findFieldByPos } from '../public/core-methods';
-
 import { ShootArgs } from '../public/arguments';
-import { toPos } from '../shared/common-argument-converters';
+import * as FlatTable from '../public/flat-table';
+import { toPos } from '../shared/argument-converters';
+import { authenticate } from '../shared/auth-utils';
+import { getData, getDataOrNull } from '../shared/db/db-utils';
+import { findShipByPos } from './ship';
 
 export default async function shoot(
     data: any,
@@ -56,16 +53,25 @@ export default async function shoot(
         let playerWins: boolean;
 
         const targetBoard = battle.targetBoard;
+        const targetTable = { size: targetBoard.size, cells: targetBoard.fields };
         const oppBoard = oppPlayer.board;
+        const oppTable = { size: oppBoard.size, cells: oppBoard.fields };
 
         // Calcs begin here:
         const targetPos = args.targetPos;
-        const targetField = findFieldByPos(targetBoard, targetPos);
-        const oppField = findFieldByPos(oppBoard, targetPos);
+        const targetField = FlatTable.getCell(targetTable, targetPos);
+        if (!targetField) {
+            throw new HttpsError('invalid-argument', 'pos not found in target board of shooting player');
+        }
+        if (targetField.status !== FieldStatus.Unknown) {
+            throw new HttpsError('failed-precondition', 'target field as already shot at');
+        }
+        const oppField = FlatTable.getCell(oppTable, targetPos);
+        if (!oppField) {
+            throw new HttpsError('invalid-argument', 'pos not found in board of opponent player');
+        }
         const hit = findShipByPos(oppBoard.ships, targetPos);
         if (hit !== null) {
-            // TODO: detect repeated shoot on same target field
-
             oppField.status = FieldStatus.Hit;
             targetField.status = FieldStatus.Hit;
 

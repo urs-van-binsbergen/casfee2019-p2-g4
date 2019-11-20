@@ -1,38 +1,37 @@
-// Type definitions (used server AND client side)
+import { Pos, Orientation, Size } from './geometry';
 
-
-export interface Pos {
-    x: number;
-    y: number;
-}
-
-export interface Size {
-    w: number;
-    h: number;
-}
-
-export enum Orientation {
-    East = 0,
-    South = 1,
-    West = 2,
-    North = 3
-}
-
-/*
- * Grid which holds its fields in a flat list (instead of 2-dimensional array)
- * (Reason for this: Firestore does not allow multidimensional arrays)
- */
-export interface FlatGrid<TField> {
-    size: Size;
-    fields: TField[];
-}
+// Firestore data models (also used as R/W DTOs)
 
 export interface Ship {
-    pos: Pos; // stern position
+
+    /*
+     * Position of the stern (german "Heck")
+     */
+    pos: Pos;
+
+    /*
+     * Length of the ship
+     */
     length: number;
-    orientation: Orientation; // seen from the stern
-    design: number; // client can use this freely to store the ship's look
-    hits: number[]; // hit field index from stern
+
+    /*
+     * Orientation North/East/South/West seen from the stern Pos
+     */
+    orientation: Orientation;
+
+    /*
+     * The ship's design (as written and interpreted by the frontend)
+     */
+    design: number;
+
+    /*
+     * Hit fields, indexed starting from the stern = 0 etc.
+     */
+    hits: number[];
+
+    /*
+     * True if all fields covered by the ship were hit
+     */
     isSunk: boolean;
 }
 
@@ -47,7 +46,7 @@ export interface Field {
     status: FieldStatus;
 }
 
-export interface Board extends FlatGrid<Field> {
+export interface Board {
     size: Size;
     fields: Field[];
     ships: Ship[];
@@ -68,9 +67,11 @@ export interface PlayerInfo {
 }
 
 export enum PlayerStatus {
+
     /*
-     * Player still preparing (currently not used, because player enters
-     * waiting room as soon as he submits his preparation)
+     * Player preparing his ship layout
+     * (not seen in the field currently because players get status 'Waiting'
+     * as soon they submit their prepared ship layout)
      */
     Preparing,
 
@@ -80,9 +81,12 @@ export enum PlayerStatus {
     /* Player is in the battle with another player */
     InBattle,
 
+    /* Player has won the last battle */
     Victory,
 
+    /* Player has lost the last battle */
     Waterloo
+
 }
 
 
@@ -118,12 +122,6 @@ export interface WaitingPlayer {
     challenges: Challenge[];
 }
 
-export enum BattleResult {
-    Victory,
-    Waterloo,
-    Capitulation
-}
-
 export interface User {
     uid: string;
     displayName: string | null;
@@ -134,16 +132,13 @@ export interface User {
 }
 
 export interface HallEntry {
-
     playerInfo: PlayerInfo;
     numberOfVictories: number;
 }
 
 export interface HistoricBattle {
-
     battleId: string;
     endDate: Date;
     winnerUid: string;
     loserUid: string;
-    isCapitulation: boolean;
 }

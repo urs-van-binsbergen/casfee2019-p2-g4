@@ -1,4 +1,4 @@
-// Firestore collection names (used server AND client side)
+// DB collection names (shared with frontend)
 
 export default {
     USERS: 'users',

@@ -1,17 +1,19 @@
-import { FlatGrid, Field as CoreField, Player } from '@cloud-api/core-models';
+import { Player, Board } from '@cloud-api/core-models';
+import * as FlatTable from '@cloud-api/flat-table';
 import { Row, BattleField, BattleBoard, BattleShip } from './battle-models';
-import { findFieldByPos } from '@cloud-api/core-methods';
 
-function createRowsAndFields(grid: FlatGrid<CoreField>): Row[] {
+function createRowsAndFields(board: Board): Row[] {
+    const table = { size: board.size, cells: board.fields };
+
     const rows: Row[] = [];
-    const size = grid.size;
+    const size = table.size;
     for (let y = 0; y < size.h; y++) {
         const fields: BattleField[] = [];
         for (let x = 0; x < size.h; x++) {
             const pos = { x, y };
-            const coreField = findFieldByPos(grid, pos);
-            const field = new BattleField(coreField.pos, coreField.status);
-            fields.push(field);
+            const field =  FlatTable.getCell(table, pos);
+            const battleField = new BattleField(field.pos, field.status);
+            fields.push(battleField);
         }
         const row = new Row(fields);
         rows.push(row);

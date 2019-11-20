@@ -1,6 +1,7 @@
-// Argument structure of cloud funcxtions (used server AND client side)
+import { Ship } from './core-models';
+import { Size, Pos } from './geometry';
 
-import { Ship, Size, Pos } from './core-models';
+// Cloud function argument structures (shared with frontend)
 
 export interface UpdateUserArgs {
     displayName: string | null;

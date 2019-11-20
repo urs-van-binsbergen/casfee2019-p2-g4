@@ -1,12 +1,13 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 import * as uuid from 'uuid/v4';
-import { getData } from '../shared/db-utils';
-import { Challenge, Player, User, PlayerStatus, Battle, PlayerInfo, Size } from '../public/core-models';
-import COLL from '../public/firestore-collection-name-const';
-import { authenticate } from '../shared/auth-utils';
+import { areEqualSize, Size } from '../public/geometry';
+import { Challenge, Player, User, PlayerStatus, Battle, PlayerInfo, Ship } from '../public/core-models';
+import COLL from '../public/collection-names';
 import { AddChallengeArgs } from '../public/arguments';
-import { areEqualSize, createBoard, fleetsHaveEqualLengths } from '../public/core-methods';
-import { getWaitingPlayersData, removePassiveChallenges } from '../public/waiting-players';
+import { createBoard } from '../public/board';
+import { getData } from '../shared/db/db-utils';
+import { getWaitingPlayersData, removePassiveChallenges } from '../shared/db/waiting-player';
+import { authenticate } from '../shared/auth-utils';
 
 export default function addChallenge(
     data: any,
@@ -158,4 +159,9 @@ function createPlayerInfo(user: User): PlayerInfo {
         avatarFileName: user.avatarFileName,
         level: user.level
     };
+}
+
+function fleetsHaveEqualLengths(fleet1: Ship[], fleet2: Ship[]): boolean {
+    return JSON.stringify(fleet1.map(x => x.length).sort()) ===
+        JSON.stringify(fleet2.map(x => x.length).sort());
 }

@@ -1,6 +1,6 @@
-import { getData } from '../shared/db-utils';
-import { WaitingPlayer } from '../public/core-models';
-import COLL from '../public/firestore-collection-name-const';
+import { getData } from './db-utils';
+import { WaitingPlayer } from '../../public/core-models';
+import COLL from '../../public/collection-names';
 import { DocumentReference } from '@google-cloud/firestore';
 
 interface WaitingPlayersData {

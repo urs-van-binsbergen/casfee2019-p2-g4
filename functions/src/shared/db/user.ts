@@ -1,6 +1,6 @@
-import COLL from '../public/firestore-collection-name-const';
-import { UpdateUserArgs } from '../public/arguments';
-import { User, PlayerLevel } from '../public/core-models';
+import COLL from '../../public/collection-names';
+import { UpdateUserArgs } from '../../public/arguments';
+import { User, PlayerLevel } from '../../public/core-models';
 
 export function setUser(
     db: FirebaseFirestore.Firestore,

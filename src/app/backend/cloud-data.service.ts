@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentSnapshot } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
-import COLL from '@cloud-api/firestore-collection-name-const';
+import COLL from '@cloud-api/collection-names';
 import { Player, User, HistoricBattle, WaitingPlayer, HallEntry } from '@cloud-api/core-models';
 
 @Injectable()
