@@ -48,7 +48,7 @@
         "sBoard": "'s board",
         "yourBoard": "Your board",
         "apiError": {
-            "shooting": "Failure transmitting to server: {{errorDetail}}",
+            "sending": "Failure transmitting to server: {{errorDetail}}",
             "loading": "Failure loading data: {{errorDetail}}"
         }
     },

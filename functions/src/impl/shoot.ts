@@ -1,54 +1,25 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
 import COLL from '../public/collection-names';
-import { Player, PlayerStatus, FieldStatus } from '../public/core-models';
+import { PlayerStatus, FieldStatus } from '../public/core-models';
 import { ShootArgs } from '../public/arguments';
 import * as FlatTable from '../public/flat-table';
 import { toPos } from '../shared/argument-converters';
 import { authenticate } from '../shared/auth-utils';
-import { getData, getDataOrNull } from '../shared/db/db-utils';
 import { findShipByPos } from './ship';
+import { loadBattleData } from '../shared/db/battle';
 
 export default async function shoot(
     data: any,
     context: CallableContext,
     db: FirebaseFirestore.Firestore,
 ) {
-    const authInfo = authenticate(context.auth);
     const args = toShootArgs(data);
-
-    // My docs
+    const authInfo = authenticate(context.auth);
     const uid = authInfo.uid;
-    const playerRef = db.collection(COLL.PLAYERS).doc(uid);
 
     return db.runTransaction(async tx => {
-        const playerDoc = await tx.get(playerRef);
-        const player = getData<Player>(playerDoc);
-        const battle = player.battle; // (as seen by the current player!)
-
-        if (!battle) {
-            throw new Error('player is not in a battle');
-        }
-
-        if (!player.canShootNext) {
-            throw new Error('player can not shoot now');
-        }
-
-        // Opponent data
-        const oppUid = battle.opponentInfo.uid;
-        const oppPlayerRef = db.collection(COLL.PLAYERS).doc(oppUid);
-        const oppPlayerDoc = await tx.get(oppPlayerRef);
-        const oppPlayer = getDataOrNull<Player>(oppPlayerDoc);
-
-        if (oppPlayer == null) {
-            throw new Error('opponent does not exist in db');
-        }
-
-        if (oppPlayer.battle == null || oppPlayer.battle.battleId !== battle.battleId) {
-            throw new Error('opponent is not in a battle with player');
-            // (this is an inconsistency in data)
-        }
-
-        // State to be patched-back to db
+        const { oppPlayer, battle } = await loadBattleData(db, tx, uid);
+        const oppUid = oppPlayer.uid;
 
         let playerWins: boolean;
 

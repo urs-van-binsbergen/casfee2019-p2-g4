@@ -48,7 +48,7 @@
         "sBoard": " Spielfeld",
         "yourBoard": "Dein Spielfeld",
         "apiError": {
-            "shooting": "Fehler beim Übermitteln auf den Server: {{errorDetail}}",
+            "sending": "Fehler beim Übermitteln auf den Server: {{errorDetail}}",
             "loading": "Fehler beim Laden der Daten: {{errorDetail}}"
         }
     },

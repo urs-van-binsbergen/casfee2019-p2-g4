@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { AuthStateService } from 'src/app/auth/auth-state.service';
 import { BattleBoard, BattleField } from '../battle-models';
@@ -23,7 +22,6 @@ export class BattleComponent implements OnInit {
     playerStatus = PlayerStatus.Waiting;
 
     constructor(
-        private router: Router,
         private authState: AuthStateService,
         private cloudData: CloudDataService,
         private cloudFunctions: CloudFunctionsService,
@@ -37,7 +35,7 @@ export class BattleComponent implements OnInit {
 
     get shootNow(): boolean {
         return this.targetBoard && this.targetBoard.canShoot && !(this.targetBoard.isShooting) &&
-        this.playerStatus !== PlayerStatus.Victory && this.playerStatus !== PlayerStatus.Waterloo;
+            this.playerStatus !== PlayerStatus.Victory && this.playerStatus !== PlayerStatus.Waterloo;
     }
 
     get pending(): boolean {
@@ -46,7 +44,7 @@ export class BattleComponent implements OnInit {
 
     get waitingForOpponentShoot(): boolean {
         return this.targetBoard && !(this.targetBoard.canShoot) &&
-        this.playerStatus !== PlayerStatus.Victory && this.playerStatus !== PlayerStatus.Waterloo;
+            this.playerStatus !== PlayerStatus.Victory && this.playerStatus !== PlayerStatus.Waterloo;
     }
 
     get isVictory(): boolean {
@@ -98,7 +96,7 @@ export class BattleComponent implements OnInit {
             .catch(error => {
                 this.targetBoard = BattleMethods.reduceBoardWithShootingFieldReset(this.targetBoard, field);
                 const errorDetail = this.notification.localizeFirebaseError(error);
-                const msg = this.translate.instant('battle.apiError.shooting', { errorDetail });
+                const msg = this.translate.instant('battle.apiError.sending', { errorDetail });
                 this.notification.toastToConfirm(msg);
             })
             ;
@@ -109,7 +107,15 @@ export class BattleComponent implements OnInit {
     }
 
     onCapitulationClicked() {
-        this.router.navigateByUrl('/hall');
+        this.cloudFunctions.capitulate({}).toPromise()
+            .then(results => {
+            })
+            .catch(error => {
+                const errorDetail = this.notification.localizeFirebaseError(error);
+                const msg = this.translate.instant('battle.apiError.sending', { errorDetail });
+                this.notification.toastToConfirm(msg);
+            })
+            ;
     }
 
 }
