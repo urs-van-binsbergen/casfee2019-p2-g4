@@ -56,6 +56,14 @@ const routes: Routes = [
         loadChildren: () => import('./user/user.module').then(x => x.UserModule),
         canLoad: [AuthGuard]
     },
+    {
+        path: 'victory',
+        loadChildren: () => import('./victory/victory.module').then(x => x.VictoryModule)
+    },
+    {
+        path: 'waterloo',
+        loadChildren: () => import('./waterloo/waterloo.module').then(x => x.WaterlooModule)
+    },
 
     { path: '**', component: PageNotFoundComponent }
 ];
