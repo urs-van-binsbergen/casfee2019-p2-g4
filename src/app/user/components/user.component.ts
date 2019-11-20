@@ -25,10 +25,10 @@ export class UserComponent implements OnInit {
 
     ngOnInit() {
         this.authState.isLoggedIn$.subscribe(isLoggedIn => {
-            if(this.userSubscription) {
+            if (this.userSubscription) {
                 this.userSubscription.unsubscribe();
             }
-        if (!isLoggedIn) {
+            if (!isLoggedIn) {
                 this.authUser = null;
                 this.user = null;
                 this.level = null;
@@ -38,7 +38,7 @@ export class UserComponent implements OnInit {
                 this.userSubscription = this.cloudData.getUser$(uid).subscribe(user => {
                     this.user = user;
                     this.level = PlayerLevel[user.level];
-                })
+                });
             }
         });
     }
