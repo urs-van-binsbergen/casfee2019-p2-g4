@@ -1,5 +1,5 @@
 import { CallableContext } from 'firebase-functions/lib/providers/https';
-import COLL from '../public/firestore-collection-name-const';
+import COLL from '../public/collection-names';
 import { authenticate } from '../shared/auth-utils';
 
 /*
@@ -31,9 +31,6 @@ export default async function purgeMiniGame(
         if (wPlayerDoc.exists) {
             tx.delete(wPlayerRef);
         }
-
-        // TODO: remove challenges in other waiting players
-        // TODO: update orphaned opponent
     });
 }
 

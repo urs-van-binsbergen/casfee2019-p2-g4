@@ -42,6 +42,11 @@ export class CloudFunctionsService {
         return callable(args);
     }
 
+    capitulate(args: {}): Observable<any> {
+        const callable = this.fns.httpsCallable('capitulate');
+        return callable(args);
+    }
+
     purgeMiniGame(args: {}): Observable<any> {
         const callable = this.fns.httpsCallable('purgeMiniGame');
         return callable(args);

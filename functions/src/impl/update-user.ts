@@ -3,7 +3,7 @@ import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/ht
 import { authenticate } from '../shared/auth-utils';
 
 import { UpdateUserArgs } from '../public/arguments';
-import { setUser } from '../shared/common-db-methods';
+import { setUser } from '../shared/db/user';
 
 export default async function foo(
     data: any,

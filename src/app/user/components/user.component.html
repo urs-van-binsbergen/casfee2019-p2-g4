@@ -3,29 +3,53 @@
         <h2 translate>user.profile.title</h2>
     </div>
 
-    <mat-list>
+    <mat-list *ngIf="authUser">
         <mat-divider></mat-divider>
         <mat-list-item>
             <div>
                 <div class="mat-caption">{{ 'user.profile.displayName' | translate }}</div>
-                <div>{{ currentUser.displayName }}</div>
+                <div>{{ authUser.displayName }}</div>
             </div>
         </mat-list-item>
         <mat-divider></mat-divider>
+        <ng-container *ngIf="user && user.displayName !== authUser.displayName">
+            <mat-list-item>
+                <div>
+                    <!-- (no translate because this should never happen) -->
+                    <div class="mat-caption">Display name in database</div>
+                    <div>
+                        {{ user.displayName }}
+                    </div>
+                </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </ng-container>
         <mat-list-item>
             <div>
                 <div class="mat-caption">{{ 'user.profile.username' | translate }}</div>
                 <div>
-                    {{ currentUser.email }}
-                    {{ currentUser.emailVerified ? '(verified)' : '' }}
+                    {{ authUser.email }}
+                    {{ authUser.emailVerified ? '(verified)' : '' }}
                 </div>
             </div>
         </mat-list-item>
         <mat-divider></mat-divider>
+        <ng-container *ngIf="user && user.email !== authUser.email">
+            <mat-list-item>
+                <div>
+                    <!-- (no translate because this should never happen) -->
+                    <div class="mat-caption">Email in database</div>
+                    <div>
+                        {{ user.email }}
+                    </div>
+                </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </ng-container>
         <mat-list-item>
             <div>
-                <div class="mat-caption">{{ 'user.profile.photoURL' | translate }}</div>
-                <div>{{ currentUser.photoURL || '-' }}</div>
+                <div class="mat-caption">{{ 'user.profile.level' | translate }}</div>
+                <div *ngIf="user">{{ level }}</div>
             </div>
         </mat-list-item>
         <mat-divider></mat-divider>

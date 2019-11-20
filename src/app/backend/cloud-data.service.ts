@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentSnapshot } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentSnapshot, QuerySnapshot } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
-import COLL from '@cloud-api/firestore-collection-name-const';
+import COLL from '@cloud-api/collection-names';
 import { Player, User, HistoricBattle, WaitingPlayer, HallEntry } from '@cloud-api/core-models';
 
 @Injectable()
@@ -21,6 +21,13 @@ export class CloudDataService {
         return this.afs.collection(COLL.USERS).doc(uid).get()
             .toPromise()
             .then((x: DocumentSnapshot<User>) => getData(x));
+    }
+
+    /*
+     * Load user (observable)
+     */
+    getUser$(uid: string): Observable<User> {
+        return this.afs.collection(COLL.USERS).doc<User>(uid).valueChanges();
     }
 
     /*
@@ -65,6 +72,17 @@ export class CloudDataService {
     }
 
     /*
+     * Load all hall entries once
+     */
+    getHallEntries(): Promise<HallEntry[]> {
+        return this.afs.collection(COLL.HALL_ENTRIES).get()
+            .toPromise()
+            .then((snapshot: QuerySnapshot<HallEntry>) =>
+                snapshot.docs.map(doc => doc.data() as HallEntry)
+            );
+    }
+
+    /*
      * Load historic battle once
      */
     getHistoricBattle(id: string): Promise<HistoricBattle> {
@@ -73,6 +91,17 @@ export class CloudDataService {
             .then((x: DocumentSnapshot<HistoricBattle>) => getData(x));
     }
 
+
+    /*
+     * Load all historic battles  once
+     */
+    getHistoricBattles(): Promise<HistoricBattle[]> {
+        return this.afs.collection(COLL.HISTORIC_BATTLES).get()
+            .toPromise()
+            .then((snapshot: QuerySnapshot<HistoricBattle>) =>
+                snapshot.docs.map(doc => doc.data() as HistoricBattle)
+            );
+    }
 }
 
 /*

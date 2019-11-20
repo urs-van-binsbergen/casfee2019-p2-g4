@@ -1,4 +1,5 @@
-import { FieldStatus, Ship, Field as CoreField, Pos, Orientation } from '@cloud-api/core-models';
+import { FieldStatus, Ship, Field as CoreField } from '@cloud-api/core-models';
+import { Pos, Orientation } from '@cloud-api/geometry';
 
 export class Row {
     constructor(

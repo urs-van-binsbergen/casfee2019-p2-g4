@@ -1,71 +1,48 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-
-import { authenticate } from '../shared/auth-utils';
-import { getData, getDataOrNull } from '../shared/db-utils';
-
-import COLL from '../public/firestore-collection-name-const';
-
-import { Player, PlayerStatus, FieldStatus } from '../public/core-models';
-import { findShipByPos, findFieldByPos } from '../public/core-methods';
-
+import COLL from '../public/collection-names';
+import { PlayerStatus, FieldStatus } from '../public/core-models';
 import { ShootArgs } from '../public/arguments';
-import { toPos } from '../shared/common-argument-converters';
+import * as FlatTable from '../public/flat-table';
+import { toPos } from '../shared/argument-converters';
+import { authenticate } from '../shared/auth-utils';
+import { findShipByPos } from '../public/ship';
+import { loadBattleData, prepareHistoryUpdate } from '../shared/db/battle';
 
 export default async function shoot(
     data: any,
     context: CallableContext,
     db: FirebaseFirestore.Firestore,
 ) {
-    const authInfo = authenticate(context.auth);
     const args = toShootArgs(data);
-
-    // My docs
+    const authInfo = authenticate(context.auth);
     const uid = authInfo.uid;
-    const playerRef = db.collection(COLL.PLAYERS).doc(uid);
 
     return db.runTransaction(async tx => {
-        const playerDoc = await tx.get(playerRef);
-        const player = getData<Player>(playerDoc);
-        const battle = player.battle; // (as seen by the current player!)
-
-        if (!battle) {
-            throw new Error('player is not in a battle');
-        }
-
-        if (!player.canShootNext) {
-            throw new Error('player can not shoot now');
-        }
-
-        // Opponent data
-        const oppUid = battle.opponentInfo.uid;
-        const oppPlayerRef = db.collection(COLL.PLAYERS).doc(oppUid);
-        const oppPlayerDoc = await tx.get(oppPlayerRef);
-        const oppPlayer = getDataOrNull<Player>(oppPlayerDoc);
-
-        if (oppPlayer == null) {
-            throw new Error('opponent does not exist in db');
-        }
-
-        if (oppPlayer.battle == null || oppPlayer.battle.battleId !== battle.battleId) {
-            throw new Error('opponent is not in a battle with player');
-            // (this is an inconsistency in data)
-        }
-
-        // State to be patched-back to db
+        const { oppPlayer, battle } = await loadBattleData(db, tx, uid);
+        const oppUid = oppPlayer.uid;
 
         let playerWins: boolean;
 
         const targetBoard = battle.targetBoard;
+        const targetTable = { size: targetBoard.size, cells: targetBoard.fields };
         const oppBoard = oppPlayer.board;
+        const oppTable = { size: oppBoard.size, cells: oppBoard.fields };
 
         // Calcs begin here:
         const targetPos = args.targetPos;
-        const targetField = findFieldByPos(targetBoard, targetPos);
-        const oppField = findFieldByPos(oppBoard, targetPos);
+        const targetField = FlatTable.getCell(targetTable, targetPos);
+        if (!targetField) {
+            throw new HttpsError('invalid-argument', 'pos not found in target board of shooting player');
+        }
+        if (targetField.status !== FieldStatus.Unknown) {
+            throw new HttpsError('failed-precondition', 'target field as already shot at');
+        }
+        const oppField = FlatTable.getCell(oppTable, targetPos);
+        if (!oppField) {
+            throw new HttpsError('invalid-argument', 'pos not found in board of opponent player');
+        }
         const hit = findShipByPos(oppBoard.ships, targetPos);
         if (hit !== null) {
-            // TODO: detect repeated shoot on same target field
-
             oppField.status = FieldStatus.Hit;
             targetField.status = FieldStatus.Hit;
 
@@ -84,27 +61,36 @@ export default async function shoot(
             playerWins = false;
         }
 
-        const lastMoveDate = new Date();
+        const date = new Date();
 
         const playerUpdate = {
             playerStatus: playerWins ? PlayerStatus.Victory : PlayerStatus.InBattle,
-            canShootNext: false,
-            lastMoveDate,
+            canShootNext: !playerWins && !!hit,
+            lastMoveDate: date,
 
             battle
         };
         const oppPlayerUpdate = {
             playerStatus: playerWins ? PlayerStatus.Waterloo : PlayerStatus.InBattle,
-            canShootNext: !playerWins,
-            lastMoveDate,
+            canShootNext: !playerWins && !hit,
+            lastMoveDate: date,
 
             board: oppBoard,
         };
+
+        // History
+        const writeHistory = playerWins ?
+            await prepareHistoryUpdate(db, tx, uid, oppUid, battle.battleId, date) :
+            null;
 
         // --- Do only WRITE after this point! ------------------------
 
         tx.update(db.collection(COLL.PLAYERS).doc(uid), playerUpdate);
         tx.update(db.collection(COLL.PLAYERS).doc(oppUid), oppPlayerUpdate);
+
+        if (writeHistory) {
+            writeHistory();
+        }
     });
 }
 

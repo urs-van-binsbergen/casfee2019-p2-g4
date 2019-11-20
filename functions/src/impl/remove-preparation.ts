@@ -1,9 +1,9 @@
 import { CallableContext, HttpsError } from 'firebase-functions/lib/providers/https';
-import { getDataOrNull } from '../shared/db-utils';
+import { getDataOrNull } from '../shared/db/db-utils';
 import { Player, PlayerStatus } from '../public/core-models';
-import COLL from '../public/firestore-collection-name-const';
+import COLL from '../public/collection-names';
 import { authenticate } from '../shared/auth-utils';
-import { getWaitingPlayersData, removePassiveChallenges } from '../public/waiting-players';
+import { getWaitingPlayersData, removePassiveChallenges } from '../shared/db/waiting-player';
 
 export default function removePreparation(
     data: any,

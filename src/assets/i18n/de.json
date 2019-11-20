@@ -48,7 +48,7 @@
         "sBoard": " Spielfeld",
         "yourBoard": "Dein Spielfeld",
         "apiError": {
-            "shooting": "Fehler beim Übermitteln auf den Server: {{errorDetail}}",
+            "sending": "Fehler beim Übermitteln auf den Server: {{errorDetail}}",
             "loading": "Fehler beim Laden der Daten: {{errorDetail}}"
         }
     },
@@ -106,7 +106,7 @@
             "title": "Mein Profil",
             "displayName": "Anzeigename",
             "username": "Benutzername (E-Mail-Adresse)",
-            "photoURL": "Avatar"
+            "level": "Stufe"
         },
         "updateProfile": {
             "title": "Profil ändern",

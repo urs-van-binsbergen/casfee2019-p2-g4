@@ -48,7 +48,7 @@
         "sBoard": "'s board",
         "yourBoard": "Your board",
         "apiError": {
-            "shooting": "Failure transmitting to server: {{errorDetail}}",
+            "sending": "Failure transmitting to server: {{errorDetail}}",
             "loading": "Failure loading data: {{errorDetail}}"
         }
     },
@@ -106,7 +106,7 @@
             "title": "My profile",
             "displayName": "Display name",
             "username": "User name (email address)",
-            "photoURL": "Avatar"
+            "level": "Rank"
         },
         "updateProfile": {
             "title": "Update profile",

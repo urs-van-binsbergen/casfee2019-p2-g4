@@ -1,4 +1,5 @@
-import { Ship, Pos, Size, Orientation } from '../public/core-models';
+import { Pos, Size, Orientation } from '../public/geometry';
+import { Ship } from '../public/core-models';
 import { HttpsError } from 'firebase-functions/lib/providers/https';
 
 // Convert from whatever the client sent to the required interface

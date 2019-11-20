@@ -41,6 +41,10 @@ import shootImpl from './impl/shoot';
 export const shoot = https.onCall(
     (data, context) => shootImpl(data, context, db));
 
+import capitulateImpl from './impl/capitulate';
+export const capitulate = https.onCall(
+    (data, context) => capitulateImpl(data, context, db));
+
 import purgeMiniGameImpl from './impl/purge-mini-game';
 export const purgeMiniGame = https.onCall(
     (data, context) => purgeMiniGameImpl(data, context, db));
