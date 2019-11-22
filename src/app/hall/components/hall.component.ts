@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HallEntry, HistoricBattle } from '@cloud-api/core-models';
-import { CloudDataService } from '../backend/cloud-data.service';
+import { CloudDataService } from '../../backend/cloud-data.service';
 
 @Component({
     templateUrl: './hall.component.html',
@@ -23,6 +23,22 @@ export class HallComponent implements OnInit {
         this.cloudData.getHistoricBattles().then(result => {
             this.historicBattles = result;
         });
+    }
+
+    get admirals(): HallEntry[] {
+        return this.hallEntries;
+    }
+
+    get captains(): HallEntry[] {
+        return this.hallEntries;
+    }
+
+    get seamen(): HallEntry[] {
+        return this.hallEntries;
+    }
+
+    get shipboys(): HallEntry[] {
+        return this.hallEntries;
     }
 
     onBattleClicked() {

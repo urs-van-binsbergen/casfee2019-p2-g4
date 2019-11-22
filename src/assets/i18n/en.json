@@ -78,7 +78,10 @@
         }
     },
     "hall": {
-        "body": "Hall Text",
+        "admirals": "Admirals",
+        "captains": "Captains",
+        "seamen": "Seamen",
+        "shipboys": "Shipboys",
         "title": "Hall of Fame"
     },
     "match": {
