@@ -74,17 +74,19 @@ export function updateBattleBoard(board: BattleBoard) {
         return false;
     }
 
-    if (board && board.rows) {
-        const isShooting = isShootingBoard(board.rows);
-        for (const row of board.rows) {
-            if (row.fields) {
-                for (const field of row.fields) {
-                    field.shootable = !isShooting && field.status === FieldStatus.Unknown;
+    if (board) {
+        let isShooting = false;
+        if (board.rows) {
+            isShooting = isShootingBoard(board.rows);
+            for (const row of board.rows) {
+                if (row.fields) {
+                    for (const field of row.fields) {
+                        field.shootable = !isShooting && field.status === FieldStatus.Unknown;
+                    }
                 }
             }
         }
-    } else if (board) {
-        board.isShooting = false;
+        board.isShooting = isShooting;
     }
 }
 
