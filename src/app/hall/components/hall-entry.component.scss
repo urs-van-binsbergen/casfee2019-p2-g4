@@ -1,0 +1,15 @@
+.entry {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 5em;
+    margin: 2px;
+}
+
+.avatar {
+    width: 48px;
+    height: 64px;
+    font-size: 60%;
+    color: white;
+    background-color: black;
+}

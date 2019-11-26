@@ -78,7 +78,10 @@
         }
     },
     "hall": {
-        "body": "Sieger Text",
+        "admirals": "Admiralinnen",
+        "captains": "Kapitäninnen",
+        "seamen": "Seefrauen",
+        "shipboys": "Schiffsmädchen",
         "title": "Siegergalerie"
     },
     "match": {

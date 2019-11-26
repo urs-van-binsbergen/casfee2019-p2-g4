@@ -1,0 +1,23 @@
+<div class="page">
+    <h3 translate>hall.title</h3>
+    <div fxLayout="column" fxLayoutGap="8px">
+        <p *ngIf="hasAdmirals" class="label" translate>hall.admirals</p>
+        <app-hall-entries *ngIf="hasAdmirals" class="admirals" [entries]="admirals"></app-hall-entries>
+        <p *ngIf="hasCaptains" class="label" translate>hall.captains</p>
+        <app-hall-entries *ngIf="hasCaptains" class="captains" [entries]="captains"></app-hall-entries>
+        <p *ngIf="hasSeamen" class="label" translate>hall.seamen</p>
+        <app-hall-entries *ngIf="hasSeamen" class="seamen" [entries]="seamen"></app-hall-entries>
+        <p *ngIf="hasShipboys" class="label" translate>hall.shipboys</p>
+        <app-hall-entries *ngIf="hasShipboys" class="shipboys" [entries]="shipboys"></app-hall-entries>
+    </div>
+    <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
+        <button mat-raised-button color="primary" (click)="onBattleClicked()">{{'button.battle' | translate}}</button>
+    </div>
+</div>
+
+<h1>Debug historic battles</h1>
+<ul>
+    <li *ngFor="let historicBattle of historicBattles">
+        {{ historicBattle | json }}
+    </li>
+</ul>
