@@ -30,7 +30,7 @@ function createPos(ship: Ship): Pos {
     }
 }
 
-export function createBattleField(pos: Pos, status: FieldStatus): BattleField {
+function createBattleField(pos: Pos, status: FieldStatus): BattleField {
     return {
         pos: deepClone(pos),
         status,
@@ -57,7 +57,7 @@ function createRows(board: Board): Row[] {
     return rows;
 }
 
-export function updateBattleBoard(board: BattleBoard) {
+function updateBattleBoard(board: BattleBoard) {
 
     function isShootingBoard(rows: Row[]): boolean {
         if (rows) {
@@ -90,7 +90,7 @@ export function updateBattleBoard(board: BattleBoard) {
     }
 }
 
-function createBattleBoard(board: Board, canShoot: boolean): BattleBoard {
+export function createBattleBoard(board: Board, canShoot: boolean): BattleBoard {
     const rows = createRows(board);
     const ships = board.ships.map((ship: Ship) => {
         const battleShip: BattleShip = {
@@ -146,7 +146,7 @@ export function reduceOwnBoardWithPlayer(state: BattleBoard, action: Player): Ba
     return ownBoard;
 }
 
-export function reduceBoardWithField(state: BattleBoard, action: BattleField, change: (f: BattleField) => void): BattleBoard | null {
+function reduceBoardWithField(state: BattleBoard, action: BattleField, change: (f: BattleField) => void): BattleBoard | null {
     const x = action.pos.x;
     const y = action.pos.y;
     const board = state ? deepClone(state) : null;
