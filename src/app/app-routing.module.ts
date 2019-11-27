@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
-import { IndexComponent } from './index.component';
 import { PageNotFoundComponent } from './shared/page-not-found.component';
 import { LoginComponent } from './auth/components/login.component';
 import { RegisterComponent } from './auth/components/register.component';
@@ -9,7 +8,6 @@ import { ResetPasswordComponent } from './auth/components/reset-password.compone
 
 const routes: Routes = [
     { path: '', redirectTo: '/hall', pathMatch: 'full' },
-    { path: 'index', component: IndexComponent },
 
 
     {
