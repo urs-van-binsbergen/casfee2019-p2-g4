@@ -96,7 +96,8 @@
             "challenged": "Gegner herausfordern",
             "challenging": "Gegner fordert dich heraus"
         },
-        "cancelButton": "Abbrechen"
+        "cancelButton": "Abbrechen",
+        "messageNobodyHere": "Leider sind noch keine Gegner zur Schlacht bereit"
     },
     "preparation": {
         "body": "Alle Schiffe von der Werft auf das Brett ziehen. Klick auf den Turm des Schiffs rotiert um 90°. Schiffe auf dem Bretten beliebig repositionieren.",

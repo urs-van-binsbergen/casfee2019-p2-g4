@@ -1,15 +1,18 @@
 <div class="page mat-typography">
-    <h3 translate>admin.title</h3>
-    <p translate>admin.body</p>
+    <div class="inset-1">
+        <h2 translate>admin.title</h2>
+        <p translate>admin.body</p>
+    </div>
 
     <mat-card class="small-form">
-        <h2>Debugging</h2>
-        <p>
-            When clicking the button, your current preparation, matching and battle data is deleted.
-            <br>
-            If the button is disabled you currently don't have game data.
-        </p>
+        <h3>Debugging</h3>
         <mat-card-content>
+            <p class="mat-small">
+                Deleting the button will delete your current preparation + your matching data + your battle data.
+            </p>
+            <p class="mat-small">
+                If the button is disabled you currently don't have game data.
+            </p>
             <div class="button-row">
                 <div>
                     <button mat-raised-button (click)="purge()" color="primary" [disabled]="!hasPlayerData">

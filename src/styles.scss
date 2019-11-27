@@ -47,7 +47,7 @@ html {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color:map-get($casfee2019-p2-g4-primary, 50);
+    background-color: map-get($casfee2019-p2-g4-primary, 50);
 }
 
 a,
@@ -64,6 +64,19 @@ a:hover {
 
 .page {
     margin: 3px;
+}
+
+.page-inset {
+    margin: 3px;
+
+    @media screen and (min-width: 370px) {
+        margin: 16px 16px;
+    }
+
+    @media screen and (min-width:600px) {
+        margin: 32px 16px;
+    }
+
 }
 
 /* misc layout ----------------------------- */
@@ -91,7 +104,8 @@ mat-card.small-form {
 }
 
 .inset-1 {
-    @extend .inset-v-1, .inset-h-1
+    @extend .inset-v-1,
+    .inset-h-1
 }
 
 
@@ -117,5 +131,13 @@ mat-card.small-form {
 }
 
 button.standard-button-width {
-    width: 150px;
+    min-width: 100px;
+
+    @media screen and (min-width: 370px) {
+        min-width: 130px;
+    }
+
+    @media screen and (min-width: 600px) {
+        min-width: 160px;
+    }
 }
