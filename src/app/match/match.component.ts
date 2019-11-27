@@ -11,7 +11,7 @@ import { CloudFunctionsService } from '../backend/cloud-functions.service';
 export class MatchComponent {
 
     constructor(
-        private matchService: MatchService, // don't remove
+        public matchService: MatchService,
         private cloudFunctions: CloudFunctionsService
     ) {
     }
