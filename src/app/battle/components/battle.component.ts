@@ -60,10 +60,8 @@ export class BattleComponent implements OnInit {
             player => {
                 if (player && player.battle) {
                     this.opponentInfo = player.battle.opponentInfo;
-                    const targetBoard = BattleMethods.createTargetBoard(player);
-                    this.targetBoard = BattleMethods.reduceBoardWithBoard(this.targetBoard, targetBoard);
-                    const ownBoard = BattleMethods.createOwnBoard(player);
-                    this.ownBoard = BattleMethods.reduceBoardWithBoard(this.ownBoard, ownBoard);
+                    this.targetBoard = BattleMethods.reduceTargetBoardWithPlayer(this.targetBoard, player);
+                    this.ownBoard = BattleMethods.reduceOwnBoardWithPlayer(this.ownBoard, player);
                     this.playerStatus = player.playerStatus;
                 } else {
                     this.opponentInfo = null;

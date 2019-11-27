@@ -1,20 +1,38 @@
 import * as BattleMethods from './battle-methods';
 import { Row, BattleField, BattleBoard, BattleShip } from './battle-models';
-import { FieldStatus } from '@cloud-api/core-models';
+import { Board, FieldStatus } from '@cloud-api/core-models';
+import { Pos } from '@cloud-api/geometry';
 
-function refBoard(width: number, height: number): BattleBoard {
+function createBattleBoard(width: number, height: number, canShoot: boolean, pos: Pos,
+                           change: (f: BattleField) => void): BattleBoard {
     const rows: Row[] = [];
     for (let y = 0; y < height; y++) {
         const fields: BattleField[] = [];
         for (let x = 0; x < width; x++) {
-            const field = new BattleField({x, y}, FieldStatus.Unknown);
+            const field = {
+                pos: { x, y },
+                status: FieldStatus.Unknown,
+                shooting: false,
+                shootable: false
+            };
             fields.push(field);
         }
-        const row = new Row(fields);
+        const row: Row = { fields };
         rows.push(row);
     }
     const ships: BattleShip[] = [];
-    const board = new BattleBoard(rows, ships, true);
+    const board: BattleBoard = { rows, ships, canShoot, isShooting: false };
+    if (pos && change) {
+        change(board.rows[pos.y].fields[pos.x]);
+        board.isShooting = board.rows[pos.y].fields[pos.x].shooting;
+    }
+    for (const row of board.rows) {
+        if (row.fields) {
+            for (const field of row.fields) {
+                field.shootable = !(board.isShooting) && field.status === FieldStatus.Unknown;
+            }
+        }
+    }
     return board;
 }
 
@@ -26,22 +44,58 @@ describe('BattleMethods', () => {
 
     const refWidth = 2;
     const refHeight = 2;
-    let state: BattleBoard;
 
     beforeEach(() => {
-       state = refBoard(refWidth, refHeight);
     });
 
     afterEach(() => {
-        state = null;
     });
 
-    it('reduce board with null', () => {
+    it('create Board', () => {
+        const board: Board = {
+            fields: [
+                { pos: { x: 0, y: 0 }, status: 1 },
+                { pos: { x: 1, y: 0 }, status: 1 },
+                { pos: { x: 0, y: 1 }, status: 0 },
+                { pos: { x: 1, y: 1 }, status: 0 }
+            ],
+            ships: [
+                { design: 0, hits: [0, 1], isSunk: true, length: 2, orientation: 0, pos: { x: 0, y: 0 } }
+            ],
+            size: { h: 2, w: 2 }
+        };
+        const boardBefore = str(board);
+        const battleBoard = BattleMethods.createBattleBoard(board, false);
+        const reference: BattleBoard = {
+            rows: [
+                {
+                    fields: [
+                        { pos: { x: 0, y: 0 }, status: 1, shooting: false, shootable: false },
+                        { pos: { x: 1, y: 0 }, status: 1, shooting: false, shootable: false }]
+                },
+                {
+                    fields: [
+                        { pos: { x: 0, y: 1 }, status: 0, shooting: false, shootable: true },
+                        { pos: { x: 1, y: 1 }, status: 0, shooting: false, shootable: true }]
+                }
+            ],
+            ships: [
+                { pos: { x: 0, y: 0 }, length: 2, isVertical: false, isInverse: false, isSunk: true }
+            ],
+            canShoot: false, isShooting: false
+        };
+        expect(str(board)).toBe(boardBefore);
+        expect(str(battleBoard)).toBe(str(reference));
+    });
+
+    it('reduce BattleBoard with null', () => {
+        const state = createBattleBoard(refWidth, refHeight, true, null, null);
         const board = BattleMethods.reduceBoardWithBoard(state, null);
         expect(board).toBe(null);
     });
 
-    it('reduce board with state', () => {
+    it('reduce BattleBoard with state', () => {
+        const state = createBattleBoard(refWidth, refHeight, true, null, null);
         const stateBefore = str(state);
         const action = state;
         const actionBefore = str(action);
@@ -52,9 +106,10 @@ describe('BattleMethods', () => {
         expect(str(board)).toBe(str(action));
     });
 
-    it('reduce board with same action as state', () => {
+    it('reduce BattleBoard with same action as state', () => {
+        const state = createBattleBoard(refWidth, refHeight, true, null, null);
         const stateBefore = str(state);
-        const action = refBoard(refWidth, refHeight);
+        const action = createBattleBoard(refWidth, refHeight, true, null, null);
         const actionBefore = str(action);
         expect(stateBefore).toBe(actionBefore);
         const board = BattleMethods.reduceBoardWithBoard(state, action);
@@ -63,75 +118,77 @@ describe('BattleMethods', () => {
         expect(str(board)).toBe(str(action));
     });
 
-    it('reduce board with action (Unknown -> Hit)', () => {
+    it('reduce BattleBoard with action (Unknown -> Hit)', () => {
         const x = 0;
         const y = 0;
         const shooting = true;
         const status = FieldStatus.Hit;
-        state.rows[y].fields[x].shooting = shooting;
+        const state = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
+            battleField.shooting = shooting;
+        });
         const stateBefore = str(state);
-        const action = refBoard(refWidth, refHeight);
-        action.rows[y].fields[x].status = status;
+        const action = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
+            battleField.status = status;
+        });
         const actionBefore = str(action);
         const board = BattleMethods.reduceBoardWithBoard(state, action);
         expect(stateBefore).toBe(str(state));
         expect(actionBefore).toBe(str(action));
-
-        const reference = refBoard(refWidth, refHeight);
-        reference.rows[y].fields[x].status = status;
-        reference.rows[y].fields[x].shooting = shooting;
+        const reference = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
+            battleField.status = status;
+            battleField.shooting = shooting;
+        });
         expect(str(board)).toBe(str(reference));
     });
 
-    it('reduce board with action (Unknown -> Miss)', () => {
+    it('reduce BattleBoard with action (Unknown -> Miss)', () => {
         const x = 0;
         const y = 0;
         const shooting = true;
         const status = FieldStatus.Miss;
-        state.rows[y].fields[x].shooting = shooting;
+        const state = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
+            battleField.shooting = shooting;
+        });
         const stateBefore = str(state);
-        const action = refBoard(refWidth, refHeight);
-        action.rows[y].fields[x].status = status;
+        const action = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
+            battleField.status = status;
+        });
         const actionBefore = str(action);
         const board = BattleMethods.reduceBoardWithBoard(state, action);
         expect(stateBefore).toBe(str(state));
         expect(actionBefore).toBe(str(action));
-
-        const reference = refBoard(refWidth, refHeight);
-        reference.rows[y].fields[x].status = status;
-        reference.rows[y].fields[x].shooting = shooting;
+        const reference = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
+            battleField.status = status;
+            battleField.shooting = shooting;
+        });
         expect(str(board)).toBe(str(reference));
     });
 
-    it('reduce board with shooting field', () => {
+    it('reduce BattleBoard with shooting field', () => {
         const x = 0;
         const y = 0;
+        const state = createBattleBoard(refWidth, refHeight, true, { x, y }, null);
         const stateBefore = str(state);
-        const action = new BattleField({x, y}, FieldStatus.Unknown);
-        const actionBefore = str(action);
+        const action = state.rows[y].fields[x];
         const board = BattleMethods.reduceBoardWithShootingField(state, action);
         expect(stateBefore).toBe(str(state));
-        expect(actionBefore).toBe(str(action));
-        const reference = refBoard(refWidth, refHeight);
-        const refField = new BattleField({x, y}, FieldStatus.Unknown);
-        refField.shooting = true;
-        reference.rows[y].fields[x] = refField;
+        const reference = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
+            battleField.shooting = true;
+        });
         expect(str(board)).toBe(str(reference));
     });
 
-    it('reduce board with shooting field reset', () => {
+    it('reduce BattleBoard with shooting field reset', () => {
         const x = 0;
         const y = 0;
-        const field = new BattleField({x, y}, FieldStatus.Unknown);
-        field.shooting = true;
-        state.rows[y].fields[x] = field;
+        const state = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
+            battleField.shooting = true;
+        });
         const stateBefore = str(state);
-        const action = new BattleField({x, y}, FieldStatus.Unknown);
-        const actionBefore = str(action);
+        const action = state.rows[y].fields[x];
         const board = BattleMethods.reduceBoardWithShootingFieldReset(state, action);
         expect(stateBefore).toBe(str(state));
-        expect(actionBefore).toBe(str(action));
-        const reference = refBoard(refWidth, refHeight);
+        const reference = createBattleBoard(refWidth, refHeight, true, { x, y }, null);
         expect(str(board)).toBe(str(reference));
     });
 
