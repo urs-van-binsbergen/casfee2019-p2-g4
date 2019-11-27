@@ -30,6 +30,11 @@ const routes: Routes = [
         canLoad: [AuthGuard]
     },
     {
+        path: 'game',
+        loadChildren: () => import('./game/game.module').then(x => x.GameModule),
+        canLoad: [AuthGuard]
+    },
+    {
         path: 'hall',
         loadChildren: () => import('./hall/hall.module').then(x => x.HallModule),
     },

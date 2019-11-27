@@ -4,7 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { VictoryComponent } from './victory.component';
 
 const routes: Routes = [{
-    path: '',
+    path: 'legacy',
     component: VictoryComponent
 }];
 
@@ -15,6 +15,9 @@ const routes: Routes = [{
     imports: [
         SharedModule,
         RouterModule.forChild(routes)
+    ],
+    exports: [
+        VictoryComponent
     ]
 })
 export class VictoryModule { }

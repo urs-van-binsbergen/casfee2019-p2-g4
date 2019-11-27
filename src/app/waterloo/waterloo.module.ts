@@ -4,7 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { WaterlooComponent } from './waterloo.component';
 
 const routes: Routes = [{
-    path: '',
+    path: 'legacy', // TODO
     component: WaterlooComponent
 }];
 
@@ -15,6 +15,9 @@ const routes: Routes = [{
     imports: [
         SharedModule,
         RouterModule.forChild(routes)
+    ],
+    exports: [
+        WaterlooComponent
     ]
 })
 export class WaterlooModule { }
