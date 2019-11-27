@@ -1,63 +1,37 @@
 <mat-toolbar color="primary">
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #menu>
-        <button mat-menu-item routerLink="hall">
-            <mat-icon>forward</mat-icon>
-            <span translate>hall.title</span>
-        </button>
-        <button mat-menu-item routerLink="preparation">
-            <mat-icon>forward</mat-icon>
-            <span translate>preparation.title</span>
-        </button>
-        <button mat-menu-item routerLink="admin">
-            <mat-icon>forward</mat-icon>
-            <span translate>admin.title</span>
-        </button>
-        <button *ngIf="authState.currentUser" mat-menu-item routerLink="user">
-            <mat-icon>forward</mat-icon>
-            <span translate>user.profile.title</span>
-        </button>
-        <button *ngIf="authState.currentUser" mat-menu-item (click)="onLogoutClicked()">
-            <mat-icon>forward</mat-icon>
-            <span>Logout {{authState.currentUser.displayName}}</span>
-        </button>
-        <button *ngIf="!authState.currentUser" mat-menu-item routerLink="auth/login">
-            <mat-icon>forward</mat-icon>
-            <span>Login</span>
-        </button>
-    </mat-menu>
-    <p class="title" translate>application.title</p>
-    <span class="fill-remaining-space"></span>
-    <app-language></app-language>
+    <mat-toolbar-row>
+        <a class="title" translate routerLink="./">application.title</a>
+        <div class="fill-remaining-space"></div>
+        <div class="nav-row1-buttons">
+            <button mat-button routerLink="user">
+                <mat-icon>perm_identity</mat-icon>
+                <span translate>application.nav.user</span>
+            </button>
+            <button mat-button routerLink="battle">
+                <mat-icon>waves</mat-icon>
+                <span translate>application.nav.battle</span>
+            </button>
+            <button mat-button routerLink="admin" title="{{ 'application.nav.admin' | translate }}">
+                <mat-icon>build</mat-icon>
+            </button>
+        </div>
+        <app-language></app-language>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="nav-row2">
+        <div>
+            <button mat-button routerLink="user">
+                <mat-icon>perm_identity</mat-icon>
+                <span translate>application.nav.user</span>
+            </button>
+            <button mat-button routerLink="battle">
+                <mat-icon>waves</mat-icon>
+                <span translate>application.nav.battle</span>
+            </button>
+            <button mat-button routerLink="admin" title="{{ 'application.nav.admin' | translate }}">
+                <mat-icon>build</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar-row>
 </mat-toolbar>
-
-<!-- TMP DEBUG -->
-<div fxRow style="border-bottom: 1px white solid; padding-bottom: 3px;">
-    <ng-container *ngIf="authState.currentUser as user">
-        <button mat-button color="primary" routerLink="user">
-            <mat-icon>perm_identity</mat-icon>
-            <span *ngIf="authState.currentUser as user" translate>
-                user.profile.title
-            </span>
-        </button>
-        <button mat-button color="primary" routerLink="battle">
-            <mat-icon>waves</mat-icon>
-            <span>
-                Battle
-            </span>
-        </button>
-        <button mat-button color="primary" routerLink="mini-game">
-            <mat-icon>videogame_asset</mat-icon>
-        </button>
-    </ng-container>
-    <ng-container *ngIf="!authState.currentUser">
-        <button mat-button color="primary" routerLink="auth/login">
-            <mat-icon>perm_identity</mat-icon>
-            Login
-        </button>
-    </ng-container>
-</div>
 
 <router-outlet></router-outlet>

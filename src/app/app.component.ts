@@ -10,17 +10,8 @@ import { AuthStateService } from './auth/auth-state.service';
 })
 export class AppComponent {
 
-    private _language: string;
-
     constructor(
-        private router: Router,
-        private authService: AuthService,
-        public authState: AuthStateService
+        private router: Router
     ) {
-    }
-
-    async onLogoutClicked() {
-        await this.router.navigateByUrl('/');
-        this.authService.logout();
     }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatchService } from './match.service';
 import { Router } from '@angular/router';
+import { CloudFunctionsService } from '../backend/cloud-functions.service';
 
 @Component({
     selector: 'app-match',
@@ -9,7 +10,11 @@ import { Router } from '@angular/router';
 })
 export class MatchComponent {
 
-    constructor(private matchService: MatchService, private router: Router) {
+    constructor(
+        private matchService: MatchService,
+        private router: Router,
+        private cloudFunctions: CloudFunctionsService
+    ) {
         this.matchService.isMatchCompleted$.subscribe(
             isMatchCompleted => {
                 if (isMatchCompleted) {
@@ -17,5 +22,10 @@ export class MatchComponent {
                 }
             }
         );
+    }
+
+    async onCancelClicked() {
+        await this.router.navigateByUrl('/preparation');
+        this.cloudFunctions.removePreparation({});
     }
 }

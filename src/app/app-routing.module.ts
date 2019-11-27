@@ -9,7 +9,6 @@ import { ResetPasswordComponent } from './auth/components/reset-password.compone
 const routes: Routes = [
     { path: '', redirectTo: '/hall', pathMatch: 'full' },
 
-
     {
         path: 'admin',
         loadChildren: () => import('./admin/admin.module').then(x => x.AdminModule),
@@ -37,11 +36,6 @@ const routes: Routes = [
     {
         path: 'match',
         loadChildren: () => import('./match/match.module').then(x => x.MatchModule),
-        canLoad: [AuthGuard]
-    },
-    {
-        path: 'mini-game',
-        loadChildren: () => import('./mini-game/mini-game.module').then(x => x.MiniGameModule),
         canLoad: [AuthGuard]
     },
     {

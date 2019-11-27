@@ -5,7 +5,7 @@ import { authenticate } from '../shared/auth-utils';
 /*
  * Remove all my game data (prep, waitingPlayers, battle)
  */
-export default async function purgeMiniGame(
+export default async function deleteGameData(
     data: any,
     context: CallableContext,
     db: FirebaseFirestore.Firestore,

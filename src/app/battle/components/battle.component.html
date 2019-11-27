@@ -21,7 +21,8 @@
                 {{ opponentInfo.displayName }}<span translate>battle.sBoard</span>
             </h3>
             <div *ngIf="targetBoard">
-                <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)" (uncovered)="onUncovered($event)"></app-target-board>
+                <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)"
+                    (uncovered)="onUncovered($event)"></app-target-board>
             </div>
         </div>
         <div class="own-board-container" fxFlex="0 0 auto">
@@ -37,3 +38,15 @@
     </div>
 
 </div>
+
+<p>
+    TEMP 27.11. uvb
+</p>
+<ul>
+    <li>
+        <a routerLink="/preparation">go to prep</a>
+    </li>
+    <li>
+        <a routerLink="/match">go to matchmaking</a>
+    </li>
+</ul>

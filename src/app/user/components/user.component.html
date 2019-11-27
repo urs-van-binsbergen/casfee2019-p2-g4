@@ -56,8 +56,10 @@
     </mat-list>
     <div class="button-row">
         <button mat-button routerLink="update-profile" color="primary">
-            {{ 'user.updateProfile.title' | translate }}</button>
+            {{ 'user.profile.updateProfileButton' | translate }}</button>
         <button mat-button routerLink="update-password" color="primary">
-            {{ 'user.updatePassword.title' | translate }}</button>
+            {{ 'user.profile.updatePasswordButton' | translate }}</button>
+        <button mat-button (click)="logout()">
+            {{ 'user.profile.logoutButton' | translate }}</button>
     </div>
 </div>

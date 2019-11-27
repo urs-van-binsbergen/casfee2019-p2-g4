@@ -1,19 +1,39 @@
+mat-toolbar-row {
+    flex-wrap: wrap;
+}
+
+.title {
+    font-size: 90%;
+    color: white;
+}
+
 .fill-remaining-space {
     flex: 1 1 auto;
 }
 
-.title {
-    font-size: 60%;
+.nav-row1-buttons {
+    display: none;
+}
+
+.nav-row2 {
+    padding: 0;
+    height: 2em;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 @media screen and (min-width: 370px) {
     .title {
-        font-size: 80%;
+        font-size: 100%;
     }
 }
 
 @media screen and (min-width: 600px) {
-    .title {
-        font-size: 100%;
+
+    .nav-row1-buttons {
+        display: block;
+    }
+
+    .nav-row2 {
+        display: none;
     }
 }
