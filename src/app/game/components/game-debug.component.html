@@ -15,8 +15,11 @@
 <app-battle></app-battle>
 
 <hr>
-
-<app-victory></app-victory>
+<label>
+    <input type="checkbox" [(ngModel)]="showVictory" />
+    Victory
+</label>
+<app-victory *ngIf="showVictory"></app-victory>
 
 <hr>
 

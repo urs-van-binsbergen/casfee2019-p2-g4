@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { AuthStateService } from 'src/app/auth/auth-state.service';
-import * as GameState  from '../game.state';
+import * as GameState from '../game.state';
 
 @Component({
-    'templateUrl': './game.component.html',
+    templateUrl: './game.component.html',
 })
 export class GameComponent implements OnInit {
 

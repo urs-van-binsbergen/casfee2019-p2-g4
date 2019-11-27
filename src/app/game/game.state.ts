@@ -18,29 +18,27 @@ export function getInitialState(): State {
     };
 }
 
-export function reduceWithPlayer(state: State, player: Player): State {
-    var state0 = getInitialState();
+export function reduceWithPlayer(oldState: State, player: Player): State {
+    const initialState = getInitialState();
     const playerStatus = player ? player.playerStatus : PlayerStatus.Preparing;
     switch (playerStatus) {
         case PlayerStatus.Preparing:
-            return { ...state0, showPreparation: true };
+            return { ...initialState, showPreparation: true };
         case PlayerStatus.Waiting:
-            return { ...state0, showMatch: true };
+            return { ...initialState, showMatch: true };
         case PlayerStatus.InBattle:
-            return { ...state0, showBattle: true };
+            return { ...initialState, showBattle: true };
         case PlayerStatus.Victory:
-            if (state.showBattle) { // (only show immediately after battle)
-                return { ...state0, showVictory: true };
-            }
-            else {
-                return { ...state0, showPreparation: true };
+            if (oldState.showBattle) { // (only show immediately after battle)
+                return { ...initialState, showVictory: true };
+            } else {
+                return { ...initialState, showPreparation: true };
             }
         case PlayerStatus.Waterloo:
-            if (state.showBattle) { // (only show immediately after battle)
-                return { ...state0, showWaterloo: true };
-            }
-            else {
-                return { ...state0, showPreparation: true };
+            if (oldState.showBattle) { // (only show immediately after battle)
+                return { ...initialState, showWaterloo: true };
+            } else {
+                return { ...initialState, showPreparation: true };
             }
     }
 }
