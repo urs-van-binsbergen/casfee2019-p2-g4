@@ -12,6 +12,7 @@ import { CloudFunctionsService } from '../backend/cloud-functions.service';
 import { Ship as UiShip } from '../shared/ship';
 
 @Component({
+    selector: 'app-preparation',
     templateUrl: './preparation.component.html',
     styleUrls: ['./preparation.component.scss']
 })
@@ -50,7 +51,6 @@ export class PreparationComponent implements OnInit {
         this.cloudFunctions.addPreparation(args).subscribe(
             results => {
                 console.log(results);
-                this.router.navigateByUrl('/match');
             },
             error => {
                 console.log(error);

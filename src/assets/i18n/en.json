@@ -97,7 +97,7 @@
             "challenging": "Opponent is challenging you"
         },
         "cancelButton": "Cancel",
-        "messageNobodyHere": "Not a single opponent is ready to battle against you. Please wait."
+        "messageNobodyHere": "No one is ready to battle against you. Please wait."
     },
     "preparation": {
         "body": "Drag all ships from the yard and drop them to the board. Click on the ship's tower to rotate 90°. Drag and drop ships on the board to reposition.",

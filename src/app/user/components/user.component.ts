@@ -48,7 +48,6 @@ export class UserComponent implements OnInit {
     }
 
     async logout() {
-        await this.router.navigateByUrl('/');
         this.authService.logout();
     }
 

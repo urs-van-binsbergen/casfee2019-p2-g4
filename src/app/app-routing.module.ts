@@ -25,11 +25,6 @@ const routes: Routes = [
         // (AuthModule must be eagerly loaded, otherwise its AuthState has no change tracking in other modules)
     },
     {
-        path: 'battle',
-        loadChildren: () => import('./battle/battle.module').then(x => x.BattleModule),
-        canLoad: [AuthGuard]
-    },
-    {
         path: 'game',
         loadChildren: () => import('./game/game.module').then(x => x.GameModule),
         canLoad: [AuthGuard]
@@ -39,27 +34,9 @@ const routes: Routes = [
         loadChildren: () => import('./hall/hall.module').then(x => x.HallModule),
     },
     {
-        path: 'match',
-        loadChildren: () => import('./match/match.module').then(x => x.MatchModule),
-        canLoad: [AuthGuard]
-    },
-    {
-        path: 'preparation',
-        loadChildren: () => import('./preparation/preparation.module').then(x => x.PreparationModule),
-        canLoad: [AuthGuard]
-    },
-    {
         path: 'user',
         loadChildren: () => import('./user/user.module').then(x => x.UserModule),
         canLoad: [AuthGuard]
-    },
-    {
-        path: 'victory',
-        loadChildren: () => import('./victory/victory.module').then(x => x.VictoryModule)
-    },
-    {
-        path: 'waterloo',
-        loadChildren: () => import('./waterloo/waterloo.module').then(x => x.WaterlooModule)
     },
 
     { path: '**', component: PageNotFoundComponent }

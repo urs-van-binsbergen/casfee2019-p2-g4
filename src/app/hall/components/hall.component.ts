@@ -65,7 +65,4 @@ export class HallComponent implements OnInit {
         return this._shipboys;
     }
 
-    onBattleClicked() {
-        this.router.navigateByUrl('/preparation');
-    }
 }

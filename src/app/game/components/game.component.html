@@ -1,38 +1,5 @@
-<div class="page-inset mat-typography">
-    <h2>Hello Game</h2>
-
-    <div style="background-color: gold; padding: 1rem;">
-        <h3>
-            TEMP 27.11. uvb - direct links to legacy routes
-        </h3>
-        <ul>
-            <li>
-                <a routerLink="/preparation">preparation</a>
-            </li>
-            <li>
-                <a routerLink="/match">match</a>
-            </li>
-            <li>
-                <a routerLink="/battle">battle</a>
-            </li>
-            <li>
-                <a routerLink="/victory/legacy">victory</a>
-            </li>
-            <li>
-                <a routerLink="/waterloo/legacy">waterloo</a>
-            </li>
-        </ul>
-    </div>
-
-    {{ state | json }}
-
-    <div class="compo-container" *ngIf="state.showVictory">
-        <h3>Victory</h3>
-        <app-victory></app-victory>
-    </div>
-    <div class="compo-container" *ngIf="state.showWaterloo">
-        <h3>Waterloo</h3>
-        <app-waterloo></app-waterloo>
-    </div>
-
-</div>
+<app-preparation *ngIf="state.showPreparation"></app-preparation>
+<app-match *ngIf="state.showMatch"></app-match>
+<app-battle *ngIf="state.showBattle"></app-battle>
+<app-victory *ngIf="state.showVictory"></app-victory>
+<app-waterloo *ngIf="state.showWaterloo"></app-waterloo>

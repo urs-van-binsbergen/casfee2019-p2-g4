@@ -11,21 +11,12 @@ import { CloudFunctionsService } from '../backend/cloud-functions.service';
 export class MatchComponent {
 
     constructor(
-        private matchService: MatchService,
-        private router: Router,
+        private matchService: MatchService, // don't remove
         private cloudFunctions: CloudFunctionsService
     ) {
-        this.matchService.isMatchCompleted$.subscribe(
-            isMatchCompleted => {
-                if (isMatchCompleted) {
-                    this.router.navigateByUrl('/battle');
-                }
-            }
-        );
     }
 
     async onCancelClicked() {
-        await this.router.navigateByUrl('/preparation');
         this.cloudFunctions.removePreparation({});
     }
 }

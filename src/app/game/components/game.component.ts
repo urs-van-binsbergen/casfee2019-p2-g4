@@ -5,9 +5,6 @@ import * as GameState  from '../game.state';
 
 @Component({
     'templateUrl': './game.component.html',
-    'styleUrls': [
-        './game.component.scss'
-    ]
 })
 export class GameComponent implements OnInit {
 

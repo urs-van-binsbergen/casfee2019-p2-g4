@@ -1,29 +1,36 @@
-<div class="page mat-typography">
-    <div class="inset-1">
+<div class="page-inset mat-typography">
+    <div>
         <h2 translate>admin.title</h2>
         <p translate>admin.body</p>
+
+        <hr>
+
+        <div>Debugging Utils:<div>
+
+        <mat-card class="small-form">
+            <mat-card-content>
+                <p class="mat-small">
+                    Deleting the button will delete your current preparation + your matching data + your battle data.
+                </p>
+                <p class="mat-small">
+                    If the button is disabled you currently don't have game data.
+                </p>
+                <div class="button-row">
+                    <div>
+                        <button mat-raised-button (click)="purge()" color="primary" [disabled]="!hasPlayerData">
+                            Delete Game Data
+                        </button>
+                    </div>
+                    <div class="spinner-cell">
+                        <mat-spinner *ngIf="waiting" diameter="22" style="display: inline-block"></mat-spinner>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="small-form">
+            <button mat-stroked-button routerLink="/game/debug">Show all game components</button>
+        </mat-card>
+
     </div>
-
-    <mat-card class="small-form">
-        <h3>Debugging</h3>
-        <mat-card-content>
-            <p class="mat-small">
-                Deleting the button will delete your current preparation + your matching data + your battle data.
-            </p>
-            <p class="mat-small">
-                If the button is disabled you currently don't have game data.
-            </p>
-            <div class="button-row">
-                <div>
-                    <button mat-raised-button (click)="purge()" color="primary" [disabled]="!hasPlayerData">
-                        Delete Game Data
-                    </button>
-                </div>
-                <div class="spinner-cell">
-                    <mat-spinner *ngIf="waiting" diameter="22" style="display: inline-block"></mat-spinner>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
-
 </div>
