@@ -16,7 +16,6 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { IndexComponent } from './index.component';
 import { environment } from '../environments/environment';
 
 // Feature Modules
@@ -28,7 +27,6 @@ import { BackendModule } from './backend/backend.module';
 @NgModule({
     declarations: [
         AppComponent,
-        IndexComponent,
         PageNotFoundComponent
     ],
     imports: [

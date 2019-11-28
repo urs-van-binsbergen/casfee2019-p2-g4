@@ -4,7 +4,12 @@
         "title": "Administration"
     },
     "application": {
-        "title": "CAS FEE 2019 Projekt 2 Gruppe 4"
+        "title": "Panzerkreuzer P2g4",
+        "nav": {
+            "user": "Benutzer",
+            "battle": "Schlacht",
+            "admin": "Admin"
+        }
     },
     "auth": {
         "login": {
@@ -91,7 +96,9 @@
         "item": {
             "challenged": "Gegner herausfordern",
             "challenging": "Gegner fordert dich heraus"
-        }
+        },
+        "cancelButton": "Abbrechen",
+        "messageNobodyHere": "Leider sind noch keine Gegner zur Schlacht bereit"
     },
     "preparation": {
         "body": "Alle Schiffe von der Werft auf das Brett ziehen. Klick auf den Turm des Schiffs rotiert um 90°. Schiffe auf dem Bretten beliebig repositionieren.",
@@ -110,7 +117,10 @@
             "title": "Mein Profil",
             "displayName": "Anzeigename",
             "username": "Benutzername (E-Mail-Adresse)",
-            "level": "Stufe"
+            "level": "Stufe",
+            "updateProfileButton": "Profil ändern",
+            "updatePasswordButton": "Passwort ändern",
+            "logoutButton": "Ausloggen"
         },
         "updateProfile": {
             "title": "Profil ändern",

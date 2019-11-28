@@ -3,6 +3,8 @@ import { AuthStateService, AuthUser } from 'src/app/auth/auth-state.service';
 import { User, PlayerLevel } from '@cloud-api/core-models';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-user',
@@ -18,6 +20,8 @@ export class UserComponent implements OnInit {
 
     constructor(
         private authState: AuthStateService,
+        private authService: AuthService,
+        private router: Router,
         private cloudData: CloudDataService
     ) {
 
@@ -41,6 +45,10 @@ export class UserComponent implements OnInit {
                 });
             }
         });
+    }
+
+    async logout() {
+        this.authService.logout();
     }
 
 }

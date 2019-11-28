@@ -1,6 +1,15 @@
-<div class="mat-typography">
+<div class="page mat-typography">
     <div class="inset-1">
         <h2 translate>user.profile.title</h2>
+    </div>
+
+    <div *ngIf="authUser" class="button-row">
+        <button mat-button routerLink="update-profile" color="primary">
+            {{ 'user.profile.updateProfileButton' | translate }}</button>
+        <button mat-button routerLink="update-password" color="primary">
+            {{ 'user.profile.updatePasswordButton' | translate }}</button>
+        <button mat-button (click)="logout()" mat-stroked-button color="primary">
+            {{ 'user.profile.logoutButton' | translate }}</button>
     </div>
 
     <mat-list *ngIf="authUser">
@@ -54,10 +63,4 @@
         </mat-list-item>
         <mat-divider></mat-divider>
     </mat-list>
-    <div class="button-row">
-        <button mat-button routerLink="update-profile" color="primary">
-            {{ 'user.updateProfile.title' | translate }}</button>
-        <button mat-button routerLink="update-password" color="primary">
-            {{ 'user.updatePassword.title' | translate }}</button>
-    </div>
 </div>
