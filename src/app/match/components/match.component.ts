@@ -4,7 +4,9 @@ import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import * as MatchMethods from '../match-methods';
 import { MatchItem, MatchState } from '../match-models';
+import { NotificationService } from 'src/app/auth/notification.service';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { WaitingPlayer } from '@cloud-api/core-models';
 
 @Component({
@@ -16,11 +18,14 @@ export class MatchComponent implements OnInit {
 
     private _items: MatchItem[] = [];
     private _state: MatchState = MatchState.Idle;
+    private _cancelling = false;
 
     constructor(
         private cloudData: CloudDataService,
         private authState: AuthStateService,
         private cloudFunctions: CloudFunctionsService,
+        private notification: NotificationService,
+        private translate: TranslateService,
         private router: Router) {
     }
 
@@ -42,12 +47,14 @@ export class MatchComponent implements OnInit {
             (waitingPlayers: WaitingPlayer[]) => {
                 this._state = MatchMethods.reduceMatchStateWithWaitingPlayers(this._state, waitingPlayers, uid);
                 this._items = MatchMethods.reduceMatchItemsWithWaitingPlayers(this._items, waitingPlayers, uid);
-                if (this._state === MatchState.Completed) {
+                if (this._state === MatchState.Completed && !(this._cancelling)) {
                     this.router.navigateByUrl('/battle');
                 }
             },
             error => {
-                console.log(error);
+                const errorDetail = this.notification.localizeFirebaseError(error);
+                const msg = this.translate.instant('battle.apiError.sending', { errorDetail });
+                this.notification.toastToConfirm(msg);
             }
         );
     }
@@ -60,6 +67,20 @@ export class MatchComponent implements OnInit {
     public onRemoveChallenge(item: MatchItem) {
         const opponentUid = item.opponentUid;
         this.cloudFunctions.removeChallenge({ opponentUid });
+    }
+
+    public onCancelClicked() {
+        this._cancelling = true;
+        this.cloudFunctions.removePreparation({}).toPromise()
+            .then(results => {
+                this.router.navigateByUrl('/hall');
+            })
+            .catch(error => {
+                this._cancelling = false;
+                const errorDetail = this.notification.localizeFirebaseError(error);
+                const msg = this.translate.instant('battle.apiError.sending', { errorDetail });
+                this.notification.toastToConfirm(msg);
+            });
     }
 
 }

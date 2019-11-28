@@ -1,8 +1,14 @@
-<div class="page">
-    <h3 translate>match.title</h3>
-    <p *ngIf="hasItems" translate>match.body</p>
-    <p *ngIf="!hasItems" translate>match.noitems</p>
-    <app-match-items *ngIf="hasItems" [items]="items" (addChallenge)="onAddChallenge($event)"
-        (removeChallenge)="onRemoveChallenge($event)">
-    </app-match-items>
+<div class="page mat-typography">
+    <div class="inset-1">
+        <h2 translate>match.title</h2>
+        <p *ngIf="hasItems" translate>match.body</p>
+        <p *ngIf="!hasItems" translate>match.messageNobodyHere</p>
+        <app-match-items *ngIf="hasItems" class="match-items" [items]="items" (addChallenge)="onAddChallenge($event)"
+            (removeChallenge)="onRemoveChallenge($event)">
+        </app-match-items>
+        <button mat-raised-button (click)="onCancelClicked()" color="basic">
+            <span translate>match.cancelButton</span>
+        </button>
+    </div>
+
 </div>

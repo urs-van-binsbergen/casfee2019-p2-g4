@@ -91,7 +91,6 @@
     },
     "match": {
         "body": "Choose your opponent",
-        "noitems": "There are currently no opponents.",
         "title": "Opponent Match",
         "item": {
             "challenged": "Challenge opponent",

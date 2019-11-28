@@ -3,6 +3,11 @@
     flex-direction: row;
     width: 100%;
     align-items: center;
+    background-color: white;
+}
+
+.statistic, .name, .avatar, .challenged, .challenging {
+    margin: 5px;
 }
 
 .statistic {
