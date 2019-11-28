@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatchItem } from '../match-item';
+import { MatchItem } from '../match-models';
 
 @Component({
     selector: 'app-match-item',
@@ -11,9 +11,9 @@ export class MatchItemComponent {
     @Input()
     public item: MatchItem;
     @Output()
-    public challenge: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public changeChallenge: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public onChallengeChange(challenge: boolean) {
-        this.challenge.emit(challenge);
+        this.changeChallenge.emit(challenge);
     }
 }

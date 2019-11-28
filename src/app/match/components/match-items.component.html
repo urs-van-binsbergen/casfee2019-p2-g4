@@ -1,4 +1,4 @@
-<mat-list>
-    <app-match-item *ngFor="let item of items" [item]="item" (challenge)="onChallengeChange(item, $event)">
+<div fxLayout="column wrap" fxLayoutGap="8px">
+    <app-match-item *ngFor="let item of items" [item]="item" (changeChallenge)="onChallengeChange(item, $event)">
     </app-match-item>
-</mat-list>
+</div>

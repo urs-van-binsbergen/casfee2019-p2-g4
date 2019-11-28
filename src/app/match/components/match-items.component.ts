@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { MatchItem } from '../match-item';
-import { MatchService } from '../match.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatchItem } from '../match-models';
 
 @Component({
     selector: 'app-match-items',
@@ -9,14 +8,18 @@ import { MatchService } from '../match.service';
 })
 export class MatchItemsComponent {
 
-    constructor(private matchService: MatchService) {
-    }
-
-    public get items(): MatchItem[] {
-        return this.matchService.items;
-    }
+    @Input()
+    public items: MatchItem[];
+    @Output()
+    public addChallenge: EventEmitter<MatchItem> = new EventEmitter<MatchItem>();
+    @Output()
+    public removeChallenge: EventEmitter<MatchItem> = new EventEmitter<MatchItem>();
 
     public onChallengeChange(item: MatchItem, challenge: boolean) {
-        this.matchService.challenge(item, challenge);
+        if (challenge) {
+            this.addChallenge.emit(item);
+        } else {
+            this.removeChallenge.emit(item);
+        }
     }
 }

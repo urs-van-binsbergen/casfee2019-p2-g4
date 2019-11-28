@@ -85,7 +85,8 @@
         "title": "Siegergalerie"
     },
     "match": {
-        "body": "Herausforderung Text",
+        "body": "Wähle deinen Gegner",
+        "noitems": "Im Moment gibt es keine Gegner",
         "title": "Herausforderung",
         "item": {
             "challenged": "Gegner herausfordern",

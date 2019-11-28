@@ -1,0 +1,8 @@
+<div class="page">
+    <h3 translate>match.title</h3>
+    <p *ngIf="hasItems" translate>match.body</p>
+    <p *ngIf="!hasItems" translate>match.noitems</p>
+    <app-match-items *ngIf="hasItems" [items]="items" (addChallenge)="onAddChallenge($event)"
+        (removeChallenge)="onRemoveChallenge($event)">
+    </app-match-items>
+</div>
