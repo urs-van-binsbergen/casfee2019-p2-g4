@@ -4,7 +4,12 @@
         "title": "Admin"
     },
     "application": {
-        "title": "CAS FEE 2019 Project 2 Group 4"
+        "title": "Battleship P2g4",
+        "nav": {
+            "user": "User",
+            "battle": "Battle",
+            "admin": "Admin"
+        }
     },
     "auth": {
         "login": {
@@ -90,7 +95,9 @@
         "item": {
             "challenged": "Challenge opponent",
             "challenging": "Opponent is challenging you"
-        }
+        },
+        "cancelButton": "Cancel",
+        "messageNobodyHere": "No one is ready to battle against you. Please wait."
     },
     "preparation": {
         "body": "Drag all ships from the yard and drop them to the board. Click on the ship's tower to rotate 90°. Drag and drop ships on the board to reposition.",
@@ -109,7 +116,10 @@
             "title": "My profile",
             "displayName": "Display name",
             "username": "User name (email address)",
-            "level": "Rank"
+            "level": "Rank",
+            "updateProfileButton": "Update profile",
+            "updatePasswordButton": "Update password",
+            "logoutButton": "Logout"
         },
         "updateProfile": {
             "title": "Update profile",

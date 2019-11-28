@@ -1,4 +1,4 @@
-<div class="mat-typography">
+<div class="page mat-typography">
     <div class="inset-1">
         <h2 translate>battle.title</h2>
         <p *ngIf="shootNow" style="font-weight: bold; color: orange;">
@@ -21,7 +21,8 @@
                 {{ opponentInfo.displayName }}<span translate>battle.sBoard</span>
             </h3>
             <div *ngIf="targetBoard">
-                <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)" (uncovered)="onUncovered($event)"></app-target-board>
+                <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)"
+                    (uncovered)="onUncovered($event)"></app-target-board>
             </div>
         </div>
         <div class="own-board-container" fxFlex="0 0 auto">
@@ -37,3 +38,4 @@
     </div>
 
 </div>
+

@@ -1,16 +1,21 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
+    selector: 'app-victory',
     templateUrl: './victory.component.html',
     styleUrls: ['./victory.component.scss']
 })
-export class VictoryComponent {
+export class VictoryComponent implements OnInit, OnDestroy {
 
-    constructor(private router: Router) {
+    constructor() {
     }
 
-    onBattleClicked() {
-        this.router.navigateByUrl('/hall');
+    ngOnInit(): void {
+        console.log('victory init');
     }
+
+    ngOnDestroy(): void {
+        console.log('victory destroy');
+    }
+
 }

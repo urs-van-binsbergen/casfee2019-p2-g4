@@ -45,6 +45,6 @@ import capitulateImpl from './impl/capitulate';
 export const capitulate = https.onCall(
     (data, context) => capitulateImpl(data, context, db));
 
-import purgeMiniGameImpl from './impl/purge-mini-game';
-export const purgeMiniGame = https.onCall(
-    (data, context) => purgeMiniGameImpl(data, context, db));
+import deleteGameDataImpl from './impl/delete-game-data';
+export const deleteGameData = https.onCall(
+    (data, context) => deleteGameDataImpl(data, context, db));

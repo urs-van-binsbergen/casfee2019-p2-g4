@@ -37,7 +37,7 @@ export class HallComponent implements OnInit {
         return 0 < this._admirals.length;
     }
 
-    get hasCaptainss(): boolean {
+    get hasCaptains(): boolean {
         return 0 < this._captains.length;
     }
 
@@ -65,7 +65,4 @@ export class HallComponent implements OnInit {
         return this._shipboys;
     }
 
-    onBattleClicked() {
-        this.router.navigateByUrl('/preparation');
-    }
 }
