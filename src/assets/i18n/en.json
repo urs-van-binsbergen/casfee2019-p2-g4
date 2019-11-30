@@ -90,7 +90,7 @@
         "title": "Hall of Fame"
     },
     "match": {
-        "body": "Match Text",
+        "body": "Choose your opponent",
         "title": "Opponent Match",
         "item": {
             "challenged": "Challenge opponent",

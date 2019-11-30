@@ -90,7 +90,7 @@
         "title": "Siegergalerie"
     },
     "match": {
-        "body": "Herausforderung Text",
+        "body": "Wähle deinen Gegner",
         "title": "Herausforderung",
         "item": {
             "challenged": "Gegner herausfordern",

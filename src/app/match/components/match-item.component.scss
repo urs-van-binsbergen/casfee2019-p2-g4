@@ -1,14 +1,13 @@
-.mat-list-item {
-    height: 68px;
-    margin-top: 2px;
-    background-color: white;
-}
-
 .item {
     display: flex;
     flex-direction: row;
     width: 100%;
     align-items: center;
+    background-color: white;
+}
+
+.statistic, .name, .avatar, .challenged, .challenging {
+    margin: 5px;
 }
 
 .statistic {

@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { MatchComponent } from './match.component';
+import { MatchComponent } from './components/match.component';
 import { MatchItemComponent } from './components/match-item.component';
 import { MatchItemsComponent } from './components/match-items.component';
-import { MatchService } from './match.service';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -15,9 +14,6 @@ import { RouterModule } from '@angular/router';
     imports: [
         SharedModule,
         RouterModule
-    ],
-    providers: [
-        MatchService
     ],
     exports: [
         MatchComponent
