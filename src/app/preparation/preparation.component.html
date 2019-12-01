@@ -3,12 +3,10 @@
         <h2 translate>preparation.title</h2>
         <p translate>preparation.body</p>
     </div>
-    <div class="preparation">
-        <div class="preparationArea">
-            <app-preparation-yard></app-preparation-yard>
-            <app-preparation-board></app-preparation-board>
-        </div>
-        <app-preparation-status></app-preparation-status>
+    <div class="preparation" (touchstart)="onStart($event)" (touchend)="onStop($event)" (touchmove)="onContinue($event)"
+        (mousedown)="onStart($event)" (mouseup)="onStop($event)" (mousemove)="onContinue($event)">
+            <app-preparation-board [rows]="rows" [ships]="preparation"></app-preparation-board>
+            <app-preparation-yard [ships]="yard"></app-preparation-yard>
     </div>
     <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
         <button mat-raised-button color="primary" (click)="onContinueClicked()" class="standard-button-width"

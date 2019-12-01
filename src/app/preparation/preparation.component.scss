@@ -1,20 +1,7 @@
 .preparation {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-
-.preparationArea {
-    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-}
-
-@media screen and (min-width: 800px) {
-    .preparationArea {
-        justify-content: flex-start;
-    }
 }

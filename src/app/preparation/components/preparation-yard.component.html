@@ -1,5 +1,11 @@
 <div class="yard">
-    <app-preparation-ship *ngFor="let yardKey of yardKeys" [appDraggable]="{key: yardKey}" [key]="yardKey"
-        [place]="'yard'" class="yardShip">
-    </app-preparation-ship>
+    <div *ngFor="let ship of ships"
+        class="ship"
+        [attr.data-key]="ship.key"
+        [style.top]="(100 / 5 + 2) + '%'"
+        [style.left]="(ship.pos.x * 100 / 5 + 2) + '%'"
+        [style.width]="(100 / 5 - 4) + '%'"
+        [style.height]="(ship.length * 100 / 5 - 4) + '%'"
+    >
+    </div>
 </div>

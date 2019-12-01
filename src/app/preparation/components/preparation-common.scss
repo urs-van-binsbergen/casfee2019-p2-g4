@@ -1,0 +1,32 @@
+.row {
+    display: flex;
+    height: 12.5%;
+    border-bottom: 1px solid #e3f2fd;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.field {
+    flex: 1 0 0;
+    background-color: white;
+    text-align: center;
+    border-right: 1px solid #e3f2fd;
+}
+
+.field:last-child {
+    border-right: none;
+}
+
+.ship {
+    position: absolute;
+    border: 1px solid white;
+    background-color: aqua;
+    opacity: 0.7;
+}
+
+.center {
+    position: absolute;
+    background-color: black;
+}
