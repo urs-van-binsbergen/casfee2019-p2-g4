@@ -1,7 +1,14 @@
+$fieldMin: 32px;
+$fieldMax: 48px;
+$fieldMargin: 1px;
+$fieldFactor: 10;
+$opacityLow: 0.25;
+$opacityHigh: 0.5;
+
 .row {
     display: flex;
     height: 12.5%;
-    border-bottom: 1px solid #e3f2fd;
+    border-bottom: $fieldMargin solid #e3f2fd;
 }
 
 .row:last-child {
@@ -12,7 +19,7 @@
     flex: 1 0 0;
     background-color: white;
     text-align: center;
-    border-right: 1px solid #e3f2fd;
+    border-right: $fieldMargin solid #e3f2fd;
 }
 
 .field:last-child {
@@ -21,22 +28,41 @@
 
 .ship {
     position: absolute;
-    border: 1px solid white;
-    background-color: aqua;
-    opacity: 0.7;
+    border: $fieldMargin solid white;
+    opacity: $opacityHigh;
+}
+
+.key-20 {
+    background-color: red;
+}
+
+.key-30 {
+    background-color: green;
+}
+
+.key-31 {
+    background-color: blue;
+}
+
+.key-40 {
+    background-color: turquoise;
+}
+
+.key-41 {
+    background-color: purple;
 }
 
 @keyframes opatcity {
     0% {
-        opacity: 0.7;
+        opacity: $opacityHigh;
     }
 
     50% {
-        opacity: 0.3;
+        opacity: $opacityLow;
     }
 
     100% {
-        opacity: 0.7;
+        opacity: $opacityHigh;
     }
 }
 

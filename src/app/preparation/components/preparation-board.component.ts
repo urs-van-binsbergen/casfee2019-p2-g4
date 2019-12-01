@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PreparationRow, PreparationShip } from '../preparation-models';
-const size = 10;
+const size = 0.1;
 
 @Component({
     selector: 'app-preparation-board',
@@ -15,33 +15,33 @@ export class PreparationBoardComponent {
 
     public centerTop(ship: PreparationShip): string {
         if (ship.isVertical) {
-            return (ship.centerVertical - size / 2 / ship.length) + '%';
+            return ((ship.length * ship.centerVertical / 100 - size) / ship.length * 100) + '%';
         } else {
-            return (ship.centerVertical - size / 2) + '%';
+            return ((ship.centerVertical / 100 - size) * 100) + '%';
         }
     }
 
     public centerLeft(ship: PreparationShip): string {
         if (ship.isVertical) {
-            return (ship.centerHorizontal - size / 2) + '%';
+            return ((ship.centerHorizontal / 100 - size) * 100) + '%';
         } else {
-            return (ship.centerHorizontal - size / 2 / ship.length) + '%';
+            return ((ship.length * ship.centerHorizontal / 100 - size) / ship.length * 100) + '%';
         }
     }
 
     public centerWidth(ship: PreparationShip): string {
         if (ship.isVertical) {
-            return size + '%';
+            return (2 * size * 100) + '%';
         } else {
-            return (size / ship.length) + '%';
+            return (2 * size / ship.length * 100) + '%';
         }
     }
 
     public centerHeight(ship: PreparationShip): string {
         if (ship.isVertical) {
-            return (size / ship.length) + '%';
+            return (2 * size / ship.length * 100) + '%';
         } else {
-            return size + '%';
+            return (2 * size * 100) + '%';
         }
     }
 }

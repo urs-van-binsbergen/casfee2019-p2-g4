@@ -1,11 +1,13 @@
 @import './preparation-common.scss';
 
+$boardSize: 8;
+
 .board {
     position: relative;
-    width: calc(11.1vmin * 8);
-    min-width: 300px;
-    max-width: 420px;
-    height: calc(11.1vmin * 8);
-    min-height: 300px;
-    max-height: 420px;
+    min-width: $boardSize * $fieldMin + ($boardSize - 1) * $fieldMargin;
+    width: calc(#{$boardSize * $fieldFactor}vmin + #{($boardSize - 1) * $fieldMargin});
+    max-width: $boardSize * $fieldMax + ($boardSize - 1) * $fieldMargin;
+    min-height: $boardSize * $fieldMin + ($boardSize - 1) * $fieldMargin;
+    height: calc(#{$boardSize * $fieldFactor}vmin + #{($boardSize - 1) * $fieldMargin});
+    max-height: $boardSize * $fieldMax + ($boardSize - 1) * $fieldMargin;
 }

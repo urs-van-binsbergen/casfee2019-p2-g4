@@ -1,11 +1,11 @@
 <div class="yard">
     <div *ngFor="let ship of ships"
-        class="ship"
+        class="ship key-{{ship.key}}"
         [attr.data-key]="ship.key"
-        [style.top]="(100 / 5 + 2) + '%'"
-        [style.left]="(ship.pos.x * 100 / 5 + 2) + '%'"
-        [style.width]="(100 / 5 - 4) + '%'"
-        [style.height]="(ship.length * 100 / 5 - 4) + '%'"
+        [style.top]="((ship.pos.y + 0.1) * 100 / 4) + '%'"
+        [style.left]="((ship.pos.x + 0.1) * 100/ 5) + '%'"
+        [style.width]="((ship.isVertical ? 0.8 : (0.8 + ship.length - 1)) * 100 / 5) + '%'"
+        [style.height]="((ship.isVertical ? (0.8 + ship.length - 1) : 0.8) * 100 / 4) + '%'"
     >
     </div>
 </div>
