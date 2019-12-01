@@ -186,6 +186,13 @@ function updatePreparationShips(ships: PreparationShip[]) {
     }
 }
 
+export function initPreparationShips(ships: PreparationShip[]) {
+    for (const ship of ships) {
+        updatePreparationShip(ship);
+    }
+    updatePreparationShips(ships);
+}
+
 function reducePreparationShipWithDrop(state: PreparationShip, action: PreparationDrop): PreparationShip {
     const preparationShip: PreparationShip = deepClone(state);
     preparationShip.center = {

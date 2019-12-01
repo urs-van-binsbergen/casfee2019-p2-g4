@@ -15,7 +15,6 @@ export interface PreparationShip {
     positions: Pos[];
     isOk: boolean;
     isVertical: boolean;
-    isDragging: boolean;
 }
 
 export interface PreparationField {

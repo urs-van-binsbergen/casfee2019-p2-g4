@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PreparationField, PreparationRow, PreparationShip, boardHeight, boardWidth } from './preparation-models';
+import * as PreparationMethods from './preparation-methods';
 
 @Injectable()
 export class PreparationService {
@@ -7,73 +8,76 @@ export class PreparationService {
     public loadYard(): PreparationShip[] {
         const x = -1;
         const y = -1;
-        return [
+        const centerVertical = 0;
+        const centerHorizontal = 0;
+        const rotation = 0;
+        const isOk = false;
+        const isVertical = false;
+        const preparationShips = [
             {
                 key: 20,
-                pos: {x: 0, y: 1},
-                center: {x: 0, y: 1},
-                centerVertical: 75,
-                centerHorizontal: 50,
+                pos: {x, y},
+                center: {x: 0, y: 0},
+                centerVertical,
+                centerHorizontal,
                 length: 2,
-                rotation: 0,
+                rotation,
                 positions: [],
-                isOk: false,
-                isVertical: false,
-                isDragging: false
+                isOk,
+                isVertical
             },
             {
                 key: 30,
-                pos: {x: 1, y: 0},
+                pos: {x, y},
                 center: {x: 1, y: 1},
-                centerVertical: 50,
-                centerHorizontal: 50,
+                centerVertical,
+                centerHorizontal,
                 length: 3,
-                rotation: 0,
+                rotation,
                 positions: [],
-                isOk: false,
-                isVertical: false,
-                isDragging: false
+                isOk,
+                isVertical
             },
             {
                 key: 31,
-                pos: {x: 2, y: 0},
+                pos: {x, y},
                 center: {x: 2, y: 1},
-                centerVertical: 50,
-                centerHorizontal: 50,
+                centerVertical,
+                centerHorizontal,
                 length: 3,
-                rotation: 0,
+                rotation,
                 positions: [],
-                isOk: false,
-                isVertical: false,
-                isDragging: false
+                isOk,
+                isVertical
             },
             {
                 key: 40,
-                pos: {x: 3, y: 0},
+                pos: {x, y},
                 center: {x: 3, y: 1},
-                centerVertical: 37.5,
-                centerHorizontal: 50,
+                centerVertical,
+                centerHorizontal,
                 length: 4,
-                rotation: 0,
+                rotation,
                 positions: [],
-                isOk: false,
-                isVertical: false,
-                isDragging: false
+                isOk,
+                isVertical
             },
             {
                 key: 41,
-                pos: {x: 4, y: 0},
+                pos: {x, y},
                 center: {x: 4, y: 1},
-                centerVertical: 37.5,
-                centerHorizontal: 50,
+                centerVertical,
+                centerHorizontal,
                 length: 4,
-                rotation: 0,
+                rotation,
                 positions: [],
-                isOk: false,
-                isVertical: false,
-                isDragging: false
+                isOk,
+                isVertical
             }
         ];
+        PreparationMethods.initPreparationShips(preparationShips);
+        console.log('FUCK');
+        return preparationShips;
     }
 
     public loadBoard(): PreparationRow[] {
