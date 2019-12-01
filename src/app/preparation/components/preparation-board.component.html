@@ -9,6 +9,7 @@
     </div>
     <div *ngFor="let ship of ships"
         class="ship"
+        [class.is-not-ok]="!ship.isOk"
         [attr.data-key]="ship.key"
         [style.top]="(ship.pos.y * 100 / 8 + 2) + '%'"
         [style.left]="(ship.pos.x * 100/ 8 + 2) + '%'"

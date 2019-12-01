@@ -150,13 +150,13 @@ function updatePreparationShip(preparationShip: PreparationShip) {
         case 0:
         case 180:
             isVertical = true;
-            for (let y = pos.y; y < length; y++) {
+            for (let y = pos.y; y < (pos.y + length); y++) {
                 positions.push({ x: pos.x, y });
             }
             break;
         default:
             isVertical = false;
-            for (let x = pos.x; x < length; x++) {
+            for (let x = pos.x; x < (pos.x + length); x++) {
                 positions.push({ x, y: pos.y });
             }
             break;

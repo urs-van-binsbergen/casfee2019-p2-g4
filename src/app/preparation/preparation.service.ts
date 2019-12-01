@@ -76,7 +76,6 @@ export class PreparationService {
             }
         ];
         PreparationMethods.initPreparationShips(preparationShips);
-        console.log('FUCK');
         return preparationShips;
     }
 

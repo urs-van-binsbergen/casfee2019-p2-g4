@@ -26,6 +26,26 @@
     opacity: 0.7;
 }
 
+@keyframes opatcity {
+    0% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 0.7;
+    }
+}
+
+.is-not-ok {
+    animation-name: opatcity;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
 .center {
     position: absolute;
     background-color: black;
