@@ -205,13 +205,13 @@ function reducePreparationShipWithDrop(state: PreparationShip, action: Preparati
 
 export function reducePreparationWithDrop(state: PreparationShip[], action: PreparationDrop,
                                           yard: PreparationShip[]): PreparationShip[] {
-    const yardShips: PreparationShip[] = yard.filter((s: PreparationShip) => {
+    const yardShips: PreparationShip[] = yard && action ? yard.filter((s: PreparationShip) => {
         return s.key === action.key;
-    });
-    const preparation: PreparationShip[] = [ ...state, ...yardShips];
+    }) : [];
+    const preparation: PreparationShip[] = state ? [ ...state, ...yardShips] : [ ...yardShips];
     const preparationShips: PreparationShip[] = preparation.map((s: PreparationShip) => {
         let preparationShip: PreparationShip;
-        if (s.key === action.key) {
+        if (action && s.key === action.key) {
             preparationShip = reducePreparationShipWithDrop(s, action);
         } else {
             preparationShip = deepClone(s);
@@ -230,37 +230,49 @@ function reducePreparationShipWithRotation(state: PreparationShip): PreparationS
 }
 
 export function reducePreparationWithRotation(state: PreparationShip[], action: number): PreparationShip[] {
-    const preparationShips = state.map((s: PreparationShip) => {
-        let preparationShip: PreparationShip;
-        if (s.key === action) {
-            preparationShip = reducePreparationShipWithRotation(s);
-        } else {
-            preparationShip = deepClone(s);
-        }
-        return preparationShip;
-    });
-    updatePreparationShips(preparationShips);
-    return preparationShips;
+    if (state) {
+        const preparationShips = state.map((s: PreparationShip) => {
+            let preparationShip: PreparationShip;
+            if (action && s.key === action) {
+                preparationShip = reducePreparationShipWithRotation(s);
+            } else {
+                preparationShip = deepClone(s);
+            }
+            return preparationShip;
+        });
+        updatePreparationShips(preparationShips);
+        return preparationShips;
+    }
+    return [];
 }
 
 export function reduceYardWithDrop(state: PreparationShip[], action: PreparationDrop): PreparationShip[] {
-    const yard: PreparationShip[] = deepClone(state);
-    const preparationShips = yard.filter((s: PreparationShip) => {
-        return s.key !== action.key;
-    });
-    return preparationShips;
+    if (state) {
+        const yard: PreparationShip[] = deepClone(state);
+        if (action) {
+            const preparationShips = yard.filter((s: PreparationShip) => {
+                return s.key !== action.key;
+            });
+            return preparationShips;
+        }
+        return yard;
+    }
+    return [];
 }
 
 export function reduceValidWithPreparation(state: boolean, action: PreparationShip[]): boolean {
-    if (action.length !== numberOfShips) {
-        return false;
-    }
-    for (const ship of action) {
-        if (!(ship.isOk)) {
+    if (action) {
+        if (action.length !== numberOfShips) {
             return false;
         }
+        for (const ship of action) {
+            if (!(ship.isOk)) {
+                return false;
+            }
+        }
+        return true;
     }
-    return true;
+    return false;
 }
 
 function shipOrientation(preparationShip: PreparationShip): Orientation {
@@ -281,20 +293,23 @@ function shipDesign(preparationShip: PreparationShip) {
 }
 
 export function createShips(preparationShips: PreparationShip[]): Ship[] {
-    const ships = preparationShips.map((preparationShip: PreparationShip) => {
-        const pos = preparationShip.pos;
-        const length = preparationShip.length;
-        const orientation = shipOrientation(preparationShip);
-        const design = shipDesign(preparationShip);
-        const ship: Ship = {
-            pos,
-            length,
-            orientation,
-            design,
-            isSunk: false,
-            hits: [],
-        };
-        return ship;
-    });
-    return ships;
+    if (preparationShips) {
+        const ships = preparationShips.map((preparationShip: PreparationShip) => {
+            const pos = preparationShip.pos;
+            const length = preparationShip.length;
+            const orientation = shipOrientation(preparationShip);
+            const design = shipDesign(preparationShip);
+            const ship: Ship = {
+                pos,
+                length,
+                orientation,
+                design,
+                isSunk: false,
+                hits: [],
+            };
+            return ship;
+        });
+        return ships;
+    }
+    return [];
 }
