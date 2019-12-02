@@ -1,4 +1,4 @@
-import { PreparationDrop, PreparationField, PreparationShip, boardHeight, boardWidth, numberOfShips } from './preparation-models';
+import { PreparationDrop, PreparationShip, boardHeight, boardWidth, numberOfShips } from './preparation-models';
 import { Orientation, Pos } from '@cloud-api/geometry';
 import { Ship } from '@cloud-api/core-models';
 import deepClone from 'clone-deep';

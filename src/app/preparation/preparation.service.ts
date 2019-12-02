@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { PreparationField, PreparationRow, PreparationShip, boardHeight, boardWidth } from './preparation-models';
+import { Pos } from '@cloud-api/geometry';
+import { PreparationRow, PreparationShip } from './preparation-models';
 import * as PreparationMethods from './preparation-methods';
 
 @Injectable()
@@ -79,15 +80,12 @@ export class PreparationService {
         return preparationShips;
     }
 
-    public loadBoard(): PreparationRow[] {
+    public loadBoard(boardWidth: number, boardHeight: number): PreparationRow[] {
         const rows: PreparationRow[] = [];
         for (let y = 0; y < boardHeight; y++) {
-            const fields: PreparationField[] = [];
+            const fields: Pos[] = [];
             for (let x = 0; x < boardWidth; x++) {
-                const field: PreparationField = {
-                    pos: {x, y},
-                    isEntered: false
-                };
+                const field: Pos = {x, y};
                 fields.push(field);
             }
             const row: PreparationRow = {fields};

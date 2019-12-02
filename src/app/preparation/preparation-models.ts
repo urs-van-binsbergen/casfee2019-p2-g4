@@ -17,13 +17,8 @@ export interface PreparationShip {
     isVertical: boolean;
 }
 
-export interface PreparationField {
-    pos: Pos;
-    isEntered: boolean;
-}
-
 export interface PreparationRow {
-    fields: PreparationField[];
+    fields: Pos[];
 }
 
 export interface PreparationDrop {

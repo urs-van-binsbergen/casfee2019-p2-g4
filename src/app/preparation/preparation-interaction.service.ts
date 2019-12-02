@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PreparationDrop, PreparationField } from './preparation-models';
+import { PreparationDrop } from './preparation-models';
 import { Pos } from '@cloud-api/geometry';
 import { Observable, Subject } from 'rxjs';
 

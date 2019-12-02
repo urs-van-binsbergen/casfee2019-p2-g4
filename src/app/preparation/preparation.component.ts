@@ -32,7 +32,7 @@ export class PreparationComponent implements OnInit {
     ngOnInit(): void {
         this._yard = this.preparationService.loadYard();
         this._preparation = [];
-        this._board = this.preparationService.loadBoard();
+        this._board = this.preparationService.loadBoard(boardWidth, boardHeight);
         this._isValid = false;
         this._isChanged = false;
         this._waiting = false;

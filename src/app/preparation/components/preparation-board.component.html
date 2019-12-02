@@ -1,9 +1,9 @@
 <div class="board">
     <div *ngFor="let row of rows" class="row">
-        <div *ngFor="let field of row.fields"
+        <div *ngFor="let pos of row.fields"
             class="field"
-            [attr.data-fieldposx]="field.pos.x"
-            [attr.data-fieldposy]="field.pos.y"
+            [attr.data-fieldposx]="pos.x"
+            [attr.data-fieldposy]="pos.y"
         >
         </div>
     </div>
