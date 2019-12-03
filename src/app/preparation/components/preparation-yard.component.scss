@@ -1,26 +1,16 @@
-@import './preparation-shared.component.scss';
+@import './preparation-common.scss';
 
-.yardShip {
-    margin: 5px 20px 5px 20px;
-}
-
-$yardWidth: 10;
-$yardHeight: 5;
+$yardWidth: 5;
+$yardHeight: 4;
 
 .yard {
-    display: flex;
-    flex-direction: row;
-    flex: 0 0 auto;
-    align-items: flex-start;
-    justify-content: center;
-
+    position: relative;
     min-width: $yardWidth * $fieldMin + ($yardWidth - 1) * $fieldMargin;
     width: calc(#{$yardWidth * $fieldFactor}vmin + #{($yardWidth - 1) * $fieldMargin});
     max-width: $yardWidth * $fieldMax + ($yardWidth - 1) * $fieldMargin;
     min-height: $yardHeight * $fieldMin + ($yardHeight - 1) * $fieldMargin;
     height: calc(#{$yardHeight * $fieldFactor}vmin + #{($yardHeight - 1) * $fieldMargin});
     max-height: $yardHeight * $fieldMax + ($yardHeight - 1) * $fieldMargin;
-
     border: 2px red solid;
 }
 

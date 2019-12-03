@@ -1,0 +1,78 @@
+$fieldMin: 32px;
+$fieldMax: 48px;
+$fieldMargin: 1px;
+$fieldFactor: 10;
+$opacityLow: 0.25;
+$opacityHigh: 0.5;
+
+.row {
+    display: flex;
+    height: 12.5%;
+    border-bottom: $fieldMargin solid #e3f2fd;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.field {
+    flex: 1 0 0;
+    background-color: white;
+    text-align: center;
+    border-right: $fieldMargin solid #e3f2fd;
+}
+
+.field:last-child {
+    border-right: none;
+}
+
+.ship {
+    position: absolute;
+    border: $fieldMargin solid white;
+    opacity: $opacityHigh;
+}
+
+.key-20 {
+    background-color: red;
+}
+
+.key-30 {
+    background-color: green;
+}
+
+.key-31 {
+    background-color: blue;
+}
+
+.key-40 {
+    background-color: turquoise;
+}
+
+.key-41 {
+    background-color: purple;
+}
+
+@keyframes opatcity {
+    0% {
+        opacity: $opacityHigh;
+    }
+
+    50% {
+        opacity: $opacityLow;
+    }
+
+    100% {
+        opacity: $opacityHigh;
+    }
+}
+
+.is-not-ok {
+    animation-name: opatcity;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+.center {
+    position: absolute;
+    background-color: black;
+}

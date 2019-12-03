@@ -1,11 +1,26 @@
 <div class="board">
-    <div class="row" *ngFor="let yIndex of yIndexes">
-        <div *ngFor="let xIndex of xIndexes" [appDroptarget]="{x: xIndex, y: yIndex}"
-            class="{{fieldClass(xIndex, yIndex)}} drop-target {{possibleTarget(xIndex, yIndex)}}">
-            <app-preparation-ship *ngFor="let fieldKey of fieldKeys(xIndex, yIndex)"
-                [appDraggable]="{key: fieldKey}" [key]="fieldKey" [place]="'board'"
-                class="fieldShip rot{{rotation(xIndex, yIndex)}}" (click)="onClick(xIndex, yIndex)">
-            </app-preparation-ship>
+    <div *ngFor="let row of rows" class="row">
+        <div *ngFor="let pos of row.fields"
+            class="field"
+            [attr.data-fieldposx]="pos.x"
+            [attr.data-fieldposy]="pos.y"
+        >
         </div>
+    </div>
+    <div *ngFor="let ship of ships"
+        class="ship key-{{ship.key}}"
+        [class.is-not-ok]="!ship.isOk"
+        [attr.data-key]="ship.key"
+        [style.top]="((ship.pos.y + 0.1) * 100 / 8) + '%'"
+        [style.left]="((ship.pos.x + 0.1) * 100/ 8) + '%'"
+        [style.width]="((ship.isVertical ? 0.8 : (0.8 + ship.length - 1)) * 100 / 8) + '%'"
+        [style.height]="((ship.isVertical ? (0.8 + ship.length - 1) : 0.8) * 100/ 8) + '%'"
+    >
+        <div class="center"
+            [style.top]="centerTop(ship)"
+            [style.left]="centerLeft(ship)"
+            [style.width]="centerWidth(ship)"
+            [style.height]="centerHeight(ship)"
+        ></div>
     </div>
 </div>

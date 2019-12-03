@@ -1,132 +1,97 @@
 import { Injectable } from '@angular/core';
-import { Ship } from '../shared/ship';
-import { Field } from '../shared/field';
+import { Pos } from '@cloud-api/geometry';
+import { PreparationRow, PreparationShip } from './preparation-models';
+import * as PreparationMethods from './preparation-methods';
 
 @Injectable()
 export class PreparationService {
 
-    private _width: number;
-    private _height: number;
-    private _ships: {};
-    private _isChanged: boolean;
-
-    constructor() {
-        this._width = 8;
-        this._height = 8;
-        this.reset();
-    }
-
-    get width(): number {
-        return this._width;
-    }
-
-    get height(): number {
-        return this._height;
-    }
-
-    get ships(): Ship[] {
-        const keys = Object.keys(this._ships);
-        const ships = [];
-        keys.forEach((key) => {
-            ships.push(this._ships[key]);
-        });
-        return ships;
-    }
-
-    get isChanged(): boolean {
-        return this._isChanged;
-    }
-
-    get isValid(): boolean {
-        const ships = this.ships;
-        if (ships.length !== 5) {
-            return false;
-        }
-        for (const ship of ships) {
-            if (!(ship.areFieldsInRange(0, this.width, 0, this.height))) {
-                return false;
+    public loadYard(): PreparationShip[] {
+        const x = -1;
+        const y = -1;
+        const centerVertical = 0;
+        const centerHorizontal = 0;
+        const rotation = 0;
+        const isOk = false;
+        const isVertical = false;
+        const preparationShips = [
+            {
+                key: 20,
+                pos: {x, y},
+                center: {x: 0, y: 0},
+                centerVertical,
+                centerHorizontal,
+                length: 2,
+                rotation,
+                positions: [],
+                isOk,
+                isVertical
+            },
+            {
+                key: 30,
+                pos: {x, y},
+                center: {x: 1, y: 1},
+                centerVertical,
+                centerHorizontal,
+                length: 3,
+                rotation,
+                positions: [],
+                isOk,
+                isVertical
+            },
+            {
+                key: 31,
+                pos: {x, y},
+                center: {x: 2, y: 1},
+                centerVertical,
+                centerHorizontal,
+                length: 3,
+                rotation,
+                positions: [],
+                isOk,
+                isVertical
+            },
+            {
+                key: 40,
+                pos: {x, y},
+                center: {x: 3, y: 1},
+                centerVertical,
+                centerHorizontal,
+                length: 4,
+                rotation,
+                positions: [],
+                isOk,
+                isVertical
+            },
+            {
+                key: 41,
+                pos: {x, y},
+                center: {x: 4, y: 1},
+                centerVertical,
+                centerHorizontal,
+                length: 4,
+                rotation,
+                positions: [],
+                isOk,
+                isVertical
             }
-        }
-        for (let i = 0; i < ships.length; i++) {
-            const ship1 = ships[i];
-            for (let j = (i + 1); j < ships.length; j++) {
-                const ship2 = ships[j];
-                if (ship1.hasClashWithShip(ship2)) {
-                    return false;
-                }
+        ];
+        PreparationMethods.initPreparationShips(preparationShips);
+        return preparationShips;
+    }
+
+    public loadBoard(boardWidth: number, boardHeight: number): PreparationRow[] {
+        const rows: PreparationRow[] = [];
+        for (let y = 0; y < boardHeight; y++) {
+            const fields: Pos[] = [];
+            for (let x = 0; x < boardWidth; x++) {
+                const field: Pos = {x, y};
+                fields.push(field);
             }
+            const row: PreparationRow = {fields};
+            rows.push(row);
         }
-        return true;
+        return rows;
     }
 
-    reset() {
-        this._ships = {};
-        this._isChanged = false;
-    }
-
-    addShip(ship: Ship, x: number, y: number): boolean {
-        if (this.getShipAt(x, y) === null) {
-            ship.setPosition(x, y);
-            this._ships[ship.key] = ship;
-            this._isChanged = true;
-            return true;
-        }
-        return false;
-    }
-
-    removeShip(key: string): Ship {
-        let ship = this._ships[key];
-        if (ship === undefined) {
-            ship = null;
-        } else {
-            delete this._ships[key];
-            this._isChanged = true;
-        }
-        return ship;
-    }
-
-    canAddShip(key: string, x: number, y: number): boolean {
-        const ship: Ship = this.getShipAt(x, y);
-        const canAddShip: boolean = (ship === null || ship.key === key);
-        return canAddShip;
-    }
-
-    getShipAt(x: number, y: number): Ship {
-        for (const ship of this.ships) {
-            if (ship.x === x && ship.y === y) {
-                return ship;
-            }
-        }
-        return null;
-    }
-
-    hasClash(x: number, y: number): boolean {
-        let i = 0;
-        const field = new Field(x, y);
-        for (const ship of this.ships) {
-            if (ship.hasField(field)) {
-                i++;
-            }
-        }
-        return 1 < i;
-    }
-
-    isShipOk(key: string): boolean {
-        const ship = this._ships[key];
-        if (ship === undefined) {
-            return false;
-        }
-        if (!(ship.areFieldsInRange(0, this.width, 0, this.height))) {
-            return false;
-        }
-        const ships = this.ships;
-        for (const s of ships) {
-            if (s !== ship) {
-                if (s.hasClashWithShip(ship)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 }

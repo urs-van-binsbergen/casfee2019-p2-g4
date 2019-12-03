@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { PreparationService } from './preparation.service';
-import { YardService } from './yard.service';
-import { MatDialog } from '@angular/material';
-
-import { PreparationArgs } from '@cloud-api/arguments';
-import { Ship as CloudShip } from '@cloud-api/core-models';
-import { Orientation, Pos } from '@cloud-api/geometry';
 import { CloudFunctionsService } from '../backend/cloud-functions.service';
-
-import { Ship as UiShip } from '../shared/ship';
+import { MatDialog } from '@angular/material';
+import { PreparationArgs } from '@cloud-api/arguments';
+import { PreparationInteractionService } from './preparation-interaction.service';
+import { PreparationService } from './preparation.service';
+import { PreparationDrop, PreparationRow, PreparationShip, boardHeight, boardWidth } from './preparation-models';
+import * as PreparationMethods from './preparation-methods';
 
 @Component({
     selector: 'app-preparation',
@@ -18,107 +14,96 @@ import { Ship as UiShip } from '../shared/ship';
 })
 export class PreparationComponent implements OnInit {
 
-    waiting = false;
+    private _yard: PreparationShip[];
+    private _preparation: PreparationShip[];
+    private _board: PreparationRow[];
+    private _isValid: boolean;
+    private _isChanged: boolean;
+    private _waiting: boolean;
 
     constructor(
-        private router: Router,
         public dialog: MatDialog,
-        private yardService: YardService,
+        private preparationInteractionService: PreparationInteractionService,
         private preparationService: PreparationService,
         private cloudFunctions: CloudFunctionsService,
     ) {
     }
 
     ngOnInit(): void {
-        this.yardService.reset();
-        this.preparationService.reset();
+        this._yard = this.preparationService.loadYard();
+        this._preparation = [];
+        this._board = this.preparationService.loadBoard(boardWidth, boardHeight);
+        this._isValid = false;
+        this._isChanged = false;
+        this._waiting = false;
+        this.preparationInteractionService.drop$.subscribe((drop: PreparationDrop) => {
+            this._preparation = PreparationMethods.reducePreparationWithDrop(this._preparation, drop, this._yard);
+            this._yard = PreparationMethods.reduceYardWithDrop(this._yard, drop);
+            this._isValid = PreparationMethods.reduceValidWithPreparation(this._isValid, this._preparation);
+            this._isChanged = true;
+        });
+        this.preparationInteractionService.rotate$.subscribe((key: number) => {
+            this._preparation = PreparationMethods.reducePreparationWithRotation(this._preparation, key);
+            this._isValid = PreparationMethods.reduceValidWithPreparation(this._isValid, this._preparation);
+            this._isChanged = true;
+        });
+    }
+
+    get yard(): PreparationShip[] {
+        return this._yard;
+    }
+
+    get preparation(): PreparationShip[] {
+        return this._preparation;
+    }
+
+    get rows(): PreparationRow[] {
+        return this._board;
     }
 
     get enableDeactivationWarning(): boolean {
-        return !this.waiting && this.preparationService.isChanged;
+        return !this._waiting && this._isChanged;
     }
 
     get isContinueDisabled(): boolean {
-        return !(this.preparationService.isValid);
+        return !(this._isValid);
+    }
+
+    onStart(event: any) {
+        if (this.preparationInteractionService.onStart(event)) {
+            event.preventDefault();
+        }
+    }
+
+    onContinue(event: any) {
+        if (this.preparationInteractionService.onContinue(event)) {
+            event.preventDefault();
+        }
+    }
+
+    onStop(event: any) {
+        this.preparationInteractionService.onStop(event);
     }
 
     onContinueClicked() {
-        this.waiting = true;
-
-        const args = this.createPreparationArgs(this.preparationService.ships);
-        console.log(args);
-
+        this._waiting = true;
+        const ships = PreparationMethods.createShips(this._preparation);
+        const args: PreparationArgs = {
+            size: { w: boardWidth, h: boardHeight },
+            ships: [...ships]
+        };
         this.cloudFunctions.addPreparation(args).subscribe(
             results => {
                 console.log(results);
             },
             error => {
                 console.log(error);
-                this.waiting = false;
+                this._waiting = false;
             },
             () => {
                 console.log('completed');
             }
         );
-    }
-
-    getOrientation(rotation: number): Orientation {
-        // TODO: move this method to some appropriate place
-        switch (rotation) {
-            case 0:
-                return Orientation.South;
-            case 90:
-                return Orientation.West;
-            case 180:
-                return Orientation.North;
-            case 270:
-                return Orientation.East;
-            default:
-                throw new Error(`Can not map rotation ${rotation} to an orientation`);
-        }
-    }
-
-    getLengthAndPos(s: UiShip, orientation: Orientation): { length: number, pos: Pos } {
-        const xMin = Math.min(...s.fields.map(f => f.x));
-        const xMax = Math.max(...s.fields.map(f => f.x));
-        const yMin = Math.min(...s.fields.map(f => f.y));
-        const yMax = Math.max(...s.fields.map(f => f.y));
-        switch (orientation) {
-            case Orientation.East:
-                return { length: xMax - xMin + 1, pos: { x: xMin, y: yMin } };
-            case Orientation.South:
-                return { length: yMax - yMin + 1, pos: { x: xMin, y: yMin } };
-            case Orientation.West:
-                return { length: xMax - xMin + 1, pos: { x: xMax, y: yMax } };
-            case Orientation.North:
-                return { length: yMax - yMin + 1, pos: { x: xMax, y: yMax } };
-            default:
-                throw new Error(`out of range orientation <${orientation}>`);
-        }
-    }
-
-    createPreparationArgs(uiShips: UiShip[]): PreparationArgs {
-        // TODO: move this method to some appropriate place
-        const cloudShips = uiShips.map(s => {
-            const orientation = this.getOrientation(s.rotation);
-            const { length, pos } = this.getLengthAndPos(s, orientation);
-            const cloudShip: CloudShip = {
-                pos,
-                length,
-                orientation,
-                design: 0, // TODO: map appearance/color
-                isSunk: false,
-                hits: [],
-            };
-
-            return cloudShip;
-        });
-
-        return {
-            size: { w: 8, h: 8 }, // TODO: move magic number to some constant
-            ships: [...cloudShips]
-        };
-
     }
 
 }
