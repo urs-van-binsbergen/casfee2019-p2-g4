@@ -1,9 +1,17 @@
 <div class="page mat-typography">
     <div class="inset-1">
         <h2 translate>user.profile.title</h2>
+
+        <p *ngIf="state.isAuthenticated && state.isMissingData && !state.delayHandle">
+            <!-- (no translate because this is an anomaly) -->
+            <mat-icon>warning</mat-icon>
+            User document not found. You won't be able to play
+            before you create it (use the '{{ 'user.profile.updateProfileButton' | translate }}' button).
+        </p>
     </div>
 
-    <div *ngIf="authUser" class="button-row">
+
+    <div *ngIf="state.isAuthenticated" class="button-row">
         <button mat-button routerLink="update-profile" color="primary">
             {{ 'user.profile.updateProfileButton' | translate }}</button>
         <button mat-button routerLink="update-password" color="primary">
@@ -12,53 +20,57 @@
             {{ 'user.profile.logoutButton' | translate }}</button>
     </div>
 
-    <mat-list *ngIf="authUser">
+    <mat-list *ngIf="state.isAuthenticated">
         <mat-divider></mat-divider>
         <mat-list-item>
             <div>
                 <div class="mat-caption">{{ 'user.profile.displayName' | translate }}</div>
-                <div>{{ authUser.displayName }}</div>
+                <div>{{ state.displayName }}</div>
             </div>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <ng-container *ngIf="user && user.displayName !== authUser.displayName">
+
+        <ng-container *ngIf="state.isDataLoaded && state.dataDisplayName && state.dataDisplayName !== state.displayName && !state.delayHandle">
             <mat-list-item>
                 <div>
-                    <!-- (no translate because this should never happen) -->
-                    <div class="mat-caption">Display name in database</div>
+                    <!-- (no translate because this is an anomaly) -->
+                    <div class="mat-caption">Different display name in database</div>
                     <div>
-                        {{ user.displayName }}
+                        {{ state.dataDisplayName }}
                     </div>
                 </div>
             </mat-list-item>
             <mat-divider></mat-divider>
         </ng-container>
+
         <mat-list-item>
             <div>
                 <div class="mat-caption">{{ 'user.profile.username' | translate }}</div>
                 <div>
-                    {{ authUser.email }}
-                    {{ authUser.emailVerified ? '(verified)' : '' }}
+                    {{ state.email }}
+                    {{ state.emailVerified ? '(verified)' : '' }}
                 </div>
             </div>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <ng-container *ngIf="user && user.email !== authUser.email">
+
+        <ng-container *ngIf="state.isDataLoaded && state.dataEmail && state.dataEmail !== state.email && !state.delayHandle">
             <mat-list-item>
                 <div>
-                    <!-- (no translate because this should never happen) -->
-                    <div class="mat-caption">Email in database</div>
+                    <!-- (no translate because this is an anomaly) -->
+                    <div class="mat-caption">Different Email in database</div>
                     <div>
-                        {{ user.email }}
+                        {{ state.dataEmail }}
                     </div>
                 </div>
             </mat-list-item>
             <mat-divider></mat-divider>
         </ng-container>
+
         <mat-list-item>
             <div>
                 <div class="mat-caption">{{ 'user.profile.level' | translate }}</div>
-                <div *ngIf="user">{{ level }}</div>
+                <div>{{ state.level }}</div>
             </div>
         </mat-list-item>
         <mat-divider></mat-divider>
