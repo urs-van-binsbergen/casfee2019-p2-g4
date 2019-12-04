@@ -67,9 +67,8 @@ export class AuthService {
 
         return firebaseUser.updateProfile({ displayName })
             .then(() => { firebaseUser.getIdToken(true); }) // forceRefresh! (*)
-            .then(() => { 
-                console.log("AUTH SERVICE: set local display name", displayName)
-                this._authState.currentUser.displayName = displayName; 
+            .then(() => {
+                this._authState.currentUser.displayName = displayName;
             })
             .then(() => {
                 this._cloudFunctions.updateUser({

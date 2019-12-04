@@ -80,7 +80,8 @@ export async function prepareHistoryUpdate(
         battleId,
         endDate: date,
         loserUid: winnerUid,
-        winnerUid: loserUid
+        winnerUid: loserUid,
+        uids: [winnerUid, loserUid]
     };
 
     return () => {

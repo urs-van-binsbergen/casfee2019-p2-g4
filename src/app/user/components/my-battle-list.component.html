@@ -1,0 +1,38 @@
+<div class="page mat-typography">
+    <div class="inset-1">
+        <h2>My heroic battles</h2>
+    </div>
+
+    <ng-container *ngIf="!state.isDataLoaded">
+        <div>
+            LOADING
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="state.isDataLoaded && state.battles.length === 0">
+        <div>
+            NONE
+        </div>
+    </ng-container>
+
+    <table mat-table [dataSource]="state.battles" class="mat-elevation-z8" *ngIf="state.isDataLoaded" style="width:100%">
+
+        <ng-container matColumnDef="endDate">
+            <th mat-header-cell *matHeaderCellDef>Datum</th>
+            <td mat-cell *matCellDef="let element"> {{element.endDate.toDate() | date:'medium'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="opponentUid">
+            <th mat-header-cell *matHeaderCellDef>Opponent</th>
+            <td mat-cell *matCellDef="let element"> {{element.opponentUid}} </td>
+        </ng-container>
+        <ng-container matColumnDef="won">
+            <th mat-header-cell *matHeaderCellDef>Result</th>
+            <td mat-cell *matCellDef="let element"> {{element.won ? 'Victory' : 'Waterloo'}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+
+</div>

@@ -203,8 +203,11 @@ function reducePreparationShipWithDrop(state: PreparationShip, action: Preparati
     return preparationShip;
 }
 
-export function reducePreparationWithDrop(state: PreparationShip[], action: PreparationDrop,
-    yard: PreparationShip[]): PreparationShip[] {
+export function reducePreparationWithDrop(
+    state: PreparationShip[],
+    action: PreparationDrop,
+    yard: PreparationShip[]
+): PreparationShip[] {
     const yardShips: PreparationShip[] = yard && action ? yard.filter((s: PreparationShip) => {
         return s.key === action.key;
     }) : [];

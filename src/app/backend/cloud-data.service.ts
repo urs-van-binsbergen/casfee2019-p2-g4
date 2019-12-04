@@ -93,10 +93,24 @@ export class CloudDataService {
 
 
     /*
-     * Load all historic battles  once
+     * Load all historic battles once
      */
     getHistoricBattles(): Promise<HistoricBattle[]> {
         return this.afs.collection(COLL.HISTORIC_BATTLES).get()
+            .toPromise()
+            .then((snapshot: QuerySnapshot<HistoricBattle>) =>
+                snapshot.docs.map(doc => doc.data() as HistoricBattle)
+            );
+    }
+
+    /*
+     * Load all historic battles of a user once
+     */
+    getHistoricBattlesOf(uid: string): Promise<HistoricBattle[]> {
+        return this.afs.collection(COLL.HISTORIC_BATTLES,
+            ref => ref.where('uids', 'array-contains', uid)
+                .orderBy('endDate')
+        ).get()
             .toPromise()
             .then((snapshot: QuerySnapshot<HistoricBattle>) =>
                 snapshot.docs.map(doc => doc.data() as HistoricBattle)

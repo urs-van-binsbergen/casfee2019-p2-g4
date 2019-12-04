@@ -1,5 +1,7 @@
 import { AuthUser } from 'src/app/auth/auth-state.service';
-import { User, PlayerLevel } from '@cloud-api/core-models';
+import * as BattleListState from './my-battle-list.state';
+import { User, PlayerLevel, HistoricBattle } from '@cloud-api/core-models';
+
 
 export interface State {
 
@@ -16,6 +18,8 @@ export interface State {
     dataEmail?: string;
 
     delayHandle: number;
+
+    myBattleList?: BattleListState.MyBattleListState;
 }
 
 export function getInitialState(): State {
@@ -24,28 +28,38 @@ export function getInitialState(): State {
         isAuthenticated: false,
         isDataLoaded: false,
         isMissingData: false,
-        delayHandle: 0
+        delayHandle: 0,
     };
 }
 
 export function reduceWithAuthUser(state: State, authUser: AuthUser): State {
     console.log('reduceWithAuthUser');
-    const isAuthChange = state.uid !== authUser.uid; // means we expect the data will arrive soon after
-    return {
+    const authState = {
         isAuthenticated: true,
         uid: authUser.uid,
         displayName: authUser.displayName,
         email: authUser.email,
         emailVerified: authUser.emailVerified,
+    };
 
-        isDataLoaded: isAuthChange ? false : state.isDataLoaded,
-        isMissingData: isAuthChange ? false : state.isMissingData,
-        level: isAuthChange ? '...' : state.level,
-        dataDisplayName: isAuthChange ? authUser.displayName : state.dataDisplayName,
-        dataEmail: isAuthChange ? authUser.email : state.dataEmail,
-
-        delayHandle: isAuthChange ? state.delayHandle + 1 : state.delayHandle
+    const isAuthChange = state.uid !== authUser.uid;
+    if (isAuthChange) {
+        return {
+            ...authState,
+            isDataLoaded: false,
+            isMissingData: false,
+            level: '...',
+            dataDisplayName: authUser.displayName,
+            dataEmail: authUser.email,
+            delayHandle: state.delayHandle + 1,
+            myBattleList: BattleListState.getInitialState(authUser.uid)
+        };
     }
+
+    return {
+        ...state,
+        ...authState
+    };
 }
 
 export function reduceWithUnauthenticedState(): State {
@@ -58,8 +72,8 @@ export function reduceWithUnauthenticedState(): State {
     };
 }
 
-export function reduceWithData(state: State, user: User): State {
-    console.log('reduceWithData');
+export function reduceWithUserData(state: State, user: User): State {
+    console.log('reduceWithUserData');
     return {
         ...state,
         isDataLoaded: true,
@@ -68,11 +82,11 @@ export function reduceWithData(state: State, user: User): State {
         dataDisplayName: user.displayName,
         dataEmail: user.email,
         delayHandle: state.delayHandle + 1
-    }
+    };
 }
 
-export function reduceWithMissingData(state: State): State {
-    console.log('reduceWithMissingData');
+export function reduceWithMissingUserData(state: State): State {
+    console.log('reduceWithMissingUserData');
     return {
         ...state,
         isDataLoaded: true,
@@ -97,5 +111,12 @@ export function reduceWithDelayCancel(state: State, handle: number): State {
     return {
         ...state,
         delayHandle: 0
-    }
+    };
+}
+
+export function reduceWithHistoricBattles(state: State, battles: HistoricBattle[]): State {
+    return {
+        ...state,
+        myBattleList: BattleListState.reduceFromData(state.myBattleList, battles)
+    };
 }

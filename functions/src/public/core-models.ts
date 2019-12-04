@@ -141,4 +141,5 @@ export interface HistoricBattle {
     endDate: Date;
     winnerUid: string;
     loserUid: string;
+    uids: string[];
 }

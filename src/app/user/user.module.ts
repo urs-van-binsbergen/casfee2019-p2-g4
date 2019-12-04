@@ -6,6 +6,7 @@ import { UserService } from './user.service';
 import { UserComponent } from './components/user.component';
 import { UpdateProfileComponent } from './components/update-profile.component';
 import { UpdatePasswordComponent } from './components/update-password.component';
+import { MyBattleListComponent } from './components/my-battle-list.component';
 
 const routes: Routes = [
     {
@@ -24,7 +25,8 @@ const routes: Routes = [
     declarations: [
         UserComponent,
         UpdateProfileComponent,
-        UpdatePasswordComponent
+        UpdatePasswordComponent,
+        MyBattleListComponent
     ],
     imports: [
         SharedModule,

@@ -1,8 +1,13 @@
-<div class="page mat-typography">
+<div *ngIf="!state.isAuthenticated" class="page mat-typography">
+    <div class="inset-1">
+        <a routerLink="/auth/login">Login</a>
+    </div>
+</div>
+<div *ngIf="state.isAuthenticated" class="page mat-typography">
     <div class="inset-1">
         <h2 translate>user.profile.title</h2>
 
-        <p *ngIf="state.isAuthenticated && state.isMissingData && !state.delayHandle">
+        <p *ngIf="state.isMissingData && !state.delayHandle">
             <!-- (no translate because this is an anomaly) -->
             <mat-icon>warning</mat-icon>
             User document not found. You won't be able to play
@@ -11,7 +16,7 @@
     </div>
 
 
-    <div *ngIf="state.isAuthenticated" class="button-row">
+    <div class="button-row">
         <button mat-button routerLink="update-profile" color="primary">
             {{ 'user.profile.updateProfileButton' | translate }}</button>
         <button mat-button routerLink="update-password" color="primary">
@@ -20,7 +25,7 @@
             {{ 'user.profile.logoutButton' | translate }}</button>
     </div>
 
-    <mat-list *ngIf="state.isAuthenticated">
+    <mat-list>
         <mat-divider></mat-divider>
         <mat-list-item>
             <div>
@@ -30,7 +35,8 @@
         </mat-list-item>
         <mat-divider></mat-divider>
 
-        <ng-container *ngIf="state.isDataLoaded && state.dataDisplayName && state.dataDisplayName !== state.displayName && !state.delayHandle">
+        <ng-container
+            *ngIf="state.isDataLoaded && state.dataDisplayName && state.dataDisplayName !== state.displayName && !state.delayHandle">
             <mat-list-item>
                 <div>
                     <!-- (no translate because this is an anomaly) -->
@@ -54,7 +60,8 @@
         </mat-list-item>
         <mat-divider></mat-divider>
 
-        <ng-container *ngIf="state.isDataLoaded && state.dataEmail && state.dataEmail !== state.email && !state.delayHandle">
+        <ng-container
+            *ngIf="state.isDataLoaded && state.dataEmail && state.dataEmail !== state.email && !state.delayHandle">
             <mat-list-item>
                 <div>
                     <!-- (no translate because this is an anomaly) -->
@@ -76,3 +83,5 @@
         <mat-divider></mat-divider>
     </mat-list>
 </div>
+
+<app-my-battle-list *ngIf="state.myBattleList" [state]="state.myBattleList"></app-my-battle-list>
