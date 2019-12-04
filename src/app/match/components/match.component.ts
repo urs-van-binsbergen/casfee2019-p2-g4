@@ -48,7 +48,7 @@ export class MatchComponent implements OnInit {
                 this._state = MatchMethods.reduceMatchStateWithWaitingPlayers(this._state, waitingPlayers, uid);
                 this._items = MatchMethods.reduceMatchItemsWithWaitingPlayers(this._items, waitingPlayers, uid);
                 if (this._state === MatchState.Completed && !(this._cancelling)) {
-                    this.router.navigateByUrl('/battle');
+                    //this.router.navigateByUrl('/battle'); ??
                 }
             },
             error => {
