@@ -833,7 +833,7 @@ describe('PreparationMethods createShips', () => {
         const ships = PreparationMethods.createShips(preparationShips);
         expect(str(ships)).toBe(str([
             {
-                pos: { x: 4, y: 5 },
+                pos: { x: 5, y: 5 },
                 length: 2,
                 orientation: 2,
                 design: 20,
@@ -861,7 +861,7 @@ describe('PreparationMethods createShips', () => {
         const ships = PreparationMethods.createShips(preparationShips);
         expect(str(ships)).toBe(str([
             {
-                pos: { x: 5, y: 4 },
+                pos: { x: 5, y: 5 },
                 length: 2,
                 orientation: 3,
                 design: 20,
@@ -945,7 +945,7 @@ describe('PreparationMethods createShips', () => {
         const ships = PreparationMethods.createShips(preparationShips);
         expect(str(ships)).toBe(str([
             {
-                pos: { x: 0, y: 1 },
+                pos: { x: 2, y: 1 },
                 length: 3,
                 orientation: 2,
                 design: 30,
@@ -973,7 +973,7 @@ describe('PreparationMethods createShips', () => {
         const ships = PreparationMethods.createShips(preparationShips);
         expect(str(ships)).toBe(str([
             {
-                pos: { x: 1, y: 0 },
+                pos: { x: 1, y: 2 },
                 length: 3,
                 orientation: 3,
                 design: 30,
@@ -1057,7 +1057,7 @@ describe('PreparationMethods createShips', () => {
         const ships = PreparationMethods.createShips(preparationShips);
         expect(str(ships)).toBe(str([
             {
-                pos: { x: 1, y: 3 },
+                pos: { x: 4, y: 3 },
                 length: 4,
                 orientation: 2,
                 design: 40,
@@ -1085,7 +1085,7 @@ describe('PreparationMethods createShips', () => {
         const ships = PreparationMethods.createShips(preparationShips);
         expect(str(ships)).toBe(str([
             {
-                pos: { x: 3, y: 1 },
+                pos: { x: 3, y: 4 },
                 length: 4,
                 orientation: 3,
                 design: 40,
