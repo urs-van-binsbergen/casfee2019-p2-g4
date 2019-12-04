@@ -90,7 +90,7 @@ export function reduceWithDelayCancel(state: State, handle: number): State {
         return state;
     }
     if (handle !== state.delayHandle) {
-        console.log('reduceWithDelayCancel', 'other delay is set', handle, state.delayHandle);
+        console.log('reduceWithDelayCancel', 'ignore handle', handle, 'when handle in state is', state.delayHandle);
         return state;
     }
     console.log('reduceWithDelayCancel', 'cancel', handle);
