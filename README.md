@@ -55,28 +55,31 @@ firebase deploy --only firestore
 firebase deploy --only firestore,functions
 ```
 
-## Alternate Backend (dev2)
+## Backend-Umgebungen (Produktiv und Staging)
 
-There is a second firebase project used to test new backend
-features. 
-
-To select `dev2` environment as target before deploying: 
+Die vorhandenen Umgebungen sowie die aktuell selektierte können mit folgendem Befehl angezeigt werden:
 
 ```sh
-firebase use dev2
+firebase use
 ```
 
-To select the `default` environment again: 
+Es bestehen die Umgebungen `default` (Produktiv) und `staging`. Letztere dient primär dem Testing von Anpassungen an den Cloud Functions. 
 
+Wechsel der Umgebung mit
+```sh
+firebase use staging
+```
+... oder aber
 ```sh
 firebase use default
 ```
 
-To enable the `dev2` environment in local dev server:
+Folgender Befehl kann verwendet werden, um Angular mit dem Staging-Backend zu starten:
 
 ```sh
 ng serve -c=dev2
 ```
+
 
 
 
