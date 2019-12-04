@@ -8,6 +8,6 @@ import { MyBattleListState } from './my-battle-list.state';
 export class MyBattleListComponent {
     @Input() state: MyBattleListState;
 
-    displayedColumns: string[] = ['endDate', 'opponentUid', 'won'];
+    displayedColumns: string[] = ['endDate', 'opponent', 'result'];
 
 }

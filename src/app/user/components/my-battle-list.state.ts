@@ -1,8 +1,9 @@
-import { Battle, HistoricBattle } from '@cloud-api/core-models';
+import { Battle, HistoricBattle, HallEntry, PlayerInfo, PlayerLevel } from '@cloud-api/core-models';
 
 export interface MyBattleListItem {
-    won: boolean;
-    opponentUid: string;
+    wasMyVictory: boolean;
+    opponentDisplayName: string;
+    opponentLevel: string;
     endDate: Date;
 }
 
@@ -19,14 +20,26 @@ export function getInitialState(uid: string): MyBattleListState {
     };
 }
 
-export function reduceFromData(state: MyBattleListState, battles: HistoricBattle[]): MyBattleListState {
+export function reduceFromData(
+    state: MyBattleListState,
+    battles: HistoricBattle[],
+    hallEntries: HallEntry[]
+): MyBattleListState {
+
+    // Dictionary uid -> PlayerInfo
+    const playerInfos = {};
+    hallEntries.forEach(x => playerInfos[x.playerInfo.uid] = x.playerInfo);
+
     return {
         uid: state.uid,
         battles: battles.map(b => {
-            const isMyVictory = b.winnerUid === state.uid;
+            const wasMyVictory = b.winnerUid === state.uid;
+            const opponentUid = wasMyVictory ? b.loserUid : b.winnerUid;
+            const oppInfo = playerInfos[opponentUid];
             return {
-                won: isMyVictory,
-                opponentUid: isMyVictory ? b.loserUid : b.winnerUid,
+                wasMyVictory,
+                opponentDisplayName: oppInfo.displayName,
+                opponentLevel: PlayerLevel[oppInfo.level],
                 endDate: b.endDate
             };
         }),

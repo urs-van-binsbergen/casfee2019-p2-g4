@@ -88,8 +88,13 @@ export class UserComponent implements OnInit, OnDestroy {
                 this.updateState(UserState.reduceWithMissingUserData(this.state));
             }
 
-            this.cloudData.getHistoricBattlesOf(uid).then((battles) => {
-                this.updateState(UserState.reduceWithHistoricBattles(this.state, battles));
+            Promise.all([
+                this.cloudData.getHistoricBattlesOf(uid),
+                this.cloudData.getHallEntries()
+            ])
+            .then((results) => {
+                const [ battles, hallEntries] = results;
+                this.updateState(UserState.reduceWithHistoricBattles(this.state, battles, hallEntries));
             });
         });
     }

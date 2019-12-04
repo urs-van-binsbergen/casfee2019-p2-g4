@@ -3,6 +3,9 @@
         <a routerLink="/auth/login">Login</a>
     </div>
 </div>
+<button *ngIf="state.isAuthenticated" mat-button (click)="logout()" mat-stroked-button color="primary" class="logout-button">
+    {{ 'user.profile.logoutButton' | translate }}</button>
+
 <div *ngIf="state.isAuthenticated" class="page mat-typography">
     <div class="inset-1">
         <h2 translate>user.profile.title</h2>
@@ -13,6 +16,7 @@
             User document not found. You won't be able to play
             before you create it (use the '{{ 'user.profile.updateProfileButton' | translate }}' button).
         </p>
+
     </div>
 
 
@@ -21,8 +25,6 @@
             {{ 'user.profile.updateProfileButton' | translate }}</button>
         <button mat-button routerLink="update-password" color="primary">
             {{ 'user.profile.updatePasswordButton' | translate }}</button>
-        <button mat-button (click)="logout()" mat-stroked-button color="primary">
-            {{ 'user.profile.logoutButton' | translate }}</button>
     </div>
 
     <mat-list>
@@ -35,8 +37,7 @@
         </mat-list-item>
         <mat-divider></mat-divider>
 
-        <ng-container
-            *ngIf="state.isDataLoaded && state.dataDisplayName && state.dataDisplayName !== state.displayName && !state.delayHandle">
+        <ng-container *ngIf="state.isDataLoaded && state.dataDisplayName !== state.displayName && !state.delayHandle">
             <mat-list-item>
                 <div>
                     <!-- (no translate because this is an anomaly) -->
@@ -60,8 +61,7 @@
         </mat-list-item>
         <mat-divider></mat-divider>
 
-        <ng-container
-            *ngIf="state.isDataLoaded && state.dataEmail && state.dataEmail !== state.email && !state.delayHandle">
+        <ng-container *ngIf="state.isDataLoaded && state.dataEmail !== state.email && !state.delayHandle">
             <mat-list-item>
                 <div>
                     <!-- (no translate because this is an anomaly) -->
@@ -77,11 +77,14 @@
         <mat-list-item>
             <div>
                 <div class="mat-caption">{{ 'user.profile.level' | translate }}</div>
-                <div>{{ state.level }}</div>
+                <div>{{ 'common.enum.PlayerLevel.' + state.level | translate }}</div>
             </div>
         </mat-list-item>
         <mat-divider></mat-divider>
     </mat-list>
-</div>
 
-<app-my-battle-list *ngIf="state.myBattleList" [state]="state.myBattleList"></app-my-battle-list>
+    <div class="my-battle-list">
+        <app-my-battle-list *ngIf="state.myBattleList" [state]="state.myBattleList">
+        </app-my-battle-list>
+    </div>
+</div>

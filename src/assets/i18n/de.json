@@ -72,6 +72,14 @@
             "pleaseCheckFormInput": "Bitte Eingaben überprüfen",
             "fieldRequired": "Obligatorisches Feld",
             "fieldValueInvalid": "Ungültiger Wert"
+        },
+        "enum": {
+            "PlayerLevel": {
+                "Shipboy": "Schiffsmädchen",
+                "Seaman": "Seefrau",
+                "Captain": "Kapitänin",
+                "Admiral": "Admiralin"
+            }
         }
     },
     "firebase": {
@@ -120,6 +128,15 @@
             "updateProfileButton": "Profil ändern",
             "updatePasswordButton": "Passwort ändern",
             "logoutButton": "Ausloggen"
+        },
+        "myBattleList": {
+            "title": "Meine glorreichen Schlachten",
+            "noBattleYet": "Leider noch keine",
+            "endDate": "Datum",
+            "opponent": "Gegner",
+            "result": "Ausgang",
+            "victory": "Sieg",
+            "waterloo": "Niederlage"
         },
         "updateProfile": {
             "title": "Profil ändern",

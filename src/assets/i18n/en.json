@@ -72,6 +72,14 @@
             "pleaseCheckFormInput": "Please check form input",
             "fieldRequired": "Field required",
             "fieldValueInvalid": "Value invalid"
+        },
+        "enum": {
+            "PlayerLevel": {
+                "Shipboy": "Shipboy",
+                "Seaman": "Seaman",
+                "Captain": "Captain",
+                "Admiral": "Admiral"
+            }
         }
     },
     "firebase": {
@@ -120,6 +128,15 @@
             "updateProfileButton": "Update profile",
             "updatePasswordButton": "Update password",
             "logoutButton": "Logout"
+        },
+        "myBattleList": {
+            "title": "My heroic battles",
+            "noBattleYet": "No battle yet",
+            "endDate": "Date",
+            "opponent": "Opponent",
+            "result": "Result",
+            "victory": "Victory",
+            "waterloo": "Waterloo"
         },
         "updateProfile": {
             "title": "Update profile",
