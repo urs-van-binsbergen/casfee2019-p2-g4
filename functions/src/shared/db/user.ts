@@ -32,7 +32,7 @@ export function setUser(
                 avatarFileName: args.avatarFileName,
                 email: args.email
             });
-            if(hallDoc.exists) {
+            if (hallDoc.exists) {
                 const oldPlayerInfo = createPlayerInfo(userDoc.data() as User);
                 tx.update(hallRef, {
                     playerInfo: {
@@ -41,7 +41,7 @@ export function setUser(
                         avatarFileName: args.avatarFileName,
                         email: args.email
                     }
-                });    
+                });
             }
         }
 

@@ -2,7 +2,6 @@ import { AuthUser } from 'src/app/auth/auth-state.service';
 import * as BattleListState from './my-battle-list.state';
 import { User, PlayerLevel, HistoricBattle, HallEntry } from '@cloud-api/core-models';
 
-
 interface DataState {
     isDataLoaded: boolean;
     isMissingData: boolean;
@@ -30,7 +29,7 @@ function getInitialDataState(): DataState {
         level: undefined,
         dataDisplayName: undefined,
         dataEmail: undefined,
-    }
+    };
 }
 
 export function getInitialState(): State {

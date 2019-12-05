@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthStateService } from 'src/app/auth/auth-state.service';
-import { User, PlayerLevel } from '@cloud-api/core-models';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
-import { Subscription, Subscribable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
 import * as UserState from 'src/app/user/components/user.state';

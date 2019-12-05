@@ -79,8 +79,8 @@ export async function prepareHistoryUpdate(
     const historicBattle: HistoricBattle = {
         battleId,
         endDate: date,
-        loserUid: winnerUid,
-        winnerUid: loserUid,
+        loserUid,
+        winnerUid,
         uids: [winnerUid, loserUid]
     };
 

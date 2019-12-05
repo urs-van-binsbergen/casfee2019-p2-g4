@@ -35,7 +35,7 @@ npm install -g firebase-tools
 firebase login
 ```
 
-Dann im Root der Applikation builden und deployen (dist/pilot): 
+Dann im Root der Applikation builden und deployen (dist/casfee2019-p2-g4): 
 
 ```sh
 ng build --prod
@@ -80,6 +80,28 @@ Folgender Befehl kann verwendet werden, um Angular mit dem Staging-Backend zu st
 ng serve -c=dev2
 ```
 
+## Über die Lösung
+
+### Constraints
+
+#### Nicht cheatable
+
+Informierte Benutzer können weder mit Crafted Reads noch mit Crafted Writes den Spielverlauf zu ihren Gunsten ändern. 
+
+#### Nicht mass-writable
+
+Benutzer können keine Daten ausserhalb der vorgesehen Objekt-Struktur schreiben (keine parasitären Nutzungen möglich).
+
+### Firestore-Architektur
+
+- Alle Collections sind aus Sicht des Clients read-only
+- Schreiben nur über Cloud Functions
+- Jeder Spieler erhält seine eigene Kopie des Spielzustands
+- Lese-optimierte Datenstruktur (denormalisiert)
+- Entsprechend sehr einfache, aber sichere Firestore-Rules
 
 
+### Optimierungen, offene Probleme
+
+- ...
 

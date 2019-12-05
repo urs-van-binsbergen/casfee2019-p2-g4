@@ -1,5 +1,4 @@
-import { Battle, HistoricBattle, HallEntry, PlayerInfo, PlayerLevel } from '@cloud-api/core-models';
-import undefined = require('firebase/empty-import');
+import { HistoricBattle, HallEntry, PlayerLevel } from '@cloud-api/core-models';
 
 export interface MyBattleListItem {
     wasMyVictory: boolean;
@@ -53,9 +52,9 @@ export function reduceFromData(
 
 export function reduceFromLoadFailure(state: MyBattleListState): MyBattleListState {
     return {
-        uid: state.uid, 
+        uid: state.uid,
         battles: [],
         isLoadingDone: true,
         isLoadFailure: true
-    }
+    };
 }

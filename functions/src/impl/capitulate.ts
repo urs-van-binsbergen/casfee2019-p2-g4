@@ -13,7 +13,7 @@ export default async function capitulate(
     const uid = authInfo.uid;
 
     return db.runTransaction(async tx => {
-        const { player, oppPlayer, battle } = await loadBattleData(db, tx, uid);
+        const { oppPlayer, battle } = await loadBattleData(db, tx, uid);
         const oppUid = oppPlayer.uid;
         const date = new Date();
 
@@ -27,9 +27,8 @@ export default async function capitulate(
             canShootNext: false
         };
 
-        const isWinner = player.playerStatus === PlayerStatus.Victory;
-        const winnerUid = isWinner ? uid : oppUid;
-        const loserUid = isWinner ? oppUid : uid;
+        const winnerUid = oppUid;
+        const loserUid = uid;
 
         // History
         const writeHistory = await prepareHistoryUpdate(db, tx, winnerUid, loserUid, battle.battleId, date);
