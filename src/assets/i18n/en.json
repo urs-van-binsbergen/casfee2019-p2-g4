@@ -127,7 +127,10 @@
             "level": "Rank",
             "updateProfileButton": "Update profile",
             "updatePasswordButton": "Update password",
-            "logoutButton": "Logout"
+            "logoutButton": "Logout",
+            "apiError": {
+                "loading": "Error loading user data: {{errorDetail}}"
+            }
         },
         "myBattleList": {
             "title": "My heroic battles",
@@ -136,7 +139,10 @@
             "opponent": "Opponent",
             "result": "Result",
             "victory": "Victory",
-            "waterloo": "Waterloo"
+            "waterloo": "Waterloo",
+            "apiError": {
+                "loading": "Error loading battles: {{errorDetail}}"
+            }
         },
         "updateProfile": {
             "title": "Update profile",

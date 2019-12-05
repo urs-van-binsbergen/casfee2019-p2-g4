@@ -2,18 +2,22 @@
     <div class="inset-1">
         <h2 translate>user.myBattleList.title</h2>
 
-        <p *ngIf="!state.isDataLoaded">
+        <p *ngIf="!state.isLoadingDone">
             <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
         </p>
 
-        <p *ngIf="state.isDataLoaded && state.battles.length === 0">
+        <p *ngIf="state.isLoadingDone && state.isLoadFailure">
+                <span>?</span>
+            </p>
+    
+        <p *ngIf="state.isLoadingDone && !state.isLoadFailure && state.battles.length === 0">
             <span translate>user.myBattleList.noBattleYet</span>
         </p>
     </div>
 
 
-    <table mat-table [dataSource]="state.battles" class="mat-elevation-z8" *ngIf="state.isDataLoaded && state.battles.length > 0"
-        style="width:100%">
+    <table mat-table [dataSource]="state.battles" class="mat-elevation-z8"
+        *ngIf="state.isLoadingDone && state.battles.length > 0" style="width:100%">
 
         <ng-container matColumnDef="endDate">
             <th mat-header-cell *matHeaderCellDef translate>user.myBattleList.endDate</th>
@@ -26,7 +30,8 @@
         </ng-container>
         <ng-container matColumnDef="result">
             <th mat-header-cell *matHeaderCellDef translate>user.myBattleList.result</th>
-            <td mat-cell *matCellDef="let battle"> {{ 'user.myBattleList.' + (battle.wasMyVictory ? 'victory' : 'waterloo') | translate}} </td>
+            <td mat-cell *matCellDef="let battle">
+                {{ 'user.myBattleList.' + (battle.wasMyVictory ? 'victory' : 'waterloo') | translate}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

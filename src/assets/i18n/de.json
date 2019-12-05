@@ -127,7 +127,10 @@
             "level": "Stufe",
             "updateProfileButton": "Profil ändern",
             "updatePasswordButton": "Passwort ändern",
-            "logoutButton": "Ausloggen"
+            "logoutButton": "Ausloggen",
+            "apiError": {
+                "loading": "Fehler beim Laden der Benutzerdaten: {{errorDetail}}"
+            }
         },
         "myBattleList": {
             "title": "Meine glorreichen Schlachten",
@@ -136,14 +139,16 @@
             "opponent": "Gegner",
             "result": "Ausgang",
             "victory": "Sieg",
-            "waterloo": "Niederlage"
+            "waterloo": "Niederlage",
+            "apiError": {
+                "loading": "Fehler beim Laden der Schlachten: {{errorDetail}}"
+            }
         },
         "updateProfile": {
             "title": "Profil ändern",
             "displayName": "Anzeigename",
             "submitButton": "Ändern",
-            "successMessage": "Profil geändert",
-            "apiError": "Fehler beim Ändern des Profils: {{errorDetail}}"
+            "successMessage": "Profil geändert"
         },
         "updatePassword": {
             "title": "Passwort ändern",

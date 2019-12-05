@@ -1,4 +1,5 @@
 import { Battle, HistoricBattle, HallEntry, PlayerInfo, PlayerLevel } from '@cloud-api/core-models';
+import undefined = require('firebase/empty-import');
 
 export interface MyBattleListItem {
     wasMyVictory: boolean;
@@ -9,14 +10,16 @@ export interface MyBattleListItem {
 
 export interface MyBattleListState {
     uid: string;
-    isDataLoaded?: boolean;
     battles: MyBattleListItem[];
+    isLoadingDone?: boolean;
+    isLoadFailure?: boolean;
 }
 
 export function getInitialState(uid: string): MyBattleListState {
     return {
         uid,
-        battles: []
+        battles: [],
+        isLoadFailure: undefined
     };
 }
 
@@ -43,6 +46,16 @@ export function reduceFromData(
                 endDate: b.endDate
             };
         }),
-        isDataLoaded: true
+        isLoadingDone: true,
+        isLoadFailure: undefined
     };
+}
+
+export function reduceFromLoadFailure(state: MyBattleListState): MyBattleListState {
+    return {
+        uid: state.uid, 
+        battles: [],
+        isLoadingDone: true,
+        isLoadFailure: true
+    }
 }

@@ -77,7 +77,7 @@
         <mat-list-item>
             <div>
                 <div class="mat-caption">{{ 'user.profile.level' | translate }}</div>
-                <div>{{ 'common.enum.PlayerLevel.' + state.level | translate }}</div>
+                <div><span *ngIf="state.level" translate>{{ 'common.enum.PlayerLevel.' + state.level | translate }}</span></div>
             </div>
         </mat-list-item>
         <mat-divider></mat-divider>

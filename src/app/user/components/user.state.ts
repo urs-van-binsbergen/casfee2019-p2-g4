@@ -3,31 +3,41 @@ import * as BattleListState from './my-battle-list.state';
 import { User, PlayerLevel, HistoricBattle, HallEntry } from '@cloud-api/core-models';
 
 
-export interface State {
+interface DataState {
+    isDataLoaded: boolean;
+    isMissingData: boolean;
+    level?: string;
+    dataDisplayName?: string;
+    dataEmail?: string;
+}
 
+export interface State extends DataState {
     isAuthenticated: boolean;
     uid?: string;
     displayName?: string;
     email?: string;
     emailVerified?: boolean;
 
-    isDataLoaded: boolean;
-    isMissingData: boolean;
-    level?: string;
-    dataDisplayName?: string;
-    dataEmail?: string;
-
     delayHandle: number;
 
     myBattleList?: BattleListState.MyBattleListState;
+}
+
+function getInitialDataState(): DataState {
+    return {
+        isDataLoaded: false,
+        isMissingData: false,
+        level: undefined,
+        dataDisplayName: undefined,
+        dataEmail: undefined,
+    }
 }
 
 export function getInitialState(): State {
     console.log('getInitialState');
     return {
         isAuthenticated: false,
-        isDataLoaded: false,
-        isMissingData: false,
+        ...getInitialDataState(),
         delayHandle: 0,
     };
 }
@@ -46,11 +56,9 @@ export function reduceWithAuthUser(state: State, authUser: AuthUser): State {
     if (isAuthChange) {
         return {
             ...authState,
-            isDataLoaded: false,
-            isMissingData: false,
-            level: '...',
-            dataDisplayName: authUser.displayName,
-            dataEmail: authUser.email,
+            ...getInitialDataState(),
+            dataDisplayName: authState.displayName,
+            dataEmail: authState.email,
             delayHandle: state.delayHandle + 1,
             myBattleList: BattleListState.getInitialState(authUser.uid)
         };
@@ -62,13 +70,12 @@ export function reduceWithAuthUser(state: State, authUser: AuthUser): State {
     };
 }
 
-export function reduceWithUnauthenticedState(): State {
-    console.log('reduceWithUnauthenticedState');
+export function reduceWithUnauthenticatedState(): State {
+    console.log('reduceWithUnauthenticatedState');
     return {
         isAuthenticated: false,
-        isDataLoaded: false,
-        isMissingData: false,
-        delayHandle: 0
+        ...getInitialDataState(),
+        delayHandle: 0,
     };
 }
 
@@ -85,15 +92,22 @@ export function reduceWithUserData(state: State, user: User): State {
     };
 }
 
-export function reduceWithMissingUserData(state: State): State {
+export function reduceWithUserDataMissing(state: State): State {
     console.log('reduceWithMissingUserData');
     return {
         ...state,
+        ...getInitialDataState(),
         isDataLoaded: true,
         isMissingData: true,
-        level: undefined,
-        dataDisplayName: undefined,
-        dataEmail: undefined,
+        delayHandle: state.delayHandle + 1
+    };
+}
+
+export function reduceWithUserDataLoadFailure(state: State): State {
+    console.log('reduceWithUserDataLoadFailure');
+    return {
+        ...state,
+        ...getInitialDataState(),
         delayHandle: state.delayHandle + 1
     };
 }
@@ -115,8 +129,17 @@ export function reduceWithDelayCancel(state: State, handle: number): State {
 }
 
 export function reduceWithHistoricBattles(state: State, battles: HistoricBattle[], hallEntries: HallEntry[]): State {
+    console.log('reduceWithHistoricBattles');
     return {
         ...state,
         myBattleList: BattleListState.reduceFromData(state.myBattleList, battles, hallEntries)
+    };
+}
+
+export function reduceWithHistoricBattlesLoadFailure(state: State): State {
+    console.log('reduceWithHistoricBattlesLoadFailure');
+    return {
+        ...state,
+        myBattleList: BattleListState.reduceFromLoadFailure(state.myBattleList)
     };
 }

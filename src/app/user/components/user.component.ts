@@ -6,6 +6,8 @@ import { Subscription, Subscribable } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
 import * as UserState from 'src/app/user/components/user.state';
+import { NotificationService } from 'src/app/auth/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-user',
@@ -23,7 +25,9 @@ export class UserComponent implements OnInit, OnDestroy {
         private authState: AuthStateService,
         private authService: AuthService,
         private cloudData: CloudDataService,
-        private router: Router
+        private router: Router,
+        private notification: NotificationService,
+        private translate: TranslateService
     ) {
 
     }
@@ -34,7 +38,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this.authState.isLoggedIn$.subscribe(isLoggedIn => {
             if (!isLoggedIn) {
                 // Not authenticated
-                this.updateState(UserState.reduceWithUnauthenticedState());
+                this.updateState(UserState.reduceWithUnauthenticatedState());
                 this.unsubscribeData();
             } else {
                 // Authenticated
@@ -80,23 +84,39 @@ export class UserComponent implements OnInit, OnDestroy {
                 return;
             }
         }
-        console.log('SUBSCRIBE');
-        this.userSubscription = this.cloudData.getUser$(uid).subscribe(user => {
-            if (user) {
-                this.updateState(UserState.reduceWithUserData(this.state, user));
-            } else {
-                this.updateState(UserState.reduceWithMissingUserData(this.state));
+        console.log('SUBSCRIBE USER DATA');
+        this.userSubscription = this.cloudData.getUser$(uid).subscribe(
+            user => {
+                if (user) {
+                    this.updateState(UserState.reduceWithUserData(this.state, user));
+                } else {
+                    this.updateState(UserState.reduceWithUserDataMissing(this.state));
+                }
+            },
+            error => {
+                this.updateState(UserState.reduceWithUserDataLoadFailure(this.state));
+                const errorDetail = this.notification.localizeFirebaseError(error);
+                const msg = this.translate.instant('user.profile.apiError.loading', { errorDetail });
+                this.notification.quickToast(msg, 2000);
             }
+        );
 
-            Promise.all([
-                this.cloudData.getHistoricBattlesOf(uid),
-                this.cloudData.getHallEntries()
-            ])
-            .then((results) => {
-                const [ battles, hallEntries] = results;
+        console.log('LOAD BATTLES');
+        Promise.all([
+            this.cloudData.getHistoricBattlesOf(uid),
+            this.cloudData.getHallEntries()
+        ])
+            .then(results => {
+                const [battles, hallEntries] = results;
                 this.updateState(UserState.reduceWithHistoricBattles(this.state, battles, hallEntries));
-            });
-        });
+            })
+            .catch(error => {
+                this.updateState(UserState.reduceWithHistoricBattlesLoadFailure(this.state));
+                const errorDetail = this.notification.localizeFirebaseError(error);
+                const msg = this.translate.instant('user.myBattleList.apiError.loading', { errorDetail });
+                this.notification.quickToast(msg, 2000);
+            })
+            ;
     }
 
     private unsubscribeData() {
