@@ -2,12 +2,10 @@
 
 .target-board {
     position: relative;
-    width: calc(11.1vmin * 8);
-    min-width: 300px;
-    max-width: 420px;
-    height: calc(11.1vmin * 8);
-    min-height: 300px;
-    max-height: 420px;
+    max-width: 540px;
+    max-height: 540px;
+    width: 96vmin;
+    height: 96vmin;
 }
 
 .field-status-0 {

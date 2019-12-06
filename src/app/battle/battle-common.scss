@@ -2,22 +2,21 @@
 
 .row {
     display: flex;
-    height: 12.5%;
-    border-bottom: 1px solid #e3f2fd;
+    height: calc(12.5% - 1px);
+    margin-bottom: 1px;
 }
 
 .row:last-child {
-    border-bottom: none;
+    margin-bottom: none;
 }
 
 .field {
     flex: 1 0 0;
-    text-align: center;
-    border-right: 1px solid #e3f2fd;
+    margin-left: 1px;
 }
 
 .field:last-child {
-    border-right: none;
+    margin-left: none;
 }
 
 .field-status-0 {
