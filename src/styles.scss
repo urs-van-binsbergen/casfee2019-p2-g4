@@ -117,6 +117,7 @@ mat-card.small-form {
 
 .button-row {
     display: flex;
+    flex-wrap: wrap;
     margin-bottom: 1rem;
     margin-top: 1rem;
     align-items: center;
@@ -125,8 +126,13 @@ mat-card.small-form {
         padding: 8px 0 0 8px;
     }
 
-    &>*+* {
-        margin-left: 8px;
+    &>* {
+        margin-right: 8px;
+        margin-top: 4px;
+    }
+
+    &>* {
+        flex-shrink: 0;
     }
 }
 

@@ -72,6 +72,14 @@
             "pleaseCheckFormInput": "Bitte Eingaben überprüfen",
             "fieldRequired": "Obligatorisches Feld",
             "fieldValueInvalid": "Ungültiger Wert"
+        },
+        "enum": {
+            "PlayerLevel": {
+                "Shipboy": "Schiffsmädchen",
+                "Seaman": "Seefrau",
+                "Captain": "Kapitänin",
+                "Admiral": "Admiralin"
+            }
         }
     },
     "firebase": {
@@ -119,14 +127,28 @@
             "level": "Stufe",
             "updateProfileButton": "Profil ändern",
             "updatePasswordButton": "Passwort ändern",
-            "logoutButton": "Ausloggen"
+            "logoutButton": "Ausloggen",
+            "apiError": {
+                "loading": "Fehler beim Laden der Benutzerdaten: {{errorDetail}}"
+            }
+        },
+        "myBattleList": {
+            "title": "Meine glorreichen Schlachten",
+            "noBattleYet": "Leider noch keine",
+            "endDate": "Datum",
+            "opponent": "Gegner",
+            "result": "Ausgang",
+            "victory": "Sieg",
+            "waterloo": "Niederlage",
+            "apiError": {
+                "loading": "Fehler beim Laden der Schlachten: {{errorDetail}}"
+            }
         },
         "updateProfile": {
             "title": "Profil ändern",
             "displayName": "Anzeigename",
             "submitButton": "Ändern",
-            "successMessage": "Profil geändert",
-            "apiError": "Fehler beim Ändern des Profils: {{errorDetail}}"
+            "successMessage": "Profil geändert"
         },
         "updatePassword": {
             "title": "Passwort ändern",

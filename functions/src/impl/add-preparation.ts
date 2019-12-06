@@ -18,7 +18,10 @@ export default async function addPreparation(
     const args = toPreparationArgs(data);
     const board = createBoard(args.size, args.ships);
 
-    validateShipLayout(board.size, board.ships);
+    const layoutError = validateShipLayout(board.size, board.ships);
+    if (layoutError) {
+        throw new HttpsError('invalid-argument', layoutError);
+    }
 
     return db.runTransaction(async tx => {
         const userRef = db.collection(COLL.USERS).doc(authInfo.uid);

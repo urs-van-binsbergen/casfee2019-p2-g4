@@ -47,18 +47,18 @@ export function findShipByPos(ships: Ship[], pos: Pos): { ship: Ship, fieldIndex
 }
 
 /*
- * Check rule conformity of ship layout
+ * Check rule conformity of ship layout (returns a description of the error if present)
  */
-export function validateShipLayout(boardSize: Size, ships: Ship[]): void {
+export function validateShipLayout(boardSize: Size, ships: Ship[]): string | null {
     const shipsTable = Table.createFromCellGenerator<Ship[]>(boardSize, () => []);
 
-    // Check no ship is out of bound
+    // Fill the table, checking no ship is out of bound
     for (const ship of ships) {
         const covered = getPositionsCoveredByShip(ship);
         for (const pos of covered) {
             const shipsInCell = Table.getCell(shipsTable, pos);
             if (!shipsInCell) {
-                throw new Error('at least one ship is out of bound');
+                return `The following ship is out of bounds at ${pos.x}/${pos.y}: ${JSON.stringify(ship)}`;
             }
             shipsInCell.push(ship);
         }
@@ -67,8 +67,9 @@ export function validateShipLayout(boardSize: Size, ships: Ship[]): void {
     // Check no field is covered by more than one ship
     for (const shipsInCell of FlatTable.createFromTable(shipsTable).cells) {
         if (shipsInCell.length > 1) {
-            console.log('clash', shipsInCell);
-            throw new Error('ship clash');
+            return `Ship clash: ${JSON.stringify(shipsInCell)}`;
         }
     }
+
+    return null;
 }

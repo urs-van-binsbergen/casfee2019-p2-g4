@@ -37,8 +37,8 @@ export class AuthService {
      */
     register(email: string, password: string, displayName: string): Promise<void> {
         return this._afAuth.auth.createUserWithEmailAndPassword(email, password)
-            .then(userCredential => {
-                this.updateProfileImpl(userCredential.user, displayName);
+            .then(async userCredential => {
+                await this.updateProfileImpl(userCredential.user, displayName);
             });
     }
 
@@ -67,7 +67,9 @@ export class AuthService {
 
         return firebaseUser.updateProfile({ displayName })
             .then(() => { firebaseUser.getIdToken(true); }) // forceRefresh! (*)
-            .then(() => { this._authState.currentUser.displayName = displayName; })
+            .then(() => {
+                this._authState.currentUser.displayName = displayName;
+            })
             .then(() => {
                 this._cloudFunctions.updateUser({
                     displayName,

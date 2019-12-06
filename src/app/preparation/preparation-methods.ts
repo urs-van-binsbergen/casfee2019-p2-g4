@@ -203,12 +203,15 @@ function reducePreparationShipWithDrop(state: PreparationShip, action: Preparati
     return preparationShip;
 }
 
-export function reducePreparationWithDrop(state: PreparationShip[], action: PreparationDrop,
-                                          yard: PreparationShip[]): PreparationShip[] {
+export function reducePreparationWithDrop(
+    state: PreparationShip[],
+    action: PreparationDrop,
+    yard: PreparationShip[]
+): PreparationShip[] {
     const yardShips: PreparationShip[] = yard && action ? yard.filter((s: PreparationShip) => {
         return s.key === action.key;
     }) : [];
-    const preparation: PreparationShip[] = state ? [ ...state, ...yardShips] : [ ...yardShips];
+    const preparation: PreparationShip[] = state ? [...state, ...yardShips] : [...yardShips];
     const preparationShips: PreparationShip[] = preparation.map((s: PreparationShip) => {
         let preparationShip: PreparationShip;
         if (action && s.key === action.key) {
@@ -275,6 +278,25 @@ export function reduceValidWithPreparation(state: boolean, action: PreparationSh
     return false;
 }
 
+function shipPos(preparationShip: PreparationShip): Pos {
+    switch (preparationShip.rotation) {
+        case 0:
+            return preparationShip.pos;
+        case 90:
+            return {
+                x: preparationShip.pos.x + preparationShip.length - 1,
+                y: preparationShip.pos.y
+            };
+        case 180:
+            return {
+                x: preparationShip.pos.x,
+                y: preparationShip.pos.y + preparationShip.length - 1
+            };
+        default:
+            return preparationShip.pos;
+    }
+}
+
 function shipOrientation(preparationShip: PreparationShip): Orientation {
     switch (preparationShip.rotation) {
         case 0:
@@ -295,7 +317,7 @@ function shipDesign(preparationShip: PreparationShip) {
 export function createShips(preparationShips: PreparationShip[]): Ship[] {
     if (preparationShips) {
         const ships = preparationShips.map((preparationShip: PreparationShip) => {
-            const pos = preparationShip.pos;
+            const pos = shipPos(preparationShip);
             const length = preparationShip.length;
             const orientation = shipOrientation(preparationShip);
             const design = shipDesign(preparationShip);
