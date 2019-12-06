@@ -1,3 +1,5 @@
+@import '../shared/colors.scss';
+
 .row {
     display: flex;
     height: 12.5%;
@@ -10,7 +12,6 @@
 
 .field {
     flex: 1 0 0;
-    background-color: white;
     text-align: center;
     border-right: 1px solid #e3f2fd;
 }
@@ -19,16 +20,19 @@
     border-right: none;
 }
 
-.field-status-0 { // unknown
-    background-color: dodgerblue;
+.field-status-0 {
+    // unknown
+    background-color: $color-field-unknown;
 }
 
-.field-status-1 { // miss
-    background-color: white;
+.field-status-1 {
+    // miss
+    background-color: $color-field-miss;
 }
 
-.field-status-2 { // hit
-    background-color: black;
+.field-status-2 {
+    // hit
+    background-color: $color-field-hit;
 }
 
 .active-field {
@@ -39,18 +43,34 @@
     }
 }
 
-.shooting-field {
-    background-color: gray;
+.ship {
+    position: absolute;
 }
 
-.ship {
-    position: absolute; 
-    border: 1px solid white;
-    background-color: white; 
-    opacity: 0.7;
+.ship-20 {
+    background-color: $color-ship-20;
+}
+
+.ship-30 {
+    background-color: $color-ship-30;
+}
+
+.ship-31 {
+    background-color: $color-ship-31;
+}
+
+.ship-40 {
+    background-color: $color-ship-40;
+}
+
+.ship-41 {
+    background-color: $color-ship-41;
 }
 
 .sunk-ship {
-    background-color: tomato;
-    opacity: 1;
+    opacity: 0.5;
+}
+
+.not-sunk-ship {
+    opacity: 0.75;
 }
