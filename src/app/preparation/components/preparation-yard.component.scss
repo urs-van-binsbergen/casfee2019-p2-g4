@@ -1,27 +1,10 @@
 @import './preparation-common.scss';
 
-$yardWidth: 5;
-$yardHeight: 4;
-
 .yard {
     position: relative;
-    min-width: $yardWidth * $fieldMin + ($yardWidth - 1) * $fieldMargin;
-    width: calc(#{$yardWidth * $fieldFactor}vmin + #{($yardWidth - 1) * $fieldMargin});
-    max-width: $yardWidth * $fieldMax + ($yardWidth - 1) * $fieldMargin;
-    min-height: $yardHeight * $fieldMin + ($yardHeight - 1) * $fieldMargin;
-    height: calc(#{$yardHeight * $fieldFactor}vmin + #{($yardHeight - 1) * $fieldMargin});
-    max-height: $yardHeight * $fieldMax + ($yardHeight - 1) * $fieldMargin;
-    border: 2px red solid;
-}
-
-@media screen and (min-width: 600px) {
-    .yard {
-        border: 2px green solid;
-    }
-}
-
-@media screen and (min-width: 758px) {
-    .yard {
-        border: 2px blue solid;
-    }
+    width: 60vmin;
+    height: 48vmin;
+    max-width: 338px;
+    max-height: 270px;
+    background-color: white;
 }

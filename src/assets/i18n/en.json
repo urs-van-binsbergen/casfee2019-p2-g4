@@ -108,6 +108,7 @@
         "messageNobodyHere": "No one is ready to battle against you. Please wait."
     },
     "preparation": {
+        "board": "Board",
         "body": "Drag all ships from the yard and drop them to the board. Click on the ship's tower to rotate 90°. Drag and drop ships on the board to reposition.",
         "title": "Preparation",
         "dialog": {
@@ -117,7 +118,8 @@
         "status": {
             "nokLabel": "Not ok:",
             "okLabel": "Ok:"
-        }
+        },
+        "yard": "Yard"
     },
     "user": {
         "profile": {
