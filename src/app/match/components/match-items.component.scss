@@ -1,3 +1,5 @@
-.match-items {
-    margin-bottom: 8px;
+.match-item {
+    width: calc(50% - 4px);
+    min-width: 130px;
+    max-width: 200px;
 }
