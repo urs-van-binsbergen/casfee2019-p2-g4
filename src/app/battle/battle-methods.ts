@@ -96,8 +96,8 @@ export function createBattleBoard(board: Board, canShoot: boolean): BattleBoard 
         const battleShip: BattleShip = {
             pos: createPos(ship),
             length: ship.length,
+            design: ship.design,
             isVertical: isVertical(ship),
-            isInverse: isInverse(ship),
             isSunk: ship.isSunk
         };
         return battleShip;

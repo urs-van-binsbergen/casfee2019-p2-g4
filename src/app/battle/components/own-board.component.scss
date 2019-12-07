@@ -2,10 +2,9 @@
 
 .own-board {
     position: relative;
-    width: calc(7.4vmin * 8);
-    min-width: 200px;
-    max-width: 280px;
-    height: calc(7.4vmin * 8);
-    min-height: 200px;
-    max-height: 280px;
+    width: 60vmin;
+    height: 60vmin;
+    max-width: 240px;
+    max-height: 240px;
 }
+

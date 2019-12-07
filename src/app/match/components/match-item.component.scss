@@ -1,57 +1,55 @@
 .item {
     display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items: center;
-    background-color: white;
-}
-
-.statistic, .name, .avatar, .challenged, .challenging {
-    margin: 5px;
-}
-
-.statistic {
-    flex: 0 0 auto;
-    width: 5em;
-}
-
-.name {
-    flex: 1 1 auto;
-    width: 100%em;
+    flex-direction: column;
+    align-items: left;
+    margin-bottom: 4px;
 }
 
 .avatar {
-    flex: 0 0 auto;
     width: 48px;
     height: 64px;
     font-size: 60%;
     color: white;
-    margin-right: 1%;
     background-color: black;
+    margin-top: 2px;
+    margin-left: 2px;
 }
 
-.challenged {
-    flex: 0 0 auto;
-    width: 15em;
+.name,
+.statistic,
+.opponent-is-challenging {
+    width: calc(100% - 4px);
+    margin-left: 2px;
+    margin-right: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.opponent-is-challenging {
+    font-size: 75%;
+}
+
+.opponent-is-challenged {
+    font-size: 75%;
+    margin-left: 2px;
 }
 
 @keyframes color {
     0% {
-        color: black;
+        background-color: white;
     }
 
     50% {
-        color: orange;
+        background-color: orange;
     }
 
     100% {
-        color: black;
+        background-color: white;
     }
 }
 
 .challenging {
-    flex: 0 0 auto;
-    width: 15em;
     animation-name: color;
     animation-duration: 2s;
     animation-iteration-count: infinite;

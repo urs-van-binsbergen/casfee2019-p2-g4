@@ -47,14 +47,6 @@ export class BattleComponent implements OnInit {
             this.playerStatus !== PlayerStatus.Victory && this.playerStatus !== PlayerStatus.Waterloo;
     }
 
-    get isVictory(): boolean {
-        return this.playerStatus === PlayerStatus.Victory;
-    }
-
-    get isWaterloo(): boolean {
-        return this.playerStatus === PlayerStatus.Waterloo;
-    }
-
     subscribeData() {
         this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
             player => {

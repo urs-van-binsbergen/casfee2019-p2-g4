@@ -1,9 +1,8 @@
 .entry {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 5em;
-    margin: 2px;
+    align-items: left;
+    margin-bottom: 4px;
 }
 
 .avatar {
@@ -12,4 +11,16 @@
     font-size: 60%;
     color: white;
     background-color: black;
+    margin-top: 2px;
+    margin-left: 2px;
+}
+
+.name,
+.statistic {
+    width: calc(100% - 4px);
+    margin-left: 2px;
+    margin-right: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

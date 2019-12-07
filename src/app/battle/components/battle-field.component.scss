@@ -1,7 +1,9 @@
+@import '../../shared/colors.scss';
+
 .is-covered, .is-shooting, .is-uncovering {
     width: 100%;
     height: 100%;
-    background-color: dodgerblue;
+    background-color: $color-field-cover;
 }
 
 @keyframes shake {

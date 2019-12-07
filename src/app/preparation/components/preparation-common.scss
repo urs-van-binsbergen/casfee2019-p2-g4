@@ -1,56 +1,52 @@
-$fieldMin: 32px;
-$fieldMax: 48px;
-$fieldMargin: 1px;
-$fieldFactor: 10;
-$opacityLow: 0.25;
-$opacityHigh: 0.5;
+@import '../../shared/colors.scss';
 
 .row {
     display: flex;
-    height: 12.5%;
-    border-bottom: $fieldMargin solid #e3f2fd;
+    height: calc(12.5% - 1px);
+    margin-bottom: 1px;
 }
 
 .row:last-child {
-    border-bottom: none;
+    margin-bottom: none;
 }
 
 .field {
     flex: 1 0 0;
+    margin-left: 1px;
     background-color: white;
-    text-align: center;
-    border-right: $fieldMargin solid #e3f2fd;
 }
 
 .field:last-child {
-    border-right: none;
+    margin-left: none;
 }
 
 .ship {
     position: absolute;
-    border: $fieldMargin solid white;
-    opacity: $opacityHigh;
+    opacity: 0.5;
 }
 
 .key-20 {
-    background-color: red;
+    background-color: $color-ship-20;
 }
 
 .key-30 {
-    background-color: green;
+    background-color: $color-ship-30;
 }
 
 .key-31 {
-    background-color: blue;
+    background-color: $color-ship-31;
 }
 
 .key-40 {
-    background-color: turquoise;
+    background-color: $color-ship-40;
 }
 
 .key-41 {
-    background-color: purple;
+    background-color: $color-ship-41;
 }
+
+$opacityLow: 0.25;
+$opacityHigh: 0.5;
 
 @keyframes opatcity {
     0% {

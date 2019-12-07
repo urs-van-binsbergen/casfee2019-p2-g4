@@ -60,7 +60,7 @@ describe('BattleMethods', () => {
                 { pos: { x: 1, y: 1 }, status: 0 }
             ],
             ships: [
-                { design: 0, hits: [0, 1], isSunk: true, length: 2, orientation: 0, pos: { x: 0, y: 0 } }
+                { design: 55, hits: [0, 1], isSunk: true, length: 2, orientation: 0, pos: { x: 0, y: 0 } }
             ],
             size: { h: 2, w: 2 }
         };
@@ -80,7 +80,7 @@ describe('BattleMethods', () => {
                 }
             ],
             ships: [
-                { pos: { x: 0, y: 0 }, length: 2, isVertical: false, isInverse: false, isSunk: true }
+                { pos: { x: 0, y: 0 }, length: 2, design: 55, isVertical: false, isSunk: true }
             ],
             canShoot: false, isShooting: false
         };

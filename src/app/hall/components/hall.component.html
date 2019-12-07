@@ -1,20 +1,20 @@
 <div class="page mat-typography">
     <div class="inset-1">
         <h2 translate>hall.title</h2>
-    </div>
-    <div fxLayout="column" fxLayoutGap="8px">
+        <div fxLayout="column" fxLayoutGap="8px">
 
-        <h3 *ngIf="hasAdmirals" class="label" translate>hall.admirals</h3>
-        <app-hall-entries *ngIf="hasAdmirals" class="admirals" [entries]="admirals"></app-hall-entries>
+            <h3 *ngIf="hasAdmirals" class="label" translate>hall.admirals</h3>
+            <app-hall-entries *ngIf="hasAdmirals" class="admirals" [entries]="admirals"></app-hall-entries>
 
-        <h3 *ngIf="hasCaptains" class="label" translate>hall.captains</h3>
-        <app-hall-entries *ngIf="hasCaptains" class="captains" [entries]="captains"></app-hall-entries>
+            <h3 *ngIf="hasCaptains" class="label" translate>hall.captains</h3>
+            <app-hall-entries *ngIf="hasCaptains" class="captains" [entries]="captains"></app-hall-entries>
 
-        <h3 *ngIf="hasSeamen" class="label" translate>hall.seamen</h3>
-        <app-hall-entries *ngIf="hasSeamen" class="seamen" [entries]="seamen"></app-hall-entries>
+            <h3 *ngIf="hasSeamen" class="label" translate>hall.seamen</h3>
+            <app-hall-entries *ngIf="hasSeamen" class="seamen" [entries]="seamen"></app-hall-entries>
 
-        <h3 *ngIf="hasShipboys" class="label" translate>hall.shipboys</h3>
-        <app-hall-entries *ngIf="hasShipboys" class="shipboys" [entries]="shipboys"></app-hall-entries>
+            <h3 *ngIf="hasShipboys" class="label" translate>hall.shipboys</h3>
+            <app-hall-entries *ngIf="hasShipboys" class="shipboys" [entries]="shipboys"></app-hall-entries>
 
+        </div>
     </div>
 </div>

@@ -6,8 +6,8 @@
             [field]="field"
             [canShoot]="canShoot"
             (shoot)="onShoot($event)"
-            (uncovered)="onUncovered($event)">
-
+            (uncovered)="onUncovered($event)"
+        >
         </app-battle-field>
     </div>
 
@@ -16,9 +16,10 @@
         [style.left]="(ship.pos.x * 100/ 8 + 2) + '%'"
         [style.width]="((ship.isVertical ? 1 : ship.length) * 100 / 8 - 4) + '%'"
         [style.height]="((ship.isVertical ? ship.length : 1) * 100/ 8 - 4) + '%'"
-        class="ship" [class.sunk-ship]="ship.isSunk"
+        class="ship ship-{{ship.design}}"
+        [class.sunk-ship]="ship.isSunk"
+        [class.not-sunk-ship]="!ship.isSunk"
     >
-
     </div>
 
 </div>

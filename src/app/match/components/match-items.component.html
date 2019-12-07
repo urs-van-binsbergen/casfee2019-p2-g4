@@ -1,4 +1,5 @@
-<div class="match-items" fxLayout="column wrap" fxLayoutGap="8px">
-    <app-match-item *ngFor="let item of items" [item]="item" (changeChallenge)="onChallengeChange(item, $event)">
+<div class="match-items" fxLayout="row wrap" fxLayoutGap="4px">
+    <app-match-item *ngFor="let item of items" class="match-item" [item]="item"
+        (changeChallenge)="onChallengeChange(item, $event)">
     </app-match-item>
 </div>

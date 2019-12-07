@@ -15,8 +15,8 @@ export interface Row {
 export interface BattleShip {
     pos: Pos;
     length: number;
+    design: number;
     isVertical: boolean;
-    isInverse: boolean;
     isSunk: boolean;
 }
 

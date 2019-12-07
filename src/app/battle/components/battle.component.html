@@ -10,32 +10,29 @@
         <p *ngIf="waitingForOpponentShoot" style="font-weight: bold; color: blue;">
             <span translate>battle.waitingForOpponent</span>
         </p>
-    </div>
-    <h1 *ngIf="isVictory" style="background-color: pink;">Victory!!!!</h1>
 
-    <h1 *ngIf="isWaterloo" style="background-color: black; color: white;">Waterloo :(</h1>
-
-    <div class="" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center">
-        <div class="opponent-container" fxFlex="0 0 auto">
-            <h3 *ngIf="opponentInfo">
-                {{ opponentInfo.displayName }}<span translate>battle.sBoard</span>
-            </h3>
-            <div *ngIf="targetBoard">
-                <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)"
-                    (uncovered)="onUncovered($event)"></app-target-board>
+        <div class="" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center">
+            <div class="opponent-container" fxFlex="0 0 auto">
+                <div *ngIf="opponentInfo" [class.turn]="shootNow">
+                    {{ opponentInfo.displayName }}<span translate>battle.sBoard</span>
+                </div>
+                <div *ngIf="targetBoard">
+                    <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)"
+                        (uncovered)="onUncovered($event)"></app-target-board>
+                </div>
+            </div>
+            <div class="own-board-container" fxFlex="0 0 auto">
+                <div translate [class.turn]="waitingForOpponentShoot">battle.yourBoard</div>
+                <div *ngIf="ownBoard">
+                    <app-own-board [ownBoard]="ownBoard"></app-own-board>
+                </div>
             </div>
         </div>
-        <div class="own-board-container" fxFlex="0 0 auto">
-            <h3 translate>battle.yourBoard</h3>
-            <div *ngIf="ownBoard">
-                <app-own-board [ownBoard]="ownBoard"></app-own-board>
-            </div>
+
+        <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
+            <button mat-raised-button color="accent" class="standard-button-width"
+                (click)="onCapitulationClicked()">{{'button.capitulation' | translate}}</button>
         </div>
     </div>
-    <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
-        <button mat-raised-button color="primary" class="standard-button-width"
-            (click)="onCapitulationClicked()">{{'button.capitulation' | translate}}</button>
-    </div>
-
 </div>
 
