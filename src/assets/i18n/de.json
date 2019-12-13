@@ -110,15 +110,16 @@
     "preparation": {
         "board": "Brett",
         "body": "Alle Schiffe von der Werft auf das Brett ziehen. Klick auf den Turm des Schiffs rotiert um 90°. Schiffe auf dem Bretten beliebig repositionieren.",
-        "title": "Vorbereitung",
         "dialog": {
             "body": "Du verlierst deine Daten!",
             "title": "Warnung"
         },
+        "error": "Deine Vorbereitung wurde nicht angenommen. Könnte am Netzwerk liegen.",
         "status": {
             "nokLabel": "Nicht ok:",
             "okLabel": "Ok:"
         },
+        "title": "Vorbereitung",
         "yard": "Werft"
     },
     "user": {

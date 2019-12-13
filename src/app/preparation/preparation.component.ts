@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CloudFunctionsService } from '../backend/cloud-functions.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { PreparationArgs } from '@cloud-api/arguments';
 import { PreparationInteractionService } from './preparation-interaction.service';
 import { PreparationService } from './preparation.service';
 import { PreparationDrop, PreparationRow, PreparationShip, boardHeight, boardWidth } from './preparation-models';
 import * as PreparationMethods from './preparation-methods';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-preparation',
@@ -26,6 +27,8 @@ export class PreparationComponent implements OnInit {
         private preparationInteractionService: PreparationInteractionService,
         private preparationService: PreparationService,
         private cloudFunctions: CloudFunctionsService,
+        private snackBar: MatSnackBar,
+        private translate: TranslateService
     ) {
     }
 
@@ -66,7 +69,7 @@ export class PreparationComponent implements OnInit {
     }
 
     get isContinueDisabled(): boolean {
-        return !(this._isValid);
+        return !(this._isValid) || this._waiting;
     }
 
     onStart(event: any) {
@@ -94,16 +97,23 @@ export class PreparationComponent implements OnInit {
         };
         this.cloudFunctions.addPreparation(args).subscribe(
             results => {
-                console.log(results);
-            },
-            error => {
-                console.log(error);
                 this._waiting = false;
             },
+            error => {
+                this.showError();
+            },
             () => {
-                console.log('completed');
+                this._waiting = false;
             }
         );
+    }
+
+    showError() {
+        const message = this.translate.instant('preparation.error');
+        const snackBarRef = this.snackBar.open(message, null, { duration: 3000 });
+        snackBarRef.afterDismissed().subscribe(() => {
+            this._waiting = false;
+        });
     }
 
 }
