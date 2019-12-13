@@ -102,6 +102,10 @@
     },
     "match": {
         "body": "Choose your opponent",
+        "error": {
+            "cancel": "Could not cancel opponent match.",
+            "waitingPlayers": "No opponent matches can be made."
+        },
         "title": "Opponent Match",
         "item": {
             "challenged": "Challenge opponent",

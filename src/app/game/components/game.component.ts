@@ -46,7 +46,7 @@ export class GameComponent implements OnInit, OnDestroy {
         this.snackBar.dismiss();
     }
 
-    showError() {
+    private showError() {
         const message = this.translate.instant('game.error');
         this.snackBar.open(message);
     }

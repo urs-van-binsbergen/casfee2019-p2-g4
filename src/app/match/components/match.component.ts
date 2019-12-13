@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthStateService } from '../../auth/auth-state.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import * as MatchMethods from '../match-methods';
 import { MatchItem, MatchState } from '../match-models';
-import { NotificationService } from 'src/app/auth/notification.service';
+import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WaitingPlayer } from '@cloud-api/core-models';
@@ -14,23 +14,27 @@ import { WaitingPlayer } from '@cloud-api/core-models';
     templateUrl: './match.component.html',
     styleUrls: ['./match.component.scss']
 })
-export class MatchComponent implements OnInit {
+export class MatchComponent implements OnInit, OnDestroy {
 
     private _items: MatchItem[] = [];
     private _state: MatchState = MatchState.Idle;
-    private _cancelling = false;
+    private _waiting: boolean;
 
     constructor(
         private cloudData: CloudDataService,
         private authState: AuthStateService,
         private cloudFunctions: CloudFunctionsService,
-        private notification: NotificationService,
+        private snackBar: MatSnackBar,
         private translate: TranslateService,
         private router: Router) {
     }
 
     ngOnInit(): void {
         this.subscribeData();
+    }
+
+    ngOnDestroy(): void {
+        this.hideError();
     }
 
     public get items(): MatchItem[] {
@@ -41,20 +45,20 @@ export class MatchComponent implements OnInit {
         return this._items && 0 < this._items.length;
     }
 
+    get isWaiting(): boolean {
+        return this._waiting;
+    }
+
     subscribeData(): void {
         const uid = this.authState.currentUser.uid;
         this.cloudData.getWaitingPlayers$().subscribe(
             (waitingPlayers: WaitingPlayer[]) => {
+                this.hideError();
                 this._state = MatchMethods.reduceMatchStateWithWaitingPlayers(this._state, waitingPlayers, uid);
                 this._items = MatchMethods.reduceMatchItemsWithWaitingPlayers(this._items, waitingPlayers, uid);
-                if (this._state === MatchState.Completed && !(this._cancelling)) {
-                    // this.router.navigateByUrl('/battle'); ??
-                }
             },
             error => {
-                const errorDetail = this.notification.localizeFirebaseError(error);
-                const msg = this.translate.instant('battle.apiError.sending', { errorDetail });
-                this.notification.toastToConfirm(msg);
+                this.showError('match.error.waitingPlayers');
             }
         );
     }
@@ -70,17 +74,27 @@ export class MatchComponent implements OnInit {
     }
 
     public onCancelClicked() {
-        this._cancelling = true;
+        this._waiting = true;
         this.cloudFunctions.removePreparation({}).toPromise()
             .then(results => {
+                this._waiting = false;
+                this.hideError();
                 this.router.navigateByUrl('/hall');
             })
             .catch(error => {
-                this._cancelling = false;
-                const errorDetail = this.notification.localizeFirebaseError(error);
-                const msg = this.translate.instant('battle.apiError.sending', { errorDetail });
-                this.notification.toastToConfirm(msg);
+                this._waiting = false;
+                this.showError('match.error.cancel');
             });
+    }
+
+    private hideError() {
+        this.snackBar.dismiss();
+    }
+
+    private showError(error: string) {
+        const message = this.translate.instant(error);
+        const close = this.translate.instant('button.close');
+        this.snackBar.open(message, close);
     }
 
 }
