@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { PreparationComponent } from './preparation.component';
+import { PreparationComponent } from './components/preparation.component';
 import { PreparationService } from './preparation.service';
 import { PreparationBoardComponent } from './components/preparation-board.component';
 import { PreparationInteractionService } from './preparation-interaction.service';

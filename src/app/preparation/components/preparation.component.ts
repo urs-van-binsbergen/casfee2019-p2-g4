@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CloudFunctionsService } from '../backend/cloud-functions.service';
+import { CloudFunctionsService } from '../../backend/cloud-functions.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { PreparationArgs } from '@cloud-api/arguments';
-import { PreparationInteractionService } from './preparation-interaction.service';
-import { PreparationService } from './preparation.service';
-import { PreparationDrop, PreparationRow, PreparationShip, boardHeight, boardWidth } from './preparation-models';
-import * as PreparationMethods from './preparation-methods';
+import { PreparationInteractionService } from '../preparation-interaction.service';
+import { PreparationService } from '../preparation.service';
+import { PreparationDrop, PreparationRow, PreparationShip, boardHeight, boardWidth } from '../preparation-models';
+import * as PreparationMethods from '../preparation-methods';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
