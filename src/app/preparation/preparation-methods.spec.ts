@@ -17,7 +17,7 @@ describe('PreparationMethods reducePreparationWithDrop', () => {
         const state: PreparationShip[] = null;
         const action: PreparationDrop = null;
         const yard: PreparationShip[] = null;
-        const preparation = PreparationMethods.reducePreparationWithDrop(state, action, yard);
+        const preparation = PreparationMethods.updatePreparationWithDrop(state, action, yard);
         expect(str(preparation)).toBe(str([]));
     });
 
@@ -25,7 +25,7 @@ describe('PreparationMethods reducePreparationWithDrop', () => {
         const state: PreparationShip[] = [];
         const action: PreparationDrop = null;
         const yard: PreparationShip[] = null;
-        const preparation = PreparationMethods.reducePreparationWithDrop(state, action, yard);
+        const preparation = PreparationMethods.updatePreparationWithDrop(state, action, yard);
         expect(str(preparation)).toBe(str([]));
     });
 
@@ -33,7 +33,7 @@ describe('PreparationMethods reducePreparationWithDrop', () => {
         const state: PreparationShip[] = [];
         const action: PreparationDrop = { key: 0, pos: { x: 0, y: 0 } };
         const yard: PreparationShip[] = null;
-        const preparation = PreparationMethods.reducePreparationWithDrop(state, action, yard);
+        const preparation = PreparationMethods.updatePreparationWithDrop(state, action, yard);
         expect(str(preparation)).toBe(str([]));
     });
 
@@ -54,7 +54,7 @@ describe('PreparationMethods reducePreparationWithDrop', () => {
         ];
         const action: PreparationDrop = null;
         const yard: PreparationShip[] = null;
-        const preparation = PreparationMethods.reducePreparationWithDrop(state, action, yard);
+        const preparation = PreparationMethods.updatePreparationWithDrop(state, action, yard);
         expect(str(preparation)).toBe(str(state));
     });
 
@@ -75,7 +75,7 @@ describe('PreparationMethods reducePreparationWithDrop', () => {
         ];
         const action: PreparationDrop = { key: 0, pos: { x: 3, y: 3 } };
         const yard: PreparationShip[] = null;
-        const preparation = PreparationMethods.reducePreparationWithDrop(state, action, yard);
+        const preparation = PreparationMethods.updatePreparationWithDrop(state, action, yard);
         expect(str(preparation)).toBe(str(state));
     });
 
@@ -96,7 +96,7 @@ describe('PreparationMethods reducePreparationWithDrop', () => {
                 isVertical: true
             }
         ];
-        const preparation = PreparationMethods.reducePreparationWithDrop(state, action, yard);
+        const preparation = PreparationMethods.updatePreparationWithDrop(state, action, yard);
         expect(str(preparation)).toBe(str([]));
     });
 
@@ -117,7 +117,7 @@ describe('PreparationMethods reducePreparationWithDrop', () => {
         ];
         const action: PreparationDrop = { key: 20, pos: { x: 3, y: 3 } };
         const yard: PreparationShip[] = null;
-        const preparation = PreparationMethods.reducePreparationWithDrop(state, action, yard);
+        const preparation = PreparationMethods.updatePreparationWithDrop(state, action, yard);
         const ref: PreparationShip[] = [
             {
                 key: 20,
@@ -152,7 +152,7 @@ describe('PreparationMethods reducePreparationWithDrop', () => {
                 isVertical: true
             }
         ];
-        const preparation = PreparationMethods.reducePreparationWithDrop(state, action, yard);
+        const preparation = PreparationMethods.updatePreparationWithDrop(state, action, yard);
         const ref: PreparationShip[] = [
             {
                 key: 20,
@@ -183,21 +183,21 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
     it('reduce null with null', () => {
         const state: PreparationShip[] = null;
         const action: number = null;
-        const preparation = PreparationMethods.reducePreparationWithRotation(state, action);
+        const preparation = PreparationMethods.updatePreparationWithRotation(state, action);
         expect(str(preparation)).toBe(str([]));
     });
 
     it('reduce [] with null', () => {
         const state: PreparationShip[] = [];
         const action: number = null;
-        const preparation = PreparationMethods.reducePreparationWithRotation(state, action);
+        const preparation = PreparationMethods.updatePreparationWithRotation(state, action);
         expect(str(preparation)).toBe(str([]));
     });
 
     it('reduce [] with key', () => {
         const state: PreparationShip[] = [];
         const action = 13;
-        const preparation = PreparationMethods.reducePreparationWithRotation(state, action);
+        const preparation = PreparationMethods.updatePreparationWithRotation(state, action);
         expect(str(preparation)).toBe(str([]));
     });
 
@@ -217,7 +217,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
             }
         ];
         const action = 13;
-        const preparation = PreparationMethods.reducePreparationWithRotation(state, action);
+        const preparation = PreparationMethods.updatePreparationWithRotation(state, action);
         expect(str(preparation)).toBe(str(state));
     });
 
@@ -237,7 +237,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
             }
         ];
         const action = 20;
-        const preparation = PreparationMethods.reducePreparationWithRotation(state, action);
+        const preparation = PreparationMethods.updatePreparationWithRotation(state, action);
         const ref: PreparationShip[] = [
             {
                 key: 20,
@@ -271,7 +271,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
             }
         ];
         const action = 20;
-        const preparation90 = PreparationMethods.reducePreparationWithRotation(preparation0, action);
+        const preparation90 = PreparationMethods.updatePreparationWithRotation(preparation0, action);
         expect(str(preparation90)).toBe(str([
             {
                 key: 20,
@@ -286,7 +286,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
                 isVertical: false
             }
         ]));
-        const preparation180 = PreparationMethods.reducePreparationWithRotation(preparation90, action);
+        const preparation180 = PreparationMethods.updatePreparationWithRotation(preparation90, action);
         expect(str(preparation180)).toBe(str([
             {
                 key: 20,
@@ -301,7 +301,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
                 isVertical: true
             }
         ]));
-        const preparation270 = PreparationMethods.reducePreparationWithRotation(preparation180, action);
+        const preparation270 = PreparationMethods.updatePreparationWithRotation(preparation180, action);
         expect(str(preparation270)).toBe(str([
             {
                 key: 20,
@@ -316,7 +316,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
                 isVertical: false
             }
         ]));
-        const preparation360 = PreparationMethods.reducePreparationWithRotation(preparation270, action);
+        const preparation360 = PreparationMethods.updatePreparationWithRotation(preparation270, action);
         expect(str(preparation360)).toBe(str(preparation0));
     });
 
@@ -336,7 +336,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
             }
         ];
         const action = 30;
-        const preparation90 = PreparationMethods.reducePreparationWithRotation(preparation0, action);
+        const preparation90 = PreparationMethods.updatePreparationWithRotation(preparation0, action);
         expect(str(preparation90)).toBe(str([
             {
                 key: 30,
@@ -351,7 +351,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
                 isVertical: false
             }
         ]));
-        const preparation180 = PreparationMethods.reducePreparationWithRotation(preparation90, action);
+        const preparation180 = PreparationMethods.updatePreparationWithRotation(preparation90, action);
         expect(str(preparation180)).toBe(str([
             {
                 key: 30,
@@ -366,7 +366,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
                 isVertical: true
             }
         ]));
-        const preparation270 = PreparationMethods.reducePreparationWithRotation(preparation180, action);
+        const preparation270 = PreparationMethods.updatePreparationWithRotation(preparation180, action);
         expect(str(preparation270)).toBe(str([
             {
                 key: 30,
@@ -381,7 +381,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
                 isVertical: false
             }
         ]));
-        const preparation360 = PreparationMethods.reducePreparationWithRotation(preparation270, action);
+        const preparation360 = PreparationMethods.updatePreparationWithRotation(preparation270, action);
         expect(str(preparation360)).toBe(str(preparation0));
     });
 
@@ -401,7 +401,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
             }
         ];
         const action = 40;
-        const preparation90 = PreparationMethods.reducePreparationWithRotation(preparation0, action);
+        const preparation90 = PreparationMethods.updatePreparationWithRotation(preparation0, action);
         expect(str(preparation90)).toBe(str([
             {
                 key: 40,
@@ -416,7 +416,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
                 isVertical: false
             }
         ]));
-        const preparation180 = PreparationMethods.reducePreparationWithRotation(preparation90, action);
+        const preparation180 = PreparationMethods.updatePreparationWithRotation(preparation90, action);
         expect(str(preparation180)).toBe(str([
             {
                 key: 40,
@@ -431,7 +431,7 @@ describe('PreparationMethods reducePreparationWithRotation', () => {
                 isVertical: true
             }
         ]));
-        const preparation270 = PreparationMethods.reducePreparationWithRotation(preparation180, action);
+        const preparation270 = PreparationMethods.updatePreparationWithRotation(preparation180, action);
         expect(str(preparation270)).toBe(str([
             {
                 key: 40,
@@ -461,14 +461,14 @@ describe('PreparationMethods reduceYardWithDrop', () => {
     it('reduce null with null', () => {
         const state: PreparationShip[] = null;
         const action: PreparationDrop = null;
-        const yard = PreparationMethods.reduceYardWithDrop(state, action);
+        const yard = PreparationMethods.updateYardWithDrop(state, action);
         expect(str(yard)).toBe(str([]));
     });
 
     it('reduce [] with null', () => {
         const state: PreparationShip[] = [];
         const action: PreparationDrop = null;
-        const yard = PreparationMethods.reduceYardWithDrop(state, action);
+        const yard = PreparationMethods.updateYardWithDrop(state, action);
         expect(str(yard)).toBe(str([]));
     });
 
@@ -488,7 +488,7 @@ describe('PreparationMethods reduceYardWithDrop', () => {
             }
         ];
         const action: PreparationDrop = null;
-        const yard = PreparationMethods.reduceYardWithDrop(state, action);
+        const yard = PreparationMethods.updateYardWithDrop(state, action);
         expect(str(yard)).toBe(str(state));
     });
 
@@ -508,7 +508,7 @@ describe('PreparationMethods reduceYardWithDrop', () => {
             }
         ];
         const action: PreparationDrop = { key: 0, pos: { x: 3, y: 3 } };
-        const yard = PreparationMethods.reduceYardWithDrop(state, action);
+        const yard = PreparationMethods.updateYardWithDrop(state, action);
         expect(str(yard)).toBe(str(state));
     });
 
@@ -528,7 +528,7 @@ describe('PreparationMethods reduceYardWithDrop', () => {
             }
         ];
         const action: PreparationDrop = { key: 20, pos: { x: 3, y: 3 } };
-        const yard = PreparationMethods.reduceYardWithDrop(state, action);
+        const yard = PreparationMethods.updateYardWithDrop(state, action);
         expect(str(yard)).toBe(str([]));
     });
 
@@ -544,13 +544,13 @@ describe('PreparationMethods reduceValidWithPreparation', () => {
 
     it('reduce with null', () => {
         const action: PreparationShip[] = null;
-        const isValid = PreparationMethods.reduceValidWithPreparation(true, action);
+        const isValid = PreparationMethods.updateValidWithPreparation(true, action);
         expect(isValid).toBe(false);
     });
 
     it('reduce with []', () => {
         const action: PreparationShip[] = null;
-        const isValid = PreparationMethods.reduceValidWithPreparation(true, action);
+        const isValid = PreparationMethods.updateValidWithPreparation(true, action);
         expect(isValid).toBe(false);
     });
 
@@ -612,7 +612,7 @@ describe('PreparationMethods reduceValidWithPreparation', () => {
                 isVertical
             }
         ];
-        const isValid = PreparationMethods.reduceValidWithPreparation(true, action);
+        const isValid = PreparationMethods.updateValidWithPreparation(true, action);
         expect(isValid).toBe(false);
     });
 
@@ -686,7 +686,7 @@ describe('PreparationMethods reduceValidWithPreparation', () => {
                 isVertical
             }
         ];
-        const isValid = PreparationMethods.reduceValidWithPreparation(true, action);
+        const isValid = PreparationMethods.updateValidWithPreparation(true, action);
         expect(isValid).toBe(false);
     });
 
@@ -760,7 +760,7 @@ describe('PreparationMethods reduceValidWithPreparation', () => {
                 isVertical
             }
         ];
-        const isValid = PreparationMethods.reduceValidWithPreparation(true, action);
+        const isValid = PreparationMethods.updateValidWithPreparation(true, action);
         expect(isValid).toBe(true);
     });
 

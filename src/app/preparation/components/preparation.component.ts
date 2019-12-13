@@ -40,14 +40,14 @@ export class PreparationComponent implements OnInit, OnDestroy {
         this._isChanged = false;
         this._waiting = false;
         this.preparationInteractionService.drop$.subscribe((drop: PreparationDrop) => {
-            this._preparation = PreparationMethods.reducePreparationWithDrop(this._preparation, drop, this._yard);
-            this._yard = PreparationMethods.reduceYardWithDrop(this._yard, drop);
-            this._isValid = PreparationMethods.reduceValidWithPreparation(this._isValid, this._preparation);
+            this._preparation = PreparationMethods.updatePreparationWithDrop(this._preparation, drop, this._yard);
+            this._yard = PreparationMethods.updateYardWithDrop(this._yard, drop);
+            this._isValid = PreparationMethods.updateValidWithPreparation(this._isValid, this._preparation);
             this._isChanged = true;
         });
         this.preparationInteractionService.rotate$.subscribe((key: number) => {
-            this._preparation = PreparationMethods.reducePreparationWithRotation(this._preparation, key);
-            this._isValid = PreparationMethods.reduceValidWithPreparation(this._isValid, this._preparation);
+            this._preparation = PreparationMethods.updatePreparationWithRotation(this._preparation, key);
+            this._isValid = PreparationMethods.updateValidWithPreparation(this._isValid, this._preparation);
             this._isChanged = true;
         });
     }

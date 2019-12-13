@@ -193,7 +193,7 @@ export function initPreparationShips(ships: PreparationShip[]) {
     updatePreparationShips(ships);
 }
 
-function reducePreparationShipWithDrop(state: PreparationShip, action: PreparationDrop): PreparationShip {
+function updatePreparationShipWithDrop(state: PreparationShip, action: PreparationDrop): PreparationShip {
     const preparationShip: PreparationShip = deepClone(state);
     preparationShip.center = {
         x: state.center.x + action.pos.x - state.pos.x,
@@ -203,7 +203,7 @@ function reducePreparationShipWithDrop(state: PreparationShip, action: Preparati
     return preparationShip;
 }
 
-export function reducePreparationWithDrop(
+export function updatePreparationWithDrop(
     state: PreparationShip[],
     action: PreparationDrop,
     yard: PreparationShip[]
@@ -215,7 +215,7 @@ export function reducePreparationWithDrop(
     const preparationShips: PreparationShip[] = preparation.map((s: PreparationShip) => {
         let preparationShip: PreparationShip;
         if (action && s.key === action.key) {
-            preparationShip = reducePreparationShipWithDrop(s, action);
+            preparationShip = updatePreparationShipWithDrop(s, action);
         } else {
             preparationShip = deepClone(s);
         }
@@ -225,19 +225,19 @@ export function reducePreparationWithDrop(
     return preparationShips;
 }
 
-function reducePreparationShipWithRotation(state: PreparationShip): PreparationShip {
+function updatePreparationShipWithRotation(state: PreparationShip): PreparationShip {
     const preparationShip: PreparationShip = deepClone(state);
     preparationShip.rotation = (preparationShip.rotation + 90) % 360;
     updatePreparationShip(preparationShip);
     return preparationShip;
 }
 
-export function reducePreparationWithRotation(state: PreparationShip[], action: number): PreparationShip[] {
+export function updatePreparationWithRotation(state: PreparationShip[], action: number): PreparationShip[] {
     if (state) {
         const preparationShips = state.map((s: PreparationShip) => {
             let preparationShip: PreparationShip;
             if (action && s.key === action) {
-                preparationShip = reducePreparationShipWithRotation(s);
+                preparationShip = updatePreparationShipWithRotation(s);
             } else {
                 preparationShip = deepClone(s);
             }
@@ -249,7 +249,7 @@ export function reducePreparationWithRotation(state: PreparationShip[], action: 
     return [];
 }
 
-export function reduceYardWithDrop(state: PreparationShip[], action: PreparationDrop): PreparationShip[] {
+export function updateYardWithDrop(state: PreparationShip[], action: PreparationDrop): PreparationShip[] {
     if (state) {
         const yard: PreparationShip[] = deepClone(state);
         if (action) {
@@ -263,7 +263,7 @@ export function reduceYardWithDrop(state: PreparationShip[], action: Preparation
     return [];
 }
 
-export function reduceValidWithPreparation(state: boolean, action: PreparationShip[]): boolean {
+export function updateValidWithPreparation(state: boolean, action: PreparationShip[]): boolean {
     if (action) {
         if (action.length !== numberOfShips) {
             return false;
