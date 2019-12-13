@@ -53,8 +53,8 @@ export class MatchComponent implements OnInit, OnDestroy {
         this.cloudData.getWaitingPlayers$().subscribe(
             (waitingPlayers: WaitingPlayer[]) => {
                 this.hideError();
-                this._state = MatchMethods.reduceMatchStateWithWaitingPlayers(this._state, waitingPlayers, uid);
-                this._items = MatchMethods.reduceMatchItemsWithWaitingPlayers(this._items, waitingPlayers, uid);
+                this._state = MatchMethods.updateMatchStateWithWaitingPlayers(this._state, waitingPlayers, uid);
+                this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, waitingPlayers, uid);
             },
             error => {
                 this.showError('match.error.waitingPlayers');

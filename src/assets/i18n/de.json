@@ -108,6 +108,7 @@
         },
         "title": "Herausforderung",
         "item": {
+            "accept": "Herausforderung annehmen",
             "challenged": "Gegner herausfordern",
             "challenging": "Gegner fordert dich heraus"
         },

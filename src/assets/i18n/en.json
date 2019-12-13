@@ -108,6 +108,7 @@
         },
         "title": "Opponent Match",
         "item": {
+            "accept": "Accept challenge",
             "challenged": "Challenge opponent",
             "challenging": "Opponent is challenging you"
         },
