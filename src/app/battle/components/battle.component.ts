@@ -62,8 +62,8 @@ export class BattleComponent implements OnInit, OnDestroy {
                 this.hideError();
                 if (player && player.battle) {
                     this.opponentInfo = player.battle.opponentInfo;
-                    this.targetBoard = BattleMethods.reduceTargetBoardWithPlayer(this.targetBoard, player);
-                    this.ownBoard = BattleMethods.reduceOwnBoardWithPlayer(this.ownBoard, player);
+                    this.targetBoard = BattleMethods.updateTargetBoardWithPlayer(this.targetBoard, player);
+                    this.ownBoard = BattleMethods.updateOwnBoardWithPlayer(this.ownBoard, player);
                     this.playerStatus = player.playerStatus;
                 } else {
                     this.opponentInfo = null;
@@ -83,7 +83,7 @@ export class BattleComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.targetBoard = BattleMethods.reduceBoardWithShootingField(this.targetBoard, field);
+        this.targetBoard = BattleMethods.updateBoardWithShootingField(this.targetBoard, field);
         const args: ShootArgs = {
             targetPos: field.pos
         };
@@ -93,14 +93,14 @@ export class BattleComponent implements OnInit, OnDestroy {
             .then(results => {
             })
             .catch(error => {
-                this.targetBoard = BattleMethods.reduceBoardWithShootingFieldReset(this.targetBoard, field);
+                this.targetBoard = BattleMethods.updateBoardWithShootingFieldReset(this.targetBoard, field);
                 this.showError('battle.error.shoot');
             })
             ;
     }
 
     onUncovered(field: BattleField) {
-        this.targetBoard = BattleMethods.reduceBoardWithShootingFieldReset(this.targetBoard, field);
+        this.targetBoard = BattleMethods.updateBoardWithShootingFieldReset(this.targetBoard, field);
     }
 
     onCapitulationClicked() {

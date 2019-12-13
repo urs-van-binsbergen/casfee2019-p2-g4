@@ -117,7 +117,7 @@ export function createOwnBoard(player: Player): BattleBoard {
     return battleBoard;
 }
 
-export function reduceBoardWithBoard(state: BattleBoard, action: BattleBoard): BattleBoard | null {
+export function updateBoardWithBoard(state: BattleBoard, action: BattleBoard): BattleBoard | null {
     const board = action ? deepClone(action) : null;
     if (state && state.rows && board && board.rows) {
         const yLength = Math.min(state.rows.length, board.rows.length);
@@ -134,19 +134,19 @@ export function reduceBoardWithBoard(state: BattleBoard, action: BattleBoard): B
     return board;
 }
 
-export function reduceTargetBoardWithPlayer(state: BattleBoard, action: Player): BattleBoard | null {
+export function updateTargetBoardWithPlayer(state: BattleBoard, action: Player): BattleBoard | null {
     const board = action ? createTargetBoard(action) : null;
-    const targetBoard = reduceBoardWithBoard(state, board);
+    const targetBoard = updateBoardWithBoard(state, board);
     return targetBoard;
 }
 
-export function reduceOwnBoardWithPlayer(state: BattleBoard, action: Player): BattleBoard | null {
+export function updateOwnBoardWithPlayer(state: BattleBoard, action: Player): BattleBoard | null {
     const board = action ? createOwnBoard(action) : null;
-    const ownBoard = reduceBoardWithBoard(state, board);
+    const ownBoard = updateBoardWithBoard(state, board);
     return ownBoard;
 }
 
-function reduceBoardWithField(state: BattleBoard, action: BattleField, change: (f: BattleField) => void): BattleBoard | null {
+function updateBoardWithField(state: BattleBoard, action: BattleField, change: (f: BattleField) => void): BattleBoard | null {
     const x = action.pos.x;
     const y = action.pos.y;
     const board = state ? deepClone(state) : null;
@@ -157,15 +157,15 @@ function reduceBoardWithField(state: BattleBoard, action: BattleField, change: (
     return board;
 }
 
-export function reduceBoardWithShootingField(state: BattleBoard, action: BattleField): BattleBoard {
-    const board = reduceBoardWithField(state, action, (field: BattleField) => {
+export function updateBoardWithShootingField(state: BattleBoard, action: BattleField): BattleBoard {
+    const board = updateBoardWithField(state, action, (field: BattleField) => {
         field.shooting = true;
     });
     return board;
 }
 
-export function reduceBoardWithShootingFieldReset(state: BattleBoard, action: BattleField): BattleBoard {
-    const board = reduceBoardWithField(state, action, (field: BattleField) => {
+export function updateBoardWithShootingFieldReset(state: BattleBoard, action: BattleField): BattleBoard {
+    const board = updateBoardWithField(state, action, (field: BattleField) => {
         field.shooting = false;
     });
     return board;
