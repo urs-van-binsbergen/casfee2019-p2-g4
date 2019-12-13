@@ -63,7 +63,7 @@ describe('HallMethods', () => {
     it('reduce admirals with undefined', () => {
         const entriesBefore = str(undefined);
         const admiralsExpected = str([]);
-        const admirals = HallMethods.reduceAdmiralsWithEntries(null, undefined);
+        const admirals = HallMethods.filterByLevel(undefined, PlayerLevel.Admiral);
         expect(str(undefined)).toBe(entriesBefore);
         expect(str(admirals)).toBe(admiralsExpected);
     });
@@ -71,7 +71,7 @@ describe('HallMethods', () => {
     it('reduce admirals with null', () => {
         const entriesBefore = str(null);
         const admiralsExpected = str([]);
-        const admirals = HallMethods.reduceAdmiralsWithEntries(null, null);
+        const admirals = HallMethods.filterByLevel(null, PlayerLevel.Admiral);
         expect(str(null)).toBe(entriesBefore);
         expect(str(admirals)).toBe(admiralsExpected);
     });
@@ -79,7 +79,7 @@ describe('HallMethods', () => {
     it('reduce admirals with []', () => {
         const entriesBefore = str([]);
         const admiralsExpected = str([]);
-        const admirals = HallMethods.reduceAdmiralsWithEntries(null, []);
+        const admirals = HallMethods.filterByLevel([], PlayerLevel.Admiral);
         expect(str([])).toBe(entriesBefore);
         expect(str(admirals)).toBe(admiralsExpected);
     });
@@ -87,7 +87,7 @@ describe('HallMethods', () => {
     it('reduce admirals with entries', () => {
         const entriesBefore = str(entries);
         const admiralsExpected = str([admiral]);
-        const admirals = HallMethods.reduceAdmiralsWithEntries(null, entries);
+        const admirals = HallMethods.filterByLevel(entries, PlayerLevel.Admiral);
         expect(str(entries)).toBe(entriesBefore);
         expect(str(admirals)).toBe(admiralsExpected);
 
@@ -96,7 +96,7 @@ describe('HallMethods', () => {
     it('reduce captains with undefined', () => {
         const entriesBefore = str(undefined);
         const captainsExpected = str([]);
-        const captains = HallMethods.reduceCaptainsWithEntries(null, undefined);
+        const captains = HallMethods.filterByLevel(undefined, PlayerLevel.Captain);
         expect(str(undefined)).toBe(entriesBefore);
         expect(str(captains)).toBe(captainsExpected);
     });
@@ -104,7 +104,7 @@ describe('HallMethods', () => {
     it('reduce captains with null', () => {
         const entriesBefore = str(null);
         const captainsExpected = str([]);
-        const captains = HallMethods.reduceCaptainsWithEntries(null, null);
+        const captains = HallMethods.filterByLevel(null, PlayerLevel.Captain);
         expect(str(null)).toBe(entriesBefore);
         expect(str(captains)).toBe(captainsExpected);
     });
@@ -112,7 +112,7 @@ describe('HallMethods', () => {
     it('reduce captains with []', () => {
         const entriesBefore = str([]);
         const captainsExpected = str([]);
-        const captains = HallMethods.reduceCaptainsWithEntries(null, []);
+        const captains = HallMethods.filterByLevel([], PlayerLevel.Captain);
         expect(str([])).toBe(entriesBefore);
         expect(str(captains)).toBe(captainsExpected);
     });
@@ -120,7 +120,7 @@ describe('HallMethods', () => {
     it('reduce captains with entries', () => {
         const entriesBefore = str(entries);
         const captainsExpected = str([captain]);
-        const captains = HallMethods.reduceCaptainsWithEntries(null, entries);
+        const captains = HallMethods.filterByLevel(entries, PlayerLevel.Captain);
         expect(str(entries)).toBe(entriesBefore);
         expect(str(captains)).toBe(captainsExpected);
 
@@ -129,7 +129,7 @@ describe('HallMethods', () => {
     it('reduce seamen with undefined', () => {
         const entriesBefore = str(undefined);
         const seamenExpected = str([]);
-        const seamen = HallMethods.reduceSeamenWithEntries(null, undefined);
+        const seamen = HallMethods.filterByLevel(undefined, PlayerLevel.Seaman);
         expect(str(undefined)).toBe(entriesBefore);
         expect(str(seamen)).toBe(seamenExpected);
     });
@@ -137,7 +137,7 @@ describe('HallMethods', () => {
     it('reduce seamen with null', () => {
         const entriesBefore = str(null);
         const seamenExpected = str([]);
-        const seamen = HallMethods.reduceSeamenWithEntries(null, null);
+        const seamen = HallMethods.filterByLevel(null, PlayerLevel.Seaman);
         expect(str(null)).toBe(entriesBefore);
         expect(str(seamen)).toBe(seamenExpected);
     });
@@ -145,7 +145,7 @@ describe('HallMethods', () => {
     it('reduce seamen with []', () => {
         const entriesBefore = str([]);
         const seamenExpected = str([]);
-        const seamen = HallMethods.reduceSeamenWithEntries(null, []);
+        const seamen = HallMethods.filterByLevel([], PlayerLevel.Seaman);
         expect(str([])).toBe(entriesBefore);
         expect(str(seamen)).toBe(seamenExpected);
     });
@@ -153,7 +153,7 @@ describe('HallMethods', () => {
     it('reduce seamen with entries', () => {
         const entriesBefore = str(entries);
         const seamenExpected = str([seaman]);
-        const seamen = HallMethods.reduceSeamenWithEntries(null, entries);
+        const seamen = HallMethods.filterByLevel(entries, PlayerLevel.Seaman);
         expect(str(entries)).toBe(entriesBefore);
         expect(str(seamen)).toBe(seamenExpected);
 
@@ -162,7 +162,7 @@ describe('HallMethods', () => {
     it('reduce shipboys with undefined', () => {
         const entriesBefore = str(undefined);
         const shipboysExpected = str([]);
-        const shipboys = HallMethods.reduceShipboysWithEntries(null, undefined);
+        const shipboys = HallMethods.filterByLevel(undefined, PlayerLevel.Shipboy);
         expect(str(undefined)).toBe(entriesBefore);
         expect(str(shipboys)).toBe(shipboysExpected);
     });
@@ -170,7 +170,7 @@ describe('HallMethods', () => {
     it('reduce shipboys with null', () => {
         const entriesBefore = str(null);
         const shipboysExpected = str([]);
-        const shipboys = HallMethods.reduceShipboysWithEntries(null, null);
+        const shipboys = HallMethods.filterByLevel(null, PlayerLevel.Shipboy);
         expect(str(null)).toBe(entriesBefore);
         expect(str(shipboys)).toBe(shipboysExpected);
     });
@@ -178,7 +178,7 @@ describe('HallMethods', () => {
     it('reduce shipboys with []', () => {
         const entriesBefore = str([]);
         const shipboysExpected = str([]);
-        const shipboys = HallMethods.reduceShipboysWithEntries(null, []);
+        const shipboys = HallMethods.filterByLevel([], PlayerLevel.Shipboy);
         expect(str([])).toBe(entriesBefore);
         expect(str(shipboys)).toBe(shipboysExpected);
     });
@@ -186,7 +186,7 @@ describe('HallMethods', () => {
     it('reduce shipboys with entries', () => {
         const entriesBefore = str(entries);
         const shipboysExpected = str([shipboy]);
-        const shipboys = HallMethods.reduceShipboysWithEntries(null, entries);
+        const shipboys = HallMethods.filterByLevel(entries, PlayerLevel.Shipboy);
         expect(str(entries)).toBe(entriesBefore);
         expect(str(shipboys)).toBe(shipboysExpected);
 
