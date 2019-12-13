@@ -72,6 +72,10 @@ export class PreparationComponent implements OnInit {
         return !(this._isValid) || this._waiting;
     }
 
+    get isWaiting(): boolean {
+        return this._waiting;
+    }
+
     onStart(event: any) {
         if (this.preparationInteractionService.onStart(event)) {
             event.preventDefault();
