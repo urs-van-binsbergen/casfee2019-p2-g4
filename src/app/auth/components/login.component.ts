@@ -6,8 +6,7 @@ import { RedirectService } from '../redirect.service';
 import { NotificationService } from '../notification.service';
 
 @Component({
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
 

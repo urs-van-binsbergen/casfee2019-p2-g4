@@ -11,8 +11,7 @@ import { WaitingPlayer } from '@cloud-api/core-models';
 
 @Component({
     selector: 'app-match',
-    templateUrl: './match.component.html',
-    styleUrls: ['./match.component.scss']
+    templateUrl: './match.component.html'
 })
 export class MatchComponent implements OnInit, OnDestroy {
 

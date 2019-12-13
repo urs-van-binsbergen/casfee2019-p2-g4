@@ -8,8 +8,7 @@ import { NotificationService } from '../../auth/notification.service';
 import { UserService } from '../user.service';
 
 @Component({
-    templateUrl: './update-profile.component.html',
-    styleUrls: ['./update-profile.component.scss']
+    templateUrl: './update-profile.component.html'
 })
 export class UpdateProfileComponent implements OnInit {
 

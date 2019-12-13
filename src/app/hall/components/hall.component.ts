@@ -5,8 +5,7 @@ import { CloudDataService } from '../../backend/cloud-data.service';
 import * as HallMethods from '../hall-methods';
 
 @Component({
-    templateUrl: './hall.component.html',
-    styleUrls: ['./hall.component.scss']
+    templateUrl: './hall.component.html'
 })
 export class HallComponent implements OnInit {
 
