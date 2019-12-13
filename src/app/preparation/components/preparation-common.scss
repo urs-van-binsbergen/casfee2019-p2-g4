@@ -25,6 +25,10 @@
     opacity: 0.5;
 }
 
+.ship:hover {
+    opacity: 0.75;
+}
+
 .key-20 {
     background-color: $color-ship-20;
 }

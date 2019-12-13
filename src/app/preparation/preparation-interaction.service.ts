@@ -3,7 +3,11 @@ import { PreparationDrop } from './preparation-models';
 import { Pos } from '@cloud-api/geometry';
 import { Observable, Subject } from 'rxjs';
 
-const delay = 500;
+const delay = 250;
+const shipOpacityDragging = 0.75;
+const shipOpacityPlaced = 0.5;
+const fieldOpacityEntered = 0.25;
+const fieldOpacityLeft = 1.0;
 
 enum ClickState {
     Idle,
@@ -56,20 +60,6 @@ function draggingXY(element: any): XY {
     };
 }
 
-function translateOffsetXY(transform: string): XY {
-    if (transform) {
-        const m = transform.match(/translate\((-?[0-9.]*)px,[ ]*(-?[0-9.]*)px\)/);
-        if (m && m[1] && m[2] && 2 < m.length) {
-            const x = parseFloat(m[1]);
-            const y = parseFloat(m[2]);
-            if (!(Number.isNaN(x)) && !(Number.isNaN(y))) {
-                return { x, y };
-            }
-        }
-    }
-    return { x: 0, y: 0 };
-}
-
 @Injectable()
 export class PreparationInteractionService {
 
@@ -100,9 +90,8 @@ export class PreparationInteractionService {
         if (this._clickState === ClickState.Idle) {
             const key = shipKey(event);
             if (key) {
-                const offset = translateOffsetXY(event.target.style.transform);
                 const dragging = draggingXY(event.target);
-                this._start = { x: (dragging.x - offset.x), y: (dragging.y - offset.y) };
+                this._start = { x: dragging.x, y: dragging.y };
                 this._target = event.target;
                 this._key = key;
                 this._clickState = ClickState.Pending;
@@ -119,7 +108,7 @@ export class PreparationInteractionService {
 
     private resetElementPos(): void {
         if (this._element) {
-            this._element.style.opacity = '1.0';
+            this._element.style.opacity = fieldOpacityLeft;
         }
         this._element = null;
         this._pos = null;
@@ -133,7 +122,7 @@ export class PreparationInteractionService {
             if (pos) {
                 this._element = element;
                 this._pos = pos;
-                this._element.style.opacity = '0';
+                this._element.style.opacity = fieldOpacityEntered;
             }
         }
     }
@@ -144,7 +133,7 @@ export class PreparationInteractionService {
             const x = client.x - this._start.x;
             const y = client.y - this._start.y;
             this._target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-            this._target.style.opacity = '0.5';
+            this._target.style.opacity = shipOpacityDragging;
             this.updateElementPos(client);
             return true;
         }
@@ -161,7 +150,7 @@ export class PreparationInteractionService {
                 if (!(this.onDrop())) {
                     this._target.style.transform = null;
                 }
-                this._target.style.opacity = '1.0';
+                this._target.style.opacity = shipOpacityPlaced;
                 break;
         }
         this._clickState = ClickState.Idle;
