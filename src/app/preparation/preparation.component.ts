@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CloudFunctionsService } from '../backend/cloud-functions.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { PreparationArgs } from '@cloud-api/arguments';
@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './preparation.component.html',
     styleUrls: ['./preparation.component.scss']
 })
-export class PreparationComponent implements OnInit {
+export class PreparationComponent implements OnInit, OnDestroy {
 
     private _yard: PreparationShip[];
     private _preparation: PreparationShip[];
@@ -50,6 +50,10 @@ export class PreparationComponent implements OnInit {
             this._isValid = PreparationMethods.reduceValidWithPreparation(this._isValid, this._preparation);
             this._isChanged = true;
         });
+    }
+
+    ngOnDestroy(): void {
+        this.hideError();
     }
 
     get yard(): PreparationShip[] {
@@ -94,6 +98,7 @@ export class PreparationComponent implements OnInit {
 
     onContinueClicked() {
         this._waiting = true;
+        this.hideError();
         const ships = PreparationMethods.createShips(this._preparation);
         const args: PreparationArgs = {
             size: { w: boardWidth, h: boardHeight },
@@ -102,22 +107,27 @@ export class PreparationComponent implements OnInit {
         this.cloudFunctions.addPreparation(args).subscribe(
             results => {
                 this._waiting = false;
+                this.hideError();
             },
             error => {
-                this.showError();
+                this._waiting = false;
+                this.showError('preparation.error');
             },
             () => {
                 this._waiting = false;
+                this.hideError();
             }
         );
     }
 
-    showError() {
-        const message = this.translate.instant('preparation.error');
-        const snackBarRef = this.snackBar.open(message, null, { duration: 3000 });
-        snackBarRef.afterDismissed().subscribe(() => {
-            this._waiting = false;
-        });
+    private hideError() {
+        this.snackBar.dismiss();
+    }
+
+    private showError(error: string) {
+        const message = this.translate.instant(error);
+        const close = this.translate.instant('button.close');
+        this.snackBar.open(message, close);
     }
 
 }

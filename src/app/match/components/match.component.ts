@@ -75,10 +75,10 @@ export class MatchComponent implements OnInit, OnDestroy {
 
     public onCancelClicked() {
         this._waiting = true;
+        this.hideError();
         this.cloudFunctions.removePreparation({}).toPromise()
             .then(results => {
                 this._waiting = false;
-                this.hideError();
                 this.router.navigateByUrl('/hall');
             })
             .catch(error => {
