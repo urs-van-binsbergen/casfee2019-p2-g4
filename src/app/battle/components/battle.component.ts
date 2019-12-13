@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { AuthStateService } from 'src/app/auth/auth-state.service';
 import { BattleBoard, BattleField } from '../battle-models';
@@ -6,7 +6,7 @@ import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { ShootArgs } from '@cloud-api/arguments';
 import { PlayerInfo, PlayerStatus } from '@cloud-api/core-models';
 import * as BattleMethods from '../battle-methods';
-import { NotificationService } from 'src/app/auth/notification.service';
+import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -14,23 +14,28 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './battle.component.html',
     styleUrls: ['./battle.component.scss']
 })
-export class BattleComponent implements OnInit {
+export class BattleComponent implements OnInit, OnDestroy {
 
     opponentInfo: PlayerInfo | null = null;
     targetBoard: BattleBoard | null = null;
     ownBoard: BattleBoard | null = null;
     playerStatus = PlayerStatus.Waiting;
+    private _capitulating: boolean;
 
     constructor(
         private authState: AuthStateService,
         private cloudData: CloudDataService,
         private cloudFunctions: CloudFunctionsService,
-        private notification: NotificationService,
+        private snackBar: MatSnackBar,
         private translate: TranslateService
     ) { }
 
     ngOnInit(): void {
         this.subscribeData();
+    }
+
+    ngOnDestroy(): void {
+        this.hideError();
     }
 
     get shootNow(): boolean {
@@ -47,9 +52,14 @@ export class BattleComponent implements OnInit {
             this.playerStatus !== PlayerStatus.Victory && this.playerStatus !== PlayerStatus.Waterloo;
     }
 
+    get isCapitulating(): boolean {
+        return this._capitulating;
+    }
+
     subscribeData() {
         this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
             player => {
+                this.hideError();
                 if (player && player.battle) {
                     this.opponentInfo = player.battle.opponentInfo;
                     this.targetBoard = BattleMethods.reduceTargetBoardWithPlayer(this.targetBoard, player);
@@ -63,9 +73,7 @@ export class BattleComponent implements OnInit {
                 }
             },
             error => {
-                const errorDetail = this.notification.localizeFirebaseError(error);
-                const msg = this.translate.instant('battle.apiError.loading', { errorDetail });
-                this.notification.toastToConfirm(msg);
+                this.showError('battle.error.state');
             }
         );
     }
@@ -80,14 +88,13 @@ export class BattleComponent implements OnInit {
             targetPos: field.pos
         };
 
+        this.hideError();
         this.cloudFunctions.shoot(args).toPromise()
             .then(results => {
             })
             .catch(error => {
                 this.targetBoard = BattleMethods.reduceBoardWithShootingFieldReset(this.targetBoard, field);
-                const errorDetail = this.notification.localizeFirebaseError(error);
-                const msg = this.translate.instant('battle.apiError.sending', { errorDetail });
-                this.notification.toastToConfirm(msg);
+                this.showError('battle.error.shoot');
             })
             ;
     }
@@ -97,15 +104,27 @@ export class BattleComponent implements OnInit {
     }
 
     onCapitulationClicked() {
+        this._capitulating = true;
+        this.hideError();
         this.cloudFunctions.capitulate({}).toPromise()
             .then(results => {
+                this._capitulating = false;
             })
             .catch(error => {
-                const errorDetail = this.notification.localizeFirebaseError(error);
-                const msg = this.translate.instant('battle.apiError.sending', { errorDetail });
-                this.notification.toastToConfirm(msg);
+                this._capitulating = false;
+                this.showError('battle.error.capitulation');
             })
             ;
+    }
+
+    private hideError() {
+        this.snackBar.dismiss();
+    }
+
+    private showError(error: string) {
+        const message = this.translate.instant(error);
+        const close = this.translate.instant('button.close');
+        this.snackBar.open(message, close);
     }
 
 }
