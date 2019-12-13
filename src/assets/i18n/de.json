@@ -90,6 +90,9 @@
             "auth/invalid-email": "E-Mail ungültig"
         }
     },
+    "game": {
+        "error": "Das Spiel ist unterbrochen. Könnte am Netzwerk liegen."
+    },
     "hall": {
         "admirals": "Admiralinnen",
         "captains": "Kapitäninnen",

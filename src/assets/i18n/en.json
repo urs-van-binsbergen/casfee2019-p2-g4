@@ -90,6 +90,9 @@
             "auth/invalid-email": "Email invalid"
         }
     },
+    "game": {
+        "error": "The Game is interrupted. Could be a network issue."
+    },
     "hall": {
         "admirals": "Admirals",
         "captains": "Captains",
