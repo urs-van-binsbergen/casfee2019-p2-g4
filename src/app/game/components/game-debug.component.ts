@@ -5,8 +5,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameDebugComponent implements OnInit {
 
-    showVictory: boolean;
-
     constructor(
     ) {
 

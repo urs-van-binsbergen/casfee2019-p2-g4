@@ -1,4 +1,5 @@
-.page-inset {
+:host {
+    display: block;
     max-width: 40rem;
 }
 
@@ -7,5 +8,7 @@
 }
 
 .my-battle-list {
+    display: block;
     margin-top: 2rem;
+    margin-bottom: 2rem;
 }
