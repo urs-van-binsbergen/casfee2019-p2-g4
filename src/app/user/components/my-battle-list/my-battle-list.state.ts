@@ -22,7 +22,7 @@ export function getInitialState(uid: string): MyBattleListState {
     };
 }
 
-export function reduceFromData(
+export function updateWithData(
     state: MyBattleListState,
     battles: HistoricBattle[],
     hallEntries: HallEntry[]
@@ -50,7 +50,7 @@ export function reduceFromData(
     };
 }
 
-export function reduceFromLoadFailure(state: MyBattleListState): MyBattleListState {
+export function updateWithLoadFailure(state: MyBattleListState): MyBattleListState {
     return {
         uid: state.uid,
         battles: [],

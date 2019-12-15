@@ -37,12 +37,12 @@ export class UserComponent implements OnInit, OnDestroy {
         this.authState.isLoggedIn$.subscribe(isLoggedIn => {
             if (!isLoggedIn) {
                 // Not authenticated
-                this.updateState(UserState.reduceWithUnauthenticatedState());
+                this.updateState(UserState.updateWithUnauthenticatedState());
                 this.unsubscribeData();
             } else {
                 // Authenticated
                 const authUser = this.authState.currentUser;
-                this.updateState(UserState.reduceWithAuthUser(this.state, authUser));
+                this.updateState(UserState.updateWithAuthUser(this.state, authUser));
                 this.subscribeData(authUser.uid);
             }
         });
@@ -66,7 +66,7 @@ export class UserComponent implements OnInit, OnDestroy {
         // anomaly so we do not care about the flash then.
         if (this.state.delayHandle) {
             setTimeout(() => {
-                this.state = UserState.reduceWithDelayCancel(this.state, state.delayHandle);
+                this.state = UserState.updateWithDelayCancel(this.state, state.delayHandle);
             }, 2000);
         }
     }
@@ -84,13 +84,13 @@ export class UserComponent implements OnInit, OnDestroy {
         this.userSubscription = this.cloudData.getUser$(uid).subscribe(
             user => {
                 if (user) {
-                    this.updateState(UserState.reduceWithUserData(this.state, user));
+                    this.updateState(UserState.updateWithUserData(this.state, user));
                 } else {
-                    this.updateState(UserState.reduceWithUserDataMissing(this.state));
+                    this.updateState(UserState.updateWithUserDataMissing(this.state));
                 }
             },
             error => {
-                this.updateState(UserState.reduceWithUserDataLoadFailure(this.state));
+                this.updateState(UserState.updateWithUserDataLoadFailure(this.state));
                 const errorDetail = this.notification.localizeFirebaseError(error);
                 const msg = this.translate.instant('user.profile.apiError.loading', { errorDetail });
                 this.notification.quickToast(msg, 2000);
@@ -103,10 +103,10 @@ export class UserComponent implements OnInit, OnDestroy {
         ])
             .then(results => {
                 const [battles, hallEntries] = results;
-                this.updateState(UserState.reduceWithHistoricBattles(this.state, battles, hallEntries));
+                this.updateState(UserState.updateWithHistoricBattles(this.state, battles, hallEntries));
             })
             .catch(error => {
-                this.updateState(UserState.reduceWithHistoricBattlesLoadFailure(this.state));
+                this.updateState(UserState.updateWithHistoricBattlesLoadFailure(this.state));
                 const errorDetail = this.notification.localizeFirebaseError(error);
                 const msg = this.translate.instant('user.myBattleList.apiError.loading', { errorDetail });
                 this.notification.quickToast(msg, 2000);

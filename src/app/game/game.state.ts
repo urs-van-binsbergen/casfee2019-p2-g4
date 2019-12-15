@@ -18,7 +18,7 @@ export function getInitialState(): State {
     };
 }
 
-export function reduceWithPlayer(oldState: State, player: Player): State {
+export function updateWithPlayer(oldState: State, player: Player): State {
     const initialState = getInitialState();
     const playerStatus = player ? player.playerStatus : PlayerStatus.Preparing;
     switch (playerStatus) {

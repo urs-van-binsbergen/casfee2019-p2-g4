@@ -40,7 +40,7 @@ export function getInitialState(): State {
     };
 }
 
-export function reduceWithAuthUser(state: State, authUser: AuthUser): State {
+export function updateWithAuthUser(state: State, authUser: AuthUser): State {
     const authState = {
         isAuthenticated: true,
         uid: authUser.uid,
@@ -67,7 +67,7 @@ export function reduceWithAuthUser(state: State, authUser: AuthUser): State {
     };
 }
 
-export function reduceWithUnauthenticatedState(): State {
+export function updateWithUnauthenticatedState(): State {
     return {
         isAuthenticated: false,
         ...getInitialDataState(),
@@ -75,7 +75,7 @@ export function reduceWithUnauthenticatedState(): State {
     };
 }
 
-export function reduceWithUserData(state: State, user: User): State {
+export function updateWithUserData(state: State, user: User): State {
     return {
         ...state,
         isDataLoaded: true,
@@ -87,7 +87,7 @@ export function reduceWithUserData(state: State, user: User): State {
     };
 }
 
-export function reduceWithUserDataMissing(state: State): State {
+export function updateWithUserDataMissing(state: State): State {
     return {
         ...state,
         ...getInitialDataState(),
@@ -97,7 +97,7 @@ export function reduceWithUserDataMissing(state: State): State {
     };
 }
 
-export function reduceWithUserDataLoadFailure(state: State): State {
+export function updateWithUserDataLoadFailure(state: State): State {
     return {
         ...state,
         ...getInitialDataState(),
@@ -105,7 +105,7 @@ export function reduceWithUserDataLoadFailure(state: State): State {
     };
 }
 
-export function reduceWithDelayCancel(state: State, handle: number): State {
+export function updateWithDelayCancel(state: State, handle: number): State {
     if (!handle) {
         return state;
     }
@@ -118,16 +118,16 @@ export function reduceWithDelayCancel(state: State, handle: number): State {
     };
 }
 
-export function reduceWithHistoricBattles(state: State, battles: HistoricBattle[], hallEntries: HallEntry[]): State {
+export function updateWithHistoricBattles(state: State, battles: HistoricBattle[], hallEntries: HallEntry[]): State {
     return {
         ...state,
-        myBattleList: BattleListState.reduceFromData(state.myBattleList, battles, hallEntries)
+        myBattleList: BattleListState.updateWithData(state.myBattleList, battles, hallEntries)
     };
 }
 
-export function reduceWithHistoricBattlesLoadFailure(state: State): State {
+export function updateWithHistoricBattlesLoadFailure(state: State): State {
     return {
         ...state,
-        myBattleList: BattleListState.reduceFromLoadFailure(state.myBattleList)
+        myBattleList: BattleListState.updateWithLoadFailure(state.myBattleList)
     };
 }
