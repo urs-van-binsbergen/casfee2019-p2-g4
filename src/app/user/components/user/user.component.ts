@@ -4,7 +4,7 @@ import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
-import * as UserState from 'src/app/user/components/user.state';
+import * as UserState from 'src/app/user/components/user/user.state';
 import { NotificationService } from 'src/app/auth/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 

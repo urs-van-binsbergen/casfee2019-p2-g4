@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthStateService } from '../auth/auth-state.service';
+import { AuthStateService } from '../../../auth/auth-state.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 

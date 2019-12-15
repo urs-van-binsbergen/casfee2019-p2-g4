@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { RedirectService } from '../../auth/redirect.service';
-import { AuthStateService } from '../../auth/auth-state.service';
-import { NotificationService } from '../../auth/notification.service';
-import { UserService } from '../user.service';
+import { AuthStateService } from 'src/app/auth/auth-state.service';
+import { RedirectService } from 'src/app/auth/redirect.service';
+import { NotificationService } from 'src/app/auth/notification.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
     templateUrl: './update-profile.component.html'
@@ -23,7 +23,7 @@ export class UpdateProfileComponent implements OnInit {
         private location: Location,
         private translate: TranslateService,
         private authStateService: AuthStateService,
-        private userService: UserService,
+        private authService: AuthService,
         private redirect: RedirectService,
         private notification: NotificationService,
     ) { }
@@ -41,7 +41,7 @@ export class UpdateProfileComponent implements OnInit {
         this.waiting = true;
 
         // Set display name
-        this.userService.updateProfile(this.displayName.value)
+        this.authService.updateProfile(this.displayName.value)
             .then(() => {
                 this.waiting = false;
                 const msg = this.translate.instant('user.updateProfile.successMessage');

@@ -1,5 +1,5 @@
 import { AuthUser } from 'src/app/auth/auth-state.service';
-import * as BattleListState from './my-battle-list.state';
+import * as BattleListState from '../my-battle-list/my-battle-list.state';
 import { User, PlayerLevel, HistoricBattle, HallEntry } from '@cloud-api/core-models';
 
 interface DataState {
