@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { MyBattleListState } from './my-battle-list.state';
+import { BattleListModel } from './my-battle-list.model';
 
 @Component({
     selector: 'app-my-battle-list',
     templateUrl: './my-battle-list.component.html'
 })
 export class MyBattleListComponent {
-    @Input() state: MyBattleListState;
+    @Input() myBattleList: BattleListModel;
 
     displayedColumns: string[] = ['endDate', 'opponent', 'result'];
 

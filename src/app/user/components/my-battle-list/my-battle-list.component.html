@@ -1,20 +1,16 @@
 <div class="mat-typography">
 
-    <p *ngIf="!state.isLoadingDone">
+    <p *ngIf="!myBattleList.isLoadingDone">
         <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
     </p>
 
-    <p *ngIf="state.isLoadingDone && state.isLoadFailure">
-        <span>?</span>
-    </p>
-
-    <p *ngIf="state.isLoadingDone && !state.isLoadFailure && state.battles.length === 0">
+    <p *ngIf="myBattleList.isLoadingDone && !myBattleList.isLoadFailure && myBattleList.battles.length === 0">
         <span translate>user.myBattleList.noBattleYet</span>
     </p>
 
 
-    <table mat-table [dataSource]="state.battles" class="mat-elevation-z8"
-        *ngIf="state.isLoadingDone && state.battles.length > 0" style="width:100%">
+    <table mat-table [dataSource]="myBattleList.battles" class="mat-elevation-z8"
+        *ngIf="myBattleList.isLoadingDone && myBattleList.battles.length > 0" style="width:100%">
 
         <ng-container matColumnDef="endDate">
             <th mat-header-cell *matHeaderCellDef translate>user.myBattleList.endDate</th>

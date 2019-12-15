@@ -1,71 +1,38 @@
-<div *ngIf="!state.isAuthenticated" class="page-inset mat-typography">
+<div *ngIf="!authUser" class="page-inset mat-typography">
     <a routerLink="/auth/login">Login</a>
 </div>
 
 
-<div *ngIf="state.isAuthenticated" class="page-inset mat-typography">
-    <button *ngIf="state.isAuthenticated" mat-button (click)="logout()" mat-stroked-button color="primary"
-        class="logout-button">
+<div *ngIf="authUser" class="page-inset mat-typography">
+    <button mat-button (click)="logout()" mat-stroked-button color="primary" class="logout-button">
         {{ 'user.profile.logoutButton' | translate }}</button>
 
     <h2 translate>user.profile.title</h2>
-
-    <p *ngIf="state.isMissingData && !state.delayHandle">
-        <!-- (no translate because this is an anomaly) -->
-        <mat-icon>warning</mat-icon>
-        User document not found. You won't be able to play
-        before you create it (use the '{{ 'user.profile.updateProfileButton' | translate }}' button).
-    </p>
-
 
     <mat-card>
         <mat-list>
             <mat-list-item>
                 <div>
                     <div class="mat-caption">{{ 'user.profile.displayName' | translate }}</div>
-                    <div>{{ state.displayName }}</div>
+                    <div>{{ authUser.displayName }}</div>
                 </div>
             </mat-list-item>
-            <ng-container
-                *ngIf="state.isDataLoaded && state.dataDisplayName !== state.displayName && !state.delayHandle">
-                <mat-list-item>
-                    <div>
-                        <!-- (no translate because this is an anomaly) -->
-                        <div class="mat-caption">Different display name in database</div>
-                        <div>
-                            {{ state.dataDisplayName }}
-                        </div>
-                    </div>
-                </mat-list-item>
-            </ng-container>
-
             <mat-list-item>
                 <div>
                     <div class="mat-caption">{{ 'user.profile.username' | translate }}</div>
                     <div>
-                        {{ state.email }}
-                        {{ state.emailVerified ? '(verified)' : '' }}
+                        {{ authUser.email }}
+                        {{ authUser.emailVerified ? '(verified)' : '' }}
                     </div>
                 </div>
             </mat-list-item>
-
-            <ng-container *ngIf="state.isDataLoaded && state.dataEmail !== state.email && !state.delayHandle">
-                <mat-list-item>
-                    <div>
-                        <!-- (no translate because this is an anomaly) -->
-                        <div class="mat-caption">Different Email in database</div>
-                        <div>
-                            {{ state.dataEmail }}
-                        </div>
-                    </div>
-                </mat-list-item>
-            </ng-container>
-
             <mat-list-item>
                 <div>
                     <div class="mat-caption">{{ 'user.profile.level' | translate }}</div>
-                    <div><span *ngIf="state.level"
-                            translate>{{ 'common.enum.PlayerLevel.' + state.level | translate }}</span></div>
+                    <div>
+                        <span *ngIf="level" translate>{{ 'common.enum.PlayerLevel.' + level | translate }}</span>
+                        <span *ngIf="!level" translate>...</span>
+                    </div>
                 </div>
             </mat-list-item>
         </mat-list>
@@ -77,9 +44,9 @@
         </div>
     </mat-card>
 
-    <div class="my-battle-list">
+    <div class="my-battle-list" *ngIf="myBattleList">
         <h2 translate>user.myBattleList.title</h2>
-        <app-my-battle-list *ngIf="state.myBattleList" [state]="state.myBattleList">
+        <app-my-battle-list *ngIf="myBattleList" [myBattleList]="myBattleList">
         </app-my-battle-list>
     </div>
 </div>

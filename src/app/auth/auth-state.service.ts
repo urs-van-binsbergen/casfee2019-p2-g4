@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { map } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
 
 
 export interface AuthUser {
@@ -12,40 +11,33 @@ export interface AuthUser {
 }
 
 /*
- * Service to track the current auth state
- * (logged in? if so, user details?)
+ * Service to get the current auth state
  */
 @Injectable()
-export class AuthStateService {
+export class AuthStateService implements OnDestroy {
 
     public currentUser: AuthUser;
+    private authStateSubscription: Subscription;
+    public currentUser$: BehaviorSubject<AuthUser>;
 
     constructor(
         private afAuth: AngularFireAuth
     ) {
-        this.doSubscribe();
-    }
-
-    /*
-     * Subscribe to firebase AuthState
-     */
-    private doSubscribe(): Subscription {
-        return this.afAuth.authState.subscribe(
+        this.authStateSubscription = this.afAuth.authState.subscribe(
             firebaseUser => {
-                const authUser = this.convert(firebaseUser);
+                const authUser = firebaseUser ? this.convert(firebaseUser) : null;
                 this.currentUser = authUser;
-            },
-            error => console.error('error from authState subscription', error) // TODO error handling
+                this.currentUser$.next(authUser);
+            }
         );
+
+        this.currentUser$ = new BehaviorSubject<AuthUser>(null);
     }
 
     /*
-     * Converts 'firebase.User' to an impl-agnostic model
+     * Convert 'firebase.User' to an technology-agnostic model
      */
     private convert(firebaseUser: firebase.User): AuthUser {
-        if (!firebaseUser) {
-            return null;
-        }
         return {
             uid: firebaseUser.uid,
             displayName: firebaseUser.displayName || 'no name',
@@ -55,13 +47,19 @@ export class AuthStateService {
     }
 
     /*
-     * Observable login state (for consumers which need to be able to
-     * await a result, i.e. AuthGuard).
+     * Update display name in current local state (use for optimistic updates)
      */
-    public get isLoggedIn$(): Observable<boolean> {
-        return this.afAuth.authState.pipe(
-            map(user => !!user)
-        );
+    public updateDisplayName(displayName: string): void {
+        const currentUser = this.currentUser$.getValue();
+        if (currentUser) {
+            const updatedUser = { ...currentUser, displayName };
+            this.currentUser$.next(updatedUser);
+            this.currentUser = updatedUser;
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.authStateSubscription.unsubscribe();
     }
 
 }
