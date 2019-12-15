@@ -30,8 +30,11 @@
         </div>
 
         <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
-            <button mat-raised-button color="accent" class="standard-button-width"
+            <button mat-raised-button color="accent" class="standard-button-width" [disabled]="isCapitulating"
                 (click)="onCapitulationClicked()">{{'button.capitulation' | translate}}</button>
+            <div class="spinner-cell">
+                <mat-spinner *ngIf="isCapitulating" diameter="22" style="display: inline-block"></mat-spinner>
+            </div>
         </div>
     </div>
 </div>

@@ -7,8 +7,7 @@ import { RedirectService } from '../redirect.service';
 import { NotificationService } from '../notification.service';
 
 @Component({
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss']
+    templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit {
 

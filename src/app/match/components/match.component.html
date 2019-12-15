@@ -6,8 +6,13 @@
         <app-match-items *ngIf="hasItems" class="match-items" [items]="items" (addChallenge)="onAddChallenge($event)"
             (removeChallenge)="onRemoveChallenge($event)">
         </app-match-items>
-        <button mat-raised-button (click)="onCancelClicked()" color="basic">
-            <span translate>match.cancelButton</span>
-        </button>
+        <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
+            <button mat-raised-button (click)="onCancelClicked()" [disabled]="isWaiting" color="basic">
+                <span translate>match.cancelButton</span>
+            </button>
+            <div class="spinner-cell">
+                <mat-spinner *ngIf="isWaiting" diameter="22" style="display: inline-block"></mat-spinner>
+            </div>
+        </div>
     </div>
 </div>

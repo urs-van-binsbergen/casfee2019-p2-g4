@@ -7,8 +7,7 @@ export class ContinueCancelDialogData {
 }
 
 @Component({
-    templateUrl: './continue-cancel-dialog.component.html',
-    styleUrls: ['./continue-cancel-dialog.component.scss']
+    templateUrl: './continue-cancel-dialog.component.html'
 })
 export class ContinueCancelDialogComponent {
     constructor(

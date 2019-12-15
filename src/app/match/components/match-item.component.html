@@ -1,13 +1,9 @@
-<div class="item mat-typography mat-card" [class.challenging]="item.isOpponentChallenging">
-    <div *ngIf="item.isOpponentChallenging" class="opponent-is-challenging">
-        {{'match.item.challenging' | translate}}
-    </div>
-    <div *ngIf="!item.isOpponentChallenging" class="opponent-is-challenging">?</div>
+<div class="item mat-typography mat-card">
     <div class="avatar">Avatar</div>
     <div class="name">{{item.opponentName}}</div>
-    <div class="statistic">{{item.victories}}:{{item.defeats}}</div>
     <mat-checkbox [ngModel]="item.isOpponentChallenged" (ngModelChange)="onChallengeChange($event)"
         class="opponent-is-challenged">
-        {{'match.item.challenged' | translate}}
+        <span *ngIf="item.isOpponentChallenging" class="challenging">{{'match.item.accept' | translate}}</span>
+        <span *ngIf="!item.isOpponentChallenging">{{'match.item.challenged' | translate}}</span>
     </mat-checkbox>
 </div>

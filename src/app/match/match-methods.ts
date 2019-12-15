@@ -1,7 +1,7 @@
 import { MatchItem, MatchState } from './match-models';
 import { Challenge, WaitingPlayer } from '@cloud-api/core-models';
 
-export function reduceMatchItemsWithWaitingPlayers(state: MatchItem[], action: WaitingPlayer[], uid: string): MatchItem[] {
+export function updateMatchItemsWithWaitingPlayers(state: MatchItem[], action: WaitingPlayer[], uid: string): MatchItem[] {
     if (action && uid) {
         const myWaitingPlayers = action.filter(
             waitingPlayer => {
@@ -46,7 +46,7 @@ export function reduceMatchItemsWithWaitingPlayers(state: MatchItem[], action: W
     return [];
 }
 
-export function reduceMatchStateWithWaitingPlayers(state: MatchState, action: WaitingPlayer[], uid: string): MatchState {
+export function updateMatchStateWithWaitingPlayers(state: MatchState, action: WaitingPlayer[], uid: string): MatchState {
     if (action && uid) {
         const myWaitingPlayers = action.filter(
             waitingPlayer => {

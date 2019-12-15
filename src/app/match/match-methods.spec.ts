@@ -80,7 +80,7 @@ describe('MatchMethods reduce MatchState', () => {
         const state = MatchState.Started;
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.reduceMatchStateWithWaitingPlayers(state, action, undefined);
+        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, undefined);
         expect(matchState).toBe(MatchState.Idle);
         expect(str(action)).toBe(actionBefore);
     });
@@ -89,7 +89,7 @@ describe('MatchMethods reduce MatchState', () => {
         const state = MatchState.Started;
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.reduceMatchStateWithWaitingPlayers(state, action, null);
+        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, null);
         expect(matchState).toBe(MatchState.Idle);
         expect(str(action)).toBe(actionBefore);
     });
@@ -97,14 +97,14 @@ describe('MatchMethods reduce MatchState', () => {
     it('with undefined action (* --> Idle)', () => {
         const state = MatchState.Started;
         const uid = 'cinque';
-        const matchState = MatchMethods.reduceMatchStateWithWaitingPlayers(state, undefined, uid);
+        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, undefined, uid);
         expect(matchState).toBe(MatchState.Idle);
     });
 
     it('with action set to null (* --> Idle)', () => {
         const state = MatchState.Started;
         const uid = 'cinque';
-        const matchState = MatchMethods.reduceMatchStateWithWaitingPlayers(state, null, uid);
+        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, null, uid);
         expect(matchState).toBe(MatchState.Idle);
     });
 
@@ -113,7 +113,7 @@ describe('MatchMethods reduce MatchState', () => {
         const uid = 'cinque';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.reduceMatchStateWithWaitingPlayers(state, action, uid);
+        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
         expect(matchState).toBe(MatchState.Idle);
         expect(str(action)).toBe(actionBefore);
     });
@@ -123,7 +123,7 @@ describe('MatchMethods reduce MatchState', () => {
         const uid = 'cinque';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.reduceMatchStateWithWaitingPlayers(state, action, uid);
+        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
         expect(matchState).toBe(MatchState.Completed);
         expect(str(action)).toBe(actionBefore);
     });
@@ -133,7 +133,7 @@ describe('MatchMethods reduce MatchState', () => {
         const uid = 'cinque';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.reduceMatchStateWithWaitingPlayers(state, action, uid);
+        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
         expect(matchState).toBe(MatchState.Completed);
         expect(str(action)).toBe(actionBefore);
     });
@@ -143,7 +143,7 @@ describe('MatchMethods reduce MatchState', () => {
         const uid = 'uno';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.reduceMatchStateWithWaitingPlayers(state, action, uid);
+        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
         expect(matchState).toBe(MatchState.Started);
         expect(str(action)).toBe(actionBefore);
     });
@@ -153,7 +153,7 @@ describe('MatchMethods reduce MatchState', () => {
         const uid = 'uno';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.reduceMatchStateWithWaitingPlayers(state, action, uid);
+        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
         expect(matchState).toBe(MatchState.Started);
         expect(str(action)).toBe(actionBefore);
     });
@@ -165,7 +165,7 @@ describe('MatchMethods reduce MatchState', () => {
             return waitingPlayer.uid !== uid;
         });
         const actionBefore = str(action);
-        const matchState = MatchMethods.reduceMatchStateWithWaitingPlayers(state, action, uid);
+        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
         expect(matchState).toBe(MatchState.Completed);
         expect(str(action)).toBe(actionBefore);
     });
@@ -183,7 +183,7 @@ describe('MatchMethods reduce MatchItems', () => {
     it('with undefined uid', () => {
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchItems = MatchMethods.reduceMatchItemsWithWaitingPlayers(null, action, undefined);
+        const matchItems = MatchMethods.updateMatchItemsWithWaitingPlayers(null, action, undefined);
         expect(str(matchItems)).toBe(str([]));
         expect(str(action)).toBe(actionBefore);
     });
@@ -191,26 +191,26 @@ describe('MatchMethods reduce MatchItems', () => {
     it('with uid set to null', () => {
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchItems = MatchMethods.reduceMatchItemsWithWaitingPlayers(null, action, null);
+        const matchItems = MatchMethods.updateMatchItemsWithWaitingPlayers(null, action, null);
         expect(str(matchItems)).toBe(str([]));
         expect(str(action)).toBe(actionBefore);
     });
 
     it('with undefined action', () => {
         const uid = 'cinque';
-        const matchItems = MatchMethods.reduceMatchItemsWithWaitingPlayers(null, undefined, uid);
+        const matchItems = MatchMethods.updateMatchItemsWithWaitingPlayers(null, undefined, uid);
         expect(str(matchItems)).toBe(str([]));
     });
 
     it('with action set to null', () => {
         const uid = 'cinque';
-        const matchItems = MatchMethods.reduceMatchItemsWithWaitingPlayers(null, null, uid);
+        const matchItems = MatchMethods.updateMatchItemsWithWaitingPlayers(null, null, uid);
         expect(str(matchItems)).toBe(str([]));
     });
 
     it('with action set to null', () => {
         const uid = 'cinque';
-        const matchItems = MatchMethods.reduceMatchItemsWithWaitingPlayers(null, null, uid);
+        const matchItems = MatchMethods.updateMatchItemsWithWaitingPlayers(null, null, uid);
         expect(str(matchItems)).toBe(str([]));
     });
 
@@ -218,7 +218,7 @@ describe('MatchMethods reduce MatchItems', () => {
         const uid = 'cinque';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchItems = MatchMethods.reduceMatchItemsWithWaitingPlayers(null, action, uid);
+        const matchItems = MatchMethods.updateMatchItemsWithWaitingPlayers(null, action, uid);
         expect(str(matchItems)).toBe(str([]));
         expect(str(action)).toBe(actionBefore);
     });
@@ -227,7 +227,7 @@ describe('MatchMethods reduce MatchItems', () => {
         const uid = 'uno';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchItems = MatchMethods.reduceMatchItemsWithWaitingPlayers(null, action, uid);
+        const matchItems = MatchMethods.updateMatchItemsWithWaitingPlayers(null, action, uid);
         expect(str(matchItems)).toBe(str([
             {
                 opponentUid: 'due',
@@ -253,7 +253,7 @@ describe('MatchMethods reduce MatchItems', () => {
         const uid = 'due';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchItems = MatchMethods.reduceMatchItemsWithWaitingPlayers(null, action, uid);
+        const matchItems = MatchMethods.updateMatchItemsWithWaitingPlayers(null, action, uid);
         expect(str(matchItems)).toBe(str([
             {
                 opponentUid: 'uno',
@@ -279,7 +279,7 @@ describe('MatchMethods reduce MatchItems', () => {
         const uid = 'tre';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchItems = MatchMethods.reduceMatchItemsWithWaitingPlayers(null, action, uid);
+        const matchItems = MatchMethods.updateMatchItemsWithWaitingPlayers(null, action, uid);
         expect(str(matchItems)).toBe(str([
             {
                 opponentUid: 'uno',

@@ -7,8 +7,7 @@ import { RedirectService } from 'src/app/auth/redirect.service';
 import { UserService } from '../user.service';
 
 @Component({
-    templateUrl: './update-password.component.html',
-    styleUrls: ['./update-password.component.scss']
+    templateUrl: './update-password.component.html'
 })
 export class UpdatePasswordComponent {
     oldPassword = new FormControl('', [Validators.required]);

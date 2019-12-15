@@ -7,8 +7,7 @@ import { RedirectService } from '../redirect.service';
 import { NotificationService } from '../notification.service';
 
 @Component({
-    templateUrl: './reset-password.component.html',
-    styleUrls: ['./reset-password.component.scss']
+    templateUrl: './reset-password.component.html'
 })
 export class ResetPasswordComponent implements OnInit {
 

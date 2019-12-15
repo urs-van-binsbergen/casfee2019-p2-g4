@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { PreparationComponent } from './preparation.component';
+import { PreparationComponent } from './components/preparation.component';
 import { ContinueCancelDialogComponent, ContinueCancelDialogData } from '../dialog/continue-cancel-dialog.component';
 
 @Injectable()
