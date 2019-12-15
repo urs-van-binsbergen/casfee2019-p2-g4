@@ -67,14 +67,14 @@ a:hover {
 }
 
 .page-inset {
-    margin: 3px;
+    margin: 0.5rem;
 
     @media screen and (min-width: 370px) {
-        margin: 16px 16px;
+        margin: 1rem 1rem;
     }
 
     @media screen and (min-width:600px) {
-        margin: 32px 16px;
+        margin: 2rem 1rem;
     }
 
 }
