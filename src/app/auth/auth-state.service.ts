@@ -32,11 +32,10 @@ export class AuthStateService {
     private doSubscribe(): Subscription {
         return this.afAuth.authState.subscribe(
             firebaseUser => {
-                console.log('authStateChanged');
                 const authUser = this.convert(firebaseUser);
                 this.currentUser = authUser;
             },
-            error => console.error('error from authState subscription', error)
+            error => console.error('error from authState subscription', error) // TODO error handling
         );
     }
 

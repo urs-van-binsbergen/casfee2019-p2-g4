@@ -49,7 +49,6 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        console.log('DESTROY');
         this.unsubscribeData();
     }
 
@@ -76,14 +75,12 @@ export class UserComponent implements OnInit, OnDestroy {
         if (this.userSubscription) {
             if (this.subscribedUid !== uid) {
                 // already subscribed, but to a different uid
-                console.log('already subscribed, but to a different uid. unsubscribe first.');
                 this.userSubscription.unsubscribe();
             } else {
                 // already subscribed > ok
                 return;
             }
         }
-        console.log('SUBSCRIBE USER DATA');
         this.userSubscription = this.cloudData.getUser$(uid).subscribe(
             user => {
                 if (user) {
@@ -100,7 +97,6 @@ export class UserComponent implements OnInit, OnDestroy {
             }
         );
 
-        console.log('LOAD BATTLES');
         Promise.all([
             this.cloudData.getHistoricBattlesOf(uid),
             this.cloudData.getHallEntries()
@@ -120,7 +116,6 @@ export class UserComponent implements OnInit, OnDestroy {
 
     private unsubscribeData() {
         if (this.userSubscription) {
-            console.log('UNSUBSCRIBE');
             this.userSubscription.unsubscribe();
             this.userSubscription = null;
         }

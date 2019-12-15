@@ -33,7 +33,6 @@ function getInitialDataState(): DataState {
 }
 
 export function getInitialState(): State {
-    console.log('getInitialState');
     return {
         isAuthenticated: false,
         ...getInitialDataState(),
@@ -42,7 +41,6 @@ export function getInitialState(): State {
 }
 
 export function reduceWithAuthUser(state: State, authUser: AuthUser): State {
-    console.log('reduceWithAuthUser');
     const authState = {
         isAuthenticated: true,
         uid: authUser.uid,
@@ -70,7 +68,6 @@ export function reduceWithAuthUser(state: State, authUser: AuthUser): State {
 }
 
 export function reduceWithUnauthenticatedState(): State {
-    console.log('reduceWithUnauthenticatedState');
     return {
         isAuthenticated: false,
         ...getInitialDataState(),
@@ -79,7 +76,6 @@ export function reduceWithUnauthenticatedState(): State {
 }
 
 export function reduceWithUserData(state: State, user: User): State {
-    console.log('reduceWithUserData');
     return {
         ...state,
         isDataLoaded: true,
@@ -92,7 +88,6 @@ export function reduceWithUserData(state: State, user: User): State {
 }
 
 export function reduceWithUserDataMissing(state: State): State {
-    console.log('reduceWithMissingUserData');
     return {
         ...state,
         ...getInitialDataState(),
@@ -103,7 +98,6 @@ export function reduceWithUserDataMissing(state: State): State {
 }
 
 export function reduceWithUserDataLoadFailure(state: State): State {
-    console.log('reduceWithUserDataLoadFailure');
     return {
         ...state,
         ...getInitialDataState(),
@@ -113,14 +107,11 @@ export function reduceWithUserDataLoadFailure(state: State): State {
 
 export function reduceWithDelayCancel(state: State, handle: number): State {
     if (!handle) {
-        console.log('reduceWithDelayCancel', 'no delay');
         return state;
     }
     if (handle !== state.delayHandle) {
-        console.log('reduceWithDelayCancel', 'ignore handle', handle, 'when handle in state is', state.delayHandle);
         return state;
     }
-    console.log('reduceWithDelayCancel', 'cancel', handle);
     return {
         ...state,
         delayHandle: 0
@@ -128,7 +119,6 @@ export function reduceWithDelayCancel(state: State, handle: number): State {
 }
 
 export function reduceWithHistoricBattles(state: State, battles: HistoricBattle[], hallEntries: HallEntry[]): State {
-    console.log('reduceWithHistoricBattles');
     return {
         ...state,
         myBattleList: BattleListState.reduceFromData(state.myBattleList, battles, hallEntries)
@@ -136,7 +126,6 @@ export function reduceWithHistoricBattles(state: State, battles: HistoricBattle[
 }
 
 export function reduceWithHistoricBattlesLoadFailure(state: State): State {
-    console.log('reduceWithHistoricBattlesLoadFailure');
     return {
         ...state,
         myBattleList: BattleListState.reduceFromLoadFailure(state.myBattleList)
