@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { NotificationService } from 'src/app/auth/notification.service';
 import { UserService } from '../../user.service';
-import { User, PlayerLevel } from '@cloud-api/core-models';
+import { PlayerLevel } from '@cloud-api/core-models';
 import { BattleListModel, getBattleListModel } from '../my-battle-list/my-battle-list.model';
 
 @Component({
@@ -16,7 +16,6 @@ import { BattleListModel, getBattleListModel } from '../my-battle-list/my-battle
 })
 export class UserComponent implements OnInit {
 
-    userData: User;
     authUser: AuthUser;
     level: string;
     myBattleList: BattleListModel;
@@ -36,12 +35,12 @@ export class UserComponent implements OnInit {
         this.userService.authUser$.subscribe(authUser => {
             this.authUser = authUser;
 
-            // Get user data from databse
+            // get level from db data
             this.userService.userData$.subscribe(userData => {
-                this.userData = userData;
+                this.level = userData ? PlayerLevel[userData.level] : null;
             });
 
-            // Load stats from database (once)
+            // Load stats from db data (once)
             if (!authUser) {
                 this.myBattleList = null;
                 this.level = null;
@@ -54,8 +53,6 @@ export class UserComponent implements OnInit {
                 .then(results => {
                     const [battles, hallEntries] = results;
                     this.myBattleList = getBattleListModel(authUser.uid, battles, hallEntries);
-                    const myHallEntry = hallEntries.find(x => x.playerInfo.uid === authUser.uid);
-                    this.level = myHallEntry ? PlayerLevel[myHallEntry.playerInfo.level] : null;
                 })
                 .catch(error => {
                     this.myBattleList = { battles: [], isLoadFailure: true };

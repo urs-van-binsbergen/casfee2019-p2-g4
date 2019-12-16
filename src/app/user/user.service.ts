@@ -36,19 +36,19 @@ export class UserService {
     }
 
     public updateProfile(displayName: string): Promise<void> {
-        const dbUser = this.userData$.getValue();
+        const userData = this.userData$.getValue();
         return this.authService.updateProfile(displayName)
             .then(() => {
                 this.cloudFunctions.updateUser({
                     displayName,
-                    avatarFileName: dbUser.avatarFileName,
-                    email: dbUser.email
+                    avatarFileName: userData.avatarFileName,
+                    email: userData.email
                 })
                     .toPromise()
                     .then(() => {
                         // optimistic update (not awaiting update from database)
                         this.userData$.next({
-                            ...dbUser,
+                            ...userData,
                             displayName
                         });
                     });
