@@ -13,6 +13,8 @@ import { AngularFireFunctionsModule, FUNCTIONS_REGION } from '@angular/fire/func
 
 import { SharedModule, createTranslateLoader } from './shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,6 +44,13 @@ import { BackendModule } from './backend/backend.module';
                 deps: [HttpClient]
             },
             isolate: false
+        }),
+        NgxsModule.forRoot(
+            [],
+            { developmentMode: !environment.production },
+        ),
+        NgxsReduxDevtoolsPluginModule.forRoot({
+            disabled: environment.production,
         }),
         AppRoutingModule,
 
