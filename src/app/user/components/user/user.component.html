@@ -1,0 +1,52 @@
+<div *ngIf="!authUser" class="page-inset mat-typography">
+    <a routerLink="/auth/login">Login</a>
+</div>
+
+
+<div *ngIf="authUser" class="page-inset mat-typography">
+    <button mat-button (click)="logout()" mat-stroked-button color="primary" class="logout-button">
+        {{ 'user.profile.logoutButton' | translate }}</button>
+
+    <h2 translate>user.profile.title</h2>
+
+    <mat-card>
+        <mat-list>
+            <mat-list-item>
+                <div>
+                    <div class="mat-caption">{{ 'user.profile.displayName' | translate }}</div>
+                    <div>{{ authUser.displayName }}</div>
+                </div>
+            </mat-list-item>
+            <mat-list-item>
+                <div>
+                    <div class="mat-caption">{{ 'user.profile.username' | translate }}</div>
+                    <div>
+                        {{ authUser.email }}
+                        {{ authUser.emailVerified ? '(verified)' : '' }}
+                    </div>
+                </div>
+            </mat-list-item>
+            <mat-list-item>
+                <div>
+                    <div class="mat-caption">{{ 'user.profile.level' | translate }}</div>
+                    <div>
+                        <span *ngIf="level" translate>{{ 'common.enum.PlayerLevel.' + level | translate }}</span>
+                        <span *ngIf="!level" translate>...</span>
+                    </div>
+                </div>
+            </mat-list-item>
+        </mat-list>
+        <div class="button-row">
+            <button mat-button routerLink="update-profile" color="primary">
+                {{ 'user.profile.updateProfileButton' | translate }}</button>
+            <button mat-button routerLink="/auth/update-password" color="primary">
+                {{ 'user.profile.updatePasswordButton' | translate }}</button>
+        </div>
+    </mat-card>
+
+    <div class="my-battle-list" *ngIf="myBattleList">
+        <h2 translate>user.myBattleList.title</h2>
+        <app-my-battle-list *ngIf="myBattleList" [myBattleList]="myBattleList">
+        </app-my-battle-list>
+    </div>
+</div>

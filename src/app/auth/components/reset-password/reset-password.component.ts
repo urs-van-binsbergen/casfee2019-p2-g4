@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../auth.service';
-import { RedirectService } from '../redirect.service';
-import { NotificationService } from '../notification.service';
+import { AuthService } from '../../auth.service';
+import { RedirectService } from '../../redirect.service';
+import { NotificationService } from '../../notification.service';
 
 @Component({
     templateUrl: './reset-password.component.html'

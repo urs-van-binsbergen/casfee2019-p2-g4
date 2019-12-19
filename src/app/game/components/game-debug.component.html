@@ -1,28 +1,26 @@
-<div class="page mat-typography inset-1">
-    <h1>Debug: Show all game components</h1>
+<div class="page-inset mat-typography">
+    <h2>Show all game components (Debugging)</h2>
+
+    <hr>
+
+    <app-preparation></app-preparation>
+
+    <hr>
+
+    <app-match></app-match>
+
+    <hr>
+
+    <app-battle></app-battle>
+
+    <hr>
+    
+    <app-victory></app-victory>
+
+    <hr>
+
+    <app-waterloo></app-waterloo>
+
+    <hr>
+
 </div>
-
-<hr>
-
-<app-preparation></app-preparation>
-
-<hr>
-
-<app-match></app-match>
-
-<hr>
-
-<app-battle></app-battle>
-
-<hr>
-<label>
-    <input type="checkbox" [(ngModel)]="showVictory" />
-    Victory
-</label>
-<app-victory *ngIf="showVictory"></app-victory>
-
-<hr>
-
-<app-waterloo></app-waterloo>
-
-<hr>

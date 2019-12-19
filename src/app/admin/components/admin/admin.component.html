@@ -1,0 +1,35 @@
+<div class="page-inset mat-typography">
+
+    <h2 translate>admin.title</h2>
+    <p translate>admin.body</p>
+
+    <mat-card class="small-form">
+        <mat-card-content>
+            <h3>Game data</h3>
+            <p class="mat-small">
+                Deleting the button will delete your current preparation + your matching data + your battle data.
+            </p>
+            <p class="mat-small">
+                If the button is disabled you currently don't have game data.
+            </p>
+            <div class="button-row">
+                <div>
+                    <button mat-raised-button (click)="purge()" color="primary" [disabled]="!hasPlayerData">
+                        Delete Game Data
+                    </button>
+                </div>
+                <div class="spinner-cell">
+                    <mat-spinner *ngIf="waiting" diameter="22" style="display: inline-block"></mat-spinner>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="small-form" style="margin-top: 1rem;">
+        <mat-card-content>
+            <h3>Game components</h3>
+            <button mat-raised-button color="link" routerLink="/game/debug">Show all game components</button>
+        </mat-card-content>
+    </mat-card>
+
+</div>

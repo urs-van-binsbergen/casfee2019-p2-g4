@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { RedirectService } from '../redirect.service';
-import { NotificationService } from '../notification.service';
+import { RedirectService } from '../../redirect.service';
+import { NotificationService } from '../../notification.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
     templateUrl: './login.component.html'

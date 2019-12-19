@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from 'src/app/auth/notification.service';
 import { RedirectService } from 'src/app/auth/redirect.service';
-import { UserService } from '../user.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
     templateUrl: './update-password.component.html'
@@ -24,7 +24,7 @@ export class UpdatePasswordComponent {
     constructor(
         private location: Location,
         private translate: TranslateService,
-        private userService: UserService,
+        private authService: AuthService,
         private redirect: RedirectService,
         private notification: NotificationService,
     ) { }
@@ -43,7 +43,7 @@ export class UpdatePasswordComponent {
         this.waiting = true;
 
         // Set display name
-        this.userService.updatePassword(this.oldPassword.value, this.password.value)
+        this.authService.updatePassword(this.oldPassword.value, this.password.value)
             .then(() => {
                 this.waiting = false;
                 const msg = this.translate.instant('user.updatePassword.successMessage');

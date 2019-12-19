@@ -1,7 +1,7 @@
 {
     "admin": {
-        "body": "Admin Text",
-        "title": "Admin"
+        "body": "To be removed in the final version",
+        "title": "Admin (Debugging Utils)"
     },
     "application": {
         "title": "Battleship P2g4",

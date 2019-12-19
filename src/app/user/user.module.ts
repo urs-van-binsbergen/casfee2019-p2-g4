@@ -3,10 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { AuthGuard } from '../auth/auth.guard';
 import { UserService } from './user.service';
-import { UserComponent } from './components/user.component';
-import { UpdateProfileComponent } from './components/update-profile.component';
-import { UpdatePasswordComponent } from './components/update-password.component';
-import { MyBattleListComponent } from './components/my-battle-list.component';
+import { UserComponent } from './components/user/user.component';
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
+import { MyBattleListComponent } from './components/my-battle-list/my-battle-list.component';
 
 const routes: Routes = [
     {
@@ -15,7 +14,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             { path: 'update-profile', component: UpdateProfileComponent },
-            { path: 'update-password', component: UpdatePasswordComponent },
             { path: '', component: UserComponent }
         ],
     }
@@ -25,7 +23,6 @@ const routes: Routes = [
     declarations: [
         UserComponent,
         UpdateProfileComponent,
-        UpdatePasswordComponent,
         MyBattleListComponent
     ],
     imports: [

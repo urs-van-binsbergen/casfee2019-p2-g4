@@ -34,7 +34,7 @@ export class GameComponent implements OnInit, OnDestroy {
         this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
             player => {
                 this.hideError();
-                this.state = GameState.reduceWithPlayer(this.state, player);
+                this.state = GameState.updateWithPlayer(this.state, player);
             },
             error => {
                 this.showError();

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { RedirectService } from '../../auth/redirect.service';
-import { AuthStateService } from '../../auth/auth-state.service';
-import { NotificationService } from '../../auth/notification.service';
-import { UserService } from '../user.service';
+import { AuthStateService } from 'src/app/auth/auth-state.service';
+import { RedirectService } from 'src/app/auth/redirect.service';
+import { NotificationService } from 'src/app/auth/notification.service';
+import { UserService } from '../../user.service';
 
 @Component({
     templateUrl: './update-profile.component.html'
@@ -22,14 +22,14 @@ export class UpdateProfileComponent implements OnInit {
     constructor(
         private location: Location,
         private translate: TranslateService,
-        private authStateService: AuthStateService,
         private userService: UserService,
         private redirect: RedirectService,
         private notification: NotificationService,
     ) { }
 
     ngOnInit() {
-        this.displayName.setValue(this.authStateService.currentUser.displayName);
+        const userData = this.userService.authUser$.getValue();
+        this.displayName.setValue(userData.displayName);
     }
 
     async onSubmit() {
@@ -49,6 +49,7 @@ export class UpdateProfileComponent implements OnInit {
                 this.redirect.redirectToNext('/user');
             })
             .catch(error => {
+                this.waiting = false;
                 const errorDetail = this.notification.localizeFirebaseError(error);
                 this.notification.toastToConfirm(errorDetail);
             });

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../auth.service';
-import { RedirectService } from '../redirect.service';
-import { NotificationService } from '../notification.service';
+import { AuthService } from '../../auth.service';
+import { RedirectService } from '../../redirect.service';
+import { NotificationService } from '../../notification.service';
+import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 
 @Component({
     templateUrl: './register.component.html'
@@ -30,6 +31,7 @@ export class RegisterComponent implements OnInit {
         private authService: AuthService,
         private redirect: RedirectService,
         private notification: NotificationService,
+        private cloudFunctions: CloudFunctionsService
     ) { }
 
     ngOnInit() {
@@ -51,10 +53,18 @@ export class RegisterComponent implements OnInit {
         // Register
         this.authService.register(this.username.value, this.password.value, this.displayName.value)
             .then(() => {
-                this.waiting = false;
-                const msg = this.translate.instant('auth.register.successMessage');
-                this.notification.quickToast(msg, 2000);
-                this.redirect.redirectToNext('/user');
+                this.cloudFunctions.updateUser({
+                    displayName: this.displayName.value,
+                    email: this.username.value,
+                    avatarFileName: null
+                })
+                    .toPromise()
+                    .then(() => {
+                        this.waiting = false;
+                        const msg = this.translate.instant('auth.register.successMessage');
+                        this.notification.quickToast(msg, 2000);
+                        this.redirect.redirectToNext('/user');
+                    });
             })
             .catch(error => {
                 this.waiting = false;

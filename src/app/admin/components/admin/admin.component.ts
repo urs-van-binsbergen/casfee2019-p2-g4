@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthStateService } from '../auth/auth-state.service';
+import { AuthStateService } from '../../../auth/auth-state.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 
 
 @Component({
     templateUrl: './admin.component.html',
-    styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
 
