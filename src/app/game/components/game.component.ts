@@ -1,20 +1,24 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CloudDataService } from 'src/app/backend/cloud-data.service';
-import { AuthStateService } from 'src/app/auth/auth-state.service';
 import * as GameState from '../game.state';
 import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { Store, Select } from '@ngxs/store';
+import { GetPlayer } from '../state/player.actions';
+import { PlayerState } from '../state/player.state';
+import { Observable, Subscription } from 'rxjs';
+import { Player } from '@cloud-api/core-models';
 
 @Component({
     templateUrl: './game.component.html',
 })
 export class GameComponent implements OnInit, OnDestroy {
 
+    private _playerSubscription: Subscription;
+    @Select(PlayerState.player) player$: Observable<Player>;
     state: GameState.State;
 
     constructor(
-        private authState: AuthStateService,
-        private cloudData: CloudDataService,
+        private store: Store,
         private snackBar: MatSnackBar,
         private translate: TranslateService
     ) {
@@ -23,23 +27,20 @@ export class GameComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.state = GameState.getInitialState();
-        this.subscribeData();
+        this._playerSubscription = this.player$.subscribe(player => {
+                if (player) {
+                    this.hideError();
+                } else {
+                    this.showError();
+                }
+                this.state = GameState.updateWithPlayer(this.state, player);
+            }
+        );
+        this.store.dispatch(new GetPlayer());
     }
 
     ngOnDestroy(): void {
-        this.hideError();
-    }
-
-    subscribeData() {
-        this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
-            player => {
-                this.hideError();
-                this.state = GameState.updateWithPlayer(this.state, player);
-            },
-            error => {
-                this.showError();
-            }
-        );
+        this._playerSubscription.unsubscribe();
     }
 
     private hideError() {
