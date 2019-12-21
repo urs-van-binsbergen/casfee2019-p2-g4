@@ -10,6 +10,8 @@ import { RedirectService } from './redirect.service';
 import { AuthStateService } from './auth-state.service';
 import { NotificationService } from './notification.service';
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+import { NgxsModule } from '@ngxs/store';
+import { AuthState } from './state/auth.state';
 
 
 @NgModule({
@@ -21,7 +23,8 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
     ],
     imports: [
         SharedModule,
-        RouterModule
+        RouterModule,
+        NgxsModule.forFeature([AuthState])
     ],
     providers: [
         AuthService,
