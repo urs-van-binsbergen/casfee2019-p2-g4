@@ -14,7 +14,7 @@
             </p>
             <div class="button-row">
                 <div>
-                    <button mat-raised-button (click)="purge()" color="primary" [disabled]="!hasPlayerData">
+                    <button mat-raised-button (click)="purge()" color="primary" [disabled]="!(player$|async)">
                         Delete Game Data
                     </button>
                 </div>
@@ -31,5 +31,4 @@
             <button mat-raised-button color="link" routerLink="/game/debug">Show all game components</button>
         </mat-card-content>
     </mat-card>
-
 </div>
