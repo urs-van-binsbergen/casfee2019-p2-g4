@@ -3,7 +3,7 @@ import * as GameState from '../game.state';
 import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Select } from '@ngxs/store';
-import { PlayerState } from '../../state/player/player.state';
+import { PlayerState } from '../state/player.state';
 import { Observable, Subscription } from 'rxjs';
 import { Player } from '@cloud-api/core-models';
 

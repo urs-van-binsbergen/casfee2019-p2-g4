@@ -1,6 +1,6 @@
 import { Action, NgxsOnInit, Selector, State, StateContext, Store } from '@ngxs/store';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
-import { AuthState } from 'src/app/state/auth/auth.state';
+import { AuthState } from 'src/app/auth/state/auth.state';
 import { Player } from '@cloud-api/core-models';
 import { ObservePlayer, ObserveUser, UpdatePlayer } from './player.actions';
 import { tap } from 'rxjs/operators';
