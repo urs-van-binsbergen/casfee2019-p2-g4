@@ -10,7 +10,8 @@ export class ObserveUser {
     constructor() { }
 }
 
-export class UpdatePlayer {
-    static readonly type = '[game] update player';
+export class PlayerUpdated {
+    static readonly type = '[game] player updated';
     constructor(public player: Player) { }
 }
+

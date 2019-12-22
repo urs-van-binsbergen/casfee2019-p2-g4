@@ -2,8 +2,8 @@ import { Action, NgxsOnInit, Selector, State, StateContext, Store } from '@ngxs/
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { AuthState } from 'src/app/auth/state/auth.state';
 import { Player } from '@cloud-api/core-models';
-import { ObservePlayer, ObserveUser, UpdatePlayer } from './player.actions';
-import { tap } from 'rxjs/operators';
+import { ObservePlayer, ObserveUser, PlayerUpdated } from './player.actions';
+import { tap, takeUntil, first, map } from 'rxjs/operators';
 
 export class PlayerModel {
     player: Player;
@@ -24,13 +24,17 @@ export class PlayerState implements NgxsOnInit {
     ) {
     }
 
+    ngxsOnInit(ctx: StateContext<PlayerModel>) {
+        ctx.dispatch(new ObserveUser());
+    }
+
     @Selector()
     public static player(state: PlayerModel): Player {
         return state.player;
     }
 
-    @Action(UpdatePlayer)
-    updatePlayer(ctx: StateContext<PlayerModel>, action: UpdatePlayer) {
+    @Action(PlayerUpdated)
+    updatePlayer(ctx: StateContext<PlayerModel>, action: PlayerUpdated) {
         const player = action.player;
         ctx.setState({ player });
     }
@@ -38,9 +42,12 @@ export class PlayerState implements NgxsOnInit {
     @Action(ObservePlayer, { cancelUncompleted: true })
     observePlayer(ctx: StateContext<PlayerModel>, action: ObservePlayer) {
         return this.cloudData.getPlayer$(action.uid).pipe(
-            tap(player => {
-                ctx.dispatch(new UpdatePlayer(player));
-            })
+            map(player => {
+                return ctx.dispatch(new PlayerUpdated(player));
+            }),
+            takeUntil(this.store.select(AuthState.user).pipe(
+                first(user => !user)
+            ))
         );
     }
 
@@ -51,14 +58,10 @@ export class PlayerState implements NgxsOnInit {
                 if (user && user.uid) {
                     ctx.dispatch(new ObservePlayer(user.uid));
                 } else {
-                    ctx.dispatch(new UpdatePlayer(null));
+                    ctx.dispatch(new PlayerUpdated(null));
                 }
             })
         );
-    }
-
-    ngxsOnInit(ctx: StateContext<PlayerModel>) {
-        ctx.dispatch(new ObserveUser());
     }
 
 }
