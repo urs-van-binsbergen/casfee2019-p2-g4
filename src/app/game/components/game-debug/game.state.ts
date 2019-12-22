@@ -1,4 +1,4 @@
-import { Player, Board, Ship, FieldStatus, PlayerStatus } from '@cloud-api/core-models';
+import { Player, PlayerStatus } from '@cloud-api/core-models';
 
 export interface State {
     showPreparation: boolean;

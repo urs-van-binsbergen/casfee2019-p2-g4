@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import * as GameState from '../game.state';
+import * as GameState from '../game-debug/game.state';
 import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Select } from '@ngxs/store';
-import { PlayerState } from '../state/player.state';
+import { PlayerState } from '../../state/player.state';
 import { Observable, Subscription } from 'rxjs';
 import { Player } from '@cloud-api/core-models';
 
@@ -25,6 +25,7 @@ export class GameComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.state = GameState.getInitialState();
         this._playerSubscription = this.player$.subscribe(player => {
+            console.log("player update", player)
             this.state = GameState.updateWithPlayer(this.state, player);
         }
         );
