@@ -1,4 +1,4 @@
-import { AuthUser } from '../auth-state.service';
+import { AuthUser } from '../../auth/auth-state.service';
 
 export class ObserveUser {
     static readonly type = '[auth] observe user';

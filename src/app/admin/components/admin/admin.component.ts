@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthStateService } from '../../../auth/auth-state.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
-import { CloudDataService } from 'src/app/backend/cloud-data.service';
+import { Player } from '@cloud-api/core-models';
+import { Select } from '@ngxs/store';
+import { PlayerState } from 'src/app/state/player/player.state';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -10,20 +12,16 @@ import { CloudDataService } from 'src/app/backend/cloud-data.service';
 export class AdminComponent implements OnInit {
 
     constructor(
-        private cloudFunctions: CloudFunctionsService,
-        private cloudData: CloudDataService,
-        private authState: AuthStateService
+        private cloudFunctions: CloudFunctionsService
+
     ) {
     }
 
     waiting = false;
-    hasPlayerData = false;
+    @Select(PlayerState.player) player$: Observable<Player>;
 
     ngOnInit(): void {
-        this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
-            player => this.hasPlayerData = !!player,
-            error => this.hasPlayerData = false
-        );
+
     }
 
     purge() {

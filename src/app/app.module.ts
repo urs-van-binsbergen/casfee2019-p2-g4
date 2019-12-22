@@ -25,6 +25,8 @@ import { AuthModule } from './auth/auth.module';
 import { LanguageModule } from './language/language.module';
 import { PageNotFoundComponent } from './shared/page-not-found.component';
 import { BackendModule } from './backend/backend.module';
+import { AuthState } from './state/auth/auth.state';
+import { PlayerState } from './state/player/player.state';
 
 @NgModule({
     declarations: [
@@ -46,7 +48,7 @@ import { BackendModule } from './backend/backend.module';
             isolate: false
         }),
         NgxsModule.forRoot(
-            [],
+            [AuthState, PlayerState],
             { developmentMode: !environment.production },
         ),
         NgxsReduxDevtoolsPluginModule.forRoot({
