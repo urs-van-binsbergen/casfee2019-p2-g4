@@ -13,6 +13,13 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
 import { NgxsModule } from '@ngxs/store';
 import { AuthState } from './state/auth.state';
 
+const authRoutes = [
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'reset-password', component: ResetPasswordComponent },
+    { path: 'update-password', component: UpdatePasswordComponent },
+];
 
 @NgModule({
     declarations: [
@@ -22,6 +29,7 @@ import { AuthState } from './state/auth.state';
         UpdatePasswordComponent
     ],
     imports: [
+        RouterModule.forChild(authRoutes), // (MUST stay before feature module imports)
         SharedModule,
         RouterModule,
         NgxsModule.forFeature([AuthState])

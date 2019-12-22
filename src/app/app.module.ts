@@ -25,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
 import { LanguageModule } from './language/language.module';
 import { PageNotFoundComponent } from './shared/page-not-found.component';
 import { BackendModule } from './backend/backend.module';
+import { GameModule } from './game/game.module';
 
 @NgModule({
     declarations: [
@@ -62,6 +63,7 @@ import { BackendModule } from './backend/backend.module';
         AuthModule,
         LanguageModule,
         BackendModule,
+        GameModule
     ],
     providers: [
         AngularFireAuthGuard,
