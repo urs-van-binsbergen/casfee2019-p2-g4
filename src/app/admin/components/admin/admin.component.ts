@@ -29,10 +29,7 @@ export class AdminComponent implements OnInit {
 
         const args = {};
         this.cloudFunctions.deleteGameData(args).toPromise()
-            .then(results => {
-                this.waiting = false;
-            })
-            .catch(error => {
+            .finally(() => {
                 this.waiting = false;
             })
             ;

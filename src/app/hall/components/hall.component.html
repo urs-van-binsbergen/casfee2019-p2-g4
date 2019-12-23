@@ -6,7 +6,7 @@
             <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
         </p>
 
-        <div *ngIf="!(loading$ | async)" fxLayout="column" fxLayoutGap="8px">
+        <div *ngIf="(loading$ | async) === false" fxLayout="column" fxLayoutGap="8px">
 
             <ng-container *ngIf="(admirals | async).length > 0">
                 <h3 class="label" translate>hall.admirals</h3>

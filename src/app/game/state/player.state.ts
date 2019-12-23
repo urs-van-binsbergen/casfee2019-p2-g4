@@ -24,18 +24,18 @@ export class PlayerState implements NgxsOnInit {
     ) {
     }
 
-    ngxsOnInit(ctx: StateContext<PlayerModel>) {
-        ctx.dispatch(new ObserveUser());
-    }
-
     @Selector()
     public static player(state: PlayerModel): Player {
         return state.player;
     }
 
+    ngxsOnInit(ctx: StateContext<PlayerModel>) {
+        ctx.dispatch(new ObserveUser());
+    }
+
     @Action(PlayerUpdated)
-    updatePlayer(ctx: StateContext<PlayerModel>, action: PlayerUpdated) {
-        const player = action.player;
+    playerUpdated(ctx: StateContext<PlayerModel>, action: PlayerUpdated) {
+        const player = action.player || null;
         ctx.setState({ player });
     }
 

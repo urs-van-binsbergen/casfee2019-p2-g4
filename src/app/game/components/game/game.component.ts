@@ -25,7 +25,6 @@ export class GameComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.state = GameState.getInitialState();
         this._playerSubscription = this.player$.subscribe(player => {
-            console.log("player update", player)
             this.state = GameState.updateWithPlayer(this.state, player);
         }
         );
