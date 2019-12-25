@@ -21,6 +21,7 @@ export class MatchComponent implements OnInit, OnDestroy {
     private _items: MatchItem[] = [];
     private _state: MatchState = MatchState.Idle;
     private _waiting: boolean;
+    destroy$ = new Subject<void>();
 
     constructor(
         private store: Store,
@@ -39,7 +40,6 @@ export class MatchComponent implements OnInit, OnDestroy {
         this.hideError();
         this.destroy$.next();
     }
-    destroy$ = new Subject<void>();
 
     public get items(): MatchItem[] {
         return this._items;

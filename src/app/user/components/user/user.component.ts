@@ -22,6 +22,7 @@ export class UserComponent implements OnInit, OnDestroy {
     authUser: AuthUser;
     level: string;
     myBattleList: BattleListModel;
+    destroy$ = new Subject<void>();
 
     constructor(
         private store: Store,
@@ -79,6 +80,5 @@ export class UserComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.destroy$.next();
     }
-    destroy$ = new Subject<void>();
 
 }

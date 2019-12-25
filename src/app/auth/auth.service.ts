@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { map, merge, tap } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Observable, Subject, merge } from 'rxjs';
 
 /*
  * Model representing the currently logged in user
@@ -41,7 +41,7 @@ export class AuthService {
 
     /*
      * Locally published profile updates
-     * (Because firebase.User.updateProfile() does not fire a next AngularFireAuth.authState) 
+     * (Because firebase.User.updateProfile() does not fire a next AngularFireAuth.authState)
      */
     private localAuthUserUpdates = new Subject<AuthUser>();
 
@@ -49,9 +49,9 @@ export class AuthService {
      * Currently logged-in user
      */
     public authUser$(): Observable<AuthUser> {
-        return this.afAuth.authState.pipe(
-            map(getAuthUser),
-            merge(this.localAuthUserUpdates),
+        return merge(
+            this.afAuth.authState.pipe(map(getAuthUser)),
+            this.localAuthUserUpdates
         );
     }
 
@@ -101,7 +101,7 @@ export class AuthService {
     private updateProfileImpl(firebaseUser: firebase.User, displayName: string): Promise<void> {
         return firebaseUser.updateProfile({ displayName })
             .then(() => {
-                const authUser = getAuthUser(firebaseUser)
+                const authUser = getAuthUser(firebaseUser);
                 this.localAuthUserUpdates.next(authUser);
             })
             ;

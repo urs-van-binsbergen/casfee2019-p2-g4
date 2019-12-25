@@ -24,6 +24,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     ownBoard: BattleBoard | null = null;
     playerStatus = PlayerStatus.Waiting;
     private _capitulating: boolean;
+    destroy$ = new Subject<void>();
 
     constructor(
         private store: Store,
@@ -41,7 +42,6 @@ export class BattleComponent implements OnInit, OnDestroy {
         this.hideError();
         this.destroy$.next();
     }
-    destroy$ = new Subject<void>();
 
     get shootNow(): boolean {
         return this.targetBoard && this.targetBoard.canShoot && !(this.targetBoard.isShooting) &&

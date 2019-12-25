@@ -7,7 +7,6 @@ export class AuthRedirectService {
         private route: ActivatedRoute,
         private router: Router,
     ) {
-        console.log("nönö")
     }
 
     /*
