@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable()
-export class RedirectService {
+export class AuthRedirectService {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
     ) {
-
+        console.log("nönö")
     }
 
     /*

@@ -31,9 +31,7 @@ function getAuthUser(firebaseUser: firebase.User): AuthUser | null {
 /*
  * Technology-agnostic Auth API
  */
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
 
     constructor(

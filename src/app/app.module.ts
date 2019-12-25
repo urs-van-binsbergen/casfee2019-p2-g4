@@ -8,7 +8,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { AngularFireFunctionsModule, FUNCTIONS_REGION } from '@angular/fire/functions';
 
 import { SharedModule, createTranslateLoader } from './shared/shared.module';
@@ -66,7 +65,6 @@ import { GameModule } from './game/game.module';
         GameModule
     ],
     providers: [
-        AngularFireAuthGuard,
         { provide: FUNCTIONS_REGION, useValue: 'europe-west2' }
     ],
     bootstrap: [

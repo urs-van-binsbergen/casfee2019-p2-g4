@@ -2,7 +2,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NotificationService {
 
     constructor(

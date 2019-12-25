@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { AuthService } from './auth.service';
-import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { RedirectService } from './redirect.service';
-import { NotificationService } from './notification.service';
+import { AuthRedirectService } from './auth-redirect.service';
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { NgxsModule } from '@ngxs/store';
 import { AuthState } from './state/auth.state';
@@ -34,9 +31,7 @@ const authRoutes = [
         NgxsModule.forFeature([AuthState])
     ],
     providers: [
-        AuthGuard,
-        RedirectService,
-        NotificationService
+        AuthRedirectService
     ]
 })
 export class AuthModule {

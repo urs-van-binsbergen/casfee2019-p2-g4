@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService, AuthUser } from 'src/app/auth/auth.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
-import { NotificationService } from 'src/app/auth/notification.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { UserService } from '../../user.service';
 import { PlayerLevel } from '@cloud-api/core-models';
 import { BattleListModel, getBattleListModel } from '../my-battle-list/my-battle-list.model';

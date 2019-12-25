@@ -23,7 +23,5 @@ const routes: Routes = [{
         RouterModule.forChild(routes),
         NgxsModule.forFeature([HallState]),
     ],
-    providers: [
-    ]
 })
 export class HallModule { }

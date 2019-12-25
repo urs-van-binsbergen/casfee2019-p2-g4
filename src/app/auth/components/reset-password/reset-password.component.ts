@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../auth.service';
-import { RedirectService } from '../../redirect.service';
-import { NotificationService } from '../../notification.service';
+import { AuthRedirectService } from '../../auth-redirect.service';
+import { NotificationService } from '../../../shared/notification.service';
 
 @Component({
     templateUrl: './reset-password.component.html'
@@ -20,7 +20,7 @@ export class ResetPasswordComponent implements OnInit {
     constructor(
         private translate: TranslateService,
         private authService: AuthService,
-        private redirect: RedirectService,
+        private redirect: AuthRedirectService,
         private notification: NotificationService,
         private location: Location,
     ) { }
