@@ -2,12 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { PageNotFoundComponent } from './shared/page-not-found.component';
-import { LoginComponent } from './auth/components/login/login.component';
-import { RegisterComponent } from './auth/components/register/register.component';
-import { ResetPasswordComponent } from './auth/components/reset-password/reset-password.component';
-import { UpdatePasswordComponent } from './auth/components/update-password/update-password.component';
-import { gameRoutes } from './game/game.module';
-import { authRoutes } from './auth/auth.module';
 
 const routes: Routes = [
     { path: '', redirectTo: '/hall', pathMatch: 'full' },

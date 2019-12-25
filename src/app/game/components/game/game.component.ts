@@ -1,46 +1,29 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import * as GameState from '../game-debug/game.state';
-import { MatSnackBar } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
-import { Select } from '@ngxs/store';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
 import { PlayerState } from '../../state/player.state';
-import { Observable, Subscription } from 'rxjs';
-import { Player } from '@cloud-api/core-models';
+import { tap, map } from 'rxjs/operators';
+import { GameModel, getGameModel } from './game.model';
 
 @Component({
     templateUrl: './game.component.html',
 })
-export class GameComponent implements OnInit, OnDestroy {
+export class GameComponent implements OnInit {
 
-    private _playerSubscription: Subscription;
-    @Select(PlayerState.player) player$: Observable<Player>;
-    state: GameState.State;
+    model$: Observable<GameModel>;
 
     constructor(
-        private snackBar: MatSnackBar,
-        private translate: TranslateService
+        private store: Store,
     ) {
     }
 
     ngOnInit(): void {
-        this.state = GameState.getInitialState();
-        this._playerSubscription = this.player$.subscribe(player => {
-            this.state = GameState.updateWithPlayer(this.state, player);
-        }
-        );
-    }
-
-    ngOnDestroy(): void {
-        this._playerSubscription.unsubscribe();
-    }
-
-    private hideError() {
-        this.snackBar.dismiss();
-    }
-
-    private showError() {
-        const message = this.translate.instant('game.error');
-        this.snackBar.open(message);
+        let oldModel = {};
+        this.model$ = this.store.select(PlayerState)
+            .pipe(
+                map(state => getGameModel(oldModel, state)),
+                tap(model => oldModel = model)
+            );
     }
 
 }
