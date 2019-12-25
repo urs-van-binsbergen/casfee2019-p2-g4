@@ -7,7 +7,6 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { RedirectService } from './redirect.service';
-import { AuthStateService } from './auth-state.service';
 import { NotificationService } from './notification.service';
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { NgxsModule } from '@ngxs/store';
@@ -35,8 +34,6 @@ const authRoutes = [
         NgxsModule.forFeature([AuthState])
     ],
     providers: [
-        AuthService,
-        AuthStateService,
         AuthGuard,
         RedirectService,
         NotificationService

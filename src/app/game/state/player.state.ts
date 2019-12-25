@@ -49,7 +49,7 @@ export class PlayerState implements NgxsOnInit {
             map(player => {
                 return ctx.dispatch(new PlayerUpdated(player));
             }),
-            takeUntil(this.store.select(AuthState.user).pipe(
+            takeUntil(this.store.select(AuthState.authUser).pipe(
                 first(user => !user)
             ))
         );
@@ -57,7 +57,7 @@ export class PlayerState implements NgxsOnInit {
 
     @Action(ObserveUser, { cancelUncompleted: true })
     observeUser(ctx: StateContext<PlayerModel>) {
-        return this.store.select(AuthState.user).pipe(
+        return this.store.select(AuthState.authUser).pipe(
             map(user => {
                 if (user && user.uid) {
                     return ctx.dispatch(new ObservePlayer(user.uid));

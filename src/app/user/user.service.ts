@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AuthStateService, AuthUser } from '../auth/auth-state.service';
 import { CloudDataService } from '../backend/cloud-data.service';
 import { CloudFunctionsService } from '../backend/cloud-functions.service';
-import { AuthService } from '../auth/auth.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { AuthService, AuthUser } from '../auth/auth.service';
+import { BehaviorSubject, Subscription, Observable, pipe } from 'rxjs';
 import { User } from '@cloud-api/core-models';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../auth/state/auth.state';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -14,19 +16,15 @@ export class UserService {
 
     userData$: BehaviorSubject<User>;
 
-    get authUser$(): BehaviorSubject<AuthUser> {
-        return this.authState.currentUser$;
-    }
-
     constructor(
-        private authState: AuthStateService,
         private authService: AuthService,
+        private store: Store,
         private cloudData: CloudDataService,
         private cloudFunctions: CloudFunctionsService
     ) {
         this.userData$ = new BehaviorSubject(null);
 
-        this.authUser$.subscribe(authUser => {
+        this.store.select(AuthState.authUser).subscribe(authUser => {
             if (!authUser) {
                 this.unsubscribeData();
             } else {

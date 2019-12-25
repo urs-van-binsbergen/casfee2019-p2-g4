@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthStateService } from '../../../auth/auth-state.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
-import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { Select } from '@ngxs/store';
 import { PlayerState, PlayerModel } from 'src/app/game/state/player.state';
 import { Observable } from 'rxjs';
