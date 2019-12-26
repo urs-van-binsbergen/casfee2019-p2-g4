@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthStateService } from '../../auth/auth-state.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import * as MatchMethods from '../match-methods';
@@ -8,6 +7,10 @@ import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WaitingPlayer } from '@cloud-api/core-models';
+import { Store } from '@ngxs/store';
+import { AuthState } from 'src/app/auth/state/auth.state';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-match',
@@ -18,10 +21,11 @@ export class MatchComponent implements OnInit, OnDestroy {
     private _items: MatchItem[] = [];
     private _state: MatchState = MatchState.Idle;
     private _waiting: boolean;
+    destroy$ = new Subject<void>();
 
     constructor(
+        private store: Store,
         private cloudData: CloudDataService,
-        private authState: AuthStateService,
         private cloudFunctions: CloudFunctionsService,
         private snackBar: MatSnackBar,
         private translate: TranslateService,
@@ -34,6 +38,7 @@ export class MatchComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.hideError();
+        this.destroy$.next();
     }
 
     public get items(): MatchItem[] {
@@ -49,17 +54,19 @@ export class MatchComponent implements OnInit, OnDestroy {
     }
 
     subscribeData(): void {
-        const uid = this.authState.currentUser.uid;
-        this.cloudData.getWaitingPlayers$().subscribe(
-            (waitingPlayers: WaitingPlayer[]) => {
-                this.hideError();
-                this._state = MatchMethods.updateMatchStateWithWaitingPlayers(this._state, waitingPlayers, uid);
-                this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, waitingPlayers, uid);
-            },
-            error => {
-                this.showError('match.error.waitingPlayers');
-            }
-        );
+        const uid = this.store.selectSnapshot(AuthState.authUser).uid;
+        this.cloudData.getWaitingPlayers$()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+                (waitingPlayers: WaitingPlayer[]) => {
+                    this.hideError();
+                    this._state = MatchMethods.updateMatchStateWithWaitingPlayers(this._state, waitingPlayers, uid);
+                    this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, waitingPlayers, uid);
+                },
+                error => {
+                    this.showError('match.error.waitingPlayers');
+                }
+            );
     }
 
     public onAddChallenge(item: MatchItem) {

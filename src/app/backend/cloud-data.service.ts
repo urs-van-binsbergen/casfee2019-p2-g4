@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import COLL from '@cloud-api/collection-names';
 import { Player, User, HistoricBattle, WaitingPlayer, HallEntry } from '@cloud-api/core-models';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CloudDataService {
 
     constructor(

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { RedirectService } from '../../redirect.service';
-import { NotificationService } from '../../notification.service';
+import { AuthRedirectService } from '../../auth-redirect.service';
+import { NotificationService } from '../../../shared/notification.service';
 import { AuthService } from '../../auth.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     constructor(
         private translate: TranslateService,
         private authService: AuthService,
-        private redirect: RedirectService,
+        private redirect: AuthRedirectService,
         private notification: NotificationService,
     ) { }
 

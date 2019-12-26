@@ -5,12 +5,19 @@ export class ObservePlayer {
     constructor(public uid: string) { }
 }
 
+export class PlayerUpdated {
+    static readonly type = '[game] player updated';
+    constructor(public player: Player) { }
+}
+
 export class ObserveUser {
     static readonly type = '[game] observe user';
     constructor() { }
 }
 
-export class UpdatePlayer {
-    static readonly type = '[game] update player';
-    constructor(public player: Player) { }
+export class Unauthenticated {
+    static readonly type = '[game] unauthenticated';
+    constructor() { }
 }
+
+

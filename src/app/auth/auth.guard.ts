@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { take, tap, map } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanLoad, CanActivate, CanActivateChild {
 
     constructor(private afAuth: AngularFireAuth, private router: Router) {

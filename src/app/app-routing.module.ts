@@ -2,10 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { PageNotFoundComponent } from './shared/page-not-found.component';
-import { LoginComponent } from './auth/components/login/login.component';
-import { RegisterComponent } from './auth/components/register/register.component';
-import { ResetPasswordComponent } from './auth/components/reset-password/reset-password.component';
-import { UpdatePasswordComponent } from './auth/components/update-password/update-password.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/hall', pathMatch: 'full' },
@@ -17,14 +13,7 @@ const routes: Routes = [
     },
     {
         path: 'auth',
-        children: [
-            { path: '', redirectTo: 'login', pathMatch: 'full' },
-            { path: 'login', component: LoginComponent },
-            { path: 'register', component: RegisterComponent },
-            { path: 'reset-password', component: ResetPasswordComponent },
-            { path: 'update-password', component: UpdatePasswordComponent },
-        ]
-        // (AuthModule must be eagerly loaded, otherwise its AuthState has no change tracking in other modules)
+        loadChildren: () => import('./auth/auth.module').then(x => x.AuthModule),
     },
     {
         path: 'game',

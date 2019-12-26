@@ -1,18 +1,58 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AuthStateService } from './auth-state.service';
+import { map } from 'rxjs/operators';
+import { Observable, Subject, merge } from 'rxjs';
 
 /*
- * Service implementing the typical auth actions
+ * Model representing the currently logged in user
  */
-@Injectable()
+export interface AuthUser {
+    uid: string;
+    displayName: string;
+    email: string;
+    emailVerified: boolean;
+}
+
+/*
+ * Helper: Convert 'firebase.User' to an technology-agnostic model
+ */
+function getAuthUser(firebaseUser: firebase.User): AuthUser | null {
+    if (!firebaseUser) {
+        return null;
+    }
+    return {
+        uid: firebaseUser.uid,
+        displayName: firebaseUser.displayName || 'no name',
+        email: firebaseUser.email,
+        emailVerified: firebaseUser.emailVerified
+    };
+}
+
+/*
+ * Technology-agnostic Auth API
+ */
+@Injectable({ providedIn: 'root' })
 export class AuthService {
 
     constructor(
-        private afAuth: AngularFireAuth,
-        private authState: AuthStateService
+        private afAuth: AngularFireAuth
     ) {
+    }
 
+    /*
+     * Locally published profile updates
+     * (Because firebase.User.updateProfile() does not fire a next AngularFireAuth.authState)
+     */
+    private localAuthUserUpdates = new Subject<AuthUser>();
+
+    /*
+     * Currently logged-in user
+     */
+    public authUser$(): Observable<AuthUser> {
+        return merge(
+            this.afAuth.authState.pipe(map(getAuthUser)),
+            this.localAuthUserUpdates
+        );
     }
 
     /*
@@ -61,8 +101,10 @@ export class AuthService {
     private updateProfileImpl(firebaseUser: firebase.User, displayName: string): Promise<void> {
         return firebaseUser.updateProfile({ displayName })
             .then(() => {
-                this.authState.updateDisplayName(displayName); // optimistic update
-            });
+                const authUser = getAuthUser(firebaseUser);
+                this.localAuthUserUpdates.next(authUser);
+            })
+            ;
     }
 
     /*

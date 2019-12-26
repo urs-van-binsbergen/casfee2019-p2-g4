@@ -3,7 +3,7 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { Observable } from 'rxjs';
 import { PreparationArgs, AddChallengeArgs, ShootArgs, UpdateUserArgs, RemoveChallengeArgs } from '@cloud-api/arguments';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CloudFunctionsService {
 
     constructor(

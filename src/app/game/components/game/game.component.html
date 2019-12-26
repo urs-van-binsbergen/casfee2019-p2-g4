@@ -1,0 +1,15 @@
+<ng-container *ngIf="(model$ | async) as model">
+    <div *ngIf="model.unauthenticated" class="page-inset mat-typography">
+        <a routerLink="/auth/login">Login</a>
+    </div>
+
+    <p *ngIf="model.loading">
+        <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
+    </p>
+
+    <app-preparation *ngIf="model.showPreparation"></app-preparation>
+    <app-match *ngIf="model.showMatch"></app-match>
+    <app-battle *ngIf="model.showBattle"></app-battle>
+    <app-victory *ngIf="model.showVictory"></app-victory>
+    <app-waterloo *ngIf="model.showWaterloo"></app-waterloo>
+</ng-container>

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthStateService } from 'src/app/auth/auth-state.service';
-import { RedirectService } from 'src/app/auth/redirect.service';
-import { NotificationService } from 'src/app/auth/notification.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { UserService } from '../../user.service';
+import { Store } from '@ngxs/store';
+import { AuthState } from 'src/app/auth/state/auth.state';
+import { Router } from '@angular/router';
 
 @Component({
     templateUrl: './update-profile.component.html'
@@ -20,16 +21,18 @@ export class UpdateProfileComponent implements OnInit {
     waiting = false;
 
     constructor(
+        private store: Store,
         private location: Location,
         private translate: TranslateService,
         private userService: UserService,
-        private redirect: RedirectService,
+        private router: Router,
         private notification: NotificationService,
     ) { }
 
     ngOnInit() {
-        const userData = this.userService.authUser$.getValue();
-        this.displayName.setValue(userData.displayName);
+        const displayName = this.store.selectSnapshot(AuthState.authUser).displayName;
+        // TODO: use NGXS UserState (yet to be created)
+        this.displayName.setValue(displayName);
     }
 
     async onSubmit() {
@@ -46,7 +49,7 @@ export class UpdateProfileComponent implements OnInit {
                 this.waiting = false;
                 const msg = this.translate.instant('user.updateProfile.successMessage');
                 this.notification.quickToast(msg, 2000);
-                this.redirect.redirectToNext('/user');
+                this.router.navigateByUrl('/user');
             })
             .catch(error => {
                 this.waiting = false;

@@ -1,4 +1,4 @@
-import { AuthUser } from '../auth-state.service';
+import { AuthUser } from '../auth.service';
 
 export class ObserveUser {
     static readonly type = '[auth] observe user';
@@ -7,5 +7,5 @@ export class ObserveUser {
 
 export class UpdateUser {
     static readonly type = '[auth] update user';
-    constructor(public user: AuthUser) { }
+    constructor(public authUser: AuthUser) { }
 }

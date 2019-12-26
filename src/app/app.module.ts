@@ -8,7 +8,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { AngularFireFunctionsModule, FUNCTIONS_REGION } from '@angular/fire/functions';
 
 import { SharedModule, createTranslateLoader } from './shared/shared.module';
@@ -25,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
 import { LanguageModule } from './language/language.module';
 import { PageNotFoundComponent } from './shared/page-not-found.component';
 import { BackendModule } from './backend/backend.module';
+import { GameModule } from './game/game.module';
 
 @NgModule({
     declarations: [
@@ -62,9 +62,9 @@ import { BackendModule } from './backend/backend.module';
         AuthModule,
         LanguageModule,
         BackendModule,
+        GameModule
     ],
     providers: [
-        AngularFireAuthGuard,
         { provide: FUNCTIONS_REGION, useValue: 'europe-west2' }
     ],
     bootstrap: [

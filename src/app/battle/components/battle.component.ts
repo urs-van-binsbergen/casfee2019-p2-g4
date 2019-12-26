@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
-import { AuthStateService } from 'src/app/auth/auth-state.service';
 import { BattleBoard, BattleField } from '../battle-models';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { ShootArgs } from '@cloud-api/arguments';
@@ -8,6 +7,10 @@ import { PlayerInfo, PlayerStatus } from '@cloud-api/core-models';
 import * as BattleMethods from '../battle-methods';
 import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngxs/store';
+import { AuthState } from 'src/app/auth/state/auth.state';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-battle',
@@ -21,9 +24,10 @@ export class BattleComponent implements OnInit, OnDestroy {
     ownBoard: BattleBoard | null = null;
     playerStatus = PlayerStatus.Waiting;
     private _capitulating: boolean;
+    destroy$ = new Subject<void>();
 
     constructor(
-        private authState: AuthStateService,
+        private store: Store,
         private cloudData: CloudDataService,
         private cloudFunctions: CloudFunctionsService,
         private snackBar: MatSnackBar,
@@ -36,6 +40,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.hideError();
+        this.destroy$.next();
     }
 
     get shootNow(): boolean {
@@ -57,25 +62,28 @@ export class BattleComponent implements OnInit, OnDestroy {
     }
 
     subscribeData() {
-        this.cloudData.getPlayer$(this.authState.currentUser.uid).subscribe(
-            player => {
-                this.hideError();
-                if (player && player.battle) {
-                    this.opponentInfo = player.battle.opponentInfo;
-                    this.targetBoard = BattleMethods.updateTargetBoardWithPlayer(this.targetBoard, player);
-                    this.ownBoard = BattleMethods.updateOwnBoardWithPlayer(this.ownBoard, player);
-                    this.playerStatus = player.playerStatus;
-                } else {
-                    this.opponentInfo = null;
-                    this.targetBoard = null;
-                    this.ownBoard = null;
-                    this.playerStatus = PlayerStatus.Waiting;
+        const uid = this.store.selectSnapshot(AuthState.authUser).uid;
+        this.cloudData.getPlayer$(uid)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+                player => {
+                    this.hideError();
+                    if (player && player.battle) {
+                        this.opponentInfo = player.battle.opponentInfo;
+                        this.targetBoard = BattleMethods.updateTargetBoardWithPlayer(this.targetBoard, player);
+                        this.ownBoard = BattleMethods.updateOwnBoardWithPlayer(this.ownBoard, player);
+                        this.playerStatus = player.playerStatus;
+                    } else {
+                        this.opponentInfo = null;
+                        this.targetBoard = null;
+                        this.ownBoard = null;
+                        this.playerStatus = PlayerStatus.Waiting;
+                    }
+                },
+                error => {
+                    this.showError('battle.error.state');
                 }
-            },
-            error => {
-                this.showError('battle.error.state');
-            }
-        );
+            );
     }
 
     onShoot(field: BattleField) {

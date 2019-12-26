@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { NotificationService } from 'src/app/auth/notification.service';
-import { RedirectService } from 'src/app/auth/redirect.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { AuthRedirectService } from 'src/app/auth/auth-redirect.service';
 import { AuthService } from '../../auth.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class UpdatePasswordComponent {
         private location: Location,
         private translate: TranslateService,
         private authService: AuthService,
-        private redirect: RedirectService,
+        private redirect: AuthRedirectService,
         private notification: NotificationService,
     ) { }
 
