@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { PlayerState } from '../../state/player.state';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, takeUntil } from 'rxjs/operators';
 import { GameModel, getGameModel } from './game.model';
 
 @Component({
@@ -10,7 +10,8 @@ import { GameModel, getGameModel } from './game.model';
 })
 export class GameComponent implements OnInit {
 
-    model$: Observable<GameModel>;
+    model: GameModel = {};
+    private destroy$ = new Subject<void>();
 
     constructor(
         private store: Store,
@@ -18,12 +19,17 @@ export class GameComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        let oldModel = {};
-        this.model$ = this.store.select(PlayerState)
+        this.store.select(PlayerState)
             .pipe(
-                map(state => getGameModel(oldModel, state)),
-                tap(model => oldModel = model)
-            );
+                tap(state => this.model = getGameModel(this.model, state)),
+                takeUntil(this.destroy$)
+            )
+            .subscribe()
+            ;
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
     }
 
 }

@@ -1,4 +1,4 @@
-<ng-container *ngIf="(model$ | async) as model">
+<ng-container *ngIf="model">
     <div *ngIf="model.unauthenticated" class="page-inset mat-typography">
         <a routerLink="/auth/login">Login</a>
     </div>
@@ -13,3 +13,4 @@
     <app-victory *ngIf="model.showVictory"></app-victory>
     <app-waterloo *ngIf="model.showWaterloo"></app-waterloo>
 </ng-container>
+{{model|json}}
