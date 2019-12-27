@@ -1,5 +1,5 @@
 import * as MatchMethods from './match-methods';
-import { MatchState } from './match-models';
+import { MatchStatus } from './match-models';
 import { PlayerLevel, WaitingPlayer } from '@cloud-api/core-models';
 
 function str(v: any): string {
@@ -68,7 +68,7 @@ const waitingPlayers: WaitingPlayer[] = [
     }
 ];
 
-describe('MatchMethods reduce MatchState', () => {
+describe('MatchMethods reduce MatchStatus', () => {
 
     beforeEach(() => {
     });
@@ -77,96 +77,96 @@ describe('MatchMethods reduce MatchState', () => {
     });
 
     it('with undefined uid (* --> Idle)', () => {
-        const state = MatchState.Started;
+        const state = MatchStatus.Started;
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, undefined);
-        expect(matchState).toBe(MatchState.Idle);
+        const matchStatus = MatchMethods.updateMatchStatusWithWaitingPlayers(state, action, undefined);
+        expect(matchStatus).toBe(MatchStatus.Idle);
         expect(str(action)).toBe(actionBefore);
     });
 
     it('with uid set to null (* --> Idle)', () => {
-        const state = MatchState.Started;
+        const state = MatchStatus.Started;
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, null);
-        expect(matchState).toBe(MatchState.Idle);
+        const matchStatus = MatchMethods.updateMatchStatusWithWaitingPlayers(state, action, null);
+        expect(matchStatus).toBe(MatchStatus.Idle);
         expect(str(action)).toBe(actionBefore);
     });
 
     it('with undefined action (* --> Idle)', () => {
-        const state = MatchState.Started;
+        const state = MatchStatus.Started;
         const uid = 'cinque';
-        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, undefined, uid);
-        expect(matchState).toBe(MatchState.Idle);
+        const matchStatus = MatchMethods.updateMatchStatusWithWaitingPlayers(state, undefined, uid);
+        expect(matchStatus).toBe(MatchStatus.Idle);
     });
 
     it('with action set to null (* --> Idle)', () => {
-        const state = MatchState.Started;
+        const state = MatchStatus.Started;
         const uid = 'cinque';
-        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, null, uid);
-        expect(matchState).toBe(MatchState.Idle);
+        const matchStatus = MatchMethods.updateMatchStatusWithWaitingPlayers(state, null, uid);
+        expect(matchStatus).toBe(MatchStatus.Idle);
     });
 
     it('with non-matching action (Idle --> Idle)', () => {
-        const state = MatchState.Idle;
+        const state = MatchStatus.Idle;
         const uid = 'cinque';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
-        expect(matchState).toBe(MatchState.Idle);
+        const matchStatus = MatchMethods.updateMatchStatusWithWaitingPlayers(state, action, uid);
+        expect(matchStatus).toBe(MatchStatus.Idle);
         expect(str(action)).toBe(actionBefore);
     });
 
     it('with non-matching action (Started --> Completed)', () => {
-        const state = MatchState.Started;
+        const state = MatchStatus.Started;
         const uid = 'cinque';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
-        expect(matchState).toBe(MatchState.Completed);
+        const matchStatus = MatchMethods.updateMatchStatusWithWaitingPlayers(state, action, uid);
+        expect(matchStatus).toBe(MatchStatus.Completed);
         expect(str(action)).toBe(actionBefore);
     });
 
     it('with non-matching action (Completed --> Completed)', () => {
-        const state = MatchState.Completed;
+        const state = MatchStatus.Completed;
         const uid = 'cinque';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
-        expect(matchState).toBe(MatchState.Completed);
+        const matchStatus = MatchMethods.updateMatchStatusWithWaitingPlayers(state, action, uid);
+        expect(matchStatus).toBe(MatchStatus.Completed);
         expect(str(action)).toBe(actionBefore);
     });
 
     it('with matching action (Idle --> Started)', () => {
-        const state = MatchState.Idle;
+        const state = MatchStatus.Idle;
         const uid = 'uno';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
-        expect(matchState).toBe(MatchState.Started);
+        const matchStatus = MatchMethods.updateMatchStatusWithWaitingPlayers(state, action, uid);
+        expect(matchStatus).toBe(MatchStatus.Started);
         expect(str(action)).toBe(actionBefore);
     });
 
     it('with matching action (Started --> Started)', () => {
-        const state = MatchState.Started;
+        const state = MatchStatus.Started;
         const uid = 'uno';
         const action = waitingPlayers;
         const actionBefore = str(action);
-        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
-        expect(matchState).toBe(MatchState.Started);
+        const matchStatus = MatchMethods.updateMatchStatusWithWaitingPlayers(state, action, uid);
+        expect(matchStatus).toBe(MatchStatus.Started);
         expect(str(action)).toBe(actionBefore);
     });
 
     it('with matching action (Started --> Completed)', () => {
-        const state = MatchState.Started;
+        const state = MatchStatus.Started;
         const uid = 'uno';
         const action: WaitingPlayer[] = waitingPlayers.filter((waitingPlayer: WaitingPlayer) => {
             return waitingPlayer.uid !== uid;
         });
         const actionBefore = str(action);
-        const matchState = MatchMethods.updateMatchStateWithWaitingPlayers(state, action, uid);
-        expect(matchState).toBe(MatchState.Completed);
+        const matchStatus = MatchMethods.updateMatchStatusWithWaitingPlayers(state, action, uid);
+        expect(matchStatus).toBe(MatchStatus.Completed);
         expect(str(action)).toBe(actionBefore);
     });
 

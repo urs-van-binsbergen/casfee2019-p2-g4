@@ -120,8 +120,10 @@
     "match": {
         "body": "Wähle deinen Gegner",
         "error": {
-            "cancel": "Die Wahl kann nicht abgebrochen werden.",
-            "waitingPlayers": "Es können keine Herausforderungen gemacht werden"
+            "add": "Die Herausforderung konnte nicht gemacht werden.",
+            "cancel": "Das Spiel konnte nicht abgebrochen werden.",
+            "remove": "Die Herausforderung konnte nicht entfernt werden.",
+            "waitingPlayers": "Es können keine Herausforderungen gemacht werden."
         },
         "title": "Herausforderung",
         "item": {

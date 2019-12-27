@@ -120,8 +120,10 @@
     "match": {
         "body": "Choose your opponent",
         "error": {
-            "cancel": "Could not cancel opponent match.",
-            "waitingPlayers": "No opponent matches can be made."
+            "add": "Could not add challenge.",
+            "cancel": "Could not cancel game.",
+            "remove": "Could not remove challenge.",
+            "waitingPlayers": "No challenges can be made."
         },
         "title": "Opponent Match",
         "item": {

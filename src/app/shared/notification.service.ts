@@ -35,4 +35,8 @@ export class NotificationService {
         this.quickToast(invalidMsg, 1000);
     }
 
+    quickErrorToast(key: string) {
+        const msg = this.translate.instant(key);
+        this.quickToast(msg, 3000);
+    }
 }
