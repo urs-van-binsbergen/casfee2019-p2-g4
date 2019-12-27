@@ -63,9 +63,9 @@ export class UserComponent implements OnInit, OnDestroy {
                         this.myBattleList = getBattleListModel(authUser.uid, battles, hallEntries);
                     })
                     .catch(error => {
-                        this.myBattleList = { battles: [], isLoadFailure: true };
+                        this.myBattleList = { battles: [], isLoadFailure: true, isLoadingDone: true };
                         const errorDetail = this.notification.localizeFirebaseError(error);
-                        const msg = this.translate.instant('user.myBattleList.apiError.loading', { errorDetail });
+                        const msg = this.translate.instant('common.error.apiReadError', { errorDetail });
                         this.notification.quickToast(msg, 2000);
                     })
                     ;

@@ -19,7 +19,6 @@
             "password": "Passwort",
             "submitButton": "Einloggen",
             "successMessage": "Login erfolgreich",
-            "apiError": "Fehler beim Einloggen: {{errorDetail}}",
             "registerLink": "Neuer Spieler (registrieren)",
             "forgotPasswordLink": "Passwort vergessen"
         },
@@ -33,8 +32,7 @@
             "passwordRepeat": "Passwort wiederholen",
             "passwordMismatch": "Passwörter stimmen nicht überein",
             "submitButton": "Registrieren",
-            "successMessage": "Registrierung erfolgreich",
-            "apiError": "Fehler bei der Registrierung: {{errorDetail}}"
+            "successMessage": "Registrierung erfolgreich"
         },
         "resetPassword": {
             "title": "Passwort zurücksetzen",
@@ -42,8 +40,7 @@
             "email": "E-Mail-Adresse",
             "emailNotValid": "Keine gültige E-Mail-Adresse",
             "submitButton": "Senden",
-            "successMessage": "Das E-Mail wurde gesendet, bitte Inbox prüfen",
-            "apiError": "Fehler beim Senden des E-Mails: {{errorDetail}}"
+            "successMessage": "Das E-Mail wurde gesendet, bitte Inbox prüfen"
         }
     },
     "battle": {
@@ -51,11 +48,7 @@
         "pleaseShoot": "Du kannst jetzt schiessen",
         "waitingForOpponent": "Gegner wird demnächst schiessen...",
         "sBoard": " Spielfeld",
-        "yourBoard": "Dein Spielfeld",
-        "apiError": {
-            "sending": "Fehler beim Übermitteln auf den Server: {{errorDetail}}",
-            "loading": "Fehler beim Laden der Daten: {{errorDetail}}"
-        }
+        "yourBoard": "Dein Spielfeld"
     },
     "button": {
         "battle": "Schlacht",
@@ -72,6 +65,12 @@
             "pleaseCheckFormInput": "Bitte Eingaben überprüfen",
             "fieldRequired": "Obligatorisches Feld",
             "fieldValueInvalid": "Ungültiger Wert"
+        },
+        "error": {
+            "contentNotLoaded": "Inhalt konnte nicht geladen werden",
+            "genericError": "Fehler: {{errorDetail}}",
+            "apiReadError": "Fehler beim Lesen der Daten vom Server: {{errorDetail}}",
+            "apiWriteError": "Fehler beim Übermitteln der Daten zum Server: {{errorDetail}}"
         },
         "enum": {
             "PlayerLevel": {
@@ -138,10 +137,7 @@
             "level": "Stufe",
             "updateProfileButton": "Profil ändern",
             "updatePasswordButton": "Passwort ändern",
-            "logoutButton": "Ausloggen",
-            "apiError": {
-                "loading": "Fehler beim Laden der Benutzerdaten: {{errorDetail}}"
-            }
+            "logoutButton": "Ausloggen"
         },
         "myBattleList": {
             "title": "Meine glorreichen Schlachten",
@@ -150,10 +146,7 @@
             "opponent": "Gegner",
             "result": "Ausgang",
             "victory": "Sieg",
-            "waterloo": "Niederlage",
-            "apiError": {
-                "loading": "Fehler beim Laden der Schlachten: {{errorDetail}}"
-            }
+            "waterloo": "Niederlage"
         },
         "updateProfile": {
             "title": "Profil ändern",
@@ -169,8 +162,7 @@
             "passwordRepeat": "Neues Passwort wiederholen",
             "passwordMismatch": "Passwörter stimmen nicht überein",
             "submitButton": "Ändern",
-            "successMessage": "Passwort geändert",
-            "apiError": "Fehler beim Ändern des Passwort: {{errorDetail}}"
+            "successMessage": "Passwort geändert"
         }
     },
     "victory": {

@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
                 this.waiting = false;
 
                 const errorDetail = this.notification.localizeFirebaseError(error);
-                const msg = this.translate.instant('auth.login.apiError', { errorDetail });
+                const msg = this.translate.instant('common.error.genericError', { errorDetail });
                 this.notification.toastToConfirm(msg);
             });
     }

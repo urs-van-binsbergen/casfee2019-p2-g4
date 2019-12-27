@@ -19,7 +19,6 @@
             "password": "Password",
             "submitButton": "Login",
             "successMessage": "Login successful",
-            "apiError": "Login failure: {{errorDetail}}",
             "registerLink": "Register new player",
             "forgotPasswordLink": "Forgot password"
         },
@@ -33,8 +32,7 @@
             "passwordRepeat": "Repeat Password",
             "passwordMismatch": "Passwords do not match",
             "submitButton": "Register",
-            "successMessage": "Registration successful",
-            "apiError": "Registration failure: {{errorDetail}}"
+            "successMessage": "Registration successful"
         },
         "resetPassword": {
             "title": "Reset password",
@@ -42,8 +40,7 @@
             "email": "Email address",
             "emailNotValid": "Not a valid email address",
             "submitButton": "Send",
-            "successMessage": "Email sent, please check inbox",
-            "apiError": "Error sending mail: {{errorDetail}}"
+            "successMessage": "Email sent, please check inbox"
         }
     },
     "battle": {
@@ -51,11 +48,7 @@
         "pleaseShoot": "Please shoot now",
         "waitingForOpponent": "Waiting for opponent",
         "sBoard": "'s board",
-        "yourBoard": "Your board",
-        "apiError": {
-            "sending": "Failure transmitting to server: {{errorDetail}}",
-            "loading": "Failure loading data: {{errorDetail}}"
-        }
+        "yourBoard": "Your board"
     },
     "button": {
         "battle": "Battle",
@@ -72,6 +65,12 @@
             "pleaseCheckFormInput": "Please check form input",
             "fieldRequired": "Field required",
             "fieldValueInvalid": "Value invalid"
+        },
+        "error": {
+            "contentNotLoaded": "Could not load content",
+            "genericError": "Error: {{errorDetail}}",
+            "apiReadError": "Error reading data from server: {{errorDetail}}",
+            "apiWriteError": "Error writing data to server: {{errorDetail}}"
         },
         "enum": {
             "PlayerLevel": {
@@ -138,10 +137,7 @@
             "level": "Rank",
             "updateProfileButton": "Update profile",
             "updatePasswordButton": "Update password",
-            "logoutButton": "Logout",
-            "apiError": {
-                "loading": "Error loading user data: {{errorDetail}}"
-            }
+            "logoutButton": "Logout"
         },
         "myBattleList": {
             "title": "My heroic battles",
@@ -150,17 +146,13 @@
             "opponent": "Opponent",
             "result": "Result",
             "victory": "Victory",
-            "waterloo": "Waterloo",
-            "apiError": {
-                "loading": "Error loading battles: {{errorDetail}}"
-            }
+            "waterloo": "Waterloo"
         },
         "updateProfile": {
             "title": "Update profile",
             "displayName": "Display name",
             "submitButton": "Update",
-            "successMessage": "Profile updated",
-            "apiError": "Failure updating profile: {{errorDetail}}"
+            "successMessage": "Profile updated"
         },
         "updatePassword": {
             "title": "Update password",
@@ -170,8 +162,7 @@
             "passwordRepeat": "Repeat new Password",
             "passwordMismatch": "Passwords do not match",
             "submitButton": "Change",
-            "successMessage": "Password changed",
-            "apiError": "Failure changing password: {{errorDetail}}"
+            "successMessage": "Password changed"
         }
     },
     "victory": {

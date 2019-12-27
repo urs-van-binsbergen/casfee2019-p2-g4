@@ -21,8 +21,8 @@ export class GameComponent implements OnInit {
     ngOnInit(): void {
         this.store.select(PlayerState)
             .pipe(
-                tap(state => this.model = getGameModel(this.model, state)),
-                takeUntil(this.destroy$)
+                takeUntil(this.destroy$),
+                tap(state => this.model = getGameModel(this.model, state))
             )
             .subscribe()
             ;
