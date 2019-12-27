@@ -18,7 +18,7 @@ export async function loadBattleData(
 
     // Load player data
     const playerDoc = await tx.get(playerRef);
-    const player = getData<Player>(playerDoc);
+    const player = getData<Player>(playerDoc, () => new HttpsError('not-found', 'player doc does not exist'));
     const battle = player.battle; // (as seen by the current player!)
 
     // Preconditions
@@ -66,9 +66,11 @@ export async function prepareHistoryUpdate(
     const docs = await tx.getAll(winnerHallRef, winnerUserRef, loserHallRef, loserUserRef);
     let i = 0;
     const winnerEntry = getDataOrNull<HallEntry>(docs[i++]);
-    const winnerUser = getData<User>(docs[i++]);
+    const winnerUser = getData<User>(docs[i++], () => new HttpsError('not-found',
+                                            'user doc of winner does not exist'));
     const loserEntry = getDataOrNull<HallEntry>(docs[i++]);
-    const loserUser = getData<User>(docs[i++]);
+    const loserUser = getData<User>(docs[i++], () => new HttpsError('not-found',
+                                            'user doc of loser does not exist'));
 
     const winnerPlayerInfo = createPlayerInfo(winnerUser);
     const newWinnerEntry = getNewHallEntryState(winnerPlayerInfo, winnerEntry, true);

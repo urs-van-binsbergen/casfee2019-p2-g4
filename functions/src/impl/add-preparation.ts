@@ -37,7 +37,8 @@ export default async function addPreparation(
         }
 
         const userDoc = await userRef.get();
-        const user = getData<User>(userDoc);
+        const user = getData<User>(userDoc, () => new HttpsError('not-found',
+                                                    'user doc does not exist'));
 
         const player = createPlayer(user, board);
         const wPlayer = createWaitingPlayer(user);

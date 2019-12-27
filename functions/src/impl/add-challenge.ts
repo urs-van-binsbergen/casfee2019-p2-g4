@@ -47,10 +47,14 @@ export default function addChallenge(
         const oppUserDoc = docs[3];
 
         // Get data (exception when one of these is missing - TODO: convert to HttpsError)
-        const player = getData<Player>(playerDoc);
-        const user = getData<User>(userDoc);
-        const oppPlayer = getData<Player>(oppPlayerDoc);
-        const oppUser = getData<User>(oppUserDoc);
+        const player = getData<Player>(playerDoc, () => new HttpsError('not-found',
+                                                        'player doc does not exist'));
+        const user = getData<User>(userDoc, () => new HttpsError('not-found',
+                                                        'user doc does not exist'));
+        const oppPlayer = getData<Player>(oppPlayerDoc, () => new HttpsError('not-found',
+                                                        'opponent player doc does not exist'));
+        const oppUser = getData<User>(oppUserDoc, () => new HttpsError('not-found',
+                                                        'opponent user doc does not exist'));
 
         // Preconditions (player documents must exist and be in status 'Waiting')
         const allowedStatusses = [PlayerStatus.Waiting];
