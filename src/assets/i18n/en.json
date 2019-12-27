@@ -134,7 +134,7 @@
     },
     "preparation": {
         "board": "Board",
-        "body": "Drag all ships from the yard and drop them to the board. Click on the ship's tower to rotate 90°. Drag and drop ships on the board to reposition.",
+        "body": "Drag all ships from the yard and drop them to the board. Drag and drop ships on the board to reposition. Click on the ship's tower to rotate 90°.",
         "dialog": {
             "body": "Your data will get lost!",
             "title": "Warning"
