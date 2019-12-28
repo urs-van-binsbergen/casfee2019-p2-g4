@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { WaitingPlayer } from '@cloud-api/core-models';
 import { Select, Store } from '@ngxs/store';
 import { AuthState } from 'src/app/auth/state/auth.state';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MatchState } from '../state/match.state';
 import { AddChallenge, BindMatch, CancelMatch, RemoveChallenge, UnbindMatch } from '../state/match.actions';
 import deepClone from 'clone-deep';
@@ -19,6 +19,7 @@ export class MatchComponent implements OnInit, OnDestroy {
     private _items: MatchItem[] = [];
     private _state: MatchStatus = MatchStatus.Idle;
     private _waiting: boolean;
+    private _subsciption: Subscription;
 
     @Select(MatchState.loading) loading$: Observable<boolean>;
     @Select(MatchState.waitingPlayers) waitingPlayers$: Observable<WaitingPlayer[]>;
@@ -30,7 +31,7 @@ export class MatchComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         const uid = this.store.selectSnapshot(AuthState.authUser).uid;
-        this.waitingPlayers$.subscribe((waitingPlayers: WaitingPlayer[]) => {
+        this._subsciption = this.waitingPlayers$.subscribe((waitingPlayers: WaitingPlayer[]) => {
             this._state = MatchMethods.updateMatchStatusWithWaitingPlayers(this._state, waitingPlayers, uid);
             this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, waitingPlayers, uid);
         });
@@ -38,6 +39,7 @@ export class MatchComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this._subsciption.unsubscribe();
         this.store.dispatch(new UnbindMatch());
     }
 
