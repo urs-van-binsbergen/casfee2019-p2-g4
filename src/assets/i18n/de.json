@@ -20,7 +20,10 @@
             "submitButton": "Einloggen",
             "successMessage": "Login erfolgreich",
             "registerLink": "Neuer Spieler (registrieren)",
-            "forgotPasswordLink": "Passwort vergessen"
+            "forgotPasswordLink": "Passwort vergessen",
+            "error": {
+                "badCredentials": "Benutzer nicht gefunden oder falsches Passwort"
+            }
         },
         "register": {
             "title": "Als neuer Spieler registrieren",
@@ -32,7 +35,11 @@
             "passwordRepeat": "Passwort wiederholen",
             "passwordMismatch": "Passwörter stimmen nicht überein",
             "submitButton": "Registrieren",
-            "successMessage": "Registrierung erfolgreich"
+            "successMessage": "Registrierung erfolgreich",
+            "error": {
+                "emailInUse": "E-Mail wird bereits verwendet",
+                "emailInvalid": "E-Mail ungültig"
+            }
         },
         "resetPassword": {
             "title": "Passwort zurücksetzen",
@@ -58,7 +65,7 @@
         "continue": "Weiter",
         "done": "Fertig",
         "login": "Login",
-        "ok": "Ok"
+        "ok": "OK"
     },
     "common": {
         "message": {
@@ -79,14 +86,6 @@
                 "Captain": "Kapitänin",
                 "Admiral": "Admiralin"
             }
-        }
-    },
-    "firebase": {
-        "errorCodes": {
-            "auth/wrong-password": "Falsches Passwort",
-            "auth/user-not-found": "Benutzer nicht gefunden",
-            "auth/email-already-in-use": "E-Mail wird bereits verwendet",
-            "auth/invalid-email": "E-Mail ungültig"
         }
     },
     "game": {

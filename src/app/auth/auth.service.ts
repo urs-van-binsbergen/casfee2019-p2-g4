@@ -14,7 +14,7 @@ export interface AuthUser {
 }
 
 /*
- * Helper: Convert 'firebase.User' to an technology-agnostic model
+ * Helper: Convert 'firebase.User' to a technology-agnostic model
  */
 function getAuthUser(firebaseUser: firebase.User): AuthUser | null {
     if (!firebaseUser) {
@@ -28,8 +28,20 @@ function getAuthUser(firebaseUser: firebase.User): AuthUser | null {
     };
 }
 
+export interface LoginResult {
+    success: boolean;
+    badCredentials?: boolean;
+    genericError?: string;
+}
+
+export interface RegistrationResult {
+    success: boolean;
+    emailInUse?: boolean;
+    emailInvalid?: boolean;
+}
+
 /*
- * Technology-agnostic Auth API
+ * Auth API
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -56,11 +68,18 @@ export class AuthService {
     }
 
     /*
-     * Login a user
+     * Login a user (returns false on bad credentials and true on success)
      */
-    login(email: string, password: string): Promise<void> {
+    login(email: string, password: string): Promise<LoginResult> {
         return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-            .then(() => { return; });
+            .then(() => ({ success: true }))
+            .catch((error: firebase.FirebaseError) => {
+                if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+                    return { success: false, badCredentials: true };
+                } else {
+                    return { success: false, genericError: `${error.message} (${error.code})` };
+                }
+            });
     }
 
     /*
@@ -73,11 +92,23 @@ export class AuthService {
     /*
      * Register a new user
      */
-    register(email: string, password: string, displayName: string): Promise<void> {
+    register(email: string, password: string, displayName: string): Promise<RegistrationResult> {
         return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
             .then(async userCredential => {
                 await this.updateProfileImpl(userCredential.user, displayName);
-            });
+                return { success: true };
+            })
+            .catch((error: firebase.FirebaseError) => {
+                if (error.code === 'auth/email-already-in-use') {
+                    return { success: false, emailInUse: true };
+                }
+                if (error.code === 'auth/invalid-email') {
+                    return { success: false, emailInvalid: true };
+                }
+                // some other error -> rethrow
+                throw error;
+            })
+            ;
     }
 
     /*

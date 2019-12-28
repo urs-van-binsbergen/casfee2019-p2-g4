@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { PlayerState } from '../../state/player.state';
-import { tap, map, takeUntil } from 'rxjs/operators';
+import { tap, takeUntil } from 'rxjs/operators';
 import { GameModel, getGameModel } from './game.model';
 
 @Component({
     templateUrl: './game.component.html',
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
 
     model: GameModel = {};
     private destroy$ = new Subject<void>();

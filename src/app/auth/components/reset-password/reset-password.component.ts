@@ -44,9 +44,7 @@ export class ResetPasswordComponent implements OnInit {
             })
             .catch(error => {
                 this.waiting = false;
-
-                const errorDetail = this.notification.localizeFirebaseError(error);
-                const msg = this.translate.instant('common.error.apiWriteError', { errorDetail });
+                const msg = this.translate.instant('common.error.apiWriteError'); // TODO
                 this.notification.toastToConfirm(msg);
             });
     }

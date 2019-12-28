@@ -52,8 +52,8 @@ export class UpdatePasswordComponent {
             })
             .catch((error) => {
                 this.waiting = false;
-                const errorDetail = this.notification.localizeFirebaseError(error);
-                this.notification.toastToConfirm(errorDetail);
+                const errorMsg = this.translate.instant('common.error.genericError'); // TODO
+                this.notification.toastToConfirm(errorMsg);
             })
             ;
     }

@@ -5,7 +5,7 @@ import { Player } from '@cloud-api/core-models';
 import { ObservePlayer, ObserveAuthUser, PlayerUpdated, Unauthenticated as Unauthenticated } from './player.actions';
 import { takeUntil, first, map } from 'rxjs/operators';
 
-export class PlayerModel {
+export interface PlayerModel {
     player: Player | null;
     loading?: boolean;
     unauthenticated?: boolean;

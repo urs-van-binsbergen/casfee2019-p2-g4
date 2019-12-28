@@ -3,7 +3,7 @@ import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { GetHallEntries } from './hall.actions';
 import { HallEntry } from '@cloud-api/core-models';
 
-export class HallStateModel {
+export interface HallStateModel {
     loading: boolean;
     hallEntries: HallEntry[];
 }
