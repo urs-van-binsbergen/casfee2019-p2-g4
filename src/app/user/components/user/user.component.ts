@@ -60,7 +60,7 @@ export class UserComponent implements OnInit, OnDestroy {
                 ])
                     .then(results => {
                         const [battles, hallEntries] = results;
-                        this.myBattleList = getBattleListModel(authUser.uid, battles, hallEntries);
+                        this.myBattleList = getBattleListModel(authUser.uid, [...battles].reverse(), hallEntries);
                     })
                     .catch(error => {
                         this.myBattleList = { battles: [], isLoadFailure: true, isLoadingDone: true };
