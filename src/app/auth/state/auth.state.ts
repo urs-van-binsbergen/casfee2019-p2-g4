@@ -1,5 +1,5 @@
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
-import { ObserveUser, UpdateUser } from './auth.actions';
+import { ObserveAuthUser as ObserveAuthUser, AuthUserChanged } from './auth.actions';
 import { map } from 'rxjs/operators';
 import { AuthService, AuthUser } from '../auth.service';
 
@@ -26,23 +26,23 @@ export class AuthState implements NgxsOnInit {
         return state.authUser;
     }
 
-    @Action(UpdateUser)
-    updateUser(ctx: StateContext<AuthModel>, action: UpdateUser) {
+    @Action(AuthUserChanged)
+    authUserChanged(ctx: StateContext<AuthModel>, action: AuthUserChanged) {
         const user = action.authUser;
         ctx.setState({ authUser: user });
     }
 
-    @Action(ObserveUser, { cancelUncompleted: true })
-    observeUser(ctx: StateContext<AuthModel>) {
+    @Action(ObserveAuthUser, { cancelUncompleted: true })
+    observeAuthUser(ctx: StateContext<AuthModel>) {
         return this.authService.authUser$().pipe(
             map(authUser => {
-                return ctx.dispatch(new UpdateUser(authUser));
+                return ctx.dispatch(new AuthUserChanged(authUser));
             })
         );
     }
 
     ngxsOnInit(ctx: StateContext<AuthModel>) {
-        ctx.dispatch(new ObserveUser());
+        ctx.dispatch(new ObserveAuthUser());
     }
 
 }

@@ -2,7 +2,7 @@ import { Action, NgxsOnInit, Selector, State, StateContext, Store } from '@ngxs/
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { AuthState } from 'src/app/auth/state/auth.state';
 import { Player } from '@cloud-api/core-models';
-import { ObservePlayer, ObserveUser, PlayerUpdated, Unauthenticated as Unauthenticated } from './player.actions';
+import { ObservePlayer, ObserveAuthUser, PlayerUpdated, Unauthenticated as Unauthenticated } from './player.actions';
 import { takeUntil, first, map } from 'rxjs/operators';
 
 export class PlayerModel {
@@ -32,7 +32,7 @@ export class PlayerState implements NgxsOnInit {
     }
 
     ngxsOnInit(ctx: StateContext<PlayerModel>) {
-        ctx.dispatch(new ObserveUser());
+        ctx.dispatch(new ObserveAuthUser());
     }
 
     @Action(PlayerUpdated)
@@ -55,8 +55,8 @@ export class PlayerState implements NgxsOnInit {
         );
     }
 
-    @Action(ObserveUser, { cancelUncompleted: true })
-    observeUser(ctx: StateContext<PlayerModel>) {
+    @Action(ObserveAuthUser, { cancelUncompleted: true })
+    observeAuthUser(ctx: StateContext<PlayerModel>) {
         return this.store.select(AuthState.authUser).pipe(
             map(user => {
                 if (user && user.uid) {

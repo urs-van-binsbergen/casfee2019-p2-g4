@@ -1,11 +1,11 @@
 import { AuthUser } from '../auth.service';
 
-export class ObserveUser {
-    static readonly type = '[auth] observe user';
+export class ObserveAuthUser {
+    static readonly type = '[auth] observe auth user';
     constructor() { }
 }
 
-export class UpdateUser {
-    static readonly type = '[auth] update user';
+export class AuthUserChanged {
+    static readonly type = '[auth] auth user changed';
     constructor(public authUser: AuthUser) { }
 }
