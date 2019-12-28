@@ -8,7 +8,8 @@
         "nav": {
             "user": "User",
             "battle": "Battle",
-            "admin": "Admin"
+            "admin": "Admin",
+            "hall": "Hall"
         }
     },
     "auth": {
