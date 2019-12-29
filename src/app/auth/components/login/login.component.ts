@@ -37,14 +37,14 @@ export class LoginComponent implements OnInit, OnDestroy {
             .pipe(
                 takeUntil(this.destroy$),
                 skip(1),
-                tap(model => {
-                    if (!model) {
+                tap(result => {
+                    if (!result) {
                         return;
                     }
 
                     this.waiting = false;
 
-                    if (model.success) {
+                    if (result.success) {
                         const msg = this.translate.instant('auth.login.successMessage');
                         this.notification.quickToast(msg, 1000);
                         this.redirect.redirectToNext('/user');
@@ -52,9 +52,9 @@ export class LoginComponent implements OnInit, OnDestroy {
                     }
 
                     // Error
-                    const errorMsg = model.badCredentials ?
+                    const errorMsg = result.badCredentials ?
                         this.translate.instant('auth.login.error.badCredentials') :
-                        this.translate.instant('common.error.genericError', { errorDetail: model.otherError });
+                        this.translate.instant('common.error.genericError', { errorDetail: result.otherError });
                     this.notification.toastToConfirm(errorMsg);
                 })
             )

@@ -43,15 +43,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
             .pipe(
                 takeUntil(this.destroy$),
                 skip(1),
-                tap(model => {
-                    if (!model) {
+                tap(result => {
+                    if (!result) {
                         return;
                     }
 
                     this.waiting = false;
 
-                    if (model.success) {
-                        if (model.incompleteSave) {
+                    if (result.success) {
+                        if (!result.profileUpdateSuccess) {
                             const msg = this.translate.instant('auth.register.error.incompleteSave');
                             this.notification.toastToConfirm(msg);
                         } else {
@@ -64,12 +64,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
                     // Error
                     let errorMsg: string;
-                    if (model.emailInUse) {
+                    if (result.emailInUse) {
                         errorMsg = this.translate.instant('auth.register.error.emailInUse');
-                    } else if (model.invalidEmail) {
+                    } else if (result.invalidEmail) {
                         errorMsg = this.translate.instant('auth.register.error.invalidEmail');
                     } else {
-                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: model.otherError });
+                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: result.otherError });
                     }
                     this.notification.toastToConfirm(errorMsg);
                 })

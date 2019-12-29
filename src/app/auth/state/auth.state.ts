@@ -1,14 +1,17 @@
-import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
-import { ObserveAuthUser, AuthUserChanged, Login, Logout, Register, UpdateProfile, UpdatePassword, SendPasswordMail } from './auth.actions';
-import { map } from 'rxjs/operators';
+import { Action, NgxsOnInit, Selector, State, StateContext, Store } from '@ngxs/store';
+import * as AuthActions from './auth.actions';
+import { map, takeUntil, first, tap } from 'rxjs/operators';
 import { AuthService, AuthUser } from '../auth.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
+import { CloudDataService } from 'src/app/backend/cloud-data.service';
+import { User } from '@cloud-api/core-models';
 
 
-export interface AuthModel {
+export interface AuthStateModel {
     authUser: AuthUser | null;
+    user: User | null; // (db doc, contains more details like player level)
 
-    // Action result models:
+    // Action result models
     loginResult?: LoginResult;
     logoutResult?: LogoutResult;
     registerResult?: RegisterResult;
@@ -33,12 +36,13 @@ export interface RegisterResult {
     emailInUse?: boolean;
     invalidEmail?: boolean;
     otherError?: string;
-    incompleteSave?: boolean; // (when auth reg success, but profile update in db failed)
+    profileUpdateSuccess: boolean;
 }
 
 export interface UpdateProfileResult {
     success: boolean;
     error?: string;
+    profileUpdateSuccess: boolean;
 }
 
 export interface UpdatePasswordResult {
@@ -55,126 +59,175 @@ export interface SendPasswordMailResult {
 }
 
 
-@State<AuthModel>({
+@State<AuthStateModel>({
     name: 'auth',
     defaults: {
-        authUser: null
+        authUser: null,
+        user: null
     }
 })
 
 export class AuthState implements NgxsOnInit {
 
     @Selector()
-    public static authUser(state: AuthModel): AuthUser {
+    public static authUser(state: AuthStateModel): AuthUser {
         return state.authUser;
     }
 
     @Selector()
-    public static loginResult(state: AuthModel): LoginResult {
+    public static user(state: AuthStateModel): User {
+        return state.user;
+    }
+
+    @Selector()
+    public static loginResult(state: AuthStateModel): LoginResult {
         return state.loginResult;
     }
 
     @Selector()
-    public static logoutResult(state: AuthModel): LogoutResult {
+    public static logoutResult(state: AuthStateModel): LogoutResult {
         return state.logoutResult;
     }
 
     @Selector()
-    public static registerResult(state: AuthModel): RegisterResult {
+    public static registerResult(state: AuthStateModel): RegisterResult {
         return state.registerResult;
     }
 
     @Selector()
-    public static updateProfileResult(state: AuthModel): UpdateProfileResult {
+    public static updateProfileResult(state: AuthStateModel): UpdateProfileResult {
         return state.updateProfileResult;
     }
 
     @Selector()
-    public static updatePasswordResult(state: AuthModel): UpdatePasswordResult {
+    public static updatePasswordResult(state: AuthStateModel): UpdatePasswordResult {
         return state.updatePasswordResult;
     }
 
     @Selector()
-    public static sendPasswordMailResult(state: AuthModel): SendPasswordMailResult {
+    public static sendPasswordMailResult(state: AuthStateModel): SendPasswordMailResult {
         return state.sendPasswordMailResult;
     }
 
     constructor(
+        private store: Store,
         private authService: AuthService,
-        private cloudFunctions: CloudFunctionsService // (to update database after registration)
+        private cloudFunctions: CloudFunctionsService,
+        private cloudData: CloudDataService
     ) {
+        // Why cloud services in the auth state? Because db user data handling 
+        // is included here for reasons of simplicity)
     }
 
-    ngxsOnInit(ctx: StateContext<AuthModel>) {
-        ctx.dispatch(new ObserveAuthUser());
+    ngxsOnInit(ctx: StateContext<AuthStateModel>) {
+        ctx.dispatch(new AuthActions.ObserveAuthUser());
     }
 
-    @Action(AuthUserChanged)
-    authUserChanged(ctx: StateContext<AuthModel>, action: AuthUserChanged) {
-        const user = action.authUser;
-        ctx.setState({ authUser: user });
-    }
-
-    @Action(ObserveAuthUser, { cancelUncompleted: true })
-    observeAuthUser(ctx: StateContext<AuthModel>) {
+    @Action(AuthActions.ObserveAuthUser, { cancelUncompleted: true })
+    observeAuthUser(ctx: StateContext<AuthStateModel>) {
         return this.authService.authUser$().pipe(
-            map(authUser => {
-                return ctx.dispatch(new AuthUserChanged(authUser));
+            tap(authUser => {
+                if (authUser) {
+                    ctx.dispatch(new AuthActions.AuthUserChanged(authUser));
+                } else {
+                    ctx.dispatch(new AuthActions.Unauthenticated());
+                }
             })
         );
     }
 
-    @Action(Login)
-    async login(ctx: StateContext<AuthModel>, action: Login) {
+    @Action(AuthActions.AuthUserChanged)
+    authUserChanged(ctx: StateContext<AuthStateModel>, action: AuthActions.AuthUserChanged) {
+        ctx.patchState({ authUser: action.authUser });
+        ctx.dispatch(new AuthActions.ObserveUser(action.authUser.uid))
+    }
+
+    @Action(AuthActions.Unauthenticated)
+    unauthenticated(ctx: StateContext<AuthStateModel>) {
+        ctx.setState({ authUser: null, user: null });
+    }
+
+    @Action(AuthActions.ObserveUser, { cancelUncompleted: true })
+    observeUser(ctx: StateContext<AuthStateModel>, action: AuthActions.ObserveUser) {
+        return this.cloudData.getUser$(action.uid)
+            .pipe(
+                takeUntil(this.store.select(AuthState.authUser)
+                    .pipe(
+                        first(authUser => !authUser)
+                    )
+                ),
+                map(user => {
+                    return ctx.dispatch(new AuthActions.UserUpdated(user));
+                })
+            );
+    }
+
+    @Action(AuthActions.UserUpdated)
+    userUpdated(ctx: StateContext<AuthStateModel>, action: AuthActions.UserUpdated) {
+        ctx.patchState({ user: action.user });
+    }
+
+
+    @Action(AuthActions.Login)
+    async login(ctx: StateContext<AuthStateModel>, action: AuthActions.Login) {
         const result = await this.authService.login(action.username, action.password);
 
         ctx.patchState({ loginResult: { ...result } });
     }
 
-    @Action(Logout)
-    async logout(ctx: StateContext<AuthModel>) {
+    @Action(AuthActions.Logout)
+    async logout(ctx: StateContext<AuthStateModel>) {
         const result = await this.authService.logout();
 
         ctx.patchState({ logoutResult: { ...result } });
     }
 
-    @Action(Register)
-    async register(ctx: StateContext<AuthModel>, action: Register) {
+    @Action(AuthActions.Register)
+    async register(ctx: StateContext<AuthStateModel>, action: AuthActions.Register) {
         const result = await this.authService.register(action.email, action.password, action.displayName);
 
-        let incompleteSave: boolean;
+        let profileUpdateSuccess: boolean;
         if (result.success) {
-            // Update database
-            try {
-                await this.cloudFunctions.updateUser({
-                    displayName: action.displayName,
-                    email: action.email,
-                    avatarFileName: null
-                }).toPromise();
-            } catch (error) {
-                incompleteSave = true;
-            }
+            profileUpdateSuccess = await this.updateProfileInDatabase(action.displayName, action.email);
         }
 
-        ctx.patchState({ registerResult: { ...result, incompleteSave } });
+        ctx.patchState({ registerResult: { ...result, profileUpdateSuccess } });
     }
 
-    @Action(UpdateProfile)
-    async updateProfile(ctx: StateContext<AuthModel>, action: UpdateProfile) {
+    @Action(AuthActions.UpdateProfile)
+    async updateProfile(ctx: StateContext<AuthStateModel>, action: AuthActions.UpdateProfile) {
         const result = await this.authService.updateProfile(action.displayName);
 
-        ctx.patchState({ updateProfileResult: { ...result } });
+        let profileUpdateSuccess: boolean;
+        if (result.success) {
+            profileUpdateSuccess = await this.updateProfileInDatabase(action.displayName, action.email);
+        }
+
+        ctx.patchState({ updateProfileResult: { ...result, profileUpdateSuccess } });
     }
 
-    @Action(UpdatePassword)
-    async updatePassword(ctx: StateContext<AuthModel>, action: UpdatePassword) {
+    private async updateProfileInDatabase(displayName: string, email: string): Promise<boolean> {
+        try {
+            await this.cloudFunctions.updateUser({
+                displayName: displayName,
+                email: email,
+                avatarFileName: null
+            }).toPromise();
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    @Action(AuthActions.UpdatePassword)
+    async updatePassword(ctx: StateContext<AuthStateModel>, action: AuthActions.UpdatePassword) {
         const result = await this.authService.updatePassword(action.oldPassword, action.newPassword);
 
         ctx.patchState({ updatePasswordResult: { ...result } });
     }
 
-    @Action(SendPasswordMail)
-    async sendPasswordMail(ctx: StateContext<AuthModel>, action: SendPasswordMail) {
+    @Action(AuthActions.SendPasswordMail)
+    async sendPasswordMail(ctx: StateContext<AuthStateModel>, action: AuthActions.SendPasswordMail) {
         const result = await this.authService.sendPasswordMail(action.email);
 
         ctx.patchState({ sendPasswordMailResult: { ...result } });

@@ -170,7 +170,10 @@
             "title": "Update profile",
             "displayName": "Display name",
             "submitButton": "Update",
-            "successMessage": "Profile updated"
+            "successMessage": "Profile updated", 
+            "error": {
+                "incompleteSave": "Profile update, but there was a problem saving to the user profile database"
+            }
         }
     },
     "victory": {

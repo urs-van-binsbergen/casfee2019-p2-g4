@@ -1,4 +1,5 @@
 import { AuthUser } from '../auth.service';
+import { User } from '@cloud-api/core-models';
 
 export class ObserveAuthUser {
     static readonly type = '[auth] observe auth user';
@@ -8,6 +9,21 @@ export class ObserveAuthUser {
 export class AuthUserChanged {
     static readonly type = '[auth] auth user changed';
     constructor(public authUser: AuthUser) { }
+}
+
+export class Unauthenticated {
+    static readonly type = '[auth] unauthenticated';
+    constructor() { }
+}
+
+export class ObserveUser {
+    static readonly type = '[auth] observe user';
+    constructor(public uid: string) { }
+}
+
+export class UserUpdated {
+    static readonly type = '[auth] user updated';
+    constructor(public user: User) { }
 }
 
 export class Login {
@@ -22,20 +38,20 @@ export class Logout {
 
 export class Register {
     static readonly type = '[auth] register';
-    constructor(public email: string, public password: string, public displayName: string) {}
+    constructor(public email: string, public password: string, public displayName: string) { }
 }
 
 export class UpdateProfile {
     static readonly type = '[auth] update profile';
-    constructor(public displayName: string) {}
+    constructor(public displayName: string, public email: string) { }
 }
 
 export class UpdatePassword {
     static readonly type = '[auth] update password';
-    constructor(public oldPassword: string, public newPassword: string) {}
+    constructor(public oldPassword: string, public newPassword: string) { }
 }
 
 export class SendPasswordMail {
     static readonly type = '[auth] send password mail';
-    constructor(public email: string) {}
+    constructor(public email: string) { }
 }

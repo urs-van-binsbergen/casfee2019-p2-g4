@@ -6,7 +6,7 @@ import { Observable, Subject, merge } from 'rxjs';
 /*
  * Auth API
  * - Facade (not exposing underlying implementation)
- * - Returning result objects (catching and partly interpreting exceptions)
+ * - Returning result objects (catching and interpreting exceptions)
  */
 
 export interface AuthUser {

@@ -4,8 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthUser } from 'src/app/auth/auth.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { NotificationService } from 'src/app/shared/notification.service';
-import { UserService } from '../../user.service';
-import { PlayerLevel } from '@cloud-api/core-models';
+import { PlayerLevel, User } from '@cloud-api/core-models';
 import { BattleListModel, getBattleListModel } from '../my-battle-list/my-battle-list.model';
 import { Store } from '@ngxs/store';
 import { AuthState } from 'src/app/auth/state/auth.state';
@@ -23,7 +22,6 @@ export class UserComponent implements OnInit, OnDestroy {
     authUser: AuthUser;
     level: string;
     myBattleList: BattleListModel;
-
     loggingOut = false;
     destroy$ = new Subject<void>();
 
@@ -33,46 +31,69 @@ export class UserComponent implements OnInit, OnDestroy {
         private router: Router,
         private notification: NotificationService,
         private translate: TranslateService,
-        private userService: UserService
-    ) {
-
-    }
+    ) { }
 
     ngOnInit(): void {
+        this.selectAuthUser();
+        this.selectUser();
+        this.selectLogoutResult()
+    }
+
+    private selectAuthUser() {
         this.store.select(AuthState.authUser)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(authUser => {
-                this.authUser = authUser;
+            .pipe(
+                takeUntil(this.destroy$),
+                tap<AuthUser>(authUser => {
+                    this.authUser = authUser;
+                })
+            )
+            .subscribe();
+    }
 
-                // get level from db data
-                this.userService.userData$.subscribe(userData => {
-                    this.level = userData ? PlayerLevel[userData.level] : null;
-                });
-                // TODO: unsubscribe. Store. MergeMap...
+    private selectUser() {
+        let oldUid: string = null;
+        this.store.select(AuthState.user)
+            .pipe(
+                takeUntil(this.destroy$),
+                tap<User>(userData => {
+                    if (!userData) {
+                        this.level = null;
+                        this.myBattleList = null;
+                        return;
+                    }
 
-                // Load stats from db data (once)
-                if (!authUser) {
-                    this.myBattleList = null;
-                    this.level = null;
-                    return;
-                }
-                Promise.all([
-                    this.cloudData.getHistoricBattlesOf(authUser.uid),
-                    this.cloudData.getHallEntries()
-                ])
-                    .then(results => {
-                        const [battles, hallEntries] = results;
-                        this.myBattleList = getBattleListModel(authUser.uid, [...battles].reverse(), hallEntries);
-                    })
-                    .catch(error => {
-                        this.myBattleList = { battles: [], isLoadFailure: true, isLoadingDone: true };
-                        const errorMsg = this.translate.instant('common.error.apiReadError'); // TODO
-                        this.notification.quickToast(errorMsg, 2000);
-                    })
-                    ;
+                    this.level = PlayerLevel[userData.level];
+                    if (userData.uid !== oldUid) {
+                        this.loadMyBattleList(userData.uid);
+                    }
 
-            });
+                    oldUid = userData.uid;
+                }),
+            )
+            .subscribe();
+    }
 
+
+    private loadMyBattleList(uid: string) {
+        this.myBattleList = { battles: [] };
+
+        Promise.all([
+            this.cloudData.getHistoricBattlesOf(uid),
+            this.cloudData.getHallEntries()
+        ])
+            .then(results => {
+                const [battles, hallEntries] = results;
+                this.myBattleList = getBattleListModel(uid, [...battles].reverse(), hallEntries);
+            })
+            .catch(error => {
+                this.myBattleList = { battles: [], isLoadFailure: true, isLoadingDone: true };
+                const errorMsg = this.translate.instant('common.error.apiReadError', { errorDetail: error });
+                this.notification.quickToast(errorMsg, 2000);
+            })
+            ;
+    }
+
+    private selectLogoutResult() {
         this.store.select(AuthState.logoutResult)
             .pipe(
                 takeUntil(this.destroy$),
@@ -86,6 +107,7 @@ export class UserComponent implements OnInit, OnDestroy {
             )
             .subscribe();
     }
+
 
     async logout() {
         this.loggingOut = true;

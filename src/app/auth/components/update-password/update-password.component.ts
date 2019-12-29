@@ -41,14 +41,14 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
             .pipe(
                 takeUntil(this.destroy$),
                 skip(1),
-                tap(model => {
-                    if (!model) {
+                tap(result => {
+                    if (!result) {
                         return;
                     }
 
                     this.waiting = false;
 
-                    if (model.success) {
+                    if (result.success) {
                         const msg = this.translate.instant('auth.updatePassword.successMessage');
                         this.notification.quickToast(msg, 1000);
                         this.redirect.redirectToNext('/user');
@@ -57,10 +57,10 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
 
                     // Error
                     let errorMsg: string;
-                    if (model.wrongPassword) {
+                    if (result.wrongPassword) {
                         errorMsg = this.translate.instant('auth.updatePassword.error.wrongPassword');
                     } else {
-                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: model.otherError });
+                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: result.otherError });
                     }
                     this.notification.toastToConfirm(errorMsg);
                 })

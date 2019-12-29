@@ -37,14 +37,14 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             .pipe(
                 takeUntil(this.destroy$),
                 skip(1),
-                tap(model => {
-                    if (!model) {
+                tap(result => {
+                    if (!result) {
                         return;
                     }
 
                     this.waiting = false;
 
-                    if (model.success) {
+                    if (result.success) {
                         const msg = this.translate.instant('auth.resetPassword.successMessage');
                         this.notification.quickToast(msg, 1000);
                         this.redirect.redirectToNext('/user');
@@ -53,12 +53,12 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
                     // Error
                     let errorMsg: string;
-                    if (model.userNotFound) {
+                    if (result.userNotFound) {
                         errorMsg = this.translate.instant('auth.resetPassword.error.userNotFound');
-                    } else if (model.invalidEmail) {
+                    } else if (result.invalidEmail) {
                         errorMsg = this.translate.instant('auth.resetPassword.error.invalidEmail');
                     } else {
-                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: model.otherError });
+                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: result.otherError });
                     }
                     this.notification.toastToConfirm(errorMsg);
                 })
