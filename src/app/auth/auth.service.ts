@@ -3,29 +3,11 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { map } from 'rxjs/operators';
 import { Observable, Subject, merge } from 'rxjs';
 
-/*
- * Model representing the currently logged in user
- */
 export interface AuthUser {
     uid: string;
     displayName: string;
     email: string;
     emailVerified: boolean;
-}
-
-/*
- * Helper: Convert 'firebase.User' to a technology-agnostic model
- */
-function getAuthUser(firebaseUser: firebase.User): AuthUser | null {
-    if (!firebaseUser) {
-        return null;
-    }
-    return {
-        uid: firebaseUser.uid,
-        displayName: firebaseUser.displayName || 'no name',
-        email: firebaseUser.email,
-        emailVerified: firebaseUser.emailVerified
-    };
 }
 
 export interface LoginResult {
@@ -41,15 +23,10 @@ export interface RegistrationResult {
 }
 
 /*
- * Auth API
+ * Auth API (facade, not exposing underlying implementation)
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
-    constructor(
-        private afAuth: AngularFireAuth
-    ) {
-    }
 
     /*
      * Locally published profile updates
@@ -57,19 +34,30 @@ export class AuthService {
      */
     private localAuthUserUpdates = new Subject<AuthUser>();
 
-    /*
-     * Currently logged-in user
-     */
+    constructor(
+        private afAuth: AngularFireAuth
+    ) {
+    }
+
+    private getAuthUser(firebaseUser: firebase.User): AuthUser | null {
+        if (!firebaseUser) {
+            return null;
+        }
+        return {
+            uid: firebaseUser.uid,
+            displayName: firebaseUser.displayName || 'no name',
+            email: firebaseUser.email,
+            emailVerified: firebaseUser.emailVerified
+        };
+    }
+
     public authUser$(): Observable<AuthUser> {
         return merge(
-            this.afAuth.authState.pipe(map(getAuthUser)),
+            this.afAuth.authState.pipe(map(this.getAuthUser)),
             this.localAuthUserUpdates
         );
     }
 
-    /*
-     * Login a user (returns false on bad credentials and true on success)
-     */
     login(email: string, password: string): Promise<LoginResult> {
         return this.afAuth.auth.signInWithEmailAndPassword(email, password)
             .then(() => ({ success: true }))
@@ -82,16 +70,10 @@ export class AuthService {
             });
     }
 
-    /*
-     * Logout the current user
-     */
     logout(): Promise<void> {
         return this.afAuth.auth.signOut();
     }
 
-    /*
-     * Register a new user
-     */
     register(email: string, password: string, displayName: string): Promise<RegistrationResult> {
         return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
             .then(async userCredential => {
@@ -111,36 +93,21 @@ export class AuthService {
             ;
     }
 
-    /*
-     * Send a mail with a link to reset the password
-     */
     sendPasswordMail(email: string): Promise<void> {
         return this.afAuth.auth.sendPasswordResetEmail(email);
     }
 
-    /*
-     * Update logged-in user's display name
-     */
     public updateProfile(displayName: string): Promise<void> {
         const firebaseUser = this.afAuth.auth.currentUser;
         return this.updateProfileImpl(firebaseUser, displayName);
     }
 
-    /*
-    * Update user's profile (private impl.)
-    */
-    private updateProfileImpl(firebaseUser: firebase.User, displayName: string): Promise<void> {
-        return firebaseUser.updateProfile({ displayName })
-            .then(() => {
-                const authUser = getAuthUser(firebaseUser);
-                this.localAuthUserUpdates.next(authUser);
-            })
-            ;
+    private async updateProfileImpl(firebaseUser: firebase.User, displayName: string): Promise<void> {
+        await firebaseUser.updateProfile({ displayName });
+        const authUser = this.getAuthUser(firebaseUser);
+        this.localAuthUserUpdates.next(authUser);
     }
 
-    /*
-     * Update logged-in user's password
-     */
     public updatePassword(oldPassword: string, newPassword: string): Promise<void> {
         const firebaseUser = this.afAuth.auth.currentUser;
         if (!firebaseUser) {
