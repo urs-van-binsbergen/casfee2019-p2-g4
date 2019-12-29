@@ -10,7 +10,8 @@ import { BattleListModel, getBattleListModel } from '../my-battle-list/my-battle
 import { Store } from '@ngxs/store';
 import { AuthState } from 'src/app/auth/state/auth.state';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
+import { Logout } from 'src/app/auth/state/auth.actions';
 
 @Component({
     selector: 'app-user',
@@ -64,16 +65,27 @@ export class UserComponent implements OnInit, OnDestroy {
                     })
                     .catch(error => {
                         this.myBattleList = { battles: [], isLoadFailure: true, isLoadingDone: true };
-                        const msg = this.translate.instant('common.error.apiReadError'); // TODO
-                        this.notification.quickToast(msg, 2000);
+                        const errorMsg = this.translate.instant('common.error.apiReadError'); // TODO
+                        this.notification.quickToast(errorMsg, 2000);
                     })
                     ;
 
             });
+
+        this.store.select(AuthState.logout)
+            .pipe(
+                takeUntil(this.destroy$),
+                tap(model => {
+                    if (model && model.success) {
+                        this.router.navigateByUrl('/');
+                    }
+                })
+            )
+            .subscribe();
     }
 
     async logout() {
-        this.authService.logout().then(() => this.router.navigateByUrl('/'));
+        this.store.dispatch(new Logout());
     }
 
     ngOnDestroy(): void {

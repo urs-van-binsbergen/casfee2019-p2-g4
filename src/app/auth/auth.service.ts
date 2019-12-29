@@ -16,10 +16,32 @@ export interface LoginResult {
     otherError?: string;
 }
 
+export interface LogoutResult {
+    success: boolean;
+    error?: string;
+}
+
 export interface RegistrationResult {
     success: boolean;
     emailInUse?: boolean;
-    emailInvalid?: boolean;
+    invalidEmail?: boolean;
+    otherError?: string;
+}
+
+export interface UpdateProfileResult {
+    success: boolean;
+    error?: string;
+}
+
+export interface UpdatePasswordResult {
+    success: boolean;
+    error?: string;
+}
+
+export interface SendPasswordMailResult {
+    success: boolean;
+    userNotFound?: boolean;
+    invalidEmail?: boolean;
     otherError?: string;
 }
 
@@ -52,7 +74,7 @@ export class AuthService {
         };
     }
 
-    public authUser$(): Observable<AuthUser> {
+    authUser$(): Observable<AuthUser> {
         return merge(
             this.afAuth.authState.pipe(map(this.toAuthUser)),
             this.localAuthUserUpdates
@@ -66,15 +88,19 @@ export class AuthService {
         } catch (error) {
             if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
                 return { success: false, badCredentials: true };
-            }
-            else {
+            } else {
                 return { success: false, otherError: `${error.message} (${error.code})` };
             }
         }
     }
 
-    logout(): Promise<void> {
-        return this.afAuth.auth.signOut();
+    async logout(): Promise<LogoutResult> {
+        try {
+            await this.afAuth.auth.signOut();
+            return { success: true };
+        } catch (error) {
+            return { success: false, error: `${error.message} (${error.code})` };
+        }
     }
 
     async register(email: string, password: string, displayName: string): Promise<RegistrationResult> {
@@ -87,21 +113,21 @@ export class AuthService {
                 return { success: false, emailInUse: true };
             }
             if (error.code === 'auth/invalid-email') {
-                return { success: false, emailInvalid: true };
-            }
-            else {
+                return { success: false, invalidEmail: true };
+            } else {
                 return { success: false, otherError: `${error.message} (${error.code})` };
             }
         }
     }
 
-    sendPasswordMail(email: string): Promise<void> {
-        return this.afAuth.auth.sendPasswordResetEmail(email);
-    }
-
-    public updateProfile(displayName: string): Promise<void> {
-        const firebaseUser = this.afAuth.auth.currentUser;
-        return this.updateProfileImpl(firebaseUser, displayName);
+    async updateProfile(displayName: string): Promise<UpdateProfileResult> {
+        try {
+            const firebaseUser = this.afAuth.auth.currentUser;
+            this.updateProfileImpl(firebaseUser, displayName);
+            return { success: true };
+        } catch (error) {
+            return { success: false, error: `${error.message} (${error.code})` };
+        }
     }
 
     private async updateProfileImpl(firebaseUser: firebase.User, displayName: string): Promise<void> {
@@ -110,18 +136,31 @@ export class AuthService {
         this.localAuthUserUpdates.next(authUser);
     }
 
-    public updatePassword(oldPassword: string, newPassword: string): Promise<void> {
-        const firebaseUser = this.afAuth.auth.currentUser;
-        if (!firebaseUser) {
-            throw new Error('No user');
+    async updatePassword(oldPassword: string, newPassword: string): Promise<UpdatePasswordResult> {
+        try {
+            const firebaseUser = this.afAuth.auth.currentUser;
+            const userCredential = await this.afAuth.auth.signInWithEmailAndPassword(firebaseUser.email, oldPassword);
+            userCredential.user.updatePassword(newPassword);
+            return { success: true };
+        } catch (error) {
+            return { success: false, error: `${error.message} (${error.code})` };
         }
+    }
 
-        return this.afAuth.auth.signInWithEmailAndPassword(
-            firebaseUser.email, oldPassword
-        )
-            .then((userCredential) => {
-                userCredential.user.updatePassword(newPassword);
-            });
+    async sendPasswordMail(email: string): Promise<SendPasswordMailResult> {
+        try {
+            await this.afAuth.auth.sendPasswordResetEmail(email);
+            return { success: true };
+        } catch (error) {
+            if (error.code === 'auth/invalid-email') {
+                return { success: false, invalidEmail: true };
+            }
+            if (error.code === 'auth/user-not-found') {
+                return { success: false, userNotFound: true };
+            } else {
+                return { success: false, otherError: `${error.message} (${error.code})` };
+            }
+        }
     }
 
 }

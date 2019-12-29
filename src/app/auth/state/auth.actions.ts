@@ -15,7 +15,27 @@ export class Login {
     constructor(public username: string, public password: string) { }
 }
 
+export class Logout {
+    static readonly type = '[auth] logout';
+    constructor() { }
+}
+
 export class Register {
     static readonly type = '[auth] register';
     constructor(public email: string, public password: string, public displayName: string) {}
+}
+
+export class UpdateProfile {
+    static readonly type = '[auth] update profile';
+    constructor(public displayName: string) {}
+}
+
+export class UpdatePassword {
+    static readonly type = '[auth] update password';
+    constructor(public oldPassword: string, public newPassword: string) {}
+}
+
+export class SendPasswordMail {
+    static readonly type = '[auth] send password mail';
+    constructor(public email: string) {}
 }

@@ -39,7 +39,7 @@
             "successMessage": "Registrierung erfolgreich",
             "error": {
                 "emailInUse": "E-Mail wird bereits verwendet",
-                "emailInvalid": "E-Mail ungültig",
+                "invalidEmail": "E-Mail ungültig",
                 "incompleteSave": "Registrierung ist erfolgt, aber es gab ein Problem beim Speichern in der Profildatenbank. Dieses Profil kann evtl. mit 'Profil ändern' behoben werden."
             }
         },
@@ -49,7 +49,11 @@
             "email": "E-Mail-Adresse",
             "emailNotValid": "Keine gültige E-Mail-Adresse",
             "submitButton": "Senden",
-            "successMessage": "Das E-Mail wurde gesendet, bitte Inbox prüfen"
+            "successMessage": "Das E-Mail wurde gesendet, bitte Inbox prüfen",
+            "error": {
+                "userNotFound": "E-Mail nicht bekannt",
+                "invalidEmail": "E-Mail ungültig"
+            }
         }
     },
     "battle": {

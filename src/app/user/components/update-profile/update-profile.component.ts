@@ -53,8 +53,8 @@ export class UpdateProfileComponent implements OnInit {
             })
             .catch(error => {
                 this.waiting = false;
-                const msg = this.translate.instant('common.error.genericError'); // TODO
-                this.notification.toastToConfirm(msg);
+                const errorMsg = this.translate.instant('common.error.genericError'); // TODO
+                this.notification.toastToConfirm(errorMsg);
             });
 
     }

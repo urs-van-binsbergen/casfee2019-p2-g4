@@ -36,28 +36,28 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.store.select(AuthState.login)
             .pipe(
                 takeUntil(this.destroy$),
-                tap(loginModel => {
-                    if (loginModel === undefined) {
+                tap(model => {
+                    if (model === undefined) {
                         this.waiting = false;
                         return;
                     }
 
-                    if (loginModel.success === undefined) {
+                    if (model.success === undefined) {
                         this.waiting = true;
                         return;
                     }
 
-                    if (loginModel.success) {
+                    if (model.success) {
                         const msg = this.translate.instant('auth.login.successMessage');
                         this.notification.quickToast(msg, 1000);
                         this.redirect.redirectToNext('/user');
                         return;
                     }
 
-                    const errorMessage = loginModel.badCredentials ?
+                    const errorMsg = model.badCredentials ?
                         this.translate.instant('auth.login.error.badCredentials') :
-                        loginModel.otherError;
-                    this.notification.toastToConfirm(errorMessage);
+                        this.translate.instant('common.error.genericError', { errorDetail: model.otherError });
+                    this.notification.toastToConfirm(errorMsg);
                 })
             )
             .subscribe();

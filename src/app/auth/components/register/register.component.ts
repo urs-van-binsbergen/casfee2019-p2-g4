@@ -42,19 +42,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.store.select(AuthState.registration)
             .pipe(
                 takeUntil(this.destroy$),
-                tap(registrationModel => {
-                    if (registrationModel === undefined) {
+                tap(model => {
+                    if (model === undefined) {
                         this.waiting = false;
                         return;
                     }
 
-                    if (registrationModel.success === undefined) {
+                    if (model.success === undefined) {
                         this.waiting = true;
                         return;
                     }
 
-                    if (registrationModel.success) {
-                        if (registrationModel.incompleteSave) {
+                    if (model.success) {
+                        if (model.incompleteSave) {
                             const msg = this.translate.instant('auth.register.error.incompleteSave');
                             this.notification.toastToConfirm(msg);
                         } else {
@@ -65,15 +65,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
                         return;
                     }
 
-                    let errorMessage: string;
-                    if (registrationModel.emailInUse) {
-                        errorMessage = this.translate.instant("auth.register.error.emailInUse");
-                    } else if (registrationModel.emailInvalid) {
-                        errorMessage = this.translate.instant("auth.register.error.emailInvalid");
+                    let errorMsg: string;
+                    if (model.emailInUse) {
+                        errorMsg = this.translate.instant('auth.register.error.emailInUse');
+                    } else if (model.invalidEmail) {
+                        errorMsg = this.translate.instant('auth.register.error.invalidEmail');
                     } else {
-                        errorMessage = registrationModel.otherError;
+                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: model.otherError });
                     }
-                    this.notification.toastToConfirm(errorMessage);
+                    this.notification.toastToConfirm(errorMsg);
                 })
             )
             .subscribe();
