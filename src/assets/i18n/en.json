@@ -8,7 +8,8 @@
         "nav": {
             "user": "User",
             "battle": "Battle",
-            "admin": "Admin"
+            "admin": "Admin",
+            "hall": "Hall"
         }
     },
     "auth": {
@@ -19,9 +20,11 @@
             "password": "Password",
             "submitButton": "Login",
             "successMessage": "Login successful",
-            "apiError": "Login failure: {{errorDetail}}",
             "registerLink": "Register new player",
-            "forgotPasswordLink": "Forgot password"
+            "forgotPasswordLink": "Forgot password",
+            "error": {
+                "badCredentials": "User not found or wrong password"
+            }
         },
         "register": {
             "title": "Register new player",
@@ -34,7 +37,11 @@
             "passwordMismatch": "Passwords do not match",
             "submitButton": "Register",
             "successMessage": "Registration successful",
-            "apiError": "Registration failure: {{errorDetail}}"
+            "error": {
+                "emailInUse": "Email is already in use",
+                "invalidEmail": "Email invalid",
+                "incompleteSave": "Registration done, but there was a problem saving to the user profile database. You can try to fix this using the 'Update profile' button"
+            }
         },
         "resetPassword": {
             "title": "Reset password",
@@ -43,7 +50,23 @@
             "emailNotValid": "Not a valid email address",
             "submitButton": "Send",
             "successMessage": "Email sent, please check inbox",
-            "apiError": "Error sending mail: {{errorDetail}}"
+            "error": {
+                "userNotFound": "User not found",
+                "invalidEmail": "Email invalid"
+            }
+        },
+        "updatePassword": {
+            "title": "Update password",
+            "oldPassword": "Current Passwort",
+            "password": "New Password",
+            "passwordTooShort": "At least 6 characters",
+            "passwordRepeat": "Repeat new Password",
+            "passwordMismatch": "Passwords do not match",
+            "submitButton": "Change",
+            "successMessage": "Password changed",
+            "error": {
+                "wrongPassword": "Old password is wrong"
+            }
         }
     },
     "battle": {
@@ -51,11 +74,7 @@
         "pleaseShoot": "Please shoot now",
         "waitingForOpponent": "Waiting for opponent",
         "sBoard": "'s board",
-        "yourBoard": "Your board",
-        "apiError": {
-            "sending": "Failure transmitting to server: {{errorDetail}}",
-            "loading": "Failure loading data: {{errorDetail}}"
-        }
+        "yourBoard": "Your board"
     },
     "button": {
         "battle": "Battle",
@@ -65,13 +84,19 @@
         "continue": "Continue",
         "done": "Done",
         "login": "Login",
-        "ok": "Ok"
+        "ok": "OK"
     },
     "common": {
         "message": {
             "pleaseCheckFormInput": "Please check form input",
             "fieldRequired": "Field required",
             "fieldValueInvalid": "Value invalid"
+        },
+        "error": {
+            "contentNotLoaded": "Could not load content",
+            "genericError": "Error: {{errorDetail}}",
+            "apiReadError": "Error reading data from server: {{errorDetail}}",
+            "apiWriteError": "Error writing data to server: {{errorDetail}}"
         },
         "enum": {
             "PlayerLevel": {
@@ -80,14 +105,6 @@
                 "Captain": "Captain",
                 "Admiral": "Admiral"
             }
-        }
-    },
-    "firebase": {
-        "errorCodes": {
-            "auth/wrong-password": "Wrong password",
-            "auth/user-not-found": "User not found",
-            "auth/email-already-in-use": "Email is already in use",
-            "auth/invalid-email": "Email invalid"
         }
     },
     "game": {
@@ -138,10 +155,7 @@
             "level": "Rank",
             "updateProfileButton": "Update profile",
             "updatePasswordButton": "Update password",
-            "logoutButton": "Logout",
-            "apiError": {
-                "loading": "Error loading user data: {{errorDetail}}"
-            }
+            "logoutButton": "Logout"
         },
         "myBattleList": {
             "title": "My heroic battles",
@@ -150,28 +164,16 @@
             "opponent": "Opponent",
             "result": "Result",
             "victory": "Victory",
-            "waterloo": "Waterloo",
-            "apiError": {
-                "loading": "Error loading battles: {{errorDetail}}"
-            }
+            "waterloo": "Waterloo"
         },
         "updateProfile": {
             "title": "Update profile",
             "displayName": "Display name",
             "submitButton": "Update",
-            "successMessage": "Profile updated",
-            "apiError": "Failure updating profile: {{errorDetail}}"
-        },
-        "updatePassword": {
-            "title": "Update password",
-            "oldPassword": "Current Passwort",
-            "password": "New Password",
-            "passwordTooShort": "At least 6 characters",
-            "passwordRepeat": "Repeat new Password",
-            "passwordMismatch": "Passwords do not match",
-            "submitButton": "Change",
-            "successMessage": "Password changed",
-            "apiError": "Failure changing password: {{errorDetail}}"
+            "successMessage": "Profile updated", 
+            "error": {
+                "incompleteSave": "Profile update, but there was a problem saving to the user profile database"
+            }
         }
     },
     "victory": {

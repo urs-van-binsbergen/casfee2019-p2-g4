@@ -1,4 +1,4 @@
-import { HistoricBattle, HallEntry, PlayerLevel } from '@cloud-api/core-models';
+import { HistoricBattle, HallEntry, PlayerLevel, PlayerInfo } from '@cloud-api/core-models';
 
 export interface BattleListItem {
     wasMyVictory: boolean;
@@ -27,11 +27,13 @@ export function getBattleListModel(
         battles: battles.map(b => {
             const wasMyVictory = b.winnerUid === uid;
             const opponentUid = wasMyVictory ? b.loserUid : b.winnerUid;
-            const oppInfo = playerInfos[opponentUid];
+            const opponentInfo: PlayerInfo = playerInfos[opponentUid];
+            const opponentDisplayName = opponentInfo ? opponentInfo.displayName : '(deleted)';
+            const opponentLevel = opponentInfo ? PlayerLevel[opponentInfo.level] : '-';
             return {
                 wasMyVictory,
-                opponentDisplayName: oppInfo.displayName,
-                opponentLevel: PlayerLevel[oppInfo.level],
+                opponentDisplayName,
+                opponentLevel,
                 endDate: b.endDate
             };
         }),

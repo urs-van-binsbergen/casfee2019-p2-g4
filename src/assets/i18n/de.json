@@ -8,7 +8,8 @@
         "nav": {
             "user": "Benutzer",
             "battle": "Schlacht",
-            "admin": "Admin"
+            "admin": "Admin",
+            "hall": "Sieger"
         }
     },
     "auth": {
@@ -19,9 +20,11 @@
             "password": "Passwort",
             "submitButton": "Einloggen",
             "successMessage": "Login erfolgreich",
-            "apiError": "Fehler beim Einloggen: {{errorDetail}}",
             "registerLink": "Neuer Spieler (registrieren)",
-            "forgotPasswordLink": "Passwort vergessen"
+            "forgotPasswordLink": "Passwort vergessen",
+            "error": {
+                "badCredentials": "Benutzer nicht gefunden oder falsches Passwort"
+            }
         },
         "register": {
             "title": "Als neuer Spieler registrieren",
@@ -34,7 +37,11 @@
             "passwordMismatch": "Passwörter stimmen nicht überein",
             "submitButton": "Registrieren",
             "successMessage": "Registrierung erfolgreich",
-            "apiError": "Fehler bei der Registrierung: {{errorDetail}}"
+            "error": {
+                "emailInUse": "E-Mail wird bereits verwendet",
+                "invalidEmail": "E-Mail ungültig",
+                "incompleteSave": "Registrierung ist erfolgt, aber es gab ein Problem beim Speichern in der Profildatenbank. Dieses Profil kann evtl. mit 'Profil ändern' behoben werden."
+            }
         },
         "resetPassword": {
             "title": "Passwort zurücksetzen",
@@ -43,7 +50,23 @@
             "emailNotValid": "Keine gültige E-Mail-Adresse",
             "submitButton": "Senden",
             "successMessage": "Das E-Mail wurde gesendet, bitte Inbox prüfen",
-            "apiError": "Fehler beim Senden des E-Mails: {{errorDetail}}"
+            "error": {
+                "userNotFound": "E-Mail nicht bekannt",
+                "invalidEmail": "E-Mail ungültig"
+            }
+        },
+        "updatePassword": {
+            "title": "Passwort ändern",
+            "oldPassword": "Bisheriges Passwort",
+            "password": "Neues Passwort",
+            "passwordTooShort": "Mindestens 6 Zeichen",
+            "passwordRepeat": "Neues Passwort wiederholen",
+            "passwordMismatch": "Passwörter stimmen nicht überein",
+            "submitButton": "Ändern",
+            "successMessage": "Passwort geändert",
+            "error": {
+                "wrongPassword": "Altes Password ist falsch"
+            }
         }
     },
     "battle": {
@@ -51,11 +74,7 @@
         "pleaseShoot": "Du kannst jetzt schiessen",
         "waitingForOpponent": "Gegner wird demnächst schiessen...",
         "sBoard": " Spielfeld",
-        "yourBoard": "Dein Spielfeld",
-        "apiError": {
-            "sending": "Fehler beim Übermitteln auf den Server: {{errorDetail}}",
-            "loading": "Fehler beim Laden der Daten: {{errorDetail}}"
-        }
+        "yourBoard": "Dein Spielfeld"
     },
     "button": {
         "battle": "Schlacht",
@@ -65,13 +84,19 @@
         "continue": "Weiter",
         "done": "Fertig",
         "login": "Login",
-        "ok": "Ok"
+        "ok": "OK"
     },
     "common": {
         "message": {
             "pleaseCheckFormInput": "Bitte Eingaben überprüfen",
             "fieldRequired": "Obligatorisches Feld",
             "fieldValueInvalid": "Ungültiger Wert"
+        },
+        "error": {
+            "contentNotLoaded": "Inhalt konnte nicht geladen werden",
+            "genericError": "Fehler: {{errorDetail}}",
+            "apiReadError": "Fehler beim Lesen der Daten vom Server: {{errorDetail}}",
+            "apiWriteError": "Fehler beim Übermitteln der Daten zum Server: {{errorDetail}}"
         },
         "enum": {
             "PlayerLevel": {
@@ -80,14 +105,6 @@
                 "Captain": "Kapitänin",
                 "Admiral": "Admiralin"
             }
-        }
-    },
-    "firebase": {
-        "errorCodes": {
-            "auth/wrong-password": "Falsches Passwort",
-            "auth/user-not-found": "Benutzer nicht gefunden",
-            "auth/email-already-in-use": "E-Mail wird bereits verwendet",
-            "auth/invalid-email": "E-Mail ungültig"
         }
     },
     "game": {
@@ -138,10 +155,7 @@
             "level": "Stufe",
             "updateProfileButton": "Profil ändern",
             "updatePasswordButton": "Passwort ändern",
-            "logoutButton": "Ausloggen",
-            "apiError": {
-                "loading": "Fehler beim Laden der Benutzerdaten: {{errorDetail}}"
-            }
+            "logoutButton": "Ausloggen"
         },
         "myBattleList": {
             "title": "Meine glorreichen Schlachten",
@@ -150,27 +164,16 @@
             "opponent": "Gegner",
             "result": "Ausgang",
             "victory": "Sieg",
-            "waterloo": "Niederlage",
-            "apiError": {
-                "loading": "Fehler beim Laden der Schlachten: {{errorDetail}}"
-            }
+            "waterloo": "Niederlage"
         },
         "updateProfile": {
             "title": "Profil ändern",
             "displayName": "Anzeigename",
             "submitButton": "Ändern",
-            "successMessage": "Profil geändert"
-        },
-        "updatePassword": {
-            "title": "Passwort ändern",
-            "oldPassword": "Bisheriges Passwort",
-            "password": "Neues Passwort",
-            "passwordTooShort": "Mindestens 6 Zeichen",
-            "passwordRepeat": "Neues Passwort wiederholen",
-            "passwordMismatch": "Passwörter stimmen nicht überein",
-            "submitButton": "Ändern",
-            "successMessage": "Passwort geändert",
-            "apiError": "Fehler beim Ändern des Passwort: {{errorDetail}}"
+            "successMessage": "Profil geändert", 
+            "error": {
+                "incompleteSave": "Profil geändert, aber es gab ein Problem beim Speichern in der Profildatenbank"
+            }
         }
     },
     "victory": {

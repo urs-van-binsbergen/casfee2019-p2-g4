@@ -1,4 +1,4 @@
-<ng-container *ngIf="(model$ | async) as model">
+<ng-container *ngIf="model">
     <div *ngIf="model.unauthenticated" class="page-inset mat-typography">
         <a routerLink="/auth/login">Login</a>
     </div>

@@ -4,7 +4,7 @@
 
 
 <div *ngIf="authUser" class="page-inset mat-typography">
-    <button mat-button (click)="logout()" mat-stroked-button color="primary" class="logout-button">
+    <button mat-button [disabled]="loggingOut" (click)="logout()" mat-stroked-button color="primary" class="logout-button">
         {{ 'user.profile.logoutButton' | translate }}</button>
 
     <h2 translate>user.profile.title</h2>

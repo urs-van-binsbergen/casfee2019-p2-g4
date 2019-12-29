@@ -1,9 +1,12 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 
 // import only once (must not be part of SharedModule)!
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+import { registerLocaleData } from '@angular/common';
+import localeDeCh from '@angular/common/locales/de-CH';
 
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
@@ -25,6 +28,8 @@ import { LanguageModule } from './language/language.module';
 import { PageNotFoundComponent } from './shared/page-not-found.component';
 import { BackendModule } from './backend/backend.module';
 import { GameModule } from './game/game.module';
+
+registerLocaleData(localeDeCh);
 
 @NgModule({
     declarations: [
@@ -65,7 +70,8 @@ import { GameModule } from './game/game.module';
         GameModule
     ],
     providers: [
-        { provide: FUNCTIONS_REGION, useValue: 'europe-west2' }
+        { provide: FUNCTIONS_REGION, useValue: 'europe-west2' },
+        { provide: LOCALE_ID, useValue: 'de-ch' },
     ],
     bootstrap: [
         AppComponent

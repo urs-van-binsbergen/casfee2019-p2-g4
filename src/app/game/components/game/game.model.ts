@@ -1,4 +1,4 @@
-import { Player, PlayerStatus } from '@cloud-api/core-models';
+import { PlayerStatus } from '@cloud-api/core-models';
 import { PlayerModel as PlayerStateModel } from '../../state/player.state';
 
 export interface GameModel {
