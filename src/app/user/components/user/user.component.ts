@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService, AuthUser } from 'src/app/auth/auth.service';
+import { AuthUser } from 'src/app/auth/auth.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { UserService } from '../../user.service';
@@ -10,7 +10,7 @@ import { BattleListModel, getBattleListModel } from '../my-battle-list/my-battle
 import { Store } from '@ngxs/store';
 import { AuthState } from 'src/app/auth/state/auth.state';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap, skip } from 'rxjs/operators';
 import { Logout } from 'src/app/auth/state/auth.actions';
 
 @Component({
@@ -23,11 +23,12 @@ export class UserComponent implements OnInit, OnDestroy {
     authUser: AuthUser;
     level: string;
     myBattleList: BattleListModel;
+
+    loggingOut = false;
     destroy$ = new Subject<void>();
 
     constructor(
         private store: Store,
-        private authService: AuthService,
         private cloudData: CloudDataService,
         private router: Router,
         private notification: NotificationService,
@@ -72,10 +73,12 @@ export class UserComponent implements OnInit, OnDestroy {
 
             });
 
-        this.store.select(AuthState.logout)
+        this.store.select(AuthState.logoutResult)
             .pipe(
                 takeUntil(this.destroy$),
+                skip(1),
                 tap(model => {
+                    this.loggingOut = false;
                     if (model && model.success) {
                         this.router.navigateByUrl('/');
                     }
@@ -85,6 +88,7 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     async logout() {
+        this.loggingOut = true;
         this.store.dispatch(new Logout());
     }
 

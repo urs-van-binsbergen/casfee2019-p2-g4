@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
-import { tap, takeUntil } from 'rxjs/operators';
+import { tap, takeUntil, skip } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { AuthRedirectService } from '../../auth-redirect.service';
@@ -33,19 +33,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.store.select(AuthState.login)
+        this.store.select(AuthState.loginResult)
             .pipe(
                 takeUntil(this.destroy$),
+                skip(1),
                 tap(model => {
-                    if (model === undefined) {
-                        this.waiting = false;
+                    if (!model) {
                         return;
                     }
 
-                    if (model.success === undefined) {
-                        this.waiting = true;
-                        return;
-                    }
+                    this.waiting = false;
 
                     if (model.success) {
                         const msg = this.translate.instant('auth.login.successMessage');
@@ -54,6 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                         return;
                     }
 
+                    // Error
                     const errorMsg = model.badCredentials ?
                         this.translate.instant('auth.login.error.badCredentials') :
                         this.translate.instant('common.error.genericError', { errorDetail: model.otherError });
@@ -71,6 +69,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
 
         // Dispatch
+        this.waiting = true;
         this.store.dispatch(new Login(this.username.value, this.password.value));
     }
 

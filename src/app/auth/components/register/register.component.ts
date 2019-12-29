@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap, skip } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { Register } from '../../state/auth.actions';
@@ -39,19 +39,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.store.select(AuthState.registration)
+        this.store.select(AuthState.registerResult)
             .pipe(
                 takeUntil(this.destroy$),
+                skip(1),
                 tap(model => {
-                    if (model === undefined) {
-                        this.waiting = false;
+                    if (!model) {
                         return;
                     }
 
-                    if (model.success === undefined) {
-                        this.waiting = true;
-                        return;
-                    }
+                    this.waiting = false;
 
                     if (model.success) {
                         if (model.incompleteSave) {
@@ -65,6 +62,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                         return;
                     }
 
+                    // Error
                     let errorMsg: string;
                     if (model.emailInUse) {
                         errorMsg = this.translate.instant('auth.register.error.emailInUse');
@@ -92,6 +90,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
 
         // Dispatch
+        this.waiting = true;
         this.store.dispatch(new Register(this.username.value, this.password.value, this.displayName.value));
     }
 

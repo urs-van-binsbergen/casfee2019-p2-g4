@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap, skip } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { NotificationService } from 'src/app/shared/notification.service';
@@ -37,19 +37,16 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        this.store.select(AuthState.updatePassword)
+        this.store.select(AuthState.updatePasswordResult)
             .pipe(
                 takeUntil(this.destroy$),
+                skip(1),
                 tap(model => {
-                    if (model === undefined) {
-                        this.waiting = false;
+                    if (!model) {
                         return;
                     }
 
-                    if (model.success === undefined) {
-                        this.waiting = true;
-                        return;
-                    }
+                    this.waiting = false;
 
                     if (model.success) {
                         const msg = this.translate.instant('auth.updatePassword.successMessage');
@@ -58,6 +55,7 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
                         return;
                     }
 
+                    // Error
                     let errorMsg: string;
                     if (model.wrongPassword) {
                         errorMsg = this.translate.instant('auth.updatePassword.error.wrongPassword');

@@ -27,7 +27,7 @@
                 </p>
                 <div class="button-row">
                     <div>
-                        <button type="submit" mat-raised-button color="primary" class="standard-button-width">
+                        <button type="submit" [disabled]="waiting" mat-raised-button color="primary" class="standard-button-width">
                             {{ 'auth.login.submitButton' | translate }}
                         </button>
                     </div>

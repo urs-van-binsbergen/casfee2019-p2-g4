@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap, skip } from 'rxjs/operators';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { AuthRedirectService } from '../../auth-redirect.service';
 import { SendPasswordMail } from '../../state/auth.actions';
@@ -33,19 +33,16 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.store.select(AuthState.sendPasswordMail)
+        this.store.select(AuthState.sendPasswordMailResult)
             .pipe(
                 takeUntil(this.destroy$),
+                skip(1),
                 tap(model => {
-                    if (model === undefined) {
-                        this.waiting = false;
+                    if (!model) {
                         return;
                     }
 
-                    if (model.success === undefined) {
-                        this.waiting = true;
-                        return;
-                    }
+                    this.waiting = false;
 
                     if (model.success) {
                         const msg = this.translate.instant('auth.resetPassword.successMessage');
@@ -54,6 +51,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
                         return;
                     }
 
+                    // Error
                     let errorMsg: string;
                     if (model.userNotFound) {
                         errorMsg = this.translate.instant('auth.resetPassword.error.userNotFound');
@@ -76,6 +74,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         }
 
         // Dispatch
+        this.waiting = true;
         this.store.dispatch(new SendPasswordMail(this.email.value));
     }
 

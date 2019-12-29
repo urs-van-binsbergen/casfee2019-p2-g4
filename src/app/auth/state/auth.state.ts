@@ -8,47 +8,47 @@ import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 export interface AuthModel {
     authUser: AuthUser | null;
 
-    // Action progress models:
-    login?: LoginModel;
-    logout?: LogoutModel;
-    registration?: RegistrationModel;
-    updateProfile?: UpdateProfileModel;
-    updatePassword?: UpdatePasswordModel;
-    sendPasswordMail?: SendPasswordMailModel;
+    // Action result models:
+    loginResult?: LoginResult;
+    logoutResult?: LogoutResult;
+    registerResult?: RegisterResult;
+    updateProfileResult?: UpdateProfileResult;
+    updatePasswordResult?: UpdatePasswordResult;
+    sendPasswordMailResult?: SendPasswordMailResult;
 }
 
-export interface LoginModel {
-    success?: boolean;
+export interface LoginResult {
+    success: boolean;
     badCredentials?: boolean;
     otherError?: string;
 }
 
-export interface LogoutModel {
-    success?: boolean;
+export interface LogoutResult {
+    success: boolean;
     error?: string;
 }
 
-export interface RegistrationModel {
-    success?: boolean;
+export interface RegisterResult {
+    success: boolean;
     emailInUse?: boolean;
     invalidEmail?: boolean;
     otherError?: string;
-    incompleteSave?: boolean; // (on success, but profile update in db failed)
+    incompleteSave?: boolean; // (when auth reg success, but profile update in db failed)
 }
 
-export interface UpdateProfileModel {
-    success?: boolean;
+export interface UpdateProfileResult {
+    success: boolean;
     error?: string;
 }
 
-export interface UpdatePasswordModel {
-    success?: boolean;
+export interface UpdatePasswordResult {
+    success: boolean;
     wrongPassword?: boolean;
     otherError?: string;
 }
 
-export interface SendPasswordMailModel {
-    success?: boolean;
+export interface SendPasswordMailResult {
+    success: boolean;
     userNotFound?: boolean;
     invalidEmail?: boolean;
     otherError?: string;
@@ -70,33 +70,33 @@ export class AuthState implements NgxsOnInit {
     }
 
     @Selector()
-    public static login(state: AuthModel): LoginModel {
-        return state.login;
+    public static loginResult(state: AuthModel): LoginResult {
+        return state.loginResult;
     }
 
     @Selector()
-    public static logout(state: AuthModel): LoginModel {
-        return state.logout;
+    public static logoutResult(state: AuthModel): LogoutResult {
+        return state.logoutResult;
     }
 
     @Selector()
-    public static registration(state: AuthModel): RegistrationModel {
-        return state.registration;
+    public static registerResult(state: AuthModel): RegisterResult {
+        return state.registerResult;
     }
 
     @Selector()
-    public static updateProfile(state: AuthModel): UpdateProfileModel {
-        return state.updateProfile;
+    public static updateProfileResult(state: AuthModel): UpdateProfileResult {
+        return state.updateProfileResult;
     }
 
     @Selector()
-    public static updatePassword(state: AuthModel): UpdatePasswordModel {
-        return state.updatePassword;
+    public static updatePasswordResult(state: AuthModel): UpdatePasswordResult {
+        return state.updatePasswordResult;
     }
 
     @Selector()
-    public static sendPasswordMail(state: AuthModel): SendPasswordMailModel {
-        return state.sendPasswordMail;
+    public static sendPasswordMailResult(state: AuthModel): SendPasswordMailResult {
+        return state.sendPasswordMailResult;
     }
 
     constructor(
@@ -126,41 +126,20 @@ export class AuthState implements NgxsOnInit {
 
     @Action(Login)
     async login(ctx: StateContext<AuthModel>, action: Login) {
-        ctx.patchState({ login: { success: undefined } });
-
         const result = await this.authService.login(action.username, action.password);
 
-        ctx.patchState({
-            login: {
-                success: result.success,
-                badCredentials: result.badCredentials,
-                otherError: result.otherError
-            }
-        });
-
-        ctx.patchState({ login: undefined });
+        ctx.patchState({ loginResult: { ...result } });
     }
 
     @Action(Logout)
     async logout(ctx: StateContext<AuthModel>) {
-        ctx.patchState({ logout: { success: undefined } });
-
         const result = await this.authService.logout();
 
-        ctx.patchState({
-            logout: {
-                success: result.success, 
-                error: result.error
-            }
-        });
-
-        ctx.patchState({ logout: undefined });
+        ctx.patchState({ logoutResult: { ...result } });
     }
 
     @Action(Register)
     async register(ctx: StateContext<AuthModel>, action: Register) {
-        ctx.patchState({ registration: { success: undefined } });
-
         const result = await this.authService.register(action.email, action.password, action.displayName);
 
         let incompleteSave: boolean;
@@ -177,68 +156,28 @@ export class AuthState implements NgxsOnInit {
             }
         }
 
-        ctx.patchState({
-            registration: {
-                success: result.success,
-                emailInUse: result.emailInUse,
-                invalidEmail: result.invalidEmail,
-                otherError: result.otherError,
-                incompleteSave
-            }
-        });
-
-        ctx.patchState({ registration: undefined }); // (next-reset)
+        ctx.patchState({ registerResult: { ...result, incompleteSave } });
     }
 
     @Action(UpdateProfile)
     async updateProfile(ctx: StateContext<AuthModel>, action: UpdateProfile) {
-        ctx.patchState({ updateProfile: { success: undefined } });
-
         const result = await this.authService.updateProfile(action.displayName);
 
-        ctx.patchState({
-            updateProfile: {
-                success: result.success,
-                error: result.error
-            }
-        });
-
-        ctx.patchState({ updateProfile: undefined });
+        ctx.patchState({ updateProfileResult: { ...result } });
     }
 
     @Action(UpdatePassword)
     async updatePassword(ctx: StateContext<AuthModel>, action: UpdatePassword) {
-        ctx.patchState({ updatePassword: { success: undefined } });
-
         const result = await this.authService.updatePassword(action.oldPassword, action.newPassword);
 
-        ctx.patchState({
-            updatePassword: {
-                success: result.success,
-                wrongPassword: result.wrongPassword,
-                otherError: result.otherError
-            }
-        });
-
-        ctx.patchState({ updatePassword: undefined });
+        ctx.patchState({ updatePasswordResult: { ...result } });
     }
 
     @Action(SendPasswordMail)
     async sendPasswordMail(ctx: StateContext<AuthModel>, action: SendPasswordMail) {
-        ctx.patchState({ sendPasswordMail: { success: undefined } });
-
         const result = await this.authService.sendPasswordMail(action.email);
 
-        ctx.patchState({
-            sendPasswordMail: {
-                success: result.success,
-                userNotFound: result.userNotFound,
-                invalidEmail: result.invalidEmail,
-                otherError: result.otherError
-            }
-        });
-
-        ctx.patchState({ sendPasswordMail: undefined });
+        ctx.patchState({ sendPasswordMailResult: { ...result } });
     }
 
 }
