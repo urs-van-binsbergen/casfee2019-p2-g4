@@ -52,13 +52,18 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
                     }
 
                     if (model.success) {
-                        const msg = this.translate.instant('user.updatePassword.successMessage');
+                        const msg = this.translate.instant('auth.updatePassword.successMessage');
                         this.notification.quickToast(msg, 1000);
                         this.redirect.redirectToNext('/user');
                         return;
                     }
 
-                    const errorMsg = this.translate.instant('common.error.genericError', { errorDetail: model.error });
+                    let errorMsg: string;
+                    if (model.wrongPassword) {
+                        errorMsg = this.translate.instant('auth.updatePassword.error.wrongPassword');
+                    } else {
+                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: model.otherError });
+                    }
                     this.notification.toastToConfirm(errorMsg);
                 })
             )

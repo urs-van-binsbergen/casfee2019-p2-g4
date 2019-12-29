@@ -43,7 +43,8 @@ export interface UpdateProfileModel {
 
 export interface UpdatePasswordModel {
     success?: boolean;
-    error?: string;
+    wrongPassword?: boolean;
+    otherError?: string;
 }
 
 export interface SendPasswordMailModel {
@@ -129,17 +130,15 @@ export class AuthState implements NgxsOnInit {
 
         const result = await this.authService.login(action.username, action.password);
 
-        if (result.success) {
-            ctx.patchState({ login: { success: true } });
-        } else {
-            if (result.badCredentials) {
-                ctx.patchState({ login: { success: false, badCredentials: true } });
-            } else {
-                ctx.patchState({ login: { success: false, otherError: result.otherError } });
+        ctx.patchState({
+            login: {
+                success: result.success,
+                badCredentials: result.badCredentials,
+                otherError: result.otherError
             }
-        }
+        });
 
-        ctx.patchState({ login: undefined }); // (next-reset)
+        ctx.patchState({ login: undefined });
     }
 
     @Action(Logout)
@@ -148,13 +147,14 @@ export class AuthState implements NgxsOnInit {
 
         const result = await this.authService.logout();
 
-        if (result.success) {
-            ctx.patchState({ logout: { success: true } });
-        } else {
-            ctx.patchState({ logout: { success: false, error: result.error } });
-        }
+        ctx.patchState({
+            logout: {
+                success: result.success, 
+                error: result.error
+            }
+        });
 
-        ctx.patchState({ logout: undefined }); // (next-reset)
+        ctx.patchState({ logout: undefined });
     }
 
     @Action(Register)
@@ -177,18 +177,15 @@ export class AuthState implements NgxsOnInit {
             }
         }
 
-        if (result.success) {
-            ctx.patchState({ registration: { success: true, incompleteSave } });
-        } else {
-            ctx.patchState({
-                registration: {
-                    success: false,
-                    emailInUse: result.emailInUse,
-                    invalidEmail: result.invalidEmail,
-                    otherError: result.otherError
-                }
-            });
-        }
+        ctx.patchState({
+            registration: {
+                success: result.success,
+                emailInUse: result.emailInUse,
+                invalidEmail: result.invalidEmail,
+                otherError: result.otherError,
+                incompleteSave
+            }
+        });
 
         ctx.patchState({ registration: undefined }); // (next-reset)
     }
@@ -199,13 +196,14 @@ export class AuthState implements NgxsOnInit {
 
         const result = await this.authService.updateProfile(action.displayName);
 
-        if (result.success) {
-            ctx.patchState({ updateProfile: { success: true } });
-        } else {
-            ctx.patchState({ updateProfile: { success: false, error: result.error } });
-        }
+        ctx.patchState({
+            updateProfile: {
+                success: result.success,
+                error: result.error
+            }
+        });
 
-        ctx.patchState({ updateProfile: undefined }); // (next-reset)
+        ctx.patchState({ updateProfile: undefined });
     }
 
     @Action(UpdatePassword)
@@ -214,13 +212,15 @@ export class AuthState implements NgxsOnInit {
 
         const result = await this.authService.updatePassword(action.oldPassword, action.newPassword);
 
-        if (result.success) {
-            ctx.patchState({ updatePassword: { success: true } });
-        } else {
-            ctx.patchState({ updatePassword: { success: false, error: result.error } });
-        }
+        ctx.patchState({
+            updatePassword: {
+                success: result.success,
+                wrongPassword: result.wrongPassword,
+                otherError: result.otherError
+            }
+        });
 
-        ctx.patchState({ updatePassword: undefined }); // (next-reset)
+        ctx.patchState({ updatePassword: undefined });
     }
 
     @Action(SendPasswordMail)
@@ -228,20 +228,17 @@ export class AuthState implements NgxsOnInit {
         ctx.patchState({ sendPasswordMail: { success: undefined } });
 
         const result = await this.authService.sendPasswordMail(action.email);
-        if (result.success) {
-            ctx.patchState({ sendPasswordMail: { success: true } });
-        } else {
-            ctx.patchState({
-                sendPasswordMail: {
-                    success: false,
-                    userNotFound: result.userNotFound,
-                    invalidEmail: result.invalidEmail,
-                    otherError: result.otherError
-                }
-            });
-        }
 
-        ctx.patchState({ sendPasswordMail: undefined }); // (next-reset)
+        ctx.patchState({
+            sendPasswordMail: {
+                success: result.success,
+                userNotFound: result.userNotFound,
+                invalidEmail: result.invalidEmail,
+                otherError: result.otherError
+            }
+        });
+
+        ctx.patchState({ sendPasswordMail: undefined });
     }
 
 }

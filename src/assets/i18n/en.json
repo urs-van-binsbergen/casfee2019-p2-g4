@@ -54,6 +54,19 @@
                 "userNotFound": "User not found",
                 "invalidEmail": "Email invalid"
             }
+        },
+        "updatePassword": {
+            "title": "Update password",
+            "oldPassword": "Current Passwort",
+            "password": "New Password",
+            "passwordTooShort": "At least 6 characters",
+            "passwordRepeat": "Repeat new Password",
+            "passwordMismatch": "Passwords do not match",
+            "submitButton": "Change",
+            "successMessage": "Password changed",
+            "error": {
+                "wrongPassword": "Old password is wrong"
+            }
         }
     },
     "battle": {
@@ -158,16 +171,6 @@
             "displayName": "Display name",
             "submitButton": "Update",
             "successMessage": "Profile updated"
-        },
-        "updatePassword": {
-            "title": "Update password",
-            "oldPassword": "Current Passwort",
-            "password": "New Password",
-            "passwordTooShort": "At least 6 characters",
-            "passwordRepeat": "Repeat new Password",
-            "passwordMismatch": "Passwords do not match",
-            "submitButton": "Change",
-            "successMessage": "Password changed"
         }
     },
     "victory": {

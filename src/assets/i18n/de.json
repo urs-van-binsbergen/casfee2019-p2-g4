@@ -54,6 +54,19 @@
                 "userNotFound": "E-Mail nicht bekannt",
                 "invalidEmail": "E-Mail ungültig"
             }
+        },
+        "updatePassword": {
+            "title": "Passwort ändern",
+            "oldPassword": "Bisheriges Passwort",
+            "password": "Neues Passwort",
+            "passwordTooShort": "Mindestens 6 Zeichen",
+            "passwordRepeat": "Neues Passwort wiederholen",
+            "passwordMismatch": "Passwörter stimmen nicht überein",
+            "submitButton": "Ändern",
+            "successMessage": "Passwort geändert",
+            "error": {
+                "wrongPassword": "Altes Password ist falsch"
+            }
         }
     },
     "battle": {
@@ -158,16 +171,6 @@
             "displayName": "Anzeigename",
             "submitButton": "Ändern",
             "successMessage": "Profil geändert"
-        },
-        "updatePassword": {
-            "title": "Passwort ändern",
-            "oldPassword": "Bisheriges Passwort",
-            "password": "Neues Passwort",
-            "passwordTooShort": "Mindestens 6 Zeichen",
-            "passwordRepeat": "Neues Passwort wiederholen",
-            "passwordMismatch": "Passwörter stimmen nicht überein",
-            "submitButton": "Ändern",
-            "successMessage": "Passwort geändert"
         }
     },
     "victory": {

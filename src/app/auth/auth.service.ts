@@ -3,6 +3,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { map } from 'rxjs/operators';
 import { Observable, Subject, merge } from 'rxjs';
 
+/*
+ * Auth API
+ * - Facade (not exposing underlying implementation)
+ * - Returning result objects (catching and partly interpreting exceptions)
+ */
+
 export interface AuthUser {
     uid: string;
     displayName: string;
@@ -35,7 +41,8 @@ export interface UpdateProfileResult {
 
 export interface UpdatePasswordResult {
     success: boolean;
-    error?: string;
+    wrongPassword?: boolean;
+    otherError?: string;
 }
 
 export interface SendPasswordMailResult {
@@ -45,9 +52,6 @@ export interface SendPasswordMailResult {
     otherError?: string;
 }
 
-/*
- * Auth API (facade, not exposing underlying implementation)
- */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
@@ -143,7 +147,11 @@ export class AuthService {
             userCredential.user.updatePassword(newPassword);
             return { success: true };
         } catch (error) {
-            return { success: false, error: `${error.message} (${error.code})` };
+            if (error.code === 'auth/wrong-password') {
+                return { success: false, wrongPassword: true };
+            } else {
+                return { success: false, otherError: `${error.message} (${error.code})` };
+            }
         }
     }
 
