@@ -115,7 +115,7 @@ export class AuthState implements NgxsOnInit {
         private cloudFunctions: CloudFunctionsService,
         private cloudData: CloudDataService
     ) {
-        // Why cloud services in the auth state? Because db user data handling 
+        // Why cloud services in the auth state? Because db user data handling
         // is included here for reasons of simplicity)
     }
 
@@ -139,7 +139,7 @@ export class AuthState implements NgxsOnInit {
     @Action(AuthActions.AuthUserChanged)
     authUserChanged(ctx: StateContext<AuthStateModel>, action: AuthActions.AuthUserChanged) {
         ctx.patchState({ authUser: action.authUser });
-        ctx.dispatch(new AuthActions.ObserveUser(action.authUser.uid))
+        ctx.dispatch(new AuthActions.ObserveUser(action.authUser.uid));
     }
 
     @Action(AuthActions.Unauthenticated)
@@ -209,8 +209,8 @@ export class AuthState implements NgxsOnInit {
     private async updateProfileInDatabase(displayName: string, email: string): Promise<boolean> {
         try {
             await this.cloudFunctions.updateUser({
-                displayName: displayName,
-                email: email,
+                displayName,
+                email,
                 avatarFileName: null
             }).toPromise();
             return true;

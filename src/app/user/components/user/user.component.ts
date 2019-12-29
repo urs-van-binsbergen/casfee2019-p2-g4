@@ -36,7 +36,7 @@ export class UserComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.selectAuthUser();
         this.selectUser();
-        this.selectLogoutResult()
+        this.selectLogoutResult();
     }
 
     private selectAuthUser() {
