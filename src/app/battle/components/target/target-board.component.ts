@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { BattleBoard, BattleField } from '../battle-models';
+import { BattleBoard, BattleField } from '../../model/battle-models';
 
 @Component({
     selector: 'app-target-board',

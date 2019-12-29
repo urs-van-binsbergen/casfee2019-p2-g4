@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
-import { BattleBoard, BattleField } from '../battle-models';
+import { BattleBoard, BattleField } from '../model/battle-models';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { ShootArgs } from '@cloud-api/arguments';
 import { PlayerInfo, PlayerStatus } from '@cloud-api/core-models';
-import * as BattleMethods from '../battle-methods';
+import * as BattleMethods from '../model/battle-methods';
 import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';

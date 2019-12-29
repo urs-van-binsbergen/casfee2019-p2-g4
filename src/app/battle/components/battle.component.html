@@ -1,40 +1,38 @@
-<div class="page mat-typography">
-    <div class="inset-1">
-        <h2 translate>battle.title</h2>
-        <p *ngIf="shootNow" style="font-weight: bold; color: orange;">
-            <span translate>battle.pleaseShoot</span>
-        </p>
-        <p *ngIf="pending" style="font-weight: bold; color: blue;">
-            <span>...</span>
-        </p>
-        <p *ngIf="waitingForOpponentShoot" style="font-weight: bold; color: blue;">
-            <span translate>battle.waitingForOpponent</span>
-        </p>
+<div class="page-inset mat-typography">
+    <h2 translate>battle.title</h2>
+    <p *ngIf="shootNow" style="font-weight: bold; color: orange;">
+        <span translate>battle.pleaseShoot</span>
+    </p>
+    <p *ngIf="pending" style="font-weight: bold; color: blue;">
+        <span>...</span>
+    </p>
+    <p *ngIf="waitingForOpponentShoot" style="font-weight: bold; color: blue;">
+        <span translate>battle.waitingForOpponent</span>
+    </p>
 
-        <div class="" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center">
-            <div class="opponent-container" fxFlex="0 0 auto">
-                <div *ngIf="opponentInfo" [class.turn]="shootNow">
-                    {{ opponentInfo.displayName }}<span translate>battle.sBoard</span>
-                </div>
-                <div *ngIf="targetBoard">
-                    <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)"
-                        (uncovered)="onUncovered($event)"></app-target-board>
-                </div>
+    <div class="" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center">
+        <div class="opponent-container" fxFlex="0 0 auto">
+            <div *ngIf="opponentInfo" [class.turn]="shootNow">
+                {{ opponentInfo.displayName }}<span translate>battle.sBoard</span>
             </div>
-            <div class="own-board-container" fxFlex="0 0 auto">
-                <div translate [class.turn]="waitingForOpponentShoot">battle.yourBoard</div>
-                <div *ngIf="ownBoard">
-                    <app-own-board [ownBoard]="ownBoard"></app-own-board>
-                </div>
+            <div *ngIf="targetBoard">
+                <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)"
+                    (uncovered)="onUncovered($event)"></app-target-board>
             </div>
         </div>
-
-        <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
-            <button mat-raised-button color="accent" class="standard-button-width" [disabled]="isCapitulating"
-                (click)="onCapitulationClicked()">{{'button.capitulation' | translate}}</button>
-            <div class="spinner-cell">
-                <mat-spinner *ngIf="isCapitulating" diameter="22" style="display: inline-block"></mat-spinner>
+        <div class="own-board-container" fxFlex="0 0 auto">
+            <div translate [class.turn]="waitingForOpponentShoot">battle.yourBoard</div>
+            <div *ngIf="ownBoard">
+                <app-own-board [ownBoard]="ownBoard"></app-own-board>
             </div>
+        </div>
+    </div>
+
+    <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
+        <button mat-raised-button color="accent" class="standard-button-width" [disabled]="isCapitulating"
+            (click)="onCapitulationClicked()">{{'button.capitulation' | translate}}</button>
+        <div class="spinner-cell">
+            <mat-spinner *ngIf="isCapitulating" diameter="22" style="display: inline-block"></mat-spinner>
         </div>
     </div>
 </div>
