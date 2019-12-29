@@ -138,8 +138,11 @@ export class AuthState implements NgxsOnInit {
 
     @Action(AuthActions.AuthUserChanged)
     authUserChanged(ctx: StateContext<AuthStateModel>, action: AuthActions.AuthUserChanged) {
+        const oldAuthUser = ctx.getState().authUser;
         ctx.patchState({ authUser: action.authUser });
-        ctx.dispatch(new AuthActions.ObserveUser(action.authUser.uid));
+        if (!oldAuthUser || oldAuthUser.uid !== action.authUser.uid) {
+            ctx.dispatch(new AuthActions.ObserveUser(action.authUser.uid));
+        }
     }
 
     @Action(AuthActions.Unauthenticated)
