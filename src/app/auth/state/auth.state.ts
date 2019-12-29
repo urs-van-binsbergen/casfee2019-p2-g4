@@ -1,18 +1,28 @@
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
-import { ObserveAuthUser, AuthUserChanged, Login } from './auth.actions';
+import { ObserveAuthUser, AuthUserChanged, Login, Register } from './auth.actions';
 import { map } from 'rxjs/operators';
 import { AuthService, AuthUser } from '../auth.service';
+import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 
 
 export interface AuthModel {
     authUser: AuthUser | null;
     login?: LoginModel;
+    registration?: RegistrationModel;
 }
 
 export interface LoginModel {
     success?: boolean;
     badCredentials?: boolean;
-    genericError?: string;
+    otherError?: string;
+}
+
+export interface RegistrationModel {
+    success?: boolean;
+    emailInUse?: boolean;
+    emailInvalid?: boolean;
+    otherError?: string;
+    incompleteSave?: boolean; // (on success, but profile update in db failed) 
 }
 
 @State<AuthModel>({
@@ -34,8 +44,14 @@ export class AuthState implements NgxsOnInit {
         return state.login;
     }
 
+    @Selector()
+    public static registration(state: AuthModel): RegistrationModel {
+        return state.registration;
+    }
+
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private cloudFunctions: CloudFunctionsService // (to update database after registration)
     ) {
     }
 
@@ -59,22 +75,57 @@ export class AuthState implements NgxsOnInit {
     }
 
     @Action(Login)
-    login(ctx: StateContext<AuthModel>, action: Login) {
+    async login(ctx: StateContext<AuthModel>, action: Login) {
         ctx.patchState({ login: { success: undefined } });
-        this.authService.login(action.username, action.password)
-            .then(loginResult => {
-                if (!loginResult.success) {
-                    if (loginResult.badCredentials) {
-                        ctx.patchState({ login: { success: false, badCredentials: true } });
-                    } else {
-                        ctx.patchState({ login: { success: false, genericError: loginResult.genericError } });
-                    }
-                } else {
-                    ctx.patchState({ login: { success: true } });
-                }
-                ctx.patchState({ login: undefined }); // (next-reset)
-            });
 
+        const loginResult = await this.authService.login(action.username, action.password);
+
+        if (loginResult.success) {
+            ctx.patchState({ login: { success: true } });
+        } else {
+            if (loginResult.badCredentials) {
+                ctx.patchState({ login: { success: false, badCredentials: true } });
+            } else {
+                ctx.patchState({ login: { success: false, otherError: loginResult.otherError } });
+            }
+        }
+
+        ctx.patchState({ login: undefined }); // (next-reset)
+    }
+
+    @Action(Register)
+    async register(ctx: StateContext<AuthModel>, action: Register) {
+        ctx.patchState({ registration: { success: undefined } });
+
+        const registrationResult = await this.authService.register(action.email, action.password, action.displayName);
+
+        let incompleteSave: boolean = undefined;
+        if (registrationResult.success) {
+            // Update database
+            try {
+                await this.cloudFunctions.updateUser({
+                    displayName: action.displayName,
+                    email: action.email,
+                    avatarFileName: null
+                }).toPromise();
+            } catch (error) {
+                incompleteSave = true;
+            }
+        }
+
+        if (registrationResult.success) {
+            ctx.patchState({ registration: { success: true, incompleteSave } });
+        } else {
+            if (registrationResult.emailInUse) {
+                ctx.patchState({ registration: { success: false, emailInUse: true } });
+            } else if (registrationResult.emailInvalid) {
+                ctx.patchState({ registration: { success: false, emailInvalid: true } });
+            } else {
+                ctx.patchState({ registration: { success: false, otherError: registrationResult.otherError } });
+            }
+        }
+
+        ctx.patchState({ registration: undefined }); // (next-reset)
     }
 
 }

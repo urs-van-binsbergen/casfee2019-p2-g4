@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../../auth.service';
+import { Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { Register } from '../../state/auth.actions';
+import { AuthState } from '../../state/auth.state';
 import { AuthRedirectService } from '../../auth-redirect.service';
-import { NotificationService } from '../../../shared/notification.service';
-import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 
 @Component({
     templateUrl: './register.component.html'
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
 
+    // Form definition
     displayName = new FormControl('', [Validators.required]);
     username = new FormControl('', [Validators.required, Validators.email]);
     password = new FormControl('', [Validators.required, Validators.minLength(6)]);
@@ -24,20 +28,59 @@ export class RegisterComponent implements OnInit {
     });
 
     waiting = false;
+    destroy$ = new Subject<void>();
 
     constructor(
+        private store: Store,
         private location: Location,
         private translate: TranslateService,
-        private authService: AuthService,
         private redirect: AuthRedirectService,
         private notification: NotificationService,
-        private cloudFunctions: CloudFunctionsService
     ) { }
 
     ngOnInit() {
+        this.store.select(AuthState.registration)
+            .pipe(
+                takeUntil(this.destroy$),
+                tap(registrationModel => {
+                    if (registrationModel === undefined) {
+                        this.waiting = false;
+                        return;
+                    }
+
+                    if (registrationModel.success === undefined) {
+                        this.waiting = true;
+                        return;
+                    }
+
+                    if (registrationModel.success) {
+                        if (registrationModel.incompleteSave) {
+                            const msg = this.translate.instant('auth.register.error.incompleteSave');
+                            this.notification.toastToConfirm(msg);
+                        } else {
+                            const msg = this.translate.instant('auth.register.successMessage');
+                            this.notification.quickToast(msg, 1000);
+                        }
+                        this.redirect.redirectToNext('/user');
+                        return;
+                    }
+
+                    let errorMessage: string;
+                    if (registrationModel.emailInUse) {
+                        errorMessage = this.translate.instant("auth.register.error.emailInUse");
+                    } else if (registrationModel.emailInvalid) {
+                        errorMessage = this.translate.instant("auth.register.error.emailInvalid");
+                    } else {
+                        errorMessage = registrationModel.otherError;
+                    }
+                    this.notification.toastToConfirm(errorMessage);
+                })
+            )
+            .subscribe();
     }
 
     onSubmit() {
+        // Form validation
         if (this.form.valid &&
             this.password.value !== this.passwordRepeat.value
         ) {
@@ -48,34 +91,17 @@ export class RegisterComponent implements OnInit {
             return;
         }
 
-        this.waiting = true;
-
-        // Register
-        this.authService.register(this.username.value, this.password.value, this.displayName.value)
-            .then(() => {
-                this.cloudFunctions.updateUser({
-                    displayName: this.displayName.value,
-                    email: this.username.value,
-                    avatarFileName: null
-                })
-                    .toPromise()
-                    .then(() => {
-                        this.waiting = false;
-                        const msg = this.translate.instant('auth.register.successMessage');
-                        this.notification.quickToast(msg, 2000);
-                        this.redirect.redirectToNext('/user');
-                    });
-            })
-            .catch(error => {
-                this.waiting = false;
-                const errorMsg = this.translate.instant('common.error.genericError'); // TODO
-                this.notification.toastToConfirm(errorMsg);
-            })
-            ;
+        // Dispatch
+        this.store.dispatch(new Register(this.username.value, this.password.value, this.displayName.value));
     }
 
     onCancel() {
         this.location.back();
     }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+    }
+
 
 }

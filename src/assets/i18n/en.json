@@ -39,7 +39,8 @@
             "successMessage": "Registration successful",
             "error": {
                 "emailInUse": "Email is already in use",
-                "emailInvalid": "Email invalid"
+                "emailInvalid": "Email invalid",
+                "incompleteSave": "Registration done, but there was a problem saving to the user profile database. You can try to fix this using the 'Update profile' button"
             }
         },
         "resetPassword": {

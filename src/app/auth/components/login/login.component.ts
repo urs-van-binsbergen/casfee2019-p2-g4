@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
                     const errorMessage = loginModel.badCredentials ?
                         this.translate.instant('auth.login.error.badCredentials') :
-                        loginModel.genericError;
+                        loginModel.otherError;
                     this.notification.toastToConfirm(errorMessage);
                 })
             )
@@ -64,11 +64,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
+        // Form validation
         if (!this.form.valid) {
             this.notification.pleaseCheckFormInput();
             return;
         }
 
+        // Dispatch
         this.store.dispatch(new Login(this.username.value, this.password.value));
     }
 

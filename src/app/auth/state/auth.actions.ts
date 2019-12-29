@@ -14,3 +14,8 @@ export class Login {
     static readonly type = '[auth] login';
     constructor(public username: string, public password: string) { }
 }
+
+export class Register {
+    static readonly type = '[auth] register';
+    constructor(public email: string, public password: string, public displayName: string) {}
+}

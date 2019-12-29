@@ -39,7 +39,8 @@
             "successMessage": "Registrierung erfolgreich",
             "error": {
                 "emailInUse": "E-Mail wird bereits verwendet",
-                "emailInvalid": "E-Mail ungültig"
+                "emailInvalid": "E-Mail ungültig",
+                "incompleteSave": "Registrierung ist erfolgt, aber es gab ein Problem beim Speichern in der Profildatenbank. Dieses Profil kann evtl. mit 'Profil ändern' behoben werden."
             }
         },
         "resetPassword": {

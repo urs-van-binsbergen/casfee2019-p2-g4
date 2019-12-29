@@ -13,13 +13,14 @@ export interface AuthUser {
 export interface LoginResult {
     success: boolean;
     badCredentials?: boolean;
-    genericError?: string;
+    otherError?: string;
 }
 
 export interface RegistrationResult {
     success: boolean;
     emailInUse?: boolean;
     emailInvalid?: boolean;
+    otherError?: string;
 }
 
 /*
@@ -29,7 +30,7 @@ export interface RegistrationResult {
 export class AuthService {
 
     /*
-     * Locally published profile updates
+     * Self-triggered profile updates
      * (Because firebase.User.updateProfile() does not fire a next AngularFireAuth.authState)
      */
     private localAuthUserUpdates = new Subject<AuthUser>();
@@ -39,7 +40,7 @@ export class AuthService {
     ) {
     }
 
-    private getAuthUser(firebaseUser: firebase.User): AuthUser | null {
+    private toAuthUser(firebaseUser: firebase.User): AuthUser | null {
         if (!firebaseUser) {
             return null;
         }
@@ -53,44 +54,45 @@ export class AuthService {
 
     public authUser$(): Observable<AuthUser> {
         return merge(
-            this.afAuth.authState.pipe(map(this.getAuthUser)),
+            this.afAuth.authState.pipe(map(this.toAuthUser)),
             this.localAuthUserUpdates
         );
     }
 
-    login(email: string, password: string): Promise<LoginResult> {
-        return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-            .then(() => ({ success: true }))
-            .catch((error: firebase.FirebaseError) => {
-                if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-                    return { success: false, badCredentials: true };
-                } else {
-                    return { success: false, genericError: `${error.message} (${error.code})` };
-                }
-            });
+    async login(email: string, password: string): Promise<LoginResult> {
+        try {
+            await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+            return ({ success: true });
+        } catch (error) {
+            if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+                return { success: false, badCredentials: true };
+            }
+            else {
+                return { success: false, otherError: `${error.message} (${error.code})` };
+            }
+        }
     }
 
     logout(): Promise<void> {
         return this.afAuth.auth.signOut();
     }
 
-    register(email: string, password: string, displayName: string): Promise<RegistrationResult> {
-        return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-            .then(async userCredential => {
-                await this.updateProfileImpl(userCredential.user, displayName);
-                return { success: true };
-            })
-            .catch((error: firebase.FirebaseError) => {
-                if (error.code === 'auth/email-already-in-use') {
-                    return { success: false, emailInUse: true };
-                }
-                if (error.code === 'auth/invalid-email') {
-                    return { success: false, emailInvalid: true };
-                }
-                // some other error -> rethrow
-                throw error;
-            })
-            ;
+    async register(email: string, password: string, displayName: string): Promise<RegistrationResult> {
+        try {
+            const userCredential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+            await this.updateProfileImpl(userCredential.user, displayName);
+            return { success: true };
+        } catch (error) {
+            if (error.code === 'auth/email-already-in-use') {
+                return { success: false, emailInUse: true };
+            }
+            if (error.code === 'auth/invalid-email') {
+                return { success: false, emailInvalid: true };
+            }
+            else {
+                return { success: false, otherError: `${error.message} (${error.code})` };
+            }
+        }
     }
 
     sendPasswordMail(email: string): Promise<void> {
@@ -104,7 +106,7 @@ export class AuthService {
 
     private async updateProfileImpl(firebaseUser: firebase.User, displayName: string): Promise<void> {
         await firebaseUser.updateProfile({ displayName });
-        const authUser = this.getAuthUser(firebaseUser);
+        const authUser = this.toAuthUser(firebaseUser);
         this.localAuthUserUpdates.next(authUser);
     }
 
