@@ -102,6 +102,7 @@ export class MatchState {
                 }),
                 finalize(() => {
                     ctx.dispatch(new UpdateMatch(null));
+                    this._unbind$ = null;
                 })
             ).subscribe();
         }
