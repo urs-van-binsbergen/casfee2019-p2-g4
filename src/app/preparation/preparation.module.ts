@@ -7,6 +7,8 @@ import { PreparationInteractionService } from './services/preparation-interactio
 import { PreparationYardComponent } from './components/yard/preparation-yard.component';
 import { PreparationGuard } from './guards/preparation.guard';
 import { RouterModule } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
+import { PreparationState } from './state/preparation.state';
 
 @NgModule({
     declarations: [
@@ -16,7 +18,8 @@ import { RouterModule } from '@angular/router';
     ],
     imports: [
         SharedModule,
-        RouterModule
+        RouterModule,
+        NgxsModule.forFeature([PreparationState]),
     ],
     providers: [
         PreparationGuard,

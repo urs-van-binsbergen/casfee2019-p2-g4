@@ -146,7 +146,7 @@
             "body": "Du verlierst deine Daten!",
             "title": "Warnung"
         },
-        "error": "Deine Vorbereitung wurde nicht angenommen. Könnte am Netzwerk liegen.",
+        "error": "Deine Vorbereitung konnte nicht gemacht werden.",
         "status": {
             "nokLabel": "Nicht ok:",
             "okLabel": "Ok:"

@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CloudFunctionsService } from '../../backend/cloud-functions.service';
-import { MatDialog, MatSnackBar } from '@angular/material';
-import { PreparationArgs } from '@cloud-api/arguments';
+import { MatDialog } from '@angular/material';
 import { PreparationInteractionService } from '../services/preparation-interaction.service';
 import { PreparationService } from '../services/preparation.service';
 import { PreparationDrop, PreparationRow, PreparationShip, boardHeight, boardWidth } from '../model/preparation-models';
 import * as PreparationMethods from '../model/preparation-methods';
-import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngxs/store';
+import { AddPreparation } from '../state/preparation.actions';
 
 @Component({
     selector: 'app-preparation',
@@ -26,9 +25,7 @@ export class PreparationComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         private preparationInteractionService: PreparationInteractionService,
         private preparationService: PreparationService,
-        private cloudFunctions: CloudFunctionsService,
-        private snackBar: MatSnackBar,
-        private translate: TranslateService
+        private store: Store
     ) {
     }
 
@@ -53,7 +50,6 @@ export class PreparationComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.hideError();
     }
 
     get yard(): PreparationShip[] {
@@ -97,37 +93,12 @@ export class PreparationComponent implements OnInit, OnDestroy {
     }
 
     onContinueClicked() {
-        this._waiting = true;
-        this.hideError();
         const ships = PreparationMethods.createShips(this._preparation);
-        const args: PreparationArgs = {
-            size: { w: boardWidth, h: boardHeight },
-            ships: [...ships]
-        };
-        this.cloudFunctions.addPreparation(args).subscribe(
-            results => {
+        this._waiting = true;
+        this.store.dispatch(new AddPreparation(ships, boardWidth, boardHeight)).toPromise()
+            .finally(() => {
                 this._waiting = false;
-                this.hideError();
-            },
-            error => {
-                this._waiting = false;
-                this.showError('preparation.error');
-            },
-            () => {
-                this._waiting = false;
-                this.hideError();
-            }
-        );
-    }
-
-    private hideError() {
-        this.snackBar.dismiss();
-    }
-
-    private showError(error: string) {
-        const message = this.translate.instant(error);
-        const close = this.translate.instant('button.close');
-        this.snackBar.open(message, close);
+            });
     }
 
 }

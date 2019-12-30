@@ -1,10 +1,12 @@
 import { Action, State, StateContext } from '@ngxs/store';
+import { PreparationArgs } from '@cloud-api/arguments';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { AddPreparation } from './preparation.actions';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 export class PreparationModel {
-    adding?: boolean;
-    unauthenticated?: boolean;
 }
 
 @State<PreparationModel>({
@@ -15,10 +17,24 @@ export class PreparationModel {
 
 export class PreparationState {
 
-    constructor(private cloudData: CloudFunctionsService) {}
+    constructor(
+        private cloudFunctions: CloudFunctionsService,
+        private notification: NotificationService
+    ) {
+    }
 
     @Action(AddPreparation)
-    playerUpdated(ctx: StateContext<PreparationModel>, action: AddPreparation) {
+    addPreparation(ctx: StateContext<PreparationModel>, action: AddPreparation) {
+        const args: PreparationArgs = {
+            size: { w: action.width, h: action.height },
+            ships: [...action.ships]
+        };
+        return this.cloudFunctions.addPreparation(args).pipe(
+            catchError((error) => {
+                this.notification.quickErrorToast('preparation.error');
+                return of();
+            })
+        );
     }
 
 }

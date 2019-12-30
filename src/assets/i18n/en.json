@@ -146,7 +146,7 @@
             "body": "Your data will get lost!",
             "title": "Warning"
         },
-        "error": "Your preparation is not accepted. Could be a network issue.",
+        "error": "Could not add preparation.",
         "status": {
             "nokLabel": "Not ok:",
             "okLabel": "Ok:"
