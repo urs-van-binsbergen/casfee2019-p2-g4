@@ -18,7 +18,7 @@ export class Delete {
 
 export class UpdateGame {
     static readonly type = '[game] update';
-    constructor(public player: Player) { }
+    constructor(public player: Player, public unauthenticated: boolean) { }
 }
 
 export class BindGame {

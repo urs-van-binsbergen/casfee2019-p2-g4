@@ -1,6 +1,6 @@
 import { Action, State, Selector, StateContext, Store } from '@ngxs/store';
-import { Subject, of, throwError } from 'rxjs';
-import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
+import { catchError, finalize, takeUntil, tap, switchMap } from 'rxjs/operators';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { BindGame, Capitulate, Delete, Shoot, UnbindGame, UpdateGame } from './game.actions';
@@ -20,15 +20,14 @@ export interface GameStateModel {
     name: 'game',
     defaults: {
         loading: false,
-        unauthenticated: false,
+        unauthenticated: true,
         player: null
     }
 })
 
 export class GameState {
 
-    private _unbindAuth$: Subject<void>;
-    private _unbindPlayer$: Subject<void>;
+    private _unbind$: Subject<void>;
     private _observers: number;
 
     constructor(
@@ -37,8 +36,7 @@ export class GameState {
         private store: Store,
         private notification: NotificationService
     ) {
-        this._unbindAuth$ = null;
-        this._unbindPlayer$ = null;
+        this._unbind$ = null;
         this._observers = 0;
     }
 
@@ -65,7 +63,7 @@ export class GameState {
         return this.cloudFunctions.shoot(args).pipe(
             catchError((error) => {
                 this.notification.quickErrorToast('game.error.shoot');
-                return throwError(error);
+                return of();
             })
         );
     }
@@ -75,15 +73,14 @@ export class GameState {
         return this.cloudFunctions.capitulate({}).pipe(
             catchError((error) => {
                 this.notification.quickErrorToast('game.error.capitulation');
-                return throwError(error);
+                return of();
             })
         );
     }
 
     @Action(Delete)
     delete(ctx: StateContext<GameStateModel>) {
-        const args = {};
-        return this.cloudFunctions.deleteGameData(args).pipe(
+        return this.cloudFunctions.deleteGameData({}).pipe(
             catchError((error) => {
                 this.notification.quickErrorToast('game.error.delete');
                 return of();
@@ -93,50 +90,45 @@ export class GameState {
 
     @Action(UpdateGame)
     updateGame(ctx: StateContext<GameStateModel>, action: UpdateGame) {
-        ctx.patchState({ loading: false, player: action.player || null });
+        ctx.patchState({
+            loading: false,
+            unauthenticated: action.unauthenticated,
+            player: action.player || null
+        });
     }
 
     @Action(BindGame)
     bindGame(ctx: StateContext<GameStateModel>) {
         this._observers++;
-        if (!(this._unbindAuth$)) {
-            ctx.patchState({ loading: true, unauthenticated: true });
-            this._unbindAuth$ = new Subject<void>();
+        if (!(this._unbind$)) {
+            ctx.patchState({ loading: true });
+            this._unbind$ = new Subject<void>();
             this.store.select(AuthState.authUser).pipe(
-                takeUntil(this._unbindAuth$),
-                tap((authUser: AuthUser) => {
+                switchMap((authUser: AuthUser) => {
                     if (authUser && authUser.uid) {
-                        ctx.patchState({ unauthenticated: false });
-                        if (!(this._unbindPlayer$)) {
-                            this._unbindPlayer$ = new Subject<void>();
-                            this.cloudData.getPlayer$(authUser.uid).pipe(
-                                takeUntil(this._unbindPlayer$),
-                                tap((player: Player) => {
-                                    ctx.dispatch(new UpdateGame(player));
-                                }),
-                                catchError((error) => {
-                                    this.notification.quickErrorToast('game.error.player');
-                                    return of();
-                                }),
-                                finalize(() => {
-                                    this._unbindPlayer$ = null;
-                                    ctx.dispatch(new UpdateGame(null));
-                                })
-                            ).subscribe();
-                        }
+                        return this.cloudData.getPlayer$(authUser.uid).pipe(
+                            tap((player: Player) => {
+                                ctx.dispatch(new UpdateGame(player, false));
+                            }),
+                            catchError((error) => {
+                                ctx.dispatch(new UpdateGame(null, true));
+                                this.notification.quickErrorToast('game.error.player');
+                                return of();
+                            })
+                        );
                     } else {
-                        ctx.patchState({ unauthenticated: true });
-                        if (this._unbindPlayer$) {
-                            this._unbindPlayer$.next();
-                        }
+                        ctx.dispatch(new UpdateGame(null, true));
+                        return of();
                     }
                 }),
+                catchError((error) => {
+                    this.notification.quickErrorToast('game.error.player');
+                    return of();
+                }),
+                takeUntil(this._unbind$),
                 finalize(() => {
-                    ctx.patchState({ unauthenticated: true });
-                    if (this._unbindPlayer$) {
-                        this._unbindPlayer$.next();
-                    }
-                    this._unbindAuth$ = null;
+                    ctx.dispatch(new UpdateGame(null, true));
+                    this._unbind$ = null;
                 })
             ).subscribe();
         }
@@ -147,8 +139,8 @@ export class GameState {
         this._observers--;
         if (this._observers <= 0) {
             this._observers = 0;
-            if (this._unbindAuth$) {
-                this._unbindAuth$.next();
+            if (this._unbind$) {
+                this._unbind$.next();
             }
         }
     }
