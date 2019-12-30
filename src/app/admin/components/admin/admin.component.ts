@@ -1,25 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
-import { Select } from '@ngxs/store';
-import { PlayerState } from 'src/app/game/state/player.state';
+import { Select, Store } from '@ngxs/store';
+import { GameState } from 'src/app/game/state/game.state';
 import { Observable } from 'rxjs';
 import { Player } from '@cloud-api/core-models';
+import { BindGame, UnbindGame } from 'src/app/game/state/game.actions';
 
 
 @Component({
     templateUrl: './admin.component.html',
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
 
     constructor(
         private cloudFunctions: CloudFunctionsService,
+        private store: Store
     ) {
     }
 
     waiting = false;
-    @Select(PlayerState.player) player$: Observable<Player>;
+    @Select(GameState.player) player$: Observable<Player>;
 
     ngOnInit(): void {
+        this.store.dispatch(new BindGame());
+    }
+
+    ngOnDestroy(): void {
+        this.store.dispatch(new UnbindGame());
     }
 
     purge() {

@@ -1,7 +1,6 @@
-import { PlayerStatus } from '@cloud-api/core-models';
-import { PlayerModel as PlayerStateModel } from '../../state/player.state';
+import { Player, PlayerStatus } from '@cloud-api/core-models';
 
-export interface GameModel {
+export interface GameStatus {
     showPreparation?: boolean;
     showMatch?: boolean;
     showBattle?: boolean;
@@ -11,16 +10,17 @@ export interface GameModel {
     unauthenticated?: boolean;
 }
 
-export function getGameModel(prevModel: GameModel, playerState: PlayerStateModel): GameModel {
-    if (!playerState || playerState.loading) {
+export function updateStatus(prevModel: GameStatus, loading: boolean, unauthenticated: boolean, player: Player): GameStatus {
+    if (loading) {
         return { loading: true };
     }
-    if (playerState.unauthenticated) {
+    if (unauthenticated) {
         return { unauthenticated: true };
     }
-    const player = playerState.player;
-    const playerStatus = player ? player.playerStatus : PlayerStatus.Preparing;
-    switch (playerStatus) {
+    if (!player) {
+        return { showPreparation: true };
+    }
+    switch (player.playerStatus) {
         case PlayerStatus.Preparing:
             return { showPreparation: true };
         case PlayerStatus.Waiting:

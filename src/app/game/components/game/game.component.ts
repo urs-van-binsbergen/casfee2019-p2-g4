@@ -1,16 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Store } from '@ngxs/store';
-import { PlayerState } from '../../state/player.state';
-import { tap, takeUntil } from 'rxjs/operators';
-import { GameModel, getGameModel } from './game.model';
+import { GameState, GameStateModel } from '../../state/game.state';
+import { tap, takeUntil, finalize } from 'rxjs/operators';
+import { GameStatus, updateStatus } from '../../model/game.model';
+import { BindGame, UnbindGame } from '../../state/game.actions';
 
 @Component({
     templateUrl: './game.component.html',
 })
 export class GameComponent implements OnInit, OnDestroy {
 
-    model: GameModel = {};
+    status: GameStatus = {};
     private destroy$ = new Subject<void>();
 
     constructor(
@@ -19,10 +20,16 @@ export class GameComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.store.select(PlayerState)
+        this.store.dispatch(new BindGame());
+        this.store.select(GameState.state)
             .pipe(
                 takeUntil(this.destroy$),
-                tap(state => this.model = getGameModel(this.model, state))
+                tap((state: GameStateModel) => {
+                    this.status = updateStatus(this.status, state.loading, state.unauthenticated, state.player);
+                }),
+                finalize(() => {
+                    this.store.dispatch(new UnbindGame());
+                })
             )
             .subscribe()
             ;
