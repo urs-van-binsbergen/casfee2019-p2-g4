@@ -4,7 +4,7 @@ import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { AddPreparation } from './preparation.actions';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { throwError } from 'rxjs';
 
 export class PreparationModel {
 }
@@ -32,7 +32,7 @@ export class PreparationState {
         return this.cloudFunctions.addPreparation(args).pipe(
             catchError((error) => {
                 this.notification.quickErrorToast('preparation.error');
-                return of();
+                return throwError(error);
             })
         );
     }

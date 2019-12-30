@@ -1,21 +1,24 @@
 import { Action, State, Selector, StateContext, Store } from '@ngxs/store';
-import { Subject, throwError } from 'rxjs';
+import { Subject, throwError, of } from 'rxjs';
 import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
-import { AddChallenge, BindMatch, CancelMatch, RemoveChallenge, UnbindMatch, BindingMatch, UpdateWaitingPlayers } from './match.actions';
+import { AddChallenge, BindMatch, CancelMatch, RemoveChallenge, UnbindMatch, UpdateMatch } from './match.actions';
 import { WaitingPlayer } from '@cloud-api/core-models';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { AuthState } from 'src/app/auth/state/auth.state';
 
-export class MatchModel {
+export interface MatchStateModel {
     loading: boolean;
+    uid: string;
     waitingPlayers: WaitingPlayer[] | null;
 }
 
-@State<MatchModel>({
+@State<MatchStateModel>({
     name: 'match',
     defaults: {
         loading: false,
+        uid: null,
         waitingPlayers: null
     }
 })
@@ -28,6 +31,7 @@ export class MatchState {
     constructor(
         private cloudData: CloudDataService,
         private cloudFunctions: CloudFunctionsService,
+        private store: Store,
         private notification: NotificationService
     ) {
         this._unbind$ = null;
@@ -35,17 +39,17 @@ export class MatchState {
     }
 
     @Selector()
-    public static loading(state: MatchModel): boolean {
+    public static loading(state: MatchStateModel): boolean {
         return state.loading;
     }
 
     @Selector()
-    public static waitingPlayers(state: MatchModel): WaitingPlayer[] {
-        return state.waitingPlayers;
+    public static state(state: MatchStateModel): MatchStateModel {
+        return state;
     }
 
     @Action(AddChallenge)
-    addChallenge(ctx: StateContext<MatchModel>, action: AddChallenge) {
+    addChallenge(ctx: StateContext<MatchStateModel>, action: AddChallenge) {
         return this.cloudFunctions.addChallenge({ opponentUid: action.opponentUid }).pipe(
             catchError((error) => {
                 this.notification.quickErrorToast('match.error.add');
@@ -55,7 +59,7 @@ export class MatchState {
     }
 
     @Action(RemoveChallenge)
-    removeChallenge(ctx: StateContext<MatchModel>, action: RemoveChallenge) {
+    removeChallenge(ctx: StateContext<MatchStateModel>, action: RemoveChallenge) {
         return this.cloudFunctions.removeChallenge({ opponentUid: action.opponentUid }).pipe(
             catchError((error) => {
                 this.notification.quickErrorToast('match.error.remove');
@@ -65,7 +69,7 @@ export class MatchState {
     }
 
     @Action(CancelMatch)
-    cancelMatch(ctx: StateContext<MatchModel>) {
+    cancelMatch(ctx: StateContext<MatchStateModel>) {
         return this.cloudFunctions.removePreparation({}).pipe(
             catchError((error) => {
                 this.notification.quickErrorToast('match.error.cancel');
@@ -74,50 +78,42 @@ export class MatchState {
         );
     }
 
-    @Action(UpdateWaitingPlayers)
-    UpdateWaitingPlayers(ctx: StateContext<MatchModel>, action: UpdateWaitingPlayers) {
-        ctx.patchState({ waitingPlayers: action.waitingPlayers });
+    @Action(UpdateMatch)
+    UpdateWaitingPlayers(ctx: StateContext<MatchStateModel>, action: UpdateMatch) {
+        const uid = this.store.selectSnapshot(AuthState.authUser).uid;
+        ctx.patchState({ loading: false, uid, waitingPlayers: action.waitingPlayers });
     }
 
     @Action(BindMatch)
-    bindMatch(ctx: StateContext<MatchModel>) {
+    bindMatch(ctx: StateContext<MatchStateModel>) {
         this._observers++;
         if (!(this._unbind$)) {
-            ctx.dispatch(new BindingMatch());
+            this._unbind$ = new Subject<void>();
+            ctx.patchState({ loading: true });
+            this.cloudData.getWaitingPlayers$().pipe(
+                takeUntil(this._unbind$),
+                tap((waitingPlayers: WaitingPlayer[]) => {
+                    ctx.dispatch(new UpdateMatch(waitingPlayers));
+                }),
+                catchError((error) => {
+                    ctx.dispatch(new UpdateMatch(null));
+                    this.notification.quickErrorToast('match.error.waitingPlayers');
+                    return of();
+                }),
+                finalize(() => {
+                    ctx.dispatch(new UpdateMatch(null));
+                })
+            ).subscribe();
         }
     }
 
-    @Action(BindingMatch, { cancelUncompleted: true })
-    bindingMatch(ctx: StateContext<MatchModel>) {
-        this._unbind$ = new Subject<void>();
-        ctx.patchState({ loading: true });
-        return this.cloudData.getWaitingPlayers$().pipe(
-            takeUntil(this._unbind$),
-            tap((waitingPlayers: WaitingPlayer[]) => {
-                ctx.patchState({ loading: false });
-                ctx.dispatch(new UpdateWaitingPlayers(waitingPlayers));
-            }),
-            catchError((error) => {
-                ctx.patchState({ loading: false });
-                ctx.dispatch(new UpdateWaitingPlayers(null));
-                this.notification.quickErrorToast('match.error.waitingPlayers');
-                return throwError(error);
-            }),
-            finalize(() => {
-                ctx.patchState({ loading: false });
-                ctx.dispatch(new UpdateWaitingPlayers(null));
-            })
-        );
-    }
-
     @Action(UnbindMatch)
-    unbindMatch(ctx: StateContext<MatchModel>) {
+    unbindMatch(ctx: StateContext<MatchStateModel>) {
         this._observers--;
         if (this._observers <= 0) {
             this._observers = 0;
             if (this._unbind$) {
                 this._unbind$.next();
-                this._unbind$ = null;
             }
         }
     }

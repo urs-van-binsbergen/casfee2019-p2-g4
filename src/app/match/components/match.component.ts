@@ -2,11 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as MatchMethods from '../model/match-methods';
 import { MatchItem, MatchStatus } from '../model/match-models';
 import { Router } from '@angular/router';
-import { WaitingPlayer } from '@cloud-api/core-models';
 import { Select, Store } from '@ngxs/store';
-import { AuthState } from 'src/app/auth/state/auth.state';
-import { Observable, Subscription } from 'rxjs';
-import { MatchState } from '../state/match.state';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, tap, finalize } from 'rxjs/operators';
+import { MatchState, MatchStateModel } from '../state/match.state';
 import { AddChallenge, BindMatch, CancelMatch, RemoveChallenge, UnbindMatch } from '../state/match.actions';
 import deepClone from 'clone-deep';
 
@@ -19,10 +18,10 @@ export class MatchComponent implements OnInit, OnDestroy {
     private _items: MatchItem[] = [];
     private _state: MatchStatus = MatchStatus.Idle;
     private _waiting: boolean;
-    private _subsciption: Subscription;
+    private _destroy$ = new Subject<void>();
 
     @Select(MatchState.loading) loading$: Observable<boolean>;
-    @Select(MatchState.waitingPlayers) waitingPlayers$: Observable<WaitingPlayer[]>;
+    @Select(MatchState.state) state$: Observable<MatchStateModel>;
 
     constructor(
         private store: Store,
@@ -30,17 +29,21 @@ export class MatchComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        const uid = this.store.selectSnapshot(AuthState.authUser).uid;
-        this._subsciption = this.waitingPlayers$.subscribe((waitingPlayers: WaitingPlayer[]) => {
-            this._state = MatchMethods.updateMatchStatusWithWaitingPlayers(this._state, waitingPlayers, uid);
-            this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, waitingPlayers, uid);
-        });
         this.store.dispatch(new BindMatch());
+        this.state$.pipe(
+            takeUntil(this._destroy$),
+            tap((state: MatchStateModel) => {
+                this._state = MatchMethods.updateMatchStatusWithWaitingPlayers(this._state, state.waitingPlayers, state.uid);
+                this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, state.waitingPlayers, state.uid);
+            }),
+            finalize(() => {
+                this.store.dispatch(new UnbindMatch());
+            })
+        ).subscribe();
     }
 
     ngOnDestroy(): void {
-        this._subsciption.unsubscribe();
-        this.store.dispatch(new UnbindMatch());
+        this._destroy$.next();
     }
 
     public get items(): MatchItem[] {

@@ -10,23 +10,18 @@ export class RemoveChallenge {
     constructor(public opponentUid: string) { }
 }
 
-export class UpdateWaitingPlayers {
-    static readonly type = '[match] update waiting players';
-    constructor(public waitingPlayers: WaitingPlayer[]) { }
-}
-
 export class CancelMatch {
     static readonly type = '[match] cancel';
     constructor() { }
 }
 
-export class BindMatch {
-    static readonly type = '[match] bind';
-    constructor() { }
+export class UpdateMatch {
+    static readonly type = '[match] update';
+    constructor(public waitingPlayers: WaitingPlayer[]) { }
 }
 
-export class BindingMatch {
-    static readonly type = '[match] binding';
+export class BindMatch {
+    static readonly type = '[match] bind';
     constructor() { }
 }
 
