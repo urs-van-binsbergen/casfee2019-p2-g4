@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { Select, Store } from '@ngxs/store';
 import { GameState } from 'src/app/game/state/game.state';
 import { Observable } from 'rxjs';
 import { Player } from '@cloud-api/core-models';
-import { BindGame, UnbindGame } from 'src/app/game/state/game.actions';
+import { BindGame, UnbindGame, Delete } from 'src/app/game/state/game.actions';
 
 
 @Component({
@@ -12,14 +11,11 @@ import { BindGame, UnbindGame } from 'src/app/game/state/game.actions';
 })
 export class AdminComponent implements OnInit, OnDestroy {
 
-    constructor(
-        private cloudFunctions: CloudFunctionsService,
-        private store: Store
-    ) {
-    }
-
     waiting = false;
     @Select(GameState.player) player$: Observable<Player>;
+
+    constructor(private store: Store) {
+    }
 
     ngOnInit(): void {
         this.store.dispatch(new BindGame());
@@ -31,9 +27,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     purge() {
         this.waiting = true;
-
-        const args = {};
-        this.cloudFunctions.deleteGameData(args).toPromise()
+        this.store.dispatch(new Delete()).toPromise()
             .finally(() => {
                 this.waiting = false;
             })

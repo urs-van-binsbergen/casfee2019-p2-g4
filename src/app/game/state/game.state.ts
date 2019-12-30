@@ -3,7 +3,7 @@ import { Subject, of, throwError } from 'rxjs';
 import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
-import { BindGame, Capitulate, Shoot, UnbindGame, UpdateGame } from './game.actions';
+import { BindGame, Capitulate, Delete, Shoot, UnbindGame, UpdateGame } from './game.actions';
 import { Player } from '@cloud-api/core-models';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { ShootArgs } from '@cloud-api/arguments';
@@ -64,7 +64,7 @@ export class GameState {
         };
         return this.cloudFunctions.shoot(args).pipe(
             catchError((error) => {
-                this.notification.quickErrorToast('battle.error.shoot');
+                this.notification.quickErrorToast('game.error.shoot');
                 return throwError(error);
             })
         );
@@ -74,8 +74,19 @@ export class GameState {
     capitulate(ctx: StateContext<GameStateModel>) {
         return this.cloudFunctions.capitulate({}).pipe(
             catchError((error) => {
-                this.notification.quickErrorToast('battle.error.capitulation');
+                this.notification.quickErrorToast('game.error.capitulation');
                 return throwError(error);
+            })
+        );
+    }
+
+    @Action(Delete)
+    delete(ctx: StateContext<GameStateModel>) {
+        const args = {};
+        return this.cloudFunctions.deleteGameData(args).pipe(
+            catchError((error) => {
+                this.notification.quickErrorToast('game.error.delete');
+                return of();
             })
         );
     }
@@ -104,7 +115,7 @@ export class GameState {
                                     ctx.dispatch(new UpdateGame(player));
                                 }),
                                 catchError((error) => {
-                                    this.notification.quickErrorToast('battle.error.player');
+                                    this.notification.quickErrorToast('game.error.player');
                                     return of();
                                 }),
                                 finalize(() => {

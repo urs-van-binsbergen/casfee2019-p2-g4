@@ -11,6 +11,11 @@ export class Capitulate {
     constructor() { }
 }
 
+export class Delete {
+    static readonly type = '[game] delete';
+    constructor() { }
+}
+
 export class UpdateGame {
     static readonly type = '[game] update';
     constructor(public player: Player) { }

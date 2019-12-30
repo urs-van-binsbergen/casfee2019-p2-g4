@@ -108,7 +108,12 @@
         }
     },
     "game": {
-        "error": "Das Spiel ist unterbrochen. Könnte am Netzwerk liegen."
+        "error": {
+            "capitulation": "Die Kapitulation konnte nicht gemacht werden.",
+            "delete": "Das Spiel konnte nicht abgebrochen werden.",
+            "player": "Es sind keine Spieldaten verfügbar.",
+            "shoot": "Der Schuss konnte nicht ausgeführt werden."
+        }
     },
     "hall": {
         "admirals": "Admiralinnen",
@@ -172,7 +177,7 @@
             "title": "Profil ändern",
             "displayName": "Anzeigename",
             "submitButton": "Ändern",
-            "successMessage": "Profil geändert", 
+            "successMessage": "Profil geändert",
             "error": {
                 "incompleteSave": "Profil geändert, aber es gab ein Problem beim Speichern in der Profildatenbank"
             }
