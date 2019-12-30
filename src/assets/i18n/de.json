@@ -118,6 +118,7 @@
     "hall": {
         "admirals": "Admiralinnen",
         "captains": "Kapitäninnen",
+        "error": "Die Siegergaller konnte nicht geladen werden.",
         "seamen": "Seefrauen",
         "shipboys": "Schiffsmädchen",
         "title": "Siegergalerie"
