@@ -8,6 +8,7 @@ import { User } from '@cloud-api/core-models';
 
 
 export interface AuthStateModel {
+    authUid: string | null;
     authUser: AuthUser | null;
     user: User | null; // (db doc, contains more details like player level)
 
@@ -62,6 +63,7 @@ export interface SendPasswordMailResult {
 @State<AuthStateModel>({
     name: 'auth',
     defaults: {
+        authUid: null,
         authUser: null,
         user: null
     }
@@ -69,6 +71,10 @@ export interface SendPasswordMailResult {
 
 export class AuthState implements NgxsOnInit {
 
+    @Selector()
+    public static authUid(state: AuthStateModel): string {
+        return state.authUid;
+    }
     @Selector()
     public static authUser(state: AuthStateModel): AuthUser {
         return state.authUser;
@@ -116,7 +122,7 @@ export class AuthState implements NgxsOnInit {
         private cloudData: CloudDataService
     ) {
         // Why cloud services in the auth state? Because db user data handling
-        // is included here for reasons of simplicity)
+        // is included here for reasons of simplicity.
     }
 
     ngxsOnInit(ctx: StateContext<AuthStateModel>) {
@@ -138,16 +144,17 @@ export class AuthState implements NgxsOnInit {
 
     @Action(AuthActions.AuthUserChanged)
     authUserChanged(ctx: StateContext<AuthStateModel>, action: AuthActions.AuthUserChanged) {
-        const oldAuthUser = ctx.getState().authUser;
+        const oldUid = ctx.getState().authUid;
         ctx.patchState({ authUser: action.authUser });
-        if (!oldAuthUser || oldAuthUser.uid !== action.authUser.uid) {
+        if (oldUid !== action.authUser.uid) {
+            ctx.patchState({ authUid: action.authUser.uid });
             ctx.dispatch(new AuthActions.ObserveUser(action.authUser.uid));
         }
     }
 
     @Action(AuthActions.Unauthenticated)
     unauthenticated(ctx: StateContext<AuthStateModel>) {
-        ctx.setState({ authUser: null, user: null });
+        ctx.setState({ authUid: null, authUser: null, user: null });
     }
 
     @Action(AuthActions.ObserveUser, { cancelUncompleted: true })
