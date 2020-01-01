@@ -131,7 +131,7 @@ export class AuthState implements NgxsOnInit {
         ctx.dispatch(new AuthActions.ObserveAuthUser());
     }
 
-    @Action(AuthActions.ObserveAuthUser, { cancelUncompleted: true })
+    @Action(AuthActions.ObserveAuthUser)
     observeAuthUser(ctx: StateContext<AuthStateModel>) {
         return this.authService.authUser$().pipe(
             tap(authUser => {
