@@ -12,31 +12,25 @@ export class NotificationService {
 
     }
 
-    /*
-     * Snackbar-toast which has to be confirmed with 'OK'
-     */
-    toastToConfirm(msg: string) {
+    quickToast(key: string, interpolateParams?: Object) {
+        const msg = this.translate.instant(key, interpolateParams);
+        this.snackBar.open(msg, null, { duration: 1000 });
+    }
+
+    errorToast(key: string, interpolateParams?: Object) {
         const close = this.translate.instant('button.ok');
+        const msg = this.translate.instant(key, interpolateParams);
         this.snackBar.open(msg, close);
     }
 
-    /*
-     * Snackbar-toast which auto-disappears
-     */
-    quickToast(msg: string, duration: number) {
-        this.snackBar.open(msg, null, { duration });
+    quickErrorToast(key: string, interpolateParams?: Object) {
+        const msg = this.translate.instant(key, interpolateParams);
+        this.snackBar.open(msg, null, { duration: 3000 });
     }
 
-    /*
-     * Snackbar-toast 'please check format', auto-disappearing
-     */
     pleaseCheckFormInput() {
-        const invalidMsg = this.translate.instant('common.message.pleaseCheckFormInput');
-        this.quickToast(invalidMsg, 1000);
+        const msg = this.translate.instant('common.message.pleaseCheckFormInput');
+        this.snackBar.open(msg, null, { duration: 1000 });
     }
 
-    quickErrorToast(key: string) {
-        const msg = this.translate.instant(key);
-        this.quickToast(msg, 3000);
-    }
 }

@@ -49,20 +49,15 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
                     this.waiting = false;
 
                     if (result.success) {
-                        const msg = this.translate.instant('auth.updatePassword.successMessage');
-                        this.notification.quickToast(msg, 1000);
+                        this.notification.quickToast('auth.updatePassword.successMessage');
                         this.redirect.redirectToNext('/user');
                         return;
-                    }
-
-                    // Error
-                    let errorMsg: string;
-                    if (result.wrongPassword) {
-                        errorMsg = this.translate.instant('auth.updatePassword.error.wrongPassword');
                     } else {
-                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: result.otherError });
+                        let key = result.wrongPassword ? 
+                            'auth.updatePassword.error.wrongPassword' :
+                            'common.error.genericError';
+                        this.notification.errorToast(key, { errorDetail: result.otherError });
                     }
-                    this.notification.toastToConfirm(errorMsg);
                 })
             )
             .subscribe();

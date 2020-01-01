@@ -52,26 +52,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
                     if (result.success) {
                         if (!result.profileUpdateSuccess) {
-                            const msg = this.translate.instant('auth.register.error.incompleteSave');
-                            this.notification.toastToConfirm(msg);
+                            this.notification.errorToast('auth.register.error.incompleteSave');
                         } else {
-                            const msg = this.translate.instant('auth.register.successMessage');
-                            this.notification.quickToast(msg, 1000);
+                            this.notification.quickToast('auth.register.successMessage');
                         }
                         this.redirect.redirectToNext('/user');
                         return;
-                    }
-
-                    // Error
-                    let errorMsg: string;
-                    if (result.emailInUse) {
-                        errorMsg = this.translate.instant('auth.register.error.emailInUse');
-                    } else if (result.invalidEmail) {
-                        errorMsg = this.translate.instant('auth.register.error.invalidEmail');
                     } else {
-                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: result.otherError });
+                        let key: string;
+                        if (result.emailInUse) {
+                            key = 'auth.register.error.emailInUse';
+                        } else if (result.invalidEmail) {
+                            key = 'auth.register.error.invalidEmail';
+                        } else {
+                            key = 'common.error.genericError';
+                        }
+                        this.notification.errorToast(key, { errorDetail: result.otherError });
                     }
-                    this.notification.toastToConfirm(errorMsg);
                 })
             )
             .subscribe();

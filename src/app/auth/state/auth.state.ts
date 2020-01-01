@@ -6,6 +6,7 @@ import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { User } from '@cloud-api/core-models';
 import { of } from 'rxjs';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 
 export interface AuthStateModel {
@@ -117,10 +118,10 @@ export class AuthState implements NgxsOnInit {
     }
 
     constructor(
-        private store: Store,
         private authService: AuthService,
         private cloudFunctions: CloudFunctionsService,
-        private cloudData: CloudDataService
+        private cloudData: CloudDataService,
+        private notification: NotificationService
     ) {
         // Why cloud services in the auth state? Because db user data handling
         // is included here for reasons of simplicity.
@@ -147,6 +148,10 @@ export class AuthState implements NgxsOnInit {
                         .pipe(
                             tap(user => {
                                 ctx.dispatch(new AuthActions.UserUpdated(user));
+                            }),
+                            catchError(err => {
+                                this.notification.quickErrorToast('common.error.apiReadError', { errorDetail: err });
+                                return of();
                             })
                         );
                 } else {
@@ -154,7 +159,10 @@ export class AuthState implements NgxsOnInit {
                     return of(); // (complete)
                 }
             }),
-
+            catchError(err => {
+                this.notification.quickErrorToast('common.error.genericError', { errorDetail: err });
+                return of();
+            })
         );
     }
 

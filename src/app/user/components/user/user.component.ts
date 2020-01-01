@@ -86,8 +86,7 @@ export class UserComponent implements OnInit, OnDestroy {
             })
             .catch(error => {
                 this.myBattleList = { battles: [], isLoadFailure: true, isLoadingDone: true };
-                const errorMsg = this.translate.instant('common.error.apiReadError', { errorDetail: error });
-                this.notification.quickToast(errorMsg, 2000);
+                this.notification.quickErrorToast('common.error.apiReadError', { errorDetail: error });
             })
             ;
     }

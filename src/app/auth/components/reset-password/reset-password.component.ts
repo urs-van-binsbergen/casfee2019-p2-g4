@@ -45,22 +45,20 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
                     this.waiting = false;
 
                     if (result.success) {
-                        const msg = this.translate.instant('auth.resetPassword.successMessage');
-                        this.notification.quickToast(msg, 1000);
+                        this.notification.quickToast('auth.resetPassword.successMessage');
                         this.redirect.redirectToNext('/user');
                         return;
-                    }
-
-                    // Error
-                    let errorMsg: string;
-                    if (result.userNotFound) {
-                        errorMsg = this.translate.instant('auth.resetPassword.error.userNotFound');
-                    } else if (result.invalidEmail) {
-                        errorMsg = this.translate.instant('auth.resetPassword.error.invalidEmail');
                     } else {
-                        errorMsg = this.translate.instant('common.error.genericError', { errorDetail: result.otherError });
+                        let key: string;
+                        if (result.userNotFound) {
+                            key = 'auth.resetPassword.error.userNotFound';
+                        } else if (result.invalidEmail) {
+                            key = 'auth.resetPassword.error.invalidEmail';
+                        } else {
+                            key = 'common.error.genericError';
+                        }
+                        this.notification.errorToast(key, { errorDetail: result.otherError });
                     }
-                    this.notification.toastToConfirm(errorMsg);
                 })
             )
             .subscribe();
