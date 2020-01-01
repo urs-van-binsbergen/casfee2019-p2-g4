@@ -86,23 +86,6 @@ mat-card.small-form {
     }
 }
 
-/* Vertical inset */
-.inset-v-1 {
-    margin-top: 16px;
-    margin-bottom: 16px;
-}
-
-/* Horizontal inset */
-.inset-h-1 {
-    margin-left: 16px;
-    margin-right: 16px;
-}
-
-.inset-1 {
-    @extend .inset-v-1,
-    .inset-h-1
-}
-
 
 /* "components" ----------------------------- */
 
