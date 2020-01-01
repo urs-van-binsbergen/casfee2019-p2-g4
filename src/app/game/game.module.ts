@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
-import { PlayerState } from './state/player.state';
+import { GameState } from './state/game.state';
 import { SharedModule } from '../shared/shared.module';
 import { AuthGuard } from '../auth/auth.guard';
 import { GameComponent } from './components/game/game.component';
@@ -24,7 +24,7 @@ const gameRoutes: Routes = [
     ],
     imports: [
         RouterModule.forChild(gameRoutes), // (MUST stay before feature module imports)
-        NgxsModule.forFeature([PlayerState]),
+        NgxsModule.forFeature([GameState]),
         SharedModule,
         PreparationModule,
         MatchModule,

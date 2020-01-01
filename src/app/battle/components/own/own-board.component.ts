@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BattleBoard } from '../battle-models';
+import { BattleBoard } from '../../model/battle-models';
 
 @Component({
     selector: 'app-own-board',

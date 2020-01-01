@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PreparationRow, PreparationShip } from '../preparation-models';
+import { PreparationRow, PreparationShip } from '../../model/preparation-models';
 const size = 0.1;
 
 @Component({

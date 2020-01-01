@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { MatchComponent } from './components/match.component';
-import { MatchItemComponent } from './components/match-item.component';
-import { MatchItemsComponent } from './components/match-items.component';
+import { MatchItemComponent } from './components/item/match-item.component';
+import { MatchItemsComponent } from './components/items/match-items.component';
 import { RouterModule } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
+import { MatchState } from './state/match.state';
 
 @NgModule({
     declarations: [
@@ -13,7 +15,8 @@ import { RouterModule } from '@angular/router';
     ],
     imports: [
         SharedModule,
-        RouterModule
+        RouterModule,
+        NgxsModule.forFeature([MatchState])
     ],
     exports: [
         MatchComponent

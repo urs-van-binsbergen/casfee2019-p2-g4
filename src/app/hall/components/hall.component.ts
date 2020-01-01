@@ -1,51 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { HallEntry, PlayerLevel } from '@cloud-api/core-models';
-import * as HallMethods from '../hall-methods';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HallEntry } from '@cloud-api/core-models';
 import { Store, Select } from '@ngxs/store';
-import { GetHallEntries } from '../state/hall.actions';
+import { BindHall, UnbindHall } from '../state/hall.actions';
 import { HallState } from '../state/hall.state';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
     templateUrl: './hall.component.html'
 })
-export class HallComponent implements OnInit {
+export class HallComponent implements OnInit, OnDestroy {
 
     @Select(HallState.loading) loading$: Observable<boolean>;
-    @Select(HallState.hallEntries) hallEntries$: Observable<HallEntry[]>;
+    @Select(HallState.admirals) admirals$: Observable<HallEntry[]>;
+    @Select(HallState.captains) captains$: Observable<HallEntry[]>;
+    @Select(HallState.seamen) seamen$: Observable<HallEntry[]>;
+    @Select(HallState.shipboys) shipboys$: Observable<HallEntry[]>;
 
     constructor(private store: Store) {
     }
 
     ngOnInit(): void {
-        this.store.dispatch(new GetHallEntries());
+        this.store.dispatch(new BindHall());
     }
 
-    // TODO: better apply some group-by-mechanism. in the action or in the component?
-
-    get admirals(): Observable<HallEntry[]> {
-        return this.hallEntries$.pipe(
-            map(list => HallMethods.filterByLevel(list, PlayerLevel.Admiral))
-        );
-    }
-
-    get captains(): Observable<HallEntry[]> {
-        return this.hallEntries$.pipe(
-            map(list => HallMethods.filterByLevel(list, PlayerLevel.Captain))
-        );
-    }
-
-    get seamen(): Observable<HallEntry[]> {
-        return this.hallEntries$.pipe(
-            map(list => HallMethods.filterByLevel(list, PlayerLevel.Seaman))
-        );
-    }
-
-    get shipboys(): Observable<HallEntry[]> {
-        return this.hallEntries$.pipe(
-            map(list => HallMethods.filterByLevel(list, PlayerLevel.Shipboy))
-        );
+    ngOnDestroy(): void {
+        this.store.dispatch(new UnbindHall());
     }
 
 }

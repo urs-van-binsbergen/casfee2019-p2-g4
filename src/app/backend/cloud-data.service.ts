@@ -83,6 +83,13 @@ export class CloudDataService {
     }
 
     /*
+     * Load all hall entries (observable)
+     */
+    getHallEntries$(): Observable<HallEntry[]> {
+        return this.afs.collection<HallEntry>(COLL.HALL_ENTRIES).valueChanges();
+    }
+
+    /*
      * Load historic battle once
      */
     getHistoricBattle(id: string): Promise<HistoricBattle> {

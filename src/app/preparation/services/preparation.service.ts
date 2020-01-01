@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Pos } from '@cloud-api/geometry';
-import { PreparationRow, PreparationShip } from './preparation-models';
-import * as PreparationMethods from './preparation-methods';
+import { PreparationRow, PreparationShip } from '../model/preparation-models';
+import * as PreparationMethods from '../model/preparation-methods';
 
 @Injectable()
 export class PreparationService {
