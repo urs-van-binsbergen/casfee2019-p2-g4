@@ -1,4 +1,4 @@
-import { MatchItem, MatchState } from './match-models';
+import { MatchItem, MatchStatus } from './match-models';
 import { Challenge, WaitingPlayer } from '@cloud-api/core-models';
 
 export function updateMatchItemsWithWaitingPlayers(state: MatchItem[], action: WaitingPlayer[], uid: string): MatchItem[] {
@@ -46,7 +46,7 @@ export function updateMatchItemsWithWaitingPlayers(state: MatchItem[], action: W
     return [];
 }
 
-export function updateMatchStateWithWaitingPlayers(state: MatchState, action: WaitingPlayer[], uid: string): MatchState {
+export function updateMatchStatusWithWaitingPlayers(state: MatchStatus, action: WaitingPlayer[], uid: string): MatchStatus {
     if (action && uid) {
         const myWaitingPlayers = action.filter(
             waitingPlayer => {
@@ -56,15 +56,15 @@ export function updateMatchStateWithWaitingPlayers(state: MatchState, action: Wa
         const myWaitingPlayer = myWaitingPlayers[0];
         let matchState = state;
         if (myWaitingPlayer) {
-            if (state === MatchState.Idle) {
-                matchState = MatchState.Started;
+            if (state === MatchStatus.Idle) {
+                matchState = MatchStatus.Started;
             }
         } else {
-            if (state === MatchState.Started) {
-                matchState = MatchState.Completed;
+            if (state === MatchStatus.Started) {
+                matchState = MatchStatus.Completed;
             }
         }
         return matchState;
     }
-    return MatchState.Idle;
+    return MatchStatus.Idle;
 }

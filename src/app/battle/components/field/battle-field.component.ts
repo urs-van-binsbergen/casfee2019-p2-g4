@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { BattleField } from '../battle-models';
+import { BattleField } from '../../model/battle-models';
 import { FieldStatus } from '@cloud-api/core-models';
 
 @Component({

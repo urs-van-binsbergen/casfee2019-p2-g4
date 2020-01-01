@@ -1,16 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CloudDataService } from 'src/app/backend/cloud-data.service';
-import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
-import * as MatchMethods from '../match-methods';
-import { MatchItem, MatchState } from '../match-models';
-import { MatSnackBar } from '@angular/material';
+import * as MatchMethods from '../model/match-methods';
+import { MatchItem, MatchStatus } from '../model/match-models';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { WaitingPlayer } from '@cloud-api/core-models';
-import { Store } from '@ngxs/store';
-import { AuthState } from 'src/app/auth/state/auth.state';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, tap, finalize } from 'rxjs/operators';
+import { MatchState, MatchStateModel } from '../state/match.state';
+import { AddChallenge, BindMatch, CancelMatch, RemoveChallenge, UnbindMatch } from '../state/match.actions';
+import deepClone from 'clone-deep';
 
 @Component({
     selector: 'app-match',
@@ -19,26 +16,34 @@ import { Subject } from 'rxjs';
 export class MatchComponent implements OnInit, OnDestroy {
 
     private _items: MatchItem[] = [];
-    private _state: MatchState = MatchState.Idle;
+    private _state: MatchStatus = MatchStatus.Idle;
     private _waiting: boolean;
-    destroy$ = new Subject<void>();
+    private _destroy$ = new Subject<void>();
+
+    @Select(MatchState.loading) loading$: Observable<boolean>;
+    @Select(MatchState.state) state$: Observable<MatchStateModel>;
 
     constructor(
         private store: Store,
-        private cloudData: CloudDataService,
-        private cloudFunctions: CloudFunctionsService,
-        private snackBar: MatSnackBar,
-        private translate: TranslateService,
         private router: Router) {
     }
 
     ngOnInit(): void {
-        this.subscribeData();
+        this.store.dispatch(new BindMatch());
+        this.state$.pipe(
+            takeUntil(this._destroy$),
+            tap((state: MatchStateModel) => {
+                this._state = MatchMethods.updateMatchStatusWithWaitingPlayers(this._state, state.waitingPlayers, state.uid);
+                this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, state.waitingPlayers, state.uid);
+            }),
+            finalize(() => {
+                this.store.dispatch(new UnbindMatch());
+            })
+        ).subscribe();
     }
 
     ngOnDestroy(): void {
-        this.hideError();
-        this.destroy$.next();
+        this._destroy$.next();
     }
 
     public get items(): MatchItem[] {
@@ -53,54 +58,29 @@ export class MatchComponent implements OnInit, OnDestroy {
         return this._waiting;
     }
 
-    subscribeData(): void {
-        const uid = this.store.selectSnapshot(AuthState.authUser).uid;
-        this.cloudData.getWaitingPlayers$()
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(
-                (waitingPlayers: WaitingPlayer[]) => {
-                    this.hideError();
-                    this._state = MatchMethods.updateMatchStateWithWaitingPlayers(this._state, waitingPlayers, uid);
-                    this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, waitingPlayers, uid);
-                },
-                error => {
-                    this.showError('match.error.waitingPlayers');
-                }
-            );
-    }
-
     public onAddChallenge(item: MatchItem) {
-        const opponentUid = item.opponentUid;
-        this.cloudFunctions.addChallenge({ opponentUid });
+        this.store.dispatch(new AddChallenge(item.opponentUid)).toPromise()
+            .catch(error => {
+                this._items = deepClone(this._items);
+            });
     }
 
     public onRemoveChallenge(item: MatchItem) {
-        const opponentUid = item.opponentUid;
-        this.cloudFunctions.removeChallenge({ opponentUid });
+        this.store.dispatch(new RemoveChallenge(item.opponentUid)).toPromise()
+            .catch(error => {
+                this._items = deepClone(this._items);
+            });
     }
 
     public onCancelClicked() {
         this._waiting = true;
-        this.hideError();
-        this.cloudFunctions.removePreparation({}).toPromise()
+        this.store.dispatch(new CancelMatch()).toPromise()
             .then(results => {
-                this._waiting = false;
                 this.router.navigateByUrl('/hall');
             })
-            .catch(error => {
+            .finally(() => {
                 this._waiting = false;
-                this.showError('match.error.cancel');
             });
-    }
-
-    private hideError() {
-        this.snackBar.dismiss();
-    }
-
-    private showError(error: string) {
-        const message = this.translate.instant(error);
-        const close = this.translate.instant('button.close');
-        this.snackBar.open(message, close);
     }
 
 }

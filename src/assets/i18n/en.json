@@ -108,11 +108,17 @@
         }
     },
     "game": {
-        "error": "The Game is interrupted. Could be a network issue."
+        "error": {
+            "capitulation": "The capitulation did not work.",
+            "delete": "The game could not be deleted.",
+            "player": "No game data available.",
+            "shoot": "The shot did not work."
+        }
     },
     "hall": {
         "admirals": "Admirals",
         "captains": "Captains",
+        "error": "Could not load the Hall of Fame.",
         "seamen": "Seamen",
         "shipboys": "Shipboys",
         "title": "Hall of Fame"
@@ -120,8 +126,10 @@
     "match": {
         "body": "Choose your opponent",
         "error": {
-            "cancel": "Could not cancel opponent match.",
-            "waitingPlayers": "No opponent matches can be made."
+            "add": "Could not add challenge.",
+            "cancel": "Could not cancel game.",
+            "remove": "Could not remove challenge.",
+            "waitingPlayers": "No challenges can be made."
         },
         "title": "Opponent Match",
         "item": {
@@ -134,12 +142,12 @@
     },
     "preparation": {
         "board": "Board",
-        "body": "Drag all ships from the yard and drop them to the board. Click on the ship's tower to rotate 90°. Drag and drop ships on the board to reposition.",
+        "body": "Drag all ships from the yard and drop them to the board. Drag and drop ships on the board to reposition. Click on the ship's tower to rotate 90°.",
         "dialog": {
             "body": "Your data will get lost!",
             "title": "Warning"
         },
-        "error": "Your preparation is not accepted. Could be a network issue.",
+        "error": "Could not add preparation.",
         "status": {
             "nokLabel": "Not ok:",
             "okLabel": "Ok:"
@@ -170,7 +178,7 @@
             "title": "Update profile",
             "displayName": "Display name",
             "submitButton": "Update",
-            "successMessage": "Profile updated", 
+            "successMessage": "Profile updated",
             "error": {
                 "incompleteSave": "Profile update, but there was a problem saving to the user profile database"
             }

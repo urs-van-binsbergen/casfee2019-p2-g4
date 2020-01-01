@@ -1,4 +1,4 @@
-export enum MatchState {
+export enum MatchStatus {
     Idle,
     Started,
     Completed

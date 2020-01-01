@@ -108,11 +108,17 @@
         }
     },
     "game": {
-        "error": "Das Spiel ist unterbrochen. Könnte am Netzwerk liegen."
+        "error": {
+            "capitulation": "Die Kapitulation konnte nicht gemacht werden.",
+            "delete": "Das Spiel konnte nicht abgebrochen werden.",
+            "player": "Es sind keine Spieldaten verfügbar.",
+            "shoot": "Der Schuss konnte nicht ausgeführt werden."
+        }
     },
     "hall": {
         "admirals": "Admiralinnen",
         "captains": "Kapitäninnen",
+        "error": "Die Siegergaller konnte nicht geladen werden.",
         "seamen": "Seefrauen",
         "shipboys": "Schiffsmädchen",
         "title": "Siegergalerie"
@@ -120,8 +126,10 @@
     "match": {
         "body": "Wähle deinen Gegner",
         "error": {
-            "cancel": "Die Wahl kann nicht abgebrochen werden.",
-            "waitingPlayers": "Es können keine Herausforderungen gemacht werden"
+            "add": "Die Herausforderung konnte nicht gemacht werden.",
+            "cancel": "Das Spiel konnte nicht abgebrochen werden.",
+            "remove": "Die Herausforderung konnte nicht entfernt werden.",
+            "waitingPlayers": "Es können keine Herausforderungen gemacht werden."
         },
         "title": "Herausforderung",
         "item": {
@@ -134,12 +142,12 @@
     },
     "preparation": {
         "board": "Brett",
-        "body": "Alle Schiffe von der Werft auf das Brett ziehen. Klick auf den Turm des Schiffs rotiert um 90°. Schiffe auf dem Bretten beliebig repositionieren.",
+        "body": "Alle Schiffe von der Werft auf das Brett ziehen. Schiffe auf dem Brett beliebig repositionieren. Klick auf den Turm des Schiffs rotiert um 90°.",
         "dialog": {
             "body": "Du verlierst deine Daten!",
             "title": "Warnung"
         },
-        "error": "Deine Vorbereitung wurde nicht angenommen. Könnte am Netzwerk liegen.",
+        "error": "Deine Vorbereitung konnte nicht gemacht werden.",
         "status": {
             "nokLabel": "Nicht ok:",
             "okLabel": "Ok:"
@@ -170,7 +178,7 @@
             "title": "Profil ändern",
             "displayName": "Anzeigename",
             "submitButton": "Ändern",
-            "successMessage": "Profil geändert", 
+            "successMessage": "Profil geändert",
             "error": {
                 "incompleteSave": "Profil geändert, aber es gab ein Problem beim Speichern in der Profildatenbank"
             }

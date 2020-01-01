@@ -1,35 +1,38 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Store } from '@ngxs/store';
-import { PlayerState } from '../../state/player.state';
-import { tap, takeUntil } from 'rxjs/operators';
-import { GameModel, getGameModel } from './game.model';
+import { Subject, Observable } from 'rxjs';
+import { Store, Select } from '@ngxs/store';
+import { GameState, GameStateModel } from '../../state/game.state';
+import { tap, takeUntil, finalize } from 'rxjs/operators';
+import { GameStatus, updateStatus } from '../../model/game.model';
+import { BindGame, UnbindGame } from '../../state/game.actions';
 
 @Component({
     templateUrl: './game.component.html',
 })
 export class GameComponent implements OnInit, OnDestroy {
 
-    model: GameModel = {};
-    private destroy$ = new Subject<void>();
+    status: GameStatus = {};
+    private _destroy$ = new Subject<void>();
 
-    constructor(
-        private store: Store,
-    ) {
-    }
+    @Select(GameState.state) _state$: Observable<GameStateModel>;
+
+    constructor(private store: Store) { }
 
     ngOnInit(): void {
-        this.store.select(PlayerState)
-            .pipe(
-                takeUntil(this.destroy$),
-                tap(state => this.model = getGameModel(this.model, state))
-            )
-            .subscribe()
-            ;
+        this.store.dispatch(new BindGame());
+        this._state$.pipe(
+            takeUntil(this._destroy$),
+            tap((state: GameStateModel) => {
+                this.status = updateStatus(this.status, state.loading, state.unauthenticated, state.player);
+            }),
+            finalize(() => {
+                this.store.dispatch(new UnbindGame());
+            })
+        ).subscribe();
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
+        this._destroy$.next();
     }
 
 }
