@@ -82,17 +82,29 @@ ng serve -c=dev2
 
 ## Über die Lösung
 
-### Constraints
+### Module gemäss Projektbeschrieb
 
-#### Nicht cheatable
+- Authentisierung
+- Benutzerprofil
+- Spielvorbereitung
+- Herausforderung
+- Schlacht
+- Hall of Fame
 
-Informierte Benutzer können weder mit Crafted Reads noch mit Crafted Writes den Spielverlauf zu ihren Gunsten ändern. 
+### Spezielles
 
-#### Nicht mass-writable
+- State Management mit NGXS
+- Mehrsprachigkeit mit NGX-Translate
+- Fehlerbehandlung, Anzeige im UI
 
-Benutzer können keine Daten ausserhalb der vorgesehen Objekt-Struktur schreiben (keine parasitären Nutzungen möglich).
+### Backend-Konzept
 
-### Firestore-Architektur
+#### Constraints
+
+- **Nicht cheatable**: Informierte Benutzer können weder mit Crafted Reads noch mit Crafted Writes den Spielverlauf zu ihren Gunsten ändern. 
+- **Nicht mass-writeable**: Benutzer können keine Daten ausserhalb der vorgesehen Objekt-Struktur schreiben (keine parasitären Nutzungen möglich).
+
+#### Firestore-Architektur
 
 - Alle Collections sind aus Sicht des Clients read-only
 - Schreiben nur über Cloud Functions
@@ -100,8 +112,19 @@ Benutzer können keine Daten ausserhalb der vorgesehen Objekt-Struktur schreiben
 - Lese-optimierte Datenstruktur (denormalisiert)
 - Entsprechend sehr einfache, aber sichere Firestore-Rules
 
+### Verbesserungsmöglichkeiten
 
-### Optimierungen, offene Probleme
+#### Nicht realisierte Features aus Projektbeschrieb
 
-- ...
+- Avatar
+- Countdown in Battle
+- Admin-Modul
 
+#### Optimierungen
+
+- Game Usability, Look and Feel
+- Gegner finden ist nicht ganz einfach - man muss sich praktisch
+  ausserhalb des Games verabreden. Mögliche Lösungen: Push-Meldungen, 
+  Anzeige ob Spieler derzeit online. 
+- Modulstruktur straffen; modulübergreifende Dienste zentralisieren
+  und aus Feature-Modulen entfernen.  
