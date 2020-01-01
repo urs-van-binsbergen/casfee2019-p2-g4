@@ -143,7 +143,7 @@ export class AuthState implements NgxsOnInit {
                 ctx.dispatch(new AuthActions.AuthUidChanged(uid));
             }),
             switchMap(uid => {
-                if(uid) {
+                if (uid) {
                     return this.cloudData.getUser$(uid)
                         .pipe(
                             tap(user => {

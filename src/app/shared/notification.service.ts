@@ -12,18 +12,18 @@ export class NotificationService {
 
     }
 
-    quickToast(key: string, interpolateParams?: Object) {
+    quickToast(key: string, interpolateParams?: object) {
         const msg = this.translate.instant(key, interpolateParams);
         this.snackBar.open(msg, null, { duration: 1000 });
     }
 
-    errorToast(key: string, interpolateParams?: Object) {
+    errorToast(key: string, interpolateParams?: object) {
         const close = this.translate.instant('button.ok');
         const msg = this.translate.instant(key, interpolateParams);
         this.snackBar.open(msg, close);
     }
 
-    quickErrorToast(key: string, interpolateParams?: Object) {
+    quickErrorToast(key: string, interpolateParams?: object) {
         const msg = this.translate.instant(key, interpolateParams);
         this.snackBar.open(msg, null, { duration: 3000 });
     }

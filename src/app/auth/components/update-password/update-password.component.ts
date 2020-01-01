@@ -53,7 +53,7 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
                         this.redirect.redirectToNext('/user');
                         return;
                     } else {
-                        let key = result.wrongPassword ? 
+                        const key = result.wrongPassword ?
                             'auth.updatePassword.error.wrongPassword' :
                             'common.error.genericError';
                         this.notification.errorToast(key, { errorDetail: result.otherError });
