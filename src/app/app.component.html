@@ -23,17 +23,21 @@
     </mat-toolbar-row>
     <mat-toolbar-row class="nav-row2">
         <div>
-            <button mat-button routerLink="user">
-                <mat-icon>perm_identity</mat-icon>
-                <span translate>application.nav.user</span>
+            <button mat-button routerLink="hall">
+                <mat-icon>account_balance</mat-icon>
+                <span translate>application.nav.hall</span>
             </button>
             <button mat-button routerLink="game">
                 <mat-icon>waves</mat-icon>
                 <span translate>application.nav.battle</span>
             </button>
-            <button mat-button routerLink="admin" title="{{ 'application.nav.admin' | translate }}">
-                <mat-icon>build</mat-icon>
+            <button mat-button routerLink="user">
+                <mat-icon>perm_identity</mat-icon>
+                <span translate>application.nav.user</span>
             </button>
+            <!-- <button mat-button routerLink="admin" title="{{ 'application.nav.admin' | translate }}">
+                <mat-icon>build</mat-icon>
+            </button> -->
         </div>
     </mat-toolbar-row>
 </mat-toolbar>
