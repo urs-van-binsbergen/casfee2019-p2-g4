@@ -11,13 +11,15 @@ import deepClone from 'clone-deep';
 
 @Component({
     selector: 'app-match',
-    templateUrl: './match.component.html'
+    templateUrl: './match.component.html',
+    styleUrls: [ './match.component.scss' ]
 })
 export class MatchComponent implements OnInit, OnDestroy {
 
     private _items: MatchItem[] = [];
-    private _state: MatchStatus = MatchStatus.Idle;
-    private _waiting: boolean;
+    private _status: MatchStatus = MatchStatus.Idle;
+    private _isLoading: boolean;
+    private _isCancelling: boolean;
     private _destroy$ = new Subject<void>();
 
     @Select(MatchState.loading) loading$: Observable<boolean>;
@@ -30,16 +32,22 @@ export class MatchComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.store.dispatch(new BindMatch());
+
         this.state$.pipe(
             takeUntil(this._destroy$),
             tap((state: MatchStateModel) => {
-                this._state = MatchMethods.updateMatchStatusWithWaitingPlayers(this._state, state.waitingPlayers, state.uid);
+                this._status = MatchMethods.updateMatchStatusWithWaitingPlayers(this._status, state.waitingPlayers, state.uid);
                 this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, state.waitingPlayers, state.uid);
             }),
             finalize(() => {
                 this.store.dispatch(new UnbindMatch());
             })
         ).subscribe();
+
+        this.loading$.pipe(
+            takeUntil(this._destroy$),
+            tap(loading => this._isLoading = loading)
+        ).subscribe()
     }
 
     ngOnDestroy(): void {
@@ -54,8 +62,12 @@ export class MatchComponent implements OnInit, OnDestroy {
         return this._items && 0 < this._items.length;
     }
 
-    get isWaiting(): boolean {
-        return this._waiting;
+    get isLoading(): boolean {
+        return this._isLoading;
+    }
+
+    get isCancelling(): boolean {
+        return this._isCancelling;
     }
 
     public onAddChallenge(item: MatchItem) {
@@ -73,13 +85,13 @@ export class MatchComponent implements OnInit, OnDestroy {
     }
 
     public onCancelClicked() {
-        this._waiting = true;
+        this._isCancelling = true;
         this.store.dispatch(new CancelMatch()).toPromise()
             .then(results => {
                 this.router.navigateByUrl('/hall');
             })
             .finally(() => {
-                this._waiting = false;
+                this._isCancelling = false;
             });
     }
 

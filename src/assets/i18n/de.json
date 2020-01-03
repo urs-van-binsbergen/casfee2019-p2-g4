@@ -124,20 +124,20 @@
         "title": "Siegergalerie"
     },
     "match": {
-        "body": "Wähle deinen Gegner",
+        "body": "",
         "error": {
             "add": "Die Herausforderung konnte nicht gemacht werden.",
             "cancel": "Das Spiel konnte nicht abgebrochen werden.",
             "remove": "Die Herausforderung konnte nicht entfernt werden.",
             "waitingPlayers": "Es können keine Herausforderungen gemacht werden."
         },
-        "title": "Herausforderung",
+        "title": "Gegner finden",
         "item": {
             "accept": "Herausforderung annehmen",
             "challenged": "Gegner herausfordern",
             "challenging": "Gegner fordert dich heraus"
         },
-        "cancelButton": "Abbrechen",
+        "cancelButton": "Zurückziehen",
         "messageNobodyHere": "Leider sind noch keine Gegner zur Schlacht bereit"
     },
     "preparation": {

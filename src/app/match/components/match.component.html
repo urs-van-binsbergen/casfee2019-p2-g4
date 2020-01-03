@@ -1,11 +1,16 @@
 <div class="page-inset mat-typography">
     <h2 translate>match.title</h2>
-    <p *ngIf="hasItems" translate>match.body</p>
-    <p *ngIf="!hasItems" translate>match.messageNobodyHere</p>
-    <app-match-items *ngIf="hasItems" class="match-items" [items]="items" (addChallenge)="onAddChallenge($event)"
-        (removeChallenge)="onRemoveChallenge($event)">
-    </app-match-items>
-    <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
+    <p *ngIf="isLoading">
+        <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
+    </p>
+    <div *ngIf="!isLoading" class="match-zone">
+        <p *ngIf="!hasItems" translate>match.messageNobodyHere</p>
+        <p *ngIf="hasItems" translate>match.body</p>
+        <app-match-items *ngIf="hasItems" class="match-items" [items]="items" (addChallenge)="onAddChallenge($event)"
+            (removeChallenge)="onRemoveChallenge($event)">
+        </app-match-items>
+    </div>
+    <div *ngIf="!isLoading"  class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
         <button mat-raised-button (click)="onCancelClicked()" [disabled]="isWaiting" color="basic">
             <span translate>match.cancelButton</span>
         </button>

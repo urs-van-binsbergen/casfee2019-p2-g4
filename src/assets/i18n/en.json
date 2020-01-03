@@ -124,20 +124,20 @@
         "title": "Hall of Fame"
     },
     "match": {
-        "body": "Choose your opponent",
+        "body": "",
         "error": {
             "add": "Could not add challenge.",
             "cancel": "Could not cancel game.",
             "remove": "Could not remove challenge.",
             "waitingPlayers": "No challenges can be made."
         },
-        "title": "Opponent Match",
+        "title": "Find opponent",
         "item": {
             "accept": "Accept challenge",
             "challenged": "Challenge opponent",
             "challenging": "Opponent is challenging you"
         },
-        "cancelButton": "Cancel",
+        "cancelButton": "Withdraw",
         "messageNobodyHere": "No one is ready to battle against you. Please wait."
     },
     "preparation": {

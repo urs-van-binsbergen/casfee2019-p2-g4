@@ -6,32 +6,23 @@
 }
 
 .avatar {
-    width: 48px;
+    width: 64px;
     height: 64px;
-    font-size: 60%;
-    color: white;
-    background-color: black;
-    margin-top: 2px;
-    margin-left: 2px;
+    border: 1px dashed gray;
+    color: gray;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 12px;
 }
 
-.name,
-.statistic,
-.opponent-is-challenging {
-    width: calc(100% - 4px);
-    margin-left: 2px;
-    margin-right: 2px;
+.name {
+    font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.opponent-is-challenging {
-    font-size: 60%;
-}
-
 .opponent-is-challenged {
-    font-size: 60%;
     margin-left: 2px;
 }
 
