@@ -73,7 +73,9 @@ $opacityHigh: 0.5;
     animation-iteration-count: infinite;
 }
 
+/* Zentrum eines Schiffs (Zentrum, Drehpunkt) */
 .center {
     position: absolute;
     background-color: black;
+    pointer-events: none; /* (Events an Schiff durchreichen) */
 }
