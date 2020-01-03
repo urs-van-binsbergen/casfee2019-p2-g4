@@ -141,18 +141,18 @@
         "messageNobodyHere": "Leider sind noch keine Gegner zur Schlacht bereit"
     },
     "preparation": {
-        "board": "Brett",
-        "body": "Alle Schiffe von der Werft auf das Brett ziehen. Schiffe auf dem Brett beliebig repositionieren. Klick auf den Turm des Schiffs rotiert um 90°.",
+        "board": "Spielbrett",
+        "body": "Schiffe auf dem Spielbrett aufstellen",
         "dialog": {
             "body": "Du verlierst deine Daten!",
             "title": "Warnung"
         },
-        "error": "Deine Vorbereitung konnte nicht gemacht werden.",
+        "error": "Aufstellung konnte nicht gespeichert werden",
         "status": {
             "nokLabel": "Nicht ok:",
             "okLabel": "Ok:"
         },
-        "title": "Vorbereitung",
+        "title": "Schlacht vorbereiten",
         "yard": "Werft"
     },
     "user": {

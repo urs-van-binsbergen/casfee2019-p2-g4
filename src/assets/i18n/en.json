@@ -141,19 +141,17 @@
         "messageNobodyHere": "No one is ready to battle against you. Please wait."
     },
     "preparation": {
-        "board": "Board",
-        "body": "Drag all ships from the yard and drop them to the board. Drag and drop ships on the board to reposition. Click on the ship's tower to rotate 90°.",
+        "body": "Position the ships on the board",
         "dialog": {
             "body": "Your data will get lost!",
             "title": "Warning"
         },
-        "error": "Could not add preparation.",
+        "error": "Could not save ship positions",
         "status": {
             "nokLabel": "Not ok:",
             "okLabel": "Ok:"
         },
-        "title": "Preparation",
-        "yard": "Yard"
+        "title": "Prepare for the battle"
     },
     "user": {
         "profile": {

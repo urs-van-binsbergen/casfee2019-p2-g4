@@ -76,6 +76,7 @@ $opacityHigh: 0.5;
 /* Zentrum eines Schiffs (Zentrum, Drehpunkt) */
 .center {
     position: absolute;
-    background-color: black;
+    border: 2px solid black;
+    border-radius: 50%;
     pointer-events: none; /* (Events an Schiff durchreichen) */
 }

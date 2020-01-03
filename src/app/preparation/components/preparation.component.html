@@ -2,7 +2,7 @@
     <h2 translate>preparation.title</h2>
     <p translate>preparation.body</p>
 
-    <div class="" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center"
+    <div class="prep-zone" fxLayout="row wrap" fxLayoutGap="8px" fxLayoutAlign="start center"
         (touchstart)="onStart($event)"
         (touchend)="onStop($event)"
         (touchmove)="onContinue($event)"
@@ -11,11 +11,9 @@
         (mousemove)="onContinue($event)"
         >
         <div class="board-container" fxFlex="0 0 auto">
-            <div translate>preparation.board</div>
             <app-preparation-board [rows]="rows" [ships]="preparation"></app-preparation-board>
         </div>
         <div class="yard-container" fxFlex="0 0 auto">
-            <div translate>preparation.yard</div>
             <app-preparation-yard [ships]="yard"></app-preparation-yard>
         </div>
     </div>
