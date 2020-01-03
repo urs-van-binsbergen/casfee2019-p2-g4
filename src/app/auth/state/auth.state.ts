@@ -1,12 +1,12 @@
-import { Action, NgxsOnInit, Selector, State, StateContext, Store } from '@ngxs/store';
-import * as AuthActions from './auth.actions';
-import { map, takeUntil, first, tap, switchMap, distinctUntilChanged, catchError, finalize } from 'rxjs/operators';
-import { AuthService, AuthUser } from '../auth.service';
+import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
+import { EMPTY } from 'rxjs';
+import { map, tap, switchMap, distinctUntilChanged, catchError } from 'rxjs/operators';
+import { User } from '@cloud-api/core-models';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
-import { User } from '@cloud-api/core-models';
-import { of } from 'rxjs';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { AuthService, AuthUser } from '../auth.service';
+import * as AuthActions from './auth.actions';
 
 
 export interface AuthStateModel {
@@ -151,17 +151,17 @@ export class AuthState implements NgxsOnInit {
                             }),
                             catchError(err => {
                                 this.notification.quickErrorToast('common.error.apiReadError', { errorDetail: err });
-                                return of();
+                                return EMPTY;
                             })
                         );
                 } else {
                     ctx.dispatch(new AuthActions.Unauthenticated());
-                    return of(); // (complete)
+                    return EMPTY;
                 }
             }),
             catchError(err => {
                 this.notification.quickErrorToast('common.error.genericError', { errorDetail: err });
-                return of();
+                return EMPTY;
             })
         );
     }
