@@ -6,7 +6,7 @@
             <mat-card-content>
                 <p>
                     <mat-form-field>
-                        <input matInput type="text" formControlName="displayName" required
+                        <input matInput type="text" formControlName="displayName"
                             placeholder="{{'auth.register.displayName' | translate}}" />
                         <mat-error *ngIf="displayName.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="displayName.errors.required" translate>common.message.fieldRequired</div>

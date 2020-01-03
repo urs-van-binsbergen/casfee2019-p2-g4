@@ -86,6 +86,13 @@ mat-card.small-form {
     }
 }
 
+// Prevent IPhone Auto Zoom for form elements
+input[type="text"], 
+input[type="email"], 
+input[type="password"] {
+    font-size: 16px;
+}
+
 
 /* "components" ----------------------------- */
 
