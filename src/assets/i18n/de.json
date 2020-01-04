@@ -127,6 +127,7 @@
         "button": {
             "add": "Herausfordern",
             "cancel": "Spiel beenden",
+            "cancelTooltip": "Deine Schiffe gehen zurück zum Hafen",
             "remove": "Abbrechen",
             "start": "Schlacht beginnen"
         },

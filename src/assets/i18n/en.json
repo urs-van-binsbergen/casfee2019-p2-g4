@@ -127,6 +127,7 @@
         "button": {
             "add": "Challenge",
             "cancel": "Quit game",
+            "cancelTooltip": "Your ships will navigate back to the yard",
             "remove": "Cancel",
             "start": "Start battle"
         },
