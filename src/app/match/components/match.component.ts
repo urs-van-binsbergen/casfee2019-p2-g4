@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as MatchMethods from '../model/match-methods';
-import { MatchItem, MatchStatus } from '../model/match-models';
+import { MatchItem } from '../model/match-models';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -17,7 +17,6 @@ import deepClone from 'clone-deep';
 export class MatchComponent implements OnInit, OnDestroy {
 
     private _items: MatchItem[] = [];
-    private _status: MatchStatus = MatchStatus.Idle;
     private _isLoading: boolean;
     private _isCancelling: boolean;
     private _destroy$ = new Subject<void>();
@@ -36,8 +35,7 @@ export class MatchComponent implements OnInit, OnDestroy {
         this.state$.pipe(
             takeUntil(this._destroy$),
             tap((state: MatchStateModel) => {
-                this._status = MatchMethods.updateMatchStatusWithWaitingPlayers(this._status, state.waitingPlayers, state.uid);
-                this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, state.waitingPlayers, state.uid);
+                this._items = MatchMethods.toMatchItems(state.waitingPlayers, state.uid);
             }),
             finalize(() => {
                 this.store.dispatch(new UnbindMatch());
