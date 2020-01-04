@@ -3,19 +3,21 @@
     <p *ngIf="isLoading">
         <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
     </p>
-    <div *ngIf="!isLoading" class="match-zone">
-        <p *ngIf="!hasItems" translate>match.messageNobodyHere</p>
-        <p *ngIf="hasItems" translate>match.body</p>
-        <app-match-items *ngIf="hasItems" class="match-items" [items]="items" (addChallenge)="onAddChallenge($event)"
-            (removeChallenge)="onRemoveChallenge($event)">
-        </app-match-items>
-    </div>
-    <div *ngIf="!isLoading"  class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
-        <button mat-raised-button (click)="onCancelClicked()" [disabled]="isWaiting" color="basic">
-            <span translate>match.cancelButton</span>
-        </button>
-        <div class="spinner-cell">
-            <mat-spinner *ngIf="isWaiting" diameter="22" style="display: inline-block"></mat-spinner>
+    <div *ngIf="!isLoading" fxLayout="column" fxLayoutGap="2rem">
+        <div>
+            <p *ngIf="!hasItems" translate>match.messageNobodyHere</p>
+            <p *ngIf="hasItems" translate>match.body</p>
+            <app-match-items *ngIf="hasItems" class="match-items" [items]="items"
+                (addChallenge)="onAddChallenge($event)" (removeChallenge)="onRemoveChallenge($event)">
+            </app-match-items>
+        </div>
+        <div class="buttons" fxLayout="row wrap" fxLayoutGap="1rem" fxLayoutAlign="start center">
+            <button mat-raised-button (click)="onCancelClicked()" [disabled]="isCancelling" color="basic">
+                <span translate>match.cancelButton</span>
+            </button>
+            <div class="spinner-cell">
+                <mat-spinner *ngIf="isCancelling" diameter="22" style="display: inline-block"></mat-spinner>
+            </div>
         </div>
     </div>
 </div>

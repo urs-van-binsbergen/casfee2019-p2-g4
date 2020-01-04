@@ -1,9 +1,16 @@
-<mat-card class="item mat-typography">
-    <div class="avatar">Avatar</div>
-    <div class="name">{{item.opponentName}}</div>
-    <mat-checkbox [ngModel]="item.isOpponentChallenged" (ngModelChange)="onChallengeChange($event)"
-        class="opponent-is-challenged">
-        <span *ngIf="item.isOpponentChallenging" class="challenging">{{'match.item.accept' | translate}}</span>
-        <span *ngIf="!item.isOpponentChallenging">{{'match.item.challenged' | translate}}</span>
-    </mat-checkbox>
+<mat-card class="item mat-typography" fxLayout="column" fxLayout.xs="row" fxLayoutGap="1rem">
+    <div fxLayout.gt-xs="row" fxLayoutAlign="start end" fxLayoutGap="1rem">
+        <div class="avatar">Avatar</div>
+        <div class="name" fxHide.xs="true">{{item.opponentName}}</div>
+    </div>
+    <div>
+        <div class="name" fxHide.gt-xs="true">{{item.opponentName}}</div>
+        <div>
+            <mat-checkbox [ngModel]="item.isOpponentChallenged" (ngModelChange)="onChallengeChange($event)"
+                class="opponent-is-challenged">
+                <span *ngIf="item.isOpponentChallenging" class="challenging">{{'match.item.accept' | translate}}</span>
+                <span *ngIf="!item.isOpponentChallenging">{{'match.item.challenged' | translate}}</span>
+            </mat-checkbox>
+        </div>
+    </div>
 </mat-card>

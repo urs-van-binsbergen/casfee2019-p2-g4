@@ -11,8 +11,7 @@ import deepClone from 'clone-deep';
 
 @Component({
     selector: 'app-match',
-    templateUrl: './match.component.html',
-    styleUrls: [ './match.component.scss' ]
+    templateUrl: './match.component.html'
 })
 export class MatchComponent implements OnInit, OnDestroy {
 
