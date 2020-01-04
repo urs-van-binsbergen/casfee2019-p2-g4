@@ -11,7 +11,7 @@
             </app-match-items>
         </div>
         <div class="buttons" fxLayout="row wrap" fxLayoutGap="1rem" fxLayoutAlign="start center">
-            <button mat-raised-button (click)="onCancelClicked()" [disabled]="isCancelling" color="basic"
+            <button mat-raised-button color="basic" (click)="onCancelClicked()" [disabled]="isCancelling"
                 matTooltip="{{ 'match.button.cancelTooltip' | translate }}">
                 <span translate>match.button.cancel</span>
             </button>
