@@ -13,7 +13,16 @@ export class MatchItemComponent {
     @Output()
     public changeChallenge: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    public onChallengeChange(challenge: boolean) {
-        this.changeChallenge.emit(challenge);
+    isChangingChallenge = false;
+
+    public onChallengeClick() {
+        this.isChangingChallenge = true;
+        this.changeChallenge.emit(true);
     }
+
+    public onUnchallengeClick() {
+        this.isChangingChallenge = true;
+        this.changeChallenge.emit(false);
+    }
+
 }

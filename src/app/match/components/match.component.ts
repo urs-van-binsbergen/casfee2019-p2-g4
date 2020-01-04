@@ -44,7 +44,7 @@ export class MatchComponent implements OnInit, OnDestroy {
         this.loading$.pipe(
             takeUntil(this._destroy$),
             tap(loading => this._isLoading = loading)
-        ).subscribe()
+        ).subscribe();
     }
 
     ngOnDestroy(): void {
@@ -68,7 +68,8 @@ export class MatchComponent implements OnInit, OnDestroy {
     }
 
     public onAddChallenge(item: MatchItem) {
-        this.store.dispatch(new AddChallenge(item.opponentUid)).toPromise()
+        const isStartingBattle = item.isOpponentChallenged;
+        this.store.dispatch(new AddChallenge(item.opponentUid, isStartingBattle)).toPromise()
             .catch(error => {
                 this._items = deepClone(this._items);
             });
@@ -84,9 +85,6 @@ export class MatchComponent implements OnInit, OnDestroy {
     public onCancelClicked() {
         this._isCancelling = true;
         this.store.dispatch(new CancelMatch()).toPromise()
-            .then(results => {
-                this.router.navigateByUrl('/hall');
-            })
             .finally(() => {
                 this._isCancelling = false;
             });

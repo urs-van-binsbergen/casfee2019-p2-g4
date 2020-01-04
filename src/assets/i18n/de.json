@@ -124,21 +124,25 @@
         "title": "Siegergalerie"
     },
     "match": {
-        "body": "",
+        "button": {
+            "add": "Herausfordern",
+            "cancel": "Spiel beenden",
+            "remove": "Abbrechen",
+            "start": "Schlacht beginnen"
+        },
         "error": {
-            "add": "Die Herausforderung konnte nicht gemacht werden.",
-            "cancel": "Das Spiel konnte nicht abgebrochen werden.",
-            "remove": "Die Herausforderung konnte nicht entfernt werden.",
-            "waitingPlayers": "Es können keine Herausforderungen gemacht werden."
+            "add": "Die Herausforderung konnte nicht übermittelt werden",
+            "cancel": "Das Spiel konnte nicht abgebrochen werden",
+            "remove": "Die Herausforderung konnte nicht entfernt werden",
+            "start": "Die Schlacht konnte nicht gestartet werden",
+            "waitingPlayers": "Die Liste der wartenden Spieler konnte nicht geladen werden"
         },
-        "title": "Gegner finden",
-        "item": {
-            "accept": "Herausforderung annehmen",
-            "challenged": "Gegner herausfordern",
-            "challenging": "Gegner fordert dich heraus"
+        "message": {
+            "noWaitingPlayers": "Aktuell sind keine Gegner zur Schlacht bereit",
+            "opponentIsChallengingYou": "{{opponentName}} fordert dich heraus",
+            "pleaseWaitForOpponent": "Bitte warten, bis {{opponentName}} die Schlacht beginnt"
         },
-        "cancelButton": "Zurückziehen",
-        "messageNobodyHere": "Leider sind noch keine Gegner zur Schlacht bereit"
+        "title": "Gegner finden"
     },
     "preparation": {
         "board": "Spielbrett",

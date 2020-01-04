@@ -124,21 +124,25 @@
         "title": "Hall of Fame"
     },
     "match": {
-        "body": "",
+        "button": {
+            "add": "Challenge",
+            "cancel": "Quit game",
+            "remove": "Cancel",
+            "start": "Start battle"
+        },
         "error": {
-            "add": "Could not add challenge.",
-            "cancel": "Could not cancel game.",
-            "remove": "Could not remove challenge.",
-            "waitingPlayers": "No challenges can be made."
+            "add": "Could not add challenge",
+            "cancel": "Could not cancel game",
+            "remove": "Could not remove challenge",
+            "start": "Could not start battle",
+            "waitingPlayers": "Could not load waiting players"
         },
-        "title": "Find opponent",
-        "item": {
-            "accept": "Accept challenge",
-            "challenged": "Challenge opponent",
-            "challenging": "Opponent is challenging you"
+        "message": {
+            "noWaitingPlayers": "Currently no opponents ready for the battle",
+            "opponentIsChallengingYou": "{{opponentName}} is challenging you",
+            "pleaseWaitForOpponent": "Please wait for {{opponentName}} to start the battle"
         },
-        "cancelButton": "Withdraw",
-        "messageNobodyHere": "No one is ready to battle against you. Please wait."
+        "title": "Find opponent"
     },
     "preparation": {
         "body": "Position the ships on the board",

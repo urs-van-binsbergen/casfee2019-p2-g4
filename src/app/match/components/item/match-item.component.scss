@@ -1,6 +1,6 @@
 .avatar {
-    width: 64px;
-    height: 64px;
+    width: 60px;
+    height: 80px;
     border: 1px dashed gray;
     color: gray;
     text-align: center;
@@ -14,22 +14,33 @@
     text-overflow: ellipsis;
 }
 
-@keyframes orangeBlink {
-    0% {
-        background-color: white;
-    }
-
+@keyframes animation-challenged {
     50% {
         background-color: orange;
     }
+}
 
-    100% {
-        background-color: white;
+@keyframes animation-challenging {
+    50% {
+        background-color: #cccccc;
     }
 }
 
-.challenging {
-    animation-name: orangeBlink;
+.message {
+    display: inline-block;
+    border-radius: 0.3rem;
+    padding: 0.3rem 0.6rem;
     animation-duration: 2s;
     animation-iteration-count: infinite;
+
+    &--challenged {
+        @extend .message;
+        animation-name: animation-challenged;
+    }
+
+    &--challenging {
+        @extend .message;
+        background-color: #eeeeee;
+        animation-name: animation-challenging;
+    }
 }
