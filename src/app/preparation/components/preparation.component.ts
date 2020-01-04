@@ -9,8 +9,7 @@ import { AddPreparation } from '../state/preparation.actions';
 
 @Component({
     selector: 'app-preparation',
-    templateUrl: './preparation.component.html',
-    styleUrls: ['./preparation.component.scss']
+    templateUrl: './preparation.component.html'
 })
 export class PreparationComponent implements OnInit, OnDestroy {
 
