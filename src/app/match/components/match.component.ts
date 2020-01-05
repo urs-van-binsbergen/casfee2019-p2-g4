@@ -16,7 +16,7 @@ import deepClone from 'clone-deep';
 export class MatchComponent implements OnInit, OnDestroy {
 
     private _items: MatchItem[] = [];
-    private _isLoading: boolean;
+    private _loading: boolean;
     private _isCancelling: boolean;
     private _destroy$ = new Subject<void>();
 
@@ -43,7 +43,7 @@ export class MatchComponent implements OnInit, OnDestroy {
 
         this.loading$.pipe(
             takeUntil(this._destroy$),
-            tap(loading => this._isLoading = loading)
+            tap(loading => this._loading = loading)
         ).subscribe();
     }
 
@@ -59,8 +59,8 @@ export class MatchComponent implements OnInit, OnDestroy {
         return this._items && 0 < this._items.length;
     }
 
-    get isLoading(): boolean {
-        return this._isLoading;
+    get loading(): boolean {
+        return this._loading;
     }
 
     get isCancelling(): boolean {

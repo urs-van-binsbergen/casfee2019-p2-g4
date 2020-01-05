@@ -1,9 +1,9 @@
 <div class="page-inset mat-typography">
     <h2 translate>match.title</h2>
-    <p *ngIf="isLoading">
+    <p *ngIf="loading">
         <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
     </p>
-    <div *ngIf="!isLoading" fxLayout="column" fxLayoutGap="1.5rem">
+    <div *ngIf="!loading" fxLayout="column" fxLayoutGap="1.5rem">
         <div *ngIf="!hasItems" translate>match.message.noWaitingPlayers</div>
         <div *ngIf="hasItems">
             <app-match-items class="match-items" [items]="items"

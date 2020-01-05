@@ -1,11 +1,11 @@
 <div class="page-inset mat-typography">
     <h2 translate>battle.title</h2>
 
-    <p *ngIf="isLoading">
+    <p *ngIf="loading">
         <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
     </p>
 
-    <div *ngIf="!isLoading" fxLayout="column" fxLayoutGap="1.5rem grid">
+    <div *ngIf="!loading" fxLayout="column" fxLayoutGap="1.5rem grid">
 
         <div fxLayout="row wrap" fxLayoutGap="8px grid" fxLayoutAlign="start center">
             <div class="opponent-container" fxFlex="0 0 auto">
