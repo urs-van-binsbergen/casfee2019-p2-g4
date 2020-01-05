@@ -6,7 +6,7 @@
         <div fxLayout="row wrap" fxLayoutGap="8px grid" fxLayoutAlign="start center">
             <div class="opponent-container" fxFlex="0 0 auto">
                 <div *ngIf="opponentInfo" [class.turn]="shootNow">
-                    {{ opponentInfo.displayName }}<span translate>battle.sBoard</span>
+                    <span translate [translateParams]="{ opponentName: opponentInfo.displayName }">battle.opponentBoard</span>
                 </div>
                 <div *ngIf="targetBoard">
                     <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)"
@@ -22,8 +22,8 @@
         </div>
 
         <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
-            <button mat-raised-button color="basic" [disabled]="isCapitulating"
-                (click)="onCapitulationClicked()" matTooltip="Wenn du kapitulierst, wird das Spiel beendet und dein Gegner ist der Sieger">Kapitulieren</button>
+            <button mat-raised-button color="basic" [disabled]="isCapitulating" (click)="onCapitulationClicked()"
+                matTooltip="{{ 'battle.button.capitulateTooltip' | translate}}">{{'battle.button.capitulate'|translate}}</button>
             <div class="spinner-cell">
                 <mat-spinner *ngIf="isCapitulating" diameter="22" style="display: inline-block"></mat-spinner>
             </div>

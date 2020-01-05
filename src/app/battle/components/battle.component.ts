@@ -41,17 +41,17 @@ export class BattleComponent implements OnInit, OnDestroy {
 
                     if (this.targetBoard.currentShotResult) {
                         if (this.targetBoard.currentShotResult === FieldStatus.Miss) {
-                            this.notification.quickToast('Daneben. {{ opponentName }} ist am Zug',
+                            this.notification.quickToast2('battle.message.miss',
                                 { opponentName: this.opponentInfo.displayName });
                         } else if (this.targetBoard.currentShotResult === FieldStatus.Hit) {
                             if (this.targetBoard.currentShotDidSinkAShip) {
-                                this.notification.quickToast('Schiff versenkt! Du bist am Zug');
+                                this.notification.quickToast2('battle.message.sunk');
                             } else {
-                                this.notification.quickToast('Treffer! Du bist am Zug');
+                                this.notification.quickToast2('battle.message.hit');
                             }
                         }
                     } else if (this.targetBoard.canShoot) {
-                        this.notification.quickToast('Du bist am Zug');
+                        this.notification.quickToast2('battle.message.yourTurn');
                     }
 
                 } else {

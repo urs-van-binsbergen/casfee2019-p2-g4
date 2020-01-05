@@ -71,10 +71,18 @@
     },
     "battle": {
         "title": "Seeschlacht",
-        "pleaseShoot": "Du kannst jetzt schiessen",
-        "waitingForOpponent": "Gegner wird demnächst schiessen...",
-        "sBoard": "s Spielfeld",
-        "yourBoard": "Dein Spielfeld"
+        "opponentBoard": "Spielfeld von {{opponentName}}",
+        "yourBoard": "Dein Spielfeld",
+        "button": {
+            "capitulate": "Kapitulieren",
+            "capitulateTooltip": "Wenn du kapitulierst, wird das Spiel beendet und dein Gegner ist der Sieger"
+        },
+        "message": {
+            "miss": "Daneben. {{ opponentName }} ist am Zug",
+            "sunk": "Schiff versenkt! Du bist am Zug",
+            "hit": "Treffer! Du bist am Zug",
+            "yourTurn": "Du bist am Zug"
+        }
     },
     "button": {
         "battle": "Schlacht",
@@ -146,8 +154,8 @@
         "title": "Gegner finden"
     },
     "preparation": {
-        "board": "Spielbrett",
-        "body": "Schiffe auf dem Spielbrett aufstellen",
+        "board": "Spielfeld",
+        "body": "Schiffe auf dem Spielfeld aufstellen",
         "dialog": {
             "body": "Du verlierst deine Daten!",
             "title": "Warnung"

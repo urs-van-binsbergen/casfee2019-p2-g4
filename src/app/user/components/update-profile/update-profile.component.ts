@@ -60,7 +60,7 @@ export class UpdateProfileComponent implements OnInit {
                         if (!result.profileUpdateSuccess) {
                             this.notification.errorToast('user.updateProfile.error.incompleteSave');
                         } else {
-                            this.notification.quickToast('user.updateProfile.successMessage');
+                            this.notification.quickToast1('user.updateProfile.successMessage');
                         }
                         this.router.navigateByUrl('/user');
                         return;

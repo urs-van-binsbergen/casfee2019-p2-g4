@@ -12,9 +12,14 @@ export class NotificationService {
 
     }
 
-    quickToast(key: string, interpolateParams?: object) {
+    quickToast1(key: string, interpolateParams?: object) {
         const msg = this.translate.instant(key, interpolateParams);
         this.snackBar.open(msg, null, { duration: 1000 });
+    }
+
+    quickToast2(key: string, interpolateParams?: object) {
+        const msg = this.translate.instant(key, interpolateParams);
+        this.snackBar.open(msg, null, { duration: 3000 });
     }
 
     errorToast(key: string, interpolateParams?: object) {

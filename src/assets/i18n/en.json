@@ -71,10 +71,18 @@
     },
     "battle": {
         "title": "Battle",
-        "pleaseShoot": "Please shoot now",
-        "waitingForOpponent": "Waiting for opponent",
-        "sBoard": "'s board",
-        "yourBoard": "Your board"
+        "opponentBoard": "{{ opponentName }}'s board",
+        "yourBoard": "Your board",
+        "button": {
+            "capitulate": "Capitulate",
+            "capitulateTooltip": "If you do this, the game ends immediately with your opponent winning"
+        },
+        "message": {
+            "miss": "Miss. {{ opponentName }}'s turn",
+            "sunk": "Ship sunk! Your turn",
+            "hit": "Hit! Your turn",
+            "yourTurn": "Your turn"
+        }
     },
     "button": {
         "battle": "Battle",

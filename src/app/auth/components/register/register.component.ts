@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                         if (!result.profileUpdateSuccess) {
                             this.notification.errorToast('auth.register.error.incompleteSave');
                         } else {
-                            this.notification.quickToast('auth.register.successMessage');
+                            this.notification.quickToast1('auth.register.successMessage');
                         }
                         this.redirect.redirectToNext('/user');
                         return;

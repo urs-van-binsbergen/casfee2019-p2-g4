@@ -45,7 +45,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
                     this.waiting = false;
 
                     if (result.success) {
-                        this.notification.quickToast('auth.resetPassword.successMessage');
+                        this.notification.quickToast1('auth.resetPassword.successMessage');
                         this.redirect.redirectToNext('/user');
                         return;
                     } else {
