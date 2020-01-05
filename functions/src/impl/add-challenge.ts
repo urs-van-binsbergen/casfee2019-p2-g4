@@ -46,7 +46,7 @@ export default function addChallenge(
         const oppPlayerDoc = docs[2];
         const oppUserDoc = docs[3];
 
-        // Get data (exception when one of these is missing - TODO: convert to HttpsError)
+        // Get data (exception when one of these is missing
         const player = getData<Player>(playerDoc, () => new HttpsError('not-found',
                                                         'player doc does not exist'));
         const user = getData<User>(userDoc, () => new HttpsError('not-found',
