@@ -72,16 +72,22 @@
     "battle": {
         "title": "Battle",
         "opponentBoard": "{{ opponentName }}'s board",
+        "opponentBoardYourTurn": " - aim and shoot!",
         "yourBoard": "Your board",
+        "yourBoardOpponentTurn": " - {{ opponentName }} aiming",
         "button": {
             "capitulate": "Capitulate",
             "capitulateTooltip": "If you do this, the game ends immediately with your opponent winning"
         },
         "message": {
-            "miss": "Miss. {{ opponentName }}'s turn",
-            "sunk": "Ship sunk! Your turn",
-            "hit": "Hit! Your turn",
-            "yourTurn": "Your turn"
+            "miss": "🐳 Miss. {{ opponentName }}'s turn",
+            "hit": "😂 Hit! Your turn",
+            "sunk": "🤣🤣 Ship sunk! Your turn",
+            "yourTurn": "Your turn",
+            "oppMiss": "🍀 Lucky! Your turn",
+            "oppHit": "😡 One of your ship was hit",
+            "myShipSunk": "😡😡 You loose a ship",
+            "oppTurn": "{{ opponentName }}'s turn"
         }
     },
     "button": {

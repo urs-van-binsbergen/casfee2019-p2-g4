@@ -1,4 +1,4 @@
-import { Player, Board, Ship, FieldStatus } from '@cloud-api/core-models';
+import { Player, Board, Ship, FieldStatus, PlayerStatus } from '@cloud-api/core-models';
 import * as FlatTable from '@cloud-api/flat-table';
 import { Row, BattleField, BattleBoard, BattleShip } from './battle-models';
 import { Orientation, Pos, areEqualPos } from '@cloud-api/geometry';
@@ -117,7 +117,8 @@ export function createTargetBoard(player: Player): BattleBoard {
 }
 
 export function createOwnBoard(player: Player): BattleBoard {
-    const battleBoard = createBattleBoard(player.board, false);
+    const opponentCanShootNext = !player.canShootNext && player.playerStatus === PlayerStatus.InBattle;
+    const battleBoard = createBattleBoard(player.board, opponentCanShootNext);
     return battleBoard;
 }
 
@@ -131,14 +132,14 @@ export function updateBoardWithBoard(state: BattleBoard | null, action: BattleBo
     const board = deepClone(action) as BattleBoard;
 
     let sunkShipsBefore: number;
-    let currentShotTarget: Pos;
+    let lastShotPos: Pos;
     let currentShotResult: FieldStatus;
-    let currentShotDidSinkAShip: boolean;
+    let shipSunk: boolean;
 
     if (state) {
         // Transfer and diff presentational data from old state
         sunkShipsBefore = state.sunkShipsCount;
-        currentShotTarget = state.currentShotTarget;
+        lastShotPos = state.lastShotPos;
 
         const yLength = Math.min(state.rows.length, board.rows.length);
         for (let y = 0; y < yLength; y++) {
@@ -149,23 +150,22 @@ export function updateBoardWithBoard(state: BattleBoard | null, action: BattleBo
 
                 newField.shooting = oldField.shooting;
 
-                if (currentShotTarget && areEqualPos(currentShotTarget, oldField.pos)) {
-                    if (newField.status !== FieldStatus.Unknown) {
-                        // pick up result of last shot
-                        currentShotResult = newField.status;
-                        currentShotTarget = undefined;
-                        if (board.sunkShipsCount > sunkShipsBefore) {
-                            currentShotDidSinkAShip = true;
-                        }
-                    }
+                if (oldField.status === FieldStatus.Unknown && newField.status !== FieldStatus.Unknown) {
+                    currentShotResult = newField.status;
+                    lastShotPos = { x, y };
+                    newField.shooting = true;
                 }
             }
         }
+
+        if (board.sunkShipsCount > sunkShipsBefore) {
+            shipSunk = true;
+        }
     }
 
-    board.currentShotResult = currentShotResult;
-    board.currentShotTarget = currentShotTarget;
-    board.currentShotDidSinkAShip = currentShotDidSinkAShip;
+    board.lastShotResult = currentShotResult;
+    board.lastShotPos = lastShotPos;
+    board.shipSunk = shipSunk;
 
     updateBattleBoard(board);
     return board;
@@ -191,12 +191,6 @@ export function updateBoardWithFieldIsShooting(state: BattleBoard, action: Battl
         board.rows[y].fields[x].shooting = shooting;
     }
     updateBattleBoard(board);
-
-    if (shooting) {
-        board.currentShotTarget = { x, y };
-        // This message will be picked up when then processed state is received from db
-        // (do NOT react on shooting=false here, because it fires before we know the result)
-    }
 
     return board;
 }

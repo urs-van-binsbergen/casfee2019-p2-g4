@@ -6,7 +6,6 @@ import { Pos } from '@cloud-api/geometry';
 interface Move {
     target: Pos;
     shooting: boolean;
-    awaitingResult?: boolean;
     result?: FieldStatus
 }
 
@@ -31,19 +30,15 @@ function createBattleBoard(width: number, height: number, canShoot: boolean, mov
     if (move) {
         const pos = move.target;
         const field = board.rows[pos.y].fields[pos.x];
+
         field.shooting = move.shooting;
+        board.isShooting = move.shooting;
+
         if (move.result) {
             field.status = move.result;
-        }
-        board.isShooting = field.shooting;
-        if (move.shooting || move.awaitingResult) {
-            if (move.result) {
-                // "pick up"
-                board.currentShotResult = move.result;
-                board.currentShotTarget = undefined;
-            } else {
-                board.currentShotTarget = pos;
-            }
+            board.lastShotResult = move.result;
+            board.lastShotPos = move.target;
+            field.shooting = true;
         }
     }
     for (const row of board.rows) {
@@ -207,7 +202,7 @@ describe('BattleMethods', () => {
         const action = state.rows[y].fields[x];
         const board = BattleMethods.updateBoardWithFieldIsShooting(state, action, false);
         expect(stateBefore).toBe(str(state));
-        const reference = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting: false, awaitingResult: true });
+        const reference = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting: false });
         expect(str(board)).toBe(str(reference));
     });
 

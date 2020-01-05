@@ -1,20 +1,19 @@
 <div class="own-board">
 
     <div *ngFor="let row of ownBoard.rows" class="row">
-        <div *ngFor="let field of row.fields" class="field field-status-{{field.status}}">
-        </div>
+        <app-battle-field *ngFor="let field of row.fields"
+            class="field field-status-{{ field.status }}"
+            [field]="field"
+            (uncovered)="onUncovered($event)"
+        >
+        </app-battle-field>
     </div>
 
-    <div *ngFor="let ship of ownBoard.ships"
-        [style.top]="(ship.pos.y * 100 / 8 + 2) + '%'"
+    <div *ngFor="let ship of ownBoard.ships" [style.top]="(ship.pos.y * 100 / 8 + 2) + '%'"
         [style.left]="(ship.pos.x * 100/ 8 + 2) + '%'"
         [style.width]="((ship.isVertical ? 1 : ship.length) * 100 / 8 - 4) + '%'"
-        [style.height]="((ship.isVertical ? ship.length : 1) * 100/ 8 - 4) + '%'"
-        class="ship ship-{{ship.design}}"
-        [class.sunk-ship]="ship.isSunk"
-        [class.not-sunk-ship]="!ship.isSunk"
-    >
+        [style.height]="((ship.isVertical ? ship.length : 1) * 100/ 8 - 4) + '%'" class="ship ship-{{ship.design}}"
+        [class.sunk-ship]="ship.isSunk" [class.not-sunk-ship]="!ship.isSunk">
     </div>
 
 </div>
-

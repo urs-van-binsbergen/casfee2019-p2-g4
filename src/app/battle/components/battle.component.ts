@@ -42,19 +42,8 @@ export class BattleComponent implements OnInit, OnDestroy {
                     this.ownBoard = BattleMethods.updateOwnBoardWithPlayer(this.ownBoard, player);
                     this.playerStatus = player.playerStatus;
 
-                    if (this.targetBoard.currentShotResult) {
-                        if (this.targetBoard.currentShotResult === FieldStatus.Miss) {
-                            this.notification.quickToast2('battle.message.miss',
-                                { opponentName: this.opponentInfo.displayName });
-                        } else if (this.targetBoard.currentShotResult === FieldStatus.Hit) {
-                            if (this.targetBoard.currentShotDidSinkAShip) {
-                                this.notification.quickToast2('battle.message.sunk');
-                            } else {
-                                this.notification.quickToast2('battle.message.hit');
-                            }
-                        }
-                    } else if (this.targetBoard.canShoot) {
-                        this.notification.quickToast2('battle.message.yourTurn');
+                    if (player.playerStatus === PlayerStatus.InBattle) {
+                        this.displayEventMessages();
                     }
 
                 } else {
@@ -70,6 +59,36 @@ export class BattleComponent implements OnInit, OnDestroy {
                 this.store.dispatch(new UnbindGame());
             })
         ).subscribe();
+    }
+
+    private displayEventMessages() {
+        if (this.targetBoard.lastShotResult) {
+            if (this.targetBoard.lastShotResult === FieldStatus.Miss) {
+                this.notification.quickToast2('battle.message.miss',
+                    { opponentName: this.opponentInfo.displayName });
+            } else if (this.targetBoard.lastShotResult === FieldStatus.Hit) {
+                if (this.targetBoard.shipSunk) {
+                    this.notification.quickToast2('battle.message.sunk');
+                } else {
+                    this.notification.quickToast2('battle.message.hit');
+                }
+            }
+        } else if (this.ownBoard.lastShotResult) {
+            if (this.ownBoard.lastShotResult === FieldStatus.Miss) {
+                this.notification.quickToast2('battle.message.oppMiss');
+            } else if (this.ownBoard.lastShotResult === FieldStatus.Hit) {
+                if (this.ownBoard.shipSunk) {
+                    this.notification.quickToast2('battle.message.myShipSunk');
+                } else {
+                    this.notification.quickToast2('battle.message.oppHit');
+                }
+            }
+        } else if (this.targetBoard.canShoot) {
+            this.notification.quickToast2('battle.message.yourTurn');
+        } else if (this.ownBoard.canShoot) {
+            this.notification.quickToast2('battle.message.oppTurn',
+                { opponentName: this.opponentInfo.displayName })
+        }
     }
 
     ngOnDestroy(): void {
@@ -104,6 +123,10 @@ export class BattleComponent implements OnInit, OnDestroy {
 
     onUncovered(field: BattleField) {
         this.targetBoard = BattleMethods.updateBoardWithFieldIsShooting(this.targetBoard, field, false);
+    }
+
+    onOwnFieldUncovered(field: BattleField) {
+        this.ownBoard = BattleMethods.updateBoardWithFieldIsShooting(this.ownBoard, field, false);
     }
 
     onCapitulationClicked() {

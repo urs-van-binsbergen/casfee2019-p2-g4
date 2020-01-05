@@ -26,7 +26,7 @@ export interface BattleBoard {
     canShoot: boolean;
     isShooting: boolean;
     sunkShipsCount: number;
-    currentShotTarget?: Pos;
-    currentShotResult?: FieldStatus;
-    currentShotDidSinkAShip?: boolean;
+    lastShotPos?: Pos;
+    lastShotResult?: FieldStatus;
+    shipSunk?: boolean;
 }

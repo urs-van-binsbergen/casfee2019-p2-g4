@@ -11,7 +11,7 @@
             <div class="opponent-container" fxFlex="0 0 auto">
                 <div *ngIf="opponentInfo" class="opponent-board-label" [class.active-label]="myTurn">
                     <span translate [translateParams]="{ opponentName: opponentInfo.displayName }">battle.opponentBoard</span>
-                    <span *ngIf="myTurn && !shooting"> - zielen und schiessen</span>
+                    <span *ngIf="myTurn && !shooting">{{ 'battle.opponentBoardYourTurn' | translate }}</span>
                 </div>
                 <div *ngIf="targetBoard" class="opponent-board" [class.active-board]="myTurn">
                     <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)" 
@@ -21,10 +21,10 @@
             <div class="own-board-container" fxFlex="0 0 auto">
                 <div class="own-board-label" [class.active-label]="opponentTurn">
                     <span translate>battle.yourBoard</span>
-                    <span *ngIf="opponentTurn"> - {{ opponentInfo.displayName }} am Zielen</span>
+                    <span *ngIf="opponentTurn" translate [translateParams]="{ opponentName: opponentInfo.displayName }">battle.yourBoardOpponentTurn</span>
                 </div>
                 <div *ngIf="ownBoard" class="own-board" [class.active-board]="opponentTurn">
-                    <app-own-board [ownBoard]="ownBoard"></app-own-board>
+                    <app-own-board [ownBoard]="ownBoard" (uncovered)="onOwnFieldUncovered($event)"></app-own-board>
                 </div>
             </div>
         </div>
