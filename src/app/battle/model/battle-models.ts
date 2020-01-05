@@ -25,4 +25,6 @@ export interface BattleBoard {
     ships: BattleShip[];
     canShoot: boolean;
     isShooting: boolean;
+    lastShootPos?: Pos;
+    lastShootStatus?: FieldStatus;
 }

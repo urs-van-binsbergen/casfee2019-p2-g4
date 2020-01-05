@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BattleBoard, BattleField } from '../model/battle-models';
-import { PlayerInfo, PlayerStatus } from '@cloud-api/core-models';
+import { PlayerInfo, PlayerStatus, FieldStatus } from '@cloud-api/core-models';
 import * as BattleMethods from '../model/battle-methods';
 import { Store, Select } from '@ngxs/store';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil, tap, finalize } from 'rxjs/operators';
 import { GameState, GameStateModel } from 'src/app/game/state/game.state';
 import { BindGame, UnbindGame, Shoot, Capitulate } from 'src/app/game/state/game.actions';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
     selector: 'app-battle',
@@ -24,7 +25,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
     @Select(GameState.state) _state$: Observable<GameStateModel>;
 
-    constructor(private store: Store) { }
+    constructor(private store: Store, private notification: NotificationService) { }
 
     ngOnInit(): void {
         this.store.dispatch(new BindGame());
@@ -42,6 +43,16 @@ export class BattleComponent implements OnInit, OnDestroy {
                     this.targetBoard = null;
                     this.ownBoard = null;
                     this.playerStatus = PlayerStatus.Waiting;
+                }
+
+                if (this.targetBoard.lastShootStatus) {
+                    if (this.targetBoard.lastShootStatus === FieldStatus.Miss) {
+                        this.notification.quickToast('Platsch. Gegner ist am Zug');
+                    } else if (this.targetBoard.lastShootStatus === FieldStatus.Hit) {
+                        this.notification.quickToast('Treffer! Noch ein Zug für Dich');
+                    }
+                } else if (this.targetBoard.canShoot) {
+                    this.notification.quickToast('Du bist am Zug');
                 }
             }),
             finalize(() => {
@@ -73,7 +84,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     }
 
     onShoot(field: BattleField) {
-        if (!this.targetBoard.canShoot || !field.shootable) {
+        if (!this.targetBoard || !this.targetBoard.canShoot || !field.shootable) {
             return;
         }
         this.targetBoard = BattleMethods.updateBoardWithShootingField(this.targetBoard, field);
