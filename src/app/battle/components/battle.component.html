@@ -1,21 +1,29 @@
 <div class="page-inset mat-typography">
     <h2 translate>battle.title</h2>
 
-    <div fxLayout="column" fxLayoutGap="1.5rem grid">
+    <p *ngIf="isLoading">
+        <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
+    </p>
+
+    <div *ngIf="!isLoading" fxLayout="column" fxLayoutGap="1.5rem grid">
 
         <div fxLayout="row wrap" fxLayoutGap="8px grid" fxLayoutAlign="start center">
             <div class="opponent-container" fxFlex="0 0 auto">
-                <div *ngIf="opponentInfo" [class.turn]="shootNow">
+                <div *ngIf="opponentInfo" class="opponent-board-label" [class.active-label]="myTurn">
                     <span translate [translateParams]="{ opponentName: opponentInfo.displayName }">battle.opponentBoard</span>
+                    <span *ngIf="myTurn && !shooting"> - zielen und schiessen</span>
                 </div>
-                <div *ngIf="targetBoard">
-                    <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)"
+                <div *ngIf="targetBoard" class="opponent-board" [class.active-board]="myTurn">
+                    <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)" 
                         (uncovered)="onUncovered($event)"></app-target-board>
                 </div>
             </div>
             <div class="own-board-container" fxFlex="0 0 auto">
-                <div translate [class.turn]="waitingForOpponentShoot">battle.yourBoard</div>
-                <div *ngIf="ownBoard">
+                <div class="own-board-label" [class.active-label]="opponentTurn">
+                    <span translate>battle.yourBoard</span>
+                    <span *ngIf="opponentTurn"> - {{ opponentInfo.displayName }} am Zielen</span>
+                </div>
+                <div *ngIf="ownBoard" class="own-board" [class.active-board]="opponentTurn">
                     <app-own-board [ownBoard]="ownBoard"></app-own-board>
                 </div>
             </div>

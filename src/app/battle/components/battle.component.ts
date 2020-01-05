@@ -16,6 +16,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
 })
 export class BattleComponent implements OnInit, OnDestroy {
 
+    loading = false;
     opponentInfo: PlayerInfo | null = null;
     targetBoard: BattleBoard | null = null;
     ownBoard: BattleBoard | null = null;
@@ -28,10 +29,12 @@ export class BattleComponent implements OnInit, OnDestroy {
     constructor(private store: Store, private notification: NotificationService) { }
 
     ngOnInit(): void {
+        this.loading = true;
         this.store.dispatch(new BindGame());
         this._state$.pipe(
             takeUntil(this._destroy$),
             tap((state: GameStateModel) => {
+                this.loading = false;
                 const player = state.player;
                 if (player && player.battle) {
                     this.opponentInfo = player.battle.opponentInfo;
@@ -63,6 +66,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
             }),
             finalize(() => {
+                this.loading = false;
                 this.store.dispatch(new UnbindGame());
             })
         ).subscribe();
@@ -72,18 +76,16 @@ export class BattleComponent implements OnInit, OnDestroy {
         this._destroy$.next();
     }
 
-    get shootNow(): boolean {
-        return this.targetBoard && this.targetBoard.canShoot && !(this.targetBoard.isShooting) &&
-            this.playerStatus !== PlayerStatus.Victory && this.playerStatus !== PlayerStatus.Waterloo;
+    get myTurn(): boolean {
+        return this.targetBoard && this.targetBoard.canShoot;
     }
 
-    get pending(): boolean {
-        return !(this.shootNow) && !(this.waitingForOpponentShoot);
+    get shooting(): boolean {
+        return this.targetBoard && this.targetBoard.isShooting;
     }
 
-    get waitingForOpponentShoot(): boolean {
-        return this.targetBoard && !(this.targetBoard.canShoot) &&
-            this.playerStatus !== PlayerStatus.Victory && this.playerStatus !== PlayerStatus.Waterloo;
+    get opponentTurn(): boolean {
+        return this.targetBoard && !this.targetBoard.canShoot;
     }
 
     get isCapitulating(): boolean {

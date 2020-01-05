@@ -1,3 +1,17 @@
+.opponent-board, .own-board {
+    opacity: 0.75;
+    transition: opacity 0.5s;
+}
+
+.active-board {
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.opponent-board-label, .own-board-label {
+    padding: 0.1em;
+}
+
 @keyframes blinking {
     0% {
         opacity: 1.0;
@@ -12,8 +26,8 @@
     }
 }
 
-.turn {
+.active-label {
     animation-name: blinking;
-    animation-duration: 1s;
+    animation-duration: 1.5s;
     animation-iteration-count: infinite;
 }
