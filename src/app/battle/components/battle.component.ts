@@ -38,6 +38,22 @@ export class BattleComponent implements OnInit, OnDestroy {
                     this.targetBoard = BattleMethods.updateTargetBoardWithPlayer(this.targetBoard, player);
                     this.ownBoard = BattleMethods.updateOwnBoardWithPlayer(this.ownBoard, player);
                     this.playerStatus = player.playerStatus;
+
+                    if (this.targetBoard.currentShotResult) {
+                        if (this.targetBoard.currentShotResult === FieldStatus.Miss) {
+                            this.notification.quickToast('Daneben. {{ opponentName }} ist am Zug',
+                                { opponentName: this.opponentInfo.displayName });
+                        } else if (this.targetBoard.currentShotResult === FieldStatus.Hit) {
+                            if (this.targetBoard.currentShotDidSinkAShip) {
+                                this.notification.quickToast('Schiff versenkt! Du bist am Zug');
+                            } else {
+                                this.notification.quickToast('Treffer! Du bist am Zug');
+                            }
+                        }
+                    } else if (this.targetBoard.canShoot) {
+                        this.notification.quickToast('Du bist am Zug');
+                    }
+
                 } else {
                     this.opponentInfo = null;
                     this.targetBoard = null;
@@ -45,21 +61,12 @@ export class BattleComponent implements OnInit, OnDestroy {
                     this.playerStatus = PlayerStatus.Waiting;
                 }
 
-                if (this.targetBoard.lastShootStatus) {
-                    if (this.targetBoard.lastShootStatus === FieldStatus.Miss) {
-                        this.notification.quickToast('Platsch. Gegner ist am Zug');
-                    } else if (this.targetBoard.lastShootStatus === FieldStatus.Hit) {
-                        this.notification.quickToast('Treffer! Noch ein Zug für Dich');
-                    }
-                } else if (this.targetBoard.canShoot) {
-                    this.notification.quickToast('Du bist am Zug');
-                }
             }),
             finalize(() => {
                 this.store.dispatch(new UnbindGame());
             })
         ).subscribe();
-}
+    }
 
     ngOnDestroy(): void {
         this._destroy$.next();
@@ -84,17 +91,17 @@ export class BattleComponent implements OnInit, OnDestroy {
     }
 
     onShoot(field: BattleField) {
-        if (!this.targetBoard || !this.targetBoard.canShoot || !field.shootable) {
+        if (!this.targetBoard || !this.targetBoard.canShoot || !field.shootable) {
             return;
         }
-        this.targetBoard = BattleMethods.updateBoardWithShootingField(this.targetBoard, field);
+        this.targetBoard = BattleMethods.updateBoardWithFieldIsShooting(this.targetBoard, field, true);
         this.store.dispatch(new Shoot(field.pos)).toPromise().catch(error => {
-            this.targetBoard = BattleMethods.updateBoardWithShootingFieldReset(this.targetBoard, field);
+            this.targetBoard = BattleMethods.updateBoardWithFieldIsShooting(this.targetBoard, field, false);
         });
     }
 
     onUncovered(field: BattleField) {
-        this.targetBoard = BattleMethods.updateBoardWithShootingFieldReset(this.targetBoard, field);
+        this.targetBoard = BattleMethods.updateBoardWithFieldIsShooting(this.targetBoard, field, false);
     }
 
     onCapitulationClicked() {

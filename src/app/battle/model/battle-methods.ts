@@ -1,7 +1,7 @@
 import { Player, Board, Ship, FieldStatus } from '@cloud-api/core-models';
 import * as FlatTable from '@cloud-api/flat-table';
 import { Row, BattleField, BattleBoard, BattleShip } from './battle-models';
-import { Orientation, Pos } from '@cloud-api/geometry';
+import { Orientation, Pos, areEqualPos } from '@cloud-api/geometry';
 import deepClone from 'clone-deep';
 
 /*
@@ -19,7 +19,7 @@ function isVertical(ship: Ship): boolean {
     return ship.orientation === Orientation.North || ship.orientation === Orientation.South;
 }
 
-function createPos(ship: Ship): Pos {
+function getShipPos(ship: Ship): Pos {
     if (isInverse(ship)) {
         if (isVertical(ship)) {
             return {
@@ -64,10 +64,11 @@ function createRows(board: Board): Row[] {
     return rows;
 }
 
-/* 
- * Inner update: 
+/*
+ * Inner update:
  * - Detect 'is shooting' and apply to board
  * - Set shootability of fields
+ * - Count number of sunk ships
  */
 function updateBattleBoard(board: BattleBoard) {
 
@@ -90,13 +91,14 @@ function updateBattleBoard(board: BattleBoard) {
     }
 
     board.isShooting = isShooting;
+    board.sunkShipsCount = board.ships.filter(s => s.isSunk).length;
 }
 
 export function createBattleBoard(board: Board, canShoot: boolean): BattleBoard {
     const rows = createRows(board);
     const ships = board.ships.map((ship: Ship) => {
         const battleShip: BattleShip = {
-            pos: createPos(ship),
+            pos: getShipPos(ship),
             length: ship.length,
             design: ship.design,
             isVertical: isVertical(ship),
@@ -104,7 +106,7 @@ export function createBattleBoard(board: Board, canShoot: boolean): BattleBoard 
         };
         return battleShip;
     });
-    const battleBoard = { rows, ships, canShoot, isShooting: false };
+    const battleBoard: BattleBoard = { rows, ships, canShoot, isShooting: false, sunkShipsCount: 0 };
     updateBattleBoard(battleBoard);
     return battleBoard;
 }
@@ -121,23 +123,50 @@ export function createOwnBoard(player: Player): BattleBoard {
 
 /*
  * Apply new board state
- * Params: 
+ * Params:
  * - state: existing presentational state (can be null initially)
  * - action: the new state (typically from firestore)
  */
 export function updateBoardWithBoard(state: BattleBoard | null, action: BattleBoard): BattleBoard {
     const board = deepClone(action) as BattleBoard;
 
+    let sunkShipsBefore: number;
+    let currentShotTarget: Pos;
+    let currentShotResult: FieldStatus;
+    let currentShotDidSinkAShip: boolean;
+
     if (state) {
-        // Transfer presentational data from old state
+        // Transfer and diff presentational data from old state
+        sunkShipsBefore = state.sunkShipsCount;
+        currentShotTarget = state.currentShotTarget;
+
         const yLength = Math.min(state.rows.length, board.rows.length);
         for (let y = 0; y < yLength; y++) {
             const xLength = Math.min(state.rows[y].fields.length, board.rows[y].fields.length);
             for (let x = 0; x < xLength; x++) {
-                board.rows[y].fields[x].shooting = state.rows[y].fields[x].shooting;
+                const oldField = state.rows[y].fields[x];
+                const newField = board.rows[y].fields[x];
+
+                newField.shooting = oldField.shooting;
+
+                if (currentShotTarget && areEqualPos(currentShotTarget, oldField.pos)) {
+                    if (newField.status !== FieldStatus.Unknown) {
+                        // pick up result of last shot
+                        currentShotResult = newField.status;
+                        currentShotTarget = undefined;
+                        if (board.sunkShipsCount > sunkShipsBefore) {
+                            currentShotDidSinkAShip = true;
+                        }
+                    }
+                }
             }
         }
     }
+
+    board.currentShotResult = currentShotResult;
+    board.currentShotTarget = currentShotTarget;
+    board.currentShotDidSinkAShip = currentShotDidSinkAShip;
+
     updateBattleBoard(board);
     return board;
 }
@@ -154,27 +183,20 @@ export function updateOwnBoardWithPlayer(state: BattleBoard, action: Player): Ba
     return ownBoard;
 }
 
-function updateBoardWithField(state: BattleBoard, action: BattleField, change: (f: BattleField) => void): BattleBoard {
+export function updateBoardWithFieldIsShooting(state: BattleBoard, action: BattleField, shooting: boolean): BattleBoard {
     const x = action.pos.x;
     const y = action.pos.y;
     const board = deepClone(state) as BattleBoard;
     if (y < board.rows.length && x < board.rows[y].fields.length) {
-        change(board.rows[y].fields[x]);
+        board.rows[y].fields[x].shooting = shooting;
     }
     updateBattleBoard(board);
-    return board;
-}
 
-export function updateBoardWithShootingField(state: BattleBoard, action: BattleField): BattleBoard {
-    const board = updateBoardWithField(state, action, (field: BattleField) => {
-        field.shooting = true;
-    });
-    return board;
-}
+    if (shooting) {
+        board.currentShotTarget = { x, y };
+        // This message will be picked up when then processed state is received from db
+        // (do NOT react on shooting=false here, because it fires before we know the result)
+    }
 
-export function updateBoardWithShootingFieldReset(state: BattleBoard, action: BattleField): BattleBoard {
-    const board = updateBoardWithField(state, action, (field: BattleField) => {
-        field.shooting = false;
-    });
     return board;
 }

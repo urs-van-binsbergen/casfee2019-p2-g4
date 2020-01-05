@@ -3,8 +3,14 @@ import { Row, BattleField, BattleBoard, BattleShip } from './battle-models';
 import { Board, FieldStatus } from '@cloud-api/core-models';
 import { Pos } from '@cloud-api/geometry';
 
-function createBattleBoard(width: number, height: number, canShoot: boolean, pos: Pos,
-                           change: (f: BattleField) => void): BattleBoard {
+interface Move {
+    target: Pos;
+    shooting: boolean;
+    awaitingResult?: boolean;
+    result?: FieldStatus
+}
+
+function createBattleBoard(width: number, height: number, canShoot: boolean, move: Move): BattleBoard {
     const rows: Row[] = [];
     for (let y = 0; y < height; y++) {
         const fields: BattleField[] = [];
@@ -21,10 +27,24 @@ function createBattleBoard(width: number, height: number, canShoot: boolean, pos
         rows.push(row);
     }
     const ships: BattleShip[] = [];
-    const board: BattleBoard = { rows, ships, canShoot, isShooting: false };
-    if (pos && change) {
-        change(board.rows[pos.y].fields[pos.x]);
-        board.isShooting = board.rows[pos.y].fields[pos.x].shooting;
+    const board: BattleBoard = { rows, ships, canShoot, isShooting: false, sunkShipsCount: 0 };
+    if (move) {
+        const pos = move.target;
+        const field = board.rows[pos.y].fields[pos.x];
+        field.shooting = move.shooting;
+        if (move.result) {
+            field.status = move.result;
+        }
+        board.isShooting = field.shooting;
+        if (move.shooting || move.awaitingResult) {
+            if (move.result) {
+                // "pick up"
+                board.currentShotResult = move.result;
+                board.currentShotTarget = undefined;
+            } else {
+                board.currentShotTarget = pos;
+            }
+        }
     }
     for (const row of board.rows) {
         if (row.fields) {
@@ -65,7 +85,7 @@ describe('BattleMethods', () => {
             size: { h: 2, w: 2 }
         };
         const boardBefore = str(board);
-        const battleBoard = BattleMethods.createBattleBoard(board, false);
+        const battleBoard = BattleMethods.createBattleBoard(board, true);
         const reference: BattleBoard = {
             rows: [
                 {
@@ -82,20 +102,21 @@ describe('BattleMethods', () => {
             ships: [
                 { pos: { x: 0, y: 0 }, length: 2, design: 55, isVertical: false, isSunk: true }
             ],
-            canShoot: false, isShooting: false
+            canShoot: true,
+            isShooting: false,
+            sunkShipsCount: 1
         };
         expect(str(board)).toBe(boardBefore);
         expect(str(battleBoard)).toBe(str(reference));
     });
 
-    it('reduce BattleBoard with null', () => {
-        const state = createBattleBoard(refWidth, refHeight, true, null, null);
-        const board = BattleMethods.updateBoardWithBoard(state, null);
-        expect(board).toBe(null);
+    it('update BattleBoard with null action throws', () => {
+        const state = createBattleBoard(refWidth, refHeight, true, null);
+        expect(() => BattleMethods.updateBoardWithBoard(state, null)).toThrow();
     });
 
     it('reduce BattleBoard with state', () => {
-        const state = createBattleBoard(refWidth, refHeight, true, null, null);
+        const state = createBattleBoard(refWidth, refHeight, true, null);
         const stateBefore = str(state);
         const action = state;
         const actionBefore = str(action);
@@ -107,9 +128,9 @@ describe('BattleMethods', () => {
     });
 
     it('reduce BattleBoard with same action as state', () => {
-        const state = createBattleBoard(refWidth, refHeight, true, null, null);
+        const state = createBattleBoard(refWidth, refHeight, true, null);
         const stateBefore = str(state);
-        const action = createBattleBoard(refWidth, refHeight, true, null, null);
+        const action = createBattleBoard(refWidth, refHeight, true, null);
         const actionBefore = str(action);
         expect(stateBefore).toBe(actionBefore);
         const board = BattleMethods.updateBoardWithBoard(state, action);
@@ -118,77 +139,75 @@ describe('BattleMethods', () => {
         expect(str(board)).toBe(str(action));
     });
 
-    it('reduce BattleBoard with action (Unknown -> Hit)', () => {
+    it('shoot and hit', () => {
         const x = 0;
         const y = 0;
+
+        // State after shot is fired
         const shooting = true;
-        const status = FieldStatus.Hit;
-        const state = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
-            battleField.shooting = shooting;
-        });
+        const state = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting });
         const stateBefore = str(state);
-        const action = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
-            battleField.status = status;
-        });
+
+        // State from server (firestore update):
+        const result = FieldStatus.Hit;
+        const action = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting, result });
         const actionBefore = str(action);
+
+        // Apply state from server
         const board = BattleMethods.updateBoardWithBoard(state, action);
+
+        // Assert
         expect(stateBefore).toBe(str(state));
         expect(actionBefore).toBe(str(action));
-        const reference = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
-            battleField.status = status;
-            battleField.shooting = shooting;
-        });
+        const reference = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting, result });
         expect(str(board)).toBe(str(reference));
     });
 
-    it('reduce BattleBoard with action (Unknown -> Miss)', () => {
+    it('shoot and miss', () => {
         const x = 0;
         const y = 0;
+
+        // State after shot is fired
         const shooting = true;
-        const status = FieldStatus.Miss;
-        const state = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
-            battleField.shooting = shooting;
-        });
+        const state = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting });
         const stateBefore = str(state);
-        const action = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
-            battleField.status = status;
-        });
+
+        // State from server (firestore update)
+        const result = FieldStatus.Miss;
+        const action = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting, result });
         const actionBefore = str(action);
+
+        // Apply state from server:
         const board = BattleMethods.updateBoardWithBoard(state, action);
+
+        // Assert
         expect(stateBefore).toBe(str(state));
         expect(actionBefore).toBe(str(action));
-        const reference = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
-            battleField.status = status;
-            battleField.shooting = shooting;
-        });
+        const reference = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting, result });
         expect(str(board)).toBe(str(reference));
     });
 
-    it('reduce BattleBoard with shooting field', () => {
+    it('start shooting', () => {
         const x = 0;
         const y = 0;
-        const state = createBattleBoard(refWidth, refHeight, true, { x, y }, null);
+        const state = createBattleBoard(refWidth, refHeight, true, null);
         const stateBefore = str(state);
         const action = state.rows[y].fields[x];
-        const board = BattleMethods.updateBoardWithShootingField(state, action);
+        const board = BattleMethods.updateBoardWithFieldIsShooting(state, action, true);
         expect(stateBefore).toBe(str(state));
-        const reference = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
-            battleField.shooting = true;
-        });
+        const reference = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting: true });
         expect(str(board)).toBe(str(reference));
     });
 
-    it('reduce BattleBoard with shooting field reset', () => {
+    it('shooting complete (but waiting for result)', () => {
         const x = 0;
         const y = 0;
-        const state = createBattleBoard(refWidth, refHeight, true, { x, y }, (battleField: BattleField) => {
-            battleField.shooting = true;
-        });
+        const state = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting: true });
         const stateBefore = str(state);
         const action = state.rows[y].fields[x];
-        const board = BattleMethods.updateBoardWithShootingFieldReset(state, action);
+        const board = BattleMethods.updateBoardWithFieldIsShooting(state, action, false);
         expect(stateBefore).toBe(str(state));
-        const reference = createBattleBoard(refWidth, refHeight, true, { x, y }, null);
+        const reference = createBattleBoard(refWidth, refHeight, true, { target: { x, y }, shooting: false, awaitingResult: true });
         expect(str(board)).toBe(str(reference));
     });
 
