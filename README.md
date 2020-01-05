@@ -96,6 +96,7 @@ ng serve -c=dev2
 - State Management mit NGXS
 - Mehrsprachigkeit mit NGX-Translate
 - Fehlerbehandlung, Anzeige im UI
+- Angular Material und Flex Layout
 
 ### Backend-Konzept
 
