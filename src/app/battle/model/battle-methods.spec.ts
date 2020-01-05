@@ -6,7 +6,7 @@ import { Pos } from '@cloud-api/geometry';
 interface Move {
     target: Pos;
     shooting: boolean;
-    result?: FieldStatus
+    result?: FieldStatus;
 }
 
 function createBattleBoard(width: number, height: number, canShoot: boolean, move: Move): BattleBoard {

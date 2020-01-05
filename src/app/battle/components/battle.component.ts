@@ -87,7 +87,7 @@ export class BattleComponent implements OnInit, OnDestroy {
             this.notification.quickToast2('battle.message.yourTurn');
         } else if (this.ownBoard.canShoot) {
             this.notification.quickToast2('battle.message.oppTurn',
-                { opponentName: this.opponentInfo.displayName })
+                { opponentName: this.opponentInfo.displayName });
         }
     }
 

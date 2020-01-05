@@ -12,7 +12,7 @@ export class OwnBoardComponent {
 
     @Output()
     uncovered = new EventEmitter<BattleField>();
-    
+
     onUncovered(field: BattleField): void {
         this.uncovered.emit(field);
     }
