@@ -74,10 +74,10 @@
         "opponentBoard": "{{ opponentName }}'s board",
         "opponentBoardYourTurn": " - aim and shoot!",
         "yourBoard": "Your board",
-        "yourBoardOpponentTurn": " - {{ opponentName }} aiming",
+        "yourBoardOpponentTurn": " - {{ opponentName }} is aiming...",
         "button": {
             "capitulate": "Capitulate",
-            "capitulateTooltip": "If you do this, the game ends immediately with your opponent winning"
+            "capitulateTooltip": "If you do so, the game will end and your opponent will be the winer"
         },
         "message": {
             "miss": "🐳 Miss. {{ opponentName }}'s turn",
@@ -153,23 +153,19 @@
             "waitingPlayers": "Could not load waiting players"
         },
         "message": {
-            "noWaitingPlayers": "Currently no opponents ready for the battle",
+            "noWaitingPlayers": "Currently no opponents are ready for the battle",
             "opponentIsChallengingYou": "{{opponentName}} is challenging you",
             "pleaseWaitForOpponent": "Please wait for {{opponentName}} to start the battle"
         },
         "title": "Find opponent"
     },
     "preparation": {
-        "body": "Position the ships on the board",
+        "body": "Place the ships on the board",
         "dialog": {
             "body": "Your data will get lost!",
             "title": "Warning"
         },
         "error": "Could not save ship positions",
-        "status": {
-            "nokLabel": "Not ok:",
-            "okLabel": "Ok:"
-        },
         "title": "Prepare for the battle"
     },
     "user": {

@@ -72,7 +72,7 @@
     "battle": {
         "title": "Seeschlacht",
         "opponentBoard": "Spielfeld von {{opponentName}}",
-        "opponentBoardYourTurn": " - zielen und schiessen",
+        "opponentBoardYourTurn": " - zielen und schiessen!",
         "yourBoard": "Dein Spielfeld",
         "yourBoardOpponentTurn": " - {{ opponentName }} zielt...",
         "button": {
@@ -141,7 +141,7 @@
         "button": {
             "add": "Herausfordern",
             "cancel": "Spiel beenden",
-            "cancelTooltip": "Deine Schiffe gehen zurück zum Hafen",
+            "cancelTooltip": "Deine Schiffe fahren zurück zum Hafen",
             "remove": "Abbrechen",
             "start": "Schlacht beginnen"
         },
@@ -155,24 +155,18 @@
         "message": {
             "noWaitingPlayers": "Aktuell sind keine Gegner zur Schlacht bereit",
             "opponentIsChallengingYou": "{{opponentName}} fordert dich heraus",
-            "pleaseWaitForOpponent": "Bitte warten, bis {{opponentName}} die Schlacht beginnt"
+            "pleaseWaitForOpponent": "Bitte warten, bis {{opponentName}} die Schlacht eröffnet"
         },
         "title": "Gegner finden"
     },
     "preparation": {
-        "board": "Spielfeld",
-        "body": "Schiffe auf dem Spielfeld aufstellen",
+        "body": "Schiffe auf dem Spielfeld positionieren",
         "dialog": {
-            "body": "Du verlierst deine Daten!",
+            "body": "Du verlierst deine Aufstellung",
             "title": "Warnung"
         },
         "error": "Aufstellung konnte nicht gespeichert werden",
-        "status": {
-            "nokLabel": "Nicht ok:",
-            "okLabel": "Ok:"
-        },
-        "title": "Schlacht vorbereiten",
-        "yard": "Werft"
+        "title": "Schlacht vorbereiten"
     },
     "user": {
         "profile": {
