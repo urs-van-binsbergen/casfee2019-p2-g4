@@ -35,11 +35,14 @@
                         <mat-spinner *ngIf="waiting" diameter="22" style="display: inline-block"></mat-spinner>
                     </div>
                 </div>
-                <p>
-                    <a routerLink="../register" translate>auth.login.registerLink</a>
-                    |
-                    <a routerLink="../reset-password" translate="">auth.login.forgotPasswordLink</a>
-                </p>
+                <div class="button-row">
+                    <button mat-button routerLink="../register" translate>
+                        {{ 'auth.login.registerLink' | translate }}
+                    </button>
+                    <button mat-button routerLink="../reset-password" translate="">
+                        {{ 'auth.login.forgotPasswordLink' | translate }}
+                    </button>
+                </div>
             </mat-card-content>
         </mat-card>
     </form>

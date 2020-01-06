@@ -1,5 +1,16 @@
 @import '../../../shared/colors.scss';
 
+div {
+    -webkit-tap-highlight-color: transparent;
+    /* 
+        https://stackoverflow.com/questions/3516173/ipad-safari-how-to-disable-the-quick-blinking-effect-when-a-link-has-been-hit 
+        Otherwise IOS Safari lets the field blink when tapping, because a click handler exists.
+        Even if the handler does not do anything (returning false, void or whatever does not
+        help, and ng does not seem to offer a straightforward way to add the click handler 
+        conditionally). 
+    */
+}
+
 .is-covered, .is-shooting, .is-uncovering-hit, .is-uncovering-miss {
     width: 100%;
     height: 100%;
@@ -13,6 +24,7 @@
 .can-shoot:hover {
     opacity: 0.8;
 }
+
 
 @keyframes shake {
     10%, 90% {transform: translate3d(-1px, 0, 0);}

@@ -34,14 +34,6 @@
     background-color: $color-field-hit;
 }
 
-.active-field {
-    cursor: pointer;
-
-    &:hover {
-        background-color: yellow;
-    }
-}
-
 .ship {
     position: absolute;
 }

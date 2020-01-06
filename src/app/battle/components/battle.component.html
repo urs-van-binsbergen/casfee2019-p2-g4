@@ -8,6 +8,7 @@
     <div *ngIf="!loading" fxLayout="column" fxLayoutGap="1.5rem grid">
 
         <div fxLayout="row wrap" fxLayoutGap="8px grid" fxLayoutAlign="start center">
+            <!-- Spielfeld des Gegners -->
             <div class="opponent-container" fxFlex="0 0 auto">
                 <div *ngIf="opponentInfo" class="opponent-board-label" [class.active-label]="myTurn">
                     <span translate [translateParams]="{ opponentName: opponentInfo.displayName }">battle.opponentBoard</span>
@@ -18,6 +19,7 @@
                         (uncovered)="onUncovered($event)"></app-target-board>
                 </div>
             </div>
+            <!-- Eigenes Spielfeld -->
             <div class="own-board-container" fxFlex="0 0 auto">
                 <div class="own-board-label" [class.active-label]="opponentTurn">
                     <span translate>battle.yourBoard</span>

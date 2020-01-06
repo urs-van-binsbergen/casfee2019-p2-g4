@@ -80,7 +80,7 @@
             "capitulateTooltip": "Wenn du kapitulierst, wird das Spiel beendet und dein Gegner ist der Sieger"
         },
         "message": {
-            "miss": "🐳 Daneben. {{ opponentName }} ist am Zug",
+            "miss": "Daneben. {{ opponentName }} ist am Zug",
             "hit": "🤣 Treffer! Du bist am Zug",
             "sunk": "🤣🤣 Schiff versenkt! Du bist am Zug",
             "yourTurn": "Du bist am Zug",
