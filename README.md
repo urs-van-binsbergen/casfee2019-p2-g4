@@ -95,7 +95,7 @@ ng serve -c=dev2
 
 - State Management mit NGXS
 - Mehrsprachigkeit mit NGX-Translate
-- Angular Material und Flex Layout
+- Angular Material, Angular Flex Layout
 
 ### Backend-Konzept
 
@@ -119,8 +119,8 @@ ng serve -c=dev2
 - Admin-Modul (ist teilweise ersetzbar durch die in Firebase eingebauten Admin-Tools)
 - Zeitbeschränkung pro Spielzug  
   Dies Funktion wäre im echten Produkt zwingend. Sonst kann ein Spieler seinen Gegner 
-  durch absichtliche oder auch desinteressierte Inaktivität zur Niederlage zwingen.
-  Denn dieser muss in der Folge kapitulieren, um ein neues Spiel anfangen zu können.
+  durch Inaktivität zur Niederlage zwingen: denn dieser muss in der Folge kapitulieren, 
+  um ein neues Spiel anfangen zu können.
 
 #### Optimierungspotential der aktuellen Lösung
 
@@ -128,7 +128,7 @@ Usability Issues
 - Platzierung der Schiffe ist speziell auf Mobilgeräten etwas hakelig
 - Einen Gegner zu finden ist nicht ganz einfach - man muss sich praktisch
   ausserhalb des Games verabreden. 
-    - Einerseits fehlt eine _Kritischen Masse_ von Spielern, so dass man jederzeit
+    - Einerseits fehlt eine _Kritische Masse_ von Spielern, so dass man jederzeit
       einen Gegner finden kann.
     - Sinnvoll wäre dementsprechend die Möglichkeit, bei Abwesenheit menschlicher Gegner gegen 
       einen Bot spielen zu können. 
@@ -137,11 +137,11 @@ Usability Issues
         - Lösung: implizites und/oder explizites Online-Tracking (vergleiche entsprechende
           Lösungen bei Chat/Phone-Applikationen). Ggf. auch Push-Meldungen "Dein herausgeforderter
           Gegner XY ist jetzt online".
+- Error Handling: Wir haben zwar dafür gesorgt, dass etliche Fehler abgefangen und im UI kommunziert werden, 
+  aber typische Zustände wie z.B. "Kein Netz", sind nur teilweise behandelt.
 
 Technische Issues
 - Modulstruktur (weniger Module, trennen zwischen Feature- und Service-Modulen, bzw. keine
   Cross-Dependencies zwischen Feature-Modulen)
 - Redux/NGXS noch konsequenter einsetzen (einige Module haben parallel ein relativ aufwändiges inneres
   State Tracking, z.B. Battle)
-- Error Handling: Wir haben zwar einiges in das Abfangen und Kommunizierne und von Fehlern investiert, 
-  aber typische Zustände wie z.B. "Kein Netz", sind nur teilweise behandelt.
