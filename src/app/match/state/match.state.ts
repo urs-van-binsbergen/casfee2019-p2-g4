@@ -80,7 +80,7 @@ export class MatchState {
 
     @Action(UpdateMatch)
     UpdateWaitingPlayers(ctx: StateContext<MatchStateModel>, action: UpdateMatch) {
-        const uid = this.store.selectSnapshot(AuthState.authUser).uid;
+        const uid = this.store.selectSnapshot(AuthState.authUid);
         ctx.patchState({ loading: false, uid, waitingPlayers: action.waitingPlayers });
     }
 

@@ -28,6 +28,7 @@ import { LanguageModule } from './language/language.module';
 import { PageNotFoundComponent } from './shared/page-not-found.component';
 import { BackendModule } from './backend/backend.module';
 import { GameModule } from './game/game.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 registerLocaleData(localeDeCh);
 
@@ -67,7 +68,8 @@ registerLocaleData(localeDeCh);
         AuthModule,
         LanguageModule,
         BackendModule,
-        GameModule
+        GameModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [
         { provide: FUNCTIONS_REGION, useValue: 'europe-west2' },

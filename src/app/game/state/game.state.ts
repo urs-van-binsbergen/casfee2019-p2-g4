@@ -103,10 +103,10 @@ export class GameState {
         if (!(this._unbind$)) {
             ctx.patchState({ loading: true });
             this._unbind$ = new Subject<void>();
-            this.store.select(AuthState.authUser).pipe(
-                switchMap((authUser: AuthUser) => {
-                    if (authUser && authUser.uid) {
-                        return this.cloudData.getPlayer$(authUser.uid).pipe(
+            this.store.select(AuthState.authUid).pipe(
+                switchMap((authUid: string) => {
+                    if (authUid) {
+                        return this.cloudData.getPlayer$(authUid).pipe(
                             tap((player: Player) => {
                                 ctx.dispatch(new UpdateGame(player, false));
                             }),

@@ -51,7 +51,7 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     private selectUser() {
-        let oldUid: string = null;
+        let oldUid: string;
         this.store.select(AuthState.user)
             .pipe(
                 takeUntil(this.destroy$),
@@ -59,15 +59,14 @@ export class UserComponent implements OnInit, OnDestroy {
                     if (!userData) {
                         this.level = null;
                         this.myBattleList = null;
-                        return;
+                        oldUid = undefined;
+                    } else {
+                        this.level = PlayerLevel[userData.level];
+                        if (userData.uid !== oldUid) {
+                            this.loadMyBattleList(userData.uid);
+                        }
+                        oldUid = userData.uid;
                     }
-
-                    this.level = PlayerLevel[userData.level];
-                    if (userData.uid !== oldUid) {
-                        this.loadMyBattleList(userData.uid);
-                    }
-
-                    oldUid = userData.uid;
                 }),
             )
             .subscribe();
@@ -87,8 +86,7 @@ export class UserComponent implements OnInit, OnDestroy {
             })
             .catch(error => {
                 this.myBattleList = { battles: [], isLoadFailure: true, isLoadingDone: true };
-                const errorMsg = this.translate.instant('common.error.apiReadError', { errorDetail: error });
-                this.notification.quickToast(errorMsg, 2000);
+                this.notification.quickErrorToast('common.error.apiReadError', { errorDetail: error });
             })
             ;
     }

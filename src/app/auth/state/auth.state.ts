@@ -1,13 +1,16 @@
-import { Action, NgxsOnInit, Selector, State, StateContext, Store } from '@ngxs/store';
-import * as AuthActions from './auth.actions';
-import { map, takeUntil, first, tap } from 'rxjs/operators';
-import { AuthService, AuthUser } from '../auth.service';
+import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
+import { EMPTY } from 'rxjs';
+import { map, tap, switchMap, distinctUntilChanged, catchError } from 'rxjs/operators';
+import { User } from '@cloud-api/core-models';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
-import { User } from '@cloud-api/core-models';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { AuthService, AuthUser } from '../auth.service';
+import * as AuthActions from './auth.actions';
 
 
 export interface AuthStateModel {
+    authUid: string | null;
     authUser: AuthUser | null;
     user: User | null; // (db doc, contains more details like player level)
 
@@ -62,6 +65,7 @@ export interface SendPasswordMailResult {
 @State<AuthStateModel>({
     name: 'auth',
     defaults: {
+        authUid: null,
         authUser: null,
         user: null
     }
@@ -69,6 +73,10 @@ export interface SendPasswordMailResult {
 
 export class AuthState implements NgxsOnInit {
 
+    @Selector()
+    public static authUid(state: AuthStateModel): string {
+        return state.authUid;
+    }
     @Selector()
     public static authUser(state: AuthStateModel): AuthUser {
         return state.authUser;
@@ -110,28 +118,50 @@ export class AuthState implements NgxsOnInit {
     }
 
     constructor(
-        private store: Store,
         private authService: AuthService,
         private cloudFunctions: CloudFunctionsService,
-        private cloudData: CloudDataService
+        private cloudData: CloudDataService,
+        private notification: NotificationService
     ) {
         // Why cloud services in the auth state? Because db user data handling
-        // is included here for reasons of simplicity)
+        // is included here for reasons of simplicity.
     }
 
     ngxsOnInit(ctx: StateContext<AuthStateModel>) {
         ctx.dispatch(new AuthActions.ObserveAuthUser());
     }
 
-    @Action(AuthActions.ObserveAuthUser, { cancelUncompleted: true })
+    @Action(AuthActions.ObserveAuthUser)
     observeAuthUser(ctx: StateContext<AuthStateModel>) {
         return this.authService.authUser$().pipe(
             tap(authUser => {
-                if (authUser) {
-                    ctx.dispatch(new AuthActions.AuthUserChanged(authUser));
+                ctx.dispatch(new AuthActions.AuthUserChanged(authUser));
+            }),
+            map(authUser => authUser ? authUser.uid : null),
+            distinctUntilChanged(),
+            tap(uid => {
+                ctx.dispatch(new AuthActions.AuthUidChanged(uid));
+            }),
+            switchMap(uid => {
+                if (uid) {
+                    return this.cloudData.getUser$(uid)
+                        .pipe(
+                            tap(user => {
+                                ctx.dispatch(new AuthActions.UserUpdated(user));
+                            }),
+                            catchError(err => {
+                                this.notification.quickErrorToast('common.error.apiReadError', { errorDetail: err });
+                                return EMPTY;
+                            })
+                        );
                 } else {
                     ctx.dispatch(new AuthActions.Unauthenticated());
+                    return EMPTY;
                 }
+            }),
+            catchError(err => {
+                this.notification.quickErrorToast('common.error.genericError', { errorDetail: err });
+                return EMPTY;
             })
         );
     }
@@ -139,34 +169,22 @@ export class AuthState implements NgxsOnInit {
     @Action(AuthActions.AuthUserChanged)
     authUserChanged(ctx: StateContext<AuthStateModel>, action: AuthActions.AuthUserChanged) {
         ctx.patchState({ authUser: action.authUser });
-        ctx.dispatch(new AuthActions.ObserveUser(action.authUser.uid));
+    }
+
+    @Action(AuthActions.AuthUidChanged)
+    authUidChanged(ctx: StateContext<AuthStateModel>, action: AuthActions.AuthUidChanged) {
+        ctx.patchState({ authUid: action.authUid });
     }
 
     @Action(AuthActions.Unauthenticated)
     unauthenticated(ctx: StateContext<AuthStateModel>) {
-        ctx.setState({ authUser: null, user: null });
-    }
-
-    @Action(AuthActions.ObserveUser, { cancelUncompleted: true })
-    observeUser(ctx: StateContext<AuthStateModel>, action: AuthActions.ObserveUser) {
-        return this.cloudData.getUser$(action.uid)
-            .pipe(
-                takeUntil(this.store.select(AuthState.authUser)
-                    .pipe(
-                        first(authUser => !authUser)
-                    )
-                ),
-                map(user => {
-                    return ctx.dispatch(new AuthActions.UserUpdated(user));
-                })
-            );
+        ctx.setState({ authUid: null, authUser: null, user: null });
     }
 
     @Action(AuthActions.UserUpdated)
     userUpdated(ctx: StateContext<AuthStateModel>, action: AuthActions.UserUpdated) {
         ctx.patchState({ user: action.user });
     }
-
 
     @Action(AuthActions.Login)
     async login(ctx: StateContext<AuthStateModel>, action: AuthActions.Login) {

@@ -86,21 +86,11 @@ mat-card.small-form {
     }
 }
 
-/* Vertical inset */
-.inset-v-1 {
-    margin-top: 16px;
-    margin-bottom: 16px;
-}
-
-/* Horizontal inset */
-.inset-h-1 {
-    margin-left: 16px;
-    margin-right: 16px;
-}
-
-.inset-1 {
-    @extend .inset-v-1,
-    .inset-h-1
+// Prevent IPhone Auto Zoom for form elements
+input[type="text"], 
+input[type="email"], 
+input[type="password"] {
+    font-size: 16px;
 }
 
 

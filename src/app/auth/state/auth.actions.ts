@@ -11,14 +11,14 @@ export class AuthUserChanged {
     constructor(public authUser: AuthUser) { }
 }
 
+export class AuthUidChanged {
+    static readonly type = '[auth] auth uid changed';
+    constructor(public authUid: string) { }
+}
+
 export class Unauthenticated {
     static readonly type = '[auth] unauthenticated';
     constructor() { }
-}
-
-export class ObserveUser {
-    static readonly type = '[auth] observe user';
-    constructor(public uid: string) { }
 }
 
 export class UserUpdated {

@@ -58,19 +58,15 @@ export class UpdateProfileComponent implements OnInit {
 
                     if (result.success) {
                         if (!result.profileUpdateSuccess) {
-                            const msg = this.translate.instant('user.updateProfile.error.incompleteSave');
-                            this.notification.toastToConfirm(msg);
+                            this.notification.errorToast('user.updateProfile.error.incompleteSave');
                         } else {
-                            const msg = this.translate.instant('user.updateProfile.successMessage');
-                            this.notification.quickToast(msg, 1000);
+                            this.notification.quickToast('user.updateProfile.successMessage');
                         }
                         this.router.navigateByUrl('/user');
                         return;
+                    } else {
+                        this.notification.errorToast('common.error.apiWriteError', { errorDetail: result.error });
                     }
-
-                    // Error
-                    const errorMsg = this.translate.instant('common.error.apiWriteError', { errorDetail: result.error });
-                    this.notification.toastToConfirm(errorMsg);
                 })
             ).subscribe();
     }

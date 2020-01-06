@@ -93,7 +93,7 @@ export class AuthService {
             if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
                 return { success: false, badCredentials: true };
             } else {
-                return { success: false, otherError: `${error.message} (${error.code})` };
+                return { success: false, otherError: error.toString() };
             }
         }
     }
@@ -103,7 +103,7 @@ export class AuthService {
             await this.afAuth.auth.signOut();
             return { success: true };
         } catch (error) {
-            return { success: false, error: `${error.message} (${error.code})` };
+            return { success: false, error: error.toString() };
         }
     }
 
@@ -119,7 +119,7 @@ export class AuthService {
             if (error.code === 'auth/invalid-email') {
                 return { success: false, invalidEmail: true };
             } else {
-                return { success: false, otherError: `${error.message} (${error.code})` };
+                return { success: false, otherError: error.toString() };
             }
         }
     }
@@ -130,7 +130,7 @@ export class AuthService {
             this.updateProfileImpl(firebaseUser, displayName);
             return { success: true };
         } catch (error) {
-            return { success: false, error: `${error.message} (${error.code})` };
+            return { success: false, error: error.toString() };
         }
     }
 
@@ -150,7 +150,7 @@ export class AuthService {
             if (error.code === 'auth/wrong-password') {
                 return { success: false, wrongPassword: true };
             } else {
-                return { success: false, otherError: `${error.message} (${error.code})` };
+                return { success: false, otherError: error.toString() };
             }
         }
     }
@@ -166,7 +166,7 @@ export class AuthService {
             if (error.code === 'auth/user-not-found') {
                 return { success: false, userNotFound: true };
             } else {
-                return { success: false, otherError: `${error.message} (${error.code})` };
+                return { success: false, otherError: error.toString() };
             }
         }
     }

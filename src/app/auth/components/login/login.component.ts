@@ -45,17 +45,15 @@ export class LoginComponent implements OnInit, OnDestroy {
                     this.waiting = false;
 
                     if (result.success) {
-                        const msg = this.translate.instant('auth.login.successMessage');
-                        this.notification.quickToast(msg, 1000);
+                        this.notification.quickToast('auth.login.successMessage');
                         this.redirect.redirectToNext('/user');
                         return;
+                    } else {
+                        const key = result.badCredentials ?
+                            'auth.login.error.badCredentials' :
+                            'common.error.genericError';
+                        this.notification.errorToast(key, { errorDetail: result.otherError });
                     }
-
-                    // Error
-                    const errorMsg = result.badCredentials ?
-                        this.translate.instant('auth.login.error.badCredentials') :
-                        this.translate.instant('common.error.genericError', { errorDetail: result.otherError });
-                    this.notification.toastToConfirm(errorMsg);
                 })
             )
             .subscribe();

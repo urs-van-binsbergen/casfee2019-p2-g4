@@ -94,7 +94,7 @@
         },
         "error": {
             "contentNotLoaded": "Inhalt konnte nicht geladen werden",
-            "genericError": "Fehler: {{errorDetail}}",
+            "genericError": "{{errorDetail}}",
             "apiReadError": "Fehler beim Lesen der Daten vom Server: {{errorDetail}}",
             "apiWriteError": "Fehler beim Übermitteln der Daten zum Server: {{errorDetail}}"
         },

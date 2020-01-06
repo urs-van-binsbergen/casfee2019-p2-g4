@@ -6,7 +6,7 @@
             <mat-card-content>
                 <p>
                     <mat-form-field>
-                        <input matInput formControlName="username" required
+                        <input matInput type="email" formControlName="username" required
                             placeholder="{{'auth.login.username' | translate}}" autocomplete="username" />
                         <mat-error *ngIf="username.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="username.errors.required" translate>common.message.fieldRequired</div>
@@ -17,7 +17,7 @@
                 </p>
                 <p>
                     <mat-form-field>
-                        <input matInput formControlName="password" required type="password" autocomplete="current-password"
+                        <input matInput type="password" formControlName="password" required autocomplete="current-password"
                             placeholder="{{'auth.login.password' | translate}}" />
                         <mat-error *ngIf="password.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="password.errors.required" translate>common.message.fieldRequired</div>
