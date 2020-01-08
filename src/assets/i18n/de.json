@@ -71,10 +71,24 @@
     },
     "battle": {
         "title": "Seeschlacht",
-        "pleaseShoot": "Du kannst jetzt schiessen",
-        "waitingForOpponent": "Gegner wird demnächst schiessen...",
-        "sBoard": " Spielfeld",
-        "yourBoard": "Dein Spielfeld"
+        "opponentBoard": "Spielfeld von {{opponentName}}",
+        "opponentBoardYourTurn": " - zielen und schiessen!",
+        "yourBoard": "Dein Spielfeld",
+        "yourBoardOpponentTurn": " - {{ opponentName }} zielt...",
+        "button": {
+            "capitulate": "Kapitulieren",
+            "capitulateTooltip": "Wenn du kapitulierst, wird das Spiel beendet und dein Gegner ist der Sieger"
+        },
+        "message": {
+            "miss": "Daneben. {{ opponentName }} ist am Zug",
+            "hit": "🤣 Treffer! Du bist am Zug",
+            "sunk": "🤣🤣 Schiff versenkt! Du bist am Zug",
+            "yourTurn": "Du bist am Zug",
+            "oppMiss": "🍀 Glück gehabt! Du bist am Zug",
+            "oppHit": "😡 Dein Schiff wurde getroffen",
+            "myShipSunk": "😡😡 Du verlierst ein Schiff",
+            "oppTurn": "{{ opponentName }} ist am Zug"
+        }
     },
     "button": {
         "battle": "Schlacht",
@@ -124,36 +138,35 @@
         "title": "Siegergalerie"
     },
     "match": {
-        "body": "Wähle deinen Gegner",
+        "button": {
+            "add": "Herausfordern",
+            "cancel": "Spiel beenden",
+            "cancelTooltip": "Deine Schiffe fahren zurück zum Hafen",
+            "remove": "Abbrechen",
+            "start": "Schlacht beginnen"
+        },
         "error": {
-            "add": "Die Herausforderung konnte nicht gemacht werden.",
-            "cancel": "Das Spiel konnte nicht abgebrochen werden.",
-            "remove": "Die Herausforderung konnte nicht entfernt werden.",
-            "waitingPlayers": "Es können keine Herausforderungen gemacht werden."
+            "add": "Die Herausforderung konnte nicht übermittelt werden",
+            "cancel": "Das Spiel konnte nicht abgebrochen werden",
+            "remove": "Die Herausforderung konnte nicht entfernt werden",
+            "start": "Die Schlacht konnte nicht gestartet werden",
+            "waitingPlayers": "Die Liste der wartenden Spieler konnte nicht geladen werden"
         },
-        "title": "Herausforderung",
-        "item": {
-            "accept": "Herausforderung annehmen",
-            "challenged": "Gegner herausfordern",
-            "challenging": "Gegner fordert dich heraus"
+        "message": {
+            "noWaitingPlayers": "Aktuell sind keine Gegner zur Schlacht bereit",
+            "opponentIsChallengingYou": "{{opponentName}} fordert dich heraus",
+            "pleaseWaitForOpponent": "Bitte warten, bis {{opponentName}} die Schlacht eröffnet"
         },
-        "cancelButton": "Abbrechen",
-        "messageNobodyHere": "Leider sind noch keine Gegner zur Schlacht bereit"
+        "title": "Gegner finden"
     },
     "preparation": {
-        "board": "Brett",
-        "body": "Alle Schiffe von der Werft auf das Brett ziehen. Schiffe auf dem Brett beliebig repositionieren. Klick auf den Turm des Schiffs rotiert um 90°.",
+        "body": "Schiffe auf dem Spielfeld positionieren",
         "dialog": {
-            "body": "Du verlierst deine Daten!",
+            "body": "Du verlierst deine Aufstellung",
             "title": "Warnung"
         },
-        "error": "Deine Vorbereitung konnte nicht gemacht werden.",
-        "status": {
-            "nokLabel": "Nicht ok:",
-            "okLabel": "Ok:"
-        },
-        "title": "Vorbereitung",
-        "yard": "Werft"
+        "error": "Aufstellung konnte nicht gespeichert werden",
+        "title": "Schlacht vorbereiten"
     },
     "user": {
         "profile": {

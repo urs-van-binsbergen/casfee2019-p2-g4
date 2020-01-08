@@ -24,6 +24,7 @@
     position: absolute;
     opacity: 0.5;
     cursor: move;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .ship:hover {
@@ -53,7 +54,7 @@
 $opacityLow: 0.25;
 $opacityHigh: 0.5;
 
-@keyframes opatcity {
+@keyframes animation-not-ok {
     0% {
         opacity: $opacityHigh;
     }
@@ -68,12 +69,15 @@ $opacityHigh: 0.5;
 }
 
 .is-not-ok {
-    animation-name: opatcity;
+    animation-name: animation-not-ok;
     animation-duration: 2s;
     animation-iteration-count: infinite;
 }
 
+/* Zentrum eines Schiffs (Zentrum, Drehpunkt) */
 .center {
     position: absolute;
-    background-color: black;
+    border:1px solid black;
+    border-radius: 50%;
+    pointer-events: none; /* (Events an Schiff durchreichen) */
 }

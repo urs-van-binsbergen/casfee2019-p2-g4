@@ -71,10 +71,24 @@
     },
     "battle": {
         "title": "Battle",
-        "pleaseShoot": "Please shoot now",
-        "waitingForOpponent": "Waiting for opponent",
-        "sBoard": "'s board",
-        "yourBoard": "Your board"
+        "opponentBoard": "{{ opponentName }}'s board",
+        "opponentBoardYourTurn": " - aim and shoot!",
+        "yourBoard": "Your board",
+        "yourBoardOpponentTurn": " - {{ opponentName }} is aiming...",
+        "button": {
+            "capitulate": "Capitulate",
+            "capitulateTooltip": "If you do so, the game will end and your opponent will be the winer"
+        },
+        "message": {
+            "miss": "Miss. {{ opponentName }}'s turn",
+            "hit": "😂 Hit! Your turn",
+            "sunk": "🤣🤣 Ship sunk! Your turn",
+            "yourTurn": "Your turn",
+            "oppMiss": "🍀 Lucky! Your turn",
+            "oppHit": "😡 One of your ship was hit",
+            "myShipSunk": "😡😡 You loose a ship",
+            "oppTurn": "{{ opponentName }}'s turn"
+        }
     },
     "button": {
         "battle": "Battle",
@@ -124,36 +138,35 @@
         "title": "Hall of Fame"
     },
     "match": {
-        "body": "Choose your opponent",
+        "button": {
+            "add": "Challenge",
+            "cancel": "Quit game",
+            "cancelTooltip": "Your ships will navigate back to the yard",
+            "remove": "Cancel",
+            "start": "Start battle"
+        },
         "error": {
-            "add": "Could not add challenge.",
-            "cancel": "Could not cancel game.",
-            "remove": "Could not remove challenge.",
-            "waitingPlayers": "No challenges can be made."
+            "add": "Could not add challenge",
+            "cancel": "Could not cancel game",
+            "remove": "Could not remove challenge",
+            "start": "Could not start battle",
+            "waitingPlayers": "Could not load waiting players"
         },
-        "title": "Opponent Match",
-        "item": {
-            "accept": "Accept challenge",
-            "challenged": "Challenge opponent",
-            "challenging": "Opponent is challenging you"
+        "message": {
+            "noWaitingPlayers": "Currently no opponents are ready for the battle",
+            "opponentIsChallengingYou": "{{opponentName}} is challenging you",
+            "pleaseWaitForOpponent": "Please wait for {{opponentName}} to start the battle"
         },
-        "cancelButton": "Cancel",
-        "messageNobodyHere": "No one is ready to battle against you. Please wait."
+        "title": "Find opponent"
     },
     "preparation": {
-        "board": "Board",
-        "body": "Drag all ships from the yard and drop them to the board. Drag and drop ships on the board to reposition. Click on the ship's tower to rotate 90°.",
+        "body": "Place the ships on the board",
         "dialog": {
             "body": "Your data will get lost!",
             "title": "Warning"
         },
-        "error": "Could not add preparation.",
-        "status": {
-            "nokLabel": "Not ok:",
-            "okLabel": "Ok:"
-        },
-        "title": "Preparation",
-        "yard": "Yard"
+        "error": "Could not save ship positions",
+        "title": "Prepare for the battle"
     },
     "user": {
         "profile": {

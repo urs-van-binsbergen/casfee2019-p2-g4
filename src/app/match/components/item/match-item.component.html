@@ -1,9 +1,34 @@
-<div class="item mat-typography mat-card">
-    <div class="avatar">Avatar</div>
-    <div class="name">{{item.opponentName}}</div>
-    <mat-checkbox [ngModel]="item.isOpponentChallenged" (ngModelChange)="onChallengeChange($event)"
-        class="opponent-is-challenged">
-        <span *ngIf="item.isOpponentChallenging" class="challenging">{{'match.item.accept' | translate}}</span>
-        <span *ngIf="!item.isOpponentChallenging">{{'match.item.challenged' | translate}}</span>
-    </mat-checkbox>
-</div>
+<mat-card class="item mat-typography" fxFlex="0 0 300px" fxFlex.xs="0 0 100%" fxLayout="row"
+    fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+    <div fxFlex="0 0 auto">
+        <div class="avatar">Avatar</div>
+    </div>
+    <div fxFlex="1 1 auto" fxLayout="column" fxLayoutGap="0.5rem">
+        <div class="name">{{item.opponentName}}</div>
+        <div>
+            <div *ngIf="item.isOpponentChallenged" class="message--challenging">
+                {{ 'match.message.pleaseWaitForOpponent' | translate:{opponentName: item.opponentName} }}
+            </div>
+            <div *ngIf="item.isOpponentChallenging" class="message--challenged">
+                {{ 'match.message.opponentIsChallengingYou' | translate:{opponentName: item.opponentName} }}
+            </div>
+        </div>
+        <div class="buttons" fxLayout="row wrap" fxLayoutGap="1rem" fxLayoutAlign="start center">
+            <button *ngIf="!item.isOpponentChallenged && !item.isOpponentChallenging" mat-raised-button color="primary"
+                (click)="onChallengeClick()" [disabled]="isChangingChallenge">
+                {{ 'match.button.add' | translate }}
+            </button>
+            <button *ngIf="item.isOpponentChallenged" mat-raised-button (click)="onUnchallengeClick()"
+                [disabled]="isChangingChallenge">
+                {{ 'match.button.remove' | translate }}
+            </button>
+            <button *ngIf="item.isOpponentChallenging" mat-raised-button color="primary" (click)="onChallengeClick()"
+                [disabled]="isChangingChallenge">
+                {{ 'match.button.start' | translate }}
+            </button>
+            <div class="spinner-cell" *ngIf="isChangingChallenge">
+                <mat-spinner *ngIf="true" diameter="22" style="display: inline-block"></mat-spinner>
+            </div>
+        </div>
+    </div>
+</mat-card>

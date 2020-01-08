@@ -4,9 +4,9 @@ import { Pos } from '@cloud-api/geometry';
 import { Observable, Subject } from 'rxjs';
 
 const delay = 250;
-const shipOpacityDragging = 0.75;
-const shipOpacityPlaced = 0.5;
-const fieldOpacityEntered = 0.25;
+const shipOpacityDragging = 0.9;
+const shipOpacityPlaced = 0.75;
+const fieldOpacityEntered = 0;
 const fieldOpacityLeft = 1.0;
 
 enum ClickState {

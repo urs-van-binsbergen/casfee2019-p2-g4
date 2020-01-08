@@ -1,5 +1,5 @@
 import { Action, State, Selector, StateContext, Store } from '@ngxs/store';
-import { Subject, of } from 'rxjs';
+import { Subject, of, throwError } from 'rxjs';
 import { catchError, finalize, takeUntil, tap, switchMap } from 'rxjs/operators';
 import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { CloudFunctionsService } from 'src/app/backend/cloud-functions.service';
@@ -8,7 +8,6 @@ import { Player } from '@cloud-api/core-models';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { ShootArgs } from '@cloud-api/arguments';
 import { AuthState } from 'src/app/auth/state/auth.state';
-import { AuthUser } from 'src/app/auth/auth.service';
 
 export interface GameStateModel {
     loading: boolean;
@@ -63,7 +62,7 @@ export class GameState {
         return this.cloudFunctions.shoot(args).pipe(
             catchError((error) => {
                 this.notification.quickErrorToast('game.error.shoot');
-                return of();
+                return throwError(error); // (rethrow so component can end waiting state which is triggered by the data update otherwise)
             })
         );
     }

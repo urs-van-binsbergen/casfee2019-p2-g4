@@ -1,16 +1,16 @@
-import { MatchItem, MatchStatus } from './match-models';
+import { MatchItem } from './match-models';
 import { Challenge, WaitingPlayer } from '@cloud-api/core-models';
 
-export function updateMatchItemsWithWaitingPlayers(state: MatchItem[], action: WaitingPlayer[], uid: string): MatchItem[] {
-    if (action && uid) {
-        const myWaitingPlayers = action.filter(
+export function toMatchItems(waitingPlayers: WaitingPlayer[], uid: string): MatchItem[] {
+    if (waitingPlayers && uid) {
+        const myWaitingPlayers = waitingPlayers.filter(
             waitingPlayer => {
                 return waitingPlayer.uid === uid;
             }
         );
         const myWaitingPlayer = myWaitingPlayers[0];
         if (myWaitingPlayer) {
-            const otherWaitingPlayers = action.filter(
+            const otherWaitingPlayers = waitingPlayers.filter(
                 waitingPlayer => {
                     return waitingPlayer.uid !== uid;
                 }
@@ -32,8 +32,6 @@ export function updateMatchItemsWithWaitingPlayers(state: MatchItem[], action: W
                 const isOpponentChallenged = otherChallenge ? true : false;
                 const item = {
                     opponentUid: otherWaitingPlayer.uid,
-                    victories: 12,
-                    defeats: 23,
                     opponentName: otherWaitingPlayer.playerInfo.displayName,
                     isOpponentChallenged,
                     isOpponentChallenging
@@ -44,27 +42,4 @@ export function updateMatchItemsWithWaitingPlayers(state: MatchItem[], action: W
         }
     }
     return [];
-}
-
-export function updateMatchStatusWithWaitingPlayers(state: MatchStatus, action: WaitingPlayer[], uid: string): MatchStatus {
-    if (action && uid) {
-        const myWaitingPlayers = action.filter(
-            waitingPlayer => {
-                return waitingPlayer.uid === uid;
-            }
-        );
-        const myWaitingPlayer = myWaitingPlayers[0];
-        let matchState = state;
-        if (myWaitingPlayer) {
-            if (state === MatchStatus.Idle) {
-                matchState = MatchStatus.Started;
-            }
-        } else {
-            if (state === MatchStatus.Started) {
-                matchState = MatchStatus.Completed;
-            }
-        }
-        return matchState;
-    }
-    return MatchStatus.Idle;
 }

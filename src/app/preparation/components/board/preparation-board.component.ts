@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PreparationRow, PreparationShip } from '../../model/preparation-models';
-const size = 0.1;
+const size = 0.07;
 
 @Component({
     selector: 'app-preparation-board',

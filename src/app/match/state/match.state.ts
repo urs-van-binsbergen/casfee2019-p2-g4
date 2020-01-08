@@ -52,7 +52,8 @@ export class MatchState {
     addChallenge(ctx: StateContext<MatchStateModel>, action: AddChallenge) {
         return this.cloudFunctions.addChallenge({ opponentUid: action.opponentUid }).pipe(
             catchError((error) => {
-                this.notification.quickErrorToast('match.error.add');
+                const errorMsg = action.isStartingBattle ? 'match.error.start' : 'match.error.add';
+                this.notification.quickErrorToast(errorMsg);
                 return throwError(error);
             })
         );

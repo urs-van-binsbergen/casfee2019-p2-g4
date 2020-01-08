@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     this.waiting = false;
 
                     if (result.success) {
-                        this.notification.quickToast('auth.login.successMessage');
+                        this.notification.quickToast1('auth.login.successMessage');
                         this.redirect.redirectToNext('/user');
                         return;
                     } else {

@@ -50,16 +50,6 @@ body {
     background-color: map-get($casfee2019-p2-g4-primary, 50);
 }
 
-a,
-a:visited {
-    color: map-get($casfee2019-p2-g4-primary, 500);
-    text-decoration: none;
-}
-
-a:hover {
-    color: map-get($casfee2019-p2-g4-primary, 400);
-}
-
 /* page layout ----------------------------- */
 
 .page {
@@ -68,6 +58,7 @@ a:hover {
 
 .page-inset {
     margin: 0.5rem;
+    padding-bottom: 1rem;
 
     @media screen and (min-width: 370px) {
         margin: 1rem 1rem;
@@ -77,7 +68,7 @@ a:hover {
 
 /* misc layout ----------------------------- */
 
-// Schmales Formular mittig (z.B. Login-Dialog)
+// Schmales Formular (z.B. Login-Dialog)
 mat-card.small-form {
     max-width: 400px;
 
@@ -87,8 +78,8 @@ mat-card.small-form {
 }
 
 // Prevent IPhone Auto Zoom for form elements
-input[type="text"], 
-input[type="email"], 
+input[type="text"],
+input[type="email"],
 input[type="password"] {
     font-size: 16px;
 }

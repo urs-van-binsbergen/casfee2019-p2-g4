@@ -1,56 +1,46 @@
-.item {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    margin-bottom: 4px;
-}
-
 .avatar {
-    width: 48px;
-    height: 64px;
-    font-size: 60%;
-    color: white;
-    background-color: black;
-    margin-top: 2px;
-    margin-left: 2px;
+    width: 60px;
+    height: 80px;
+    border: 1px dashed gray;
+    color: gray;
+    text-align: center;
+    font-size: 12px;
 }
 
-.name,
-.statistic,
-.opponent-is-challenging {
-    width: calc(100% - 4px);
-    margin-left: 2px;
-    margin-right: 2px;
+.name {
+    font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.opponent-is-challenging {
-    font-size: 60%;
-}
-
-.opponent-is-challenged {
-    font-size: 60%;
-    margin-left: 2px;
-}
-
-@keyframes color {
-    0% {
-        background-color: white;
-    }
-
+@keyframes animation-challenged {
     50% {
         background-color: orange;
     }
+}
 
-    100% {
-        background-color: white;
+@keyframes animation-challenging {
+    50% {
+        background-color: #cccccc;
     }
 }
 
-.challenging {
-    animation-name: color;
+.message {
+    display: inline-block;
+    border-radius: 0.3rem;
+    padding: 0.3rem 0.6rem;
     animation-duration: 2s;
     animation-iteration-count: infinite;
+
+    &--challenged {
+        @extend .message;
+        animation-name: animation-challenged;
+    }
+
+    &--challenging {
+        @extend .message;
+        background-color: #eeeeee;
+        animation-name: animation-challenging;
+    }
 }

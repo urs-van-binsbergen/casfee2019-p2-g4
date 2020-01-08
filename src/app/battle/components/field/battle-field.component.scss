@@ -1,14 +1,30 @@
 @import '../../../shared/colors.scss';
 
-.is-covered, .is-shooting, .is-uncovering {
+div {
+    -webkit-tap-highlight-color: transparent;
+    /* 
+        https://stackoverflow.com/questions/3516173/ipad-safari-how-to-disable-the-quick-blinking-effect-when-a-link-has-been-hit 
+        Otherwise IOS Safari lets the field blink when tapping, because a click handler exists.
+        Even if the handler does not do anything (returning false, void or whatever does not
+        help, and ng does not seem to offer a straightforward way to add the click handler 
+        conditionally). 
+    */
+}
+
+.is-covered, .is-shooting, .is-uncovering-hit, .is-uncovering-miss {
     width: 100%;
     height: 100%;
     background-color: $color-field-cover;
 }
 
-.is-covered:hover {
+.can-shoot {
+    cursor: pointer;
+}
+
+.can-shoot:hover {
     opacity: 0.8;
 }
+
 
 @keyframes shake {
     10%, 90% {transform: translate3d(-1px, 0, 0);}
@@ -17,21 +33,33 @@
     40%, 60% {transform: translate3d(4px, 0, 0);}
 }
 
+@keyframes fly {
+    0% {top: 0px; left: 0px; z-index: 1000;}
+    100% {top: -200px; left: 400px; width: 300%; height: 300%; opacity: 0;}
+}
+
 @keyframes explode {
     100% {opacity: 0; transform: scale(5) rotate(30deg)};
 }
 
 .is-shooting {
-    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) infinite both;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
 }
 
-.is-uncovering {
+.is-uncovering-hit {
     animation-name: explode;
     animation-duration: 0.5s;
     animation-iteration-count: 1;
+}
+
+.is-uncovering-miss {
+    animation-name: fly;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
 }
 
 .is-uncovered {

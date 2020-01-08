@@ -95,36 +95,53 @@ ng serve -c=dev2
 
 - State Management mit NGXS
 - Mehrsprachigkeit mit NGX-Translate
-- Fehlerbehandlung, Anzeige im UI
+- Angular Material, Angular Flex Layout
 
 ### Backend-Konzept
 
 #### Constraints
 
-- **Nicht cheatable**: Informierte Benutzer können weder mit Crafted Reads noch mit Crafted Writes den Spielverlauf zu ihren Gunsten ändern. 
-- **Nicht mass-writeable**: Benutzer können keine Daten ausserhalb der vorgesehen Objekt-Struktur schreiben (keine parasitären Nutzungen möglich).
+- **Nicht cheatable**: Ein böswilliger Benutzer kann nicht mit Crafted Reads/Writes den Spielverlauf zu seinen Gunsten ändern
+- **Nicht mass-writeable**: Ein böswilliger Benutzer kann nicht Daten ausserhalb des definierten Datenmodells schreiben (verhindert parasitäre Nutzung der Datenbank).
 
 #### Firestore-Architektur
 
-- Alle Collections sind aus Sicht des Clients read-only
-- Schreiben nur über Cloud Functions
-- Jeder Spieler erhält seine eigene Kopie des Spielzustands
-- Lese-optimierte Datenstruktur (denormalisiert)
-- Entsprechend sehr einfache, aber sichere Firestore-Rules
+- Alle Collections sind für den Client read-only
+- Geschrieben wird ausschliesslich über Cloud Functions
+- Lese-optimierte Datenstruktur (denormalisiert). Jeder Spieler sieht nur seine eigene Kopie des Spielzustands
+- Dies erlaubt triviale und dennoch sichere [Firestore-Rules](firestore.rules)
 
 ### Verbesserungsmöglichkeiten
 
-#### Nicht realisierte Features aus Projektbeschrieb
+#### Nicht realisierte Features aus der Spezifikation
 
-- Avatar
-- Countdown in Battle
-- Admin-Modul
+- Avatar (ersetzt durch generischen Avatar)
+- Admin-Modul (ist teilweise ersetzbar durch die in Firebase eingebauten Admin-Tools)
+- Zeitbeschränkung pro Spielzug  
+  Dies Funktion wäre im echten Produkt zwingend. Sonst kann ein Spieler seinen Gegner 
+  durch Inaktivität zur Niederlage zwingen: denn dieser muss in der Folge kapitulieren, 
+  um ein neues Spiel anfangen zu können.
 
-#### Optimierungen
+#### Optimierungspotential der aktuellen Lösung
 
-- Game Usability, Look and Feel
-- Gegner finden ist nicht ganz einfach - man muss sich praktisch
-  ausserhalb des Games verabreden. Mögliche Lösungen: Push-Meldungen, 
-  Anzeige ob Spieler derzeit online. 
-- Modulstruktur straffen; modulübergreifende Dienste zentralisieren
-  und aus Feature-Modulen entfernen.  
+Usability Issues
+- Platzierung der Schiffe ist speziell auf Mobilgeräten etwas hakelig
+- Einen Gegner zu finden ist nicht ganz einfach - man muss sich praktisch
+  ausserhalb des Games verabreden. 
+    - Einerseits fehlt eine _Kritische Masse_ von Spielern, so dass man jederzeit
+      einen Gegner finden kann.
+    - Sinnvoll wäre dementsprechend die Möglichkeit, bei Abwesenheit menschlicher Gegner gegen 
+      einen Bot spielen zu können. 
+    - Andererseits ist das Problem, dass die Spieler im Status "Gegner finden" verbleiben, 
+      auch wenn sie gar nicht mehr aktiv bzw. offline sind.
+        - Lösung: implizites und/oder explizites Online-Tracking (vergleiche entsprechende
+          Lösungen bei Chat/Phone-Applikationen). Ggf. auch Push-Meldungen "Dein herausgeforderter
+          Gegner XY ist jetzt online".
+- Error Handling: Wir haben zwar dafür gesorgt, dass etliche Fehler abgefangen und im UI kommunziert werden, 
+  aber typische Zustände wie z.B. "Kein Netz", sind nur teilweise behandelt.
+
+Technische Issues
+- Modulstruktur (weniger Module, trennen zwischen Feature- und Service-Modulen, bzw. keine
+  Cross-Dependencies zwischen Feature-Modulen)
+- Redux/NGXS noch konsequenter einsetzen (einige Module haben parallel ein relativ aufwändiges inneres
+  State Tracking, z.B. Battle)

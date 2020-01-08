@@ -2,7 +2,7 @@ import { WaitingPlayer } from '@cloud-api/core-models';
 
 export class AddChallenge {
     static readonly type = '[match] add challenge';
-    constructor(public opponentUid: string) { }
+    constructor(public opponentUid: string, public isStartingBattle: boolean) { }
 }
 
 export class RemoveChallenge {

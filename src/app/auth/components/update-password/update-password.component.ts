@@ -49,7 +49,7 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
                     this.waiting = false;
 
                     if (result.success) {
-                        this.notification.quickToast('auth.updatePassword.successMessage');
+                        this.notification.quickToast1('auth.updatePassword.successMessage');
                         this.redirect.redirectToNext('/user');
                         return;
                     } else {

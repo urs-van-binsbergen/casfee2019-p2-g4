@@ -3,8 +3,7 @@ import { MatchItem } from '../../model/match-models';
 
 @Component({
     selector: 'app-match-items',
-    templateUrl: './match-items.component.html',
-    styleUrls: ['./match-items.component.scss']
+    templateUrl: './match-items.component.html'
 })
 export class MatchItemsComponent {
 

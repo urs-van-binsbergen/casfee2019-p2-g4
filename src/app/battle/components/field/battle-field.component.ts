@@ -48,4 +48,12 @@ export class BattleFieldComponent {
     get isUncovered(): boolean {
         return !(this.field.shooting) && this.field.status !== FieldStatus.Unknown;
     }
+
+    get isHit(): boolean {
+        return this.field.status === FieldStatus.Hit;
+    }
+
+    get isMiss(): boolean {
+        return this.field.status === FieldStatus.Miss;
+    }
 }

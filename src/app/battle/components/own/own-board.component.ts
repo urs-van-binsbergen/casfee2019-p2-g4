@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { BattleBoard } from '../../model/battle-models';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { BattleBoard, BattleField } from '../../model/battle-models';
 
 @Component({
     selector: 'app-own-board',
@@ -9,4 +9,11 @@ import { BattleBoard } from '../../model/battle-models';
 export class OwnBoardComponent {
     @Input()
     public ownBoard: BattleBoard;
+
+    @Output()
+    uncovered = new EventEmitter<BattleField>();
+
+    onUncovered(field: BattleField): void {
+        this.uncovered.emit(field);
+    }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as MatchMethods from '../model/match-methods';
-import { MatchItem, MatchStatus } from '../model/match-models';
+import { MatchItem } from '../model/match-models';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -16,8 +16,8 @@ import deepClone from 'clone-deep';
 export class MatchComponent implements OnInit, OnDestroy {
 
     private _items: MatchItem[] = [];
-    private _state: MatchStatus = MatchStatus.Idle;
-    private _waiting: boolean;
+    private _loading: boolean;
+    private _isCancelling: boolean;
     private _destroy$ = new Subject<void>();
 
     @Select(MatchState.loading) loading$: Observable<boolean>;
@@ -30,15 +30,20 @@ export class MatchComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.store.dispatch(new BindMatch());
+
         this.state$.pipe(
             takeUntil(this._destroy$),
             tap((state: MatchStateModel) => {
-                this._state = MatchMethods.updateMatchStatusWithWaitingPlayers(this._state, state.waitingPlayers, state.uid);
-                this._items = MatchMethods.updateMatchItemsWithWaitingPlayers(this._items, state.waitingPlayers, state.uid);
+                this._items = MatchMethods.toMatchItems(state.waitingPlayers, state.uid);
             }),
             finalize(() => {
                 this.store.dispatch(new UnbindMatch());
             })
+        ).subscribe();
+
+        this.loading$.pipe(
+            takeUntil(this._destroy$),
+            tap(loading => this._loading = loading)
         ).subscribe();
     }
 
@@ -54,12 +59,17 @@ export class MatchComponent implements OnInit, OnDestroy {
         return this._items && 0 < this._items.length;
     }
 
-    get isWaiting(): boolean {
-        return this._waiting;
+    get loading(): boolean {
+        return this._loading;
+    }
+
+    get isCancelling(): boolean {
+        return this._isCancelling;
     }
 
     public onAddChallenge(item: MatchItem) {
-        this.store.dispatch(new AddChallenge(item.opponentUid)).toPromise()
+        const isStartingBattle = item.isOpponentChallenged;
+        this.store.dispatch(new AddChallenge(item.opponentUid, isStartingBattle)).toPromise()
             .catch(error => {
                 this._items = deepClone(this._items);
             });
@@ -73,13 +83,10 @@ export class MatchComponent implements OnInit, OnDestroy {
     }
 
     public onCancelClicked() {
-        this._waiting = true;
+        this._isCancelling = true;
         this.store.dispatch(new CancelMatch()).toPromise()
-            .then(results => {
-                this.router.navigateByUrl('/hall');
-            })
             .finally(() => {
-                this._waiting = false;
+                this._isCancelling = false;
             });
     }
 
