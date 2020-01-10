@@ -31,4 +31,10 @@ export class UserPage {
         return ele;
     }
 
+    getHall(): ElementFinder {
+        const ele = element(by.css('app-root .hall'));
+        browser.wait(EC.visibilityOf(ele), 10000, 'Hall');
+        return ele;
+    }
+
 }

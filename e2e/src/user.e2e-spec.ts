@@ -10,9 +10,7 @@ async function login(page: UserPage, email: string, password: string) {
 
 async function logout(page: UserPage) {
     await page.getLogoutButton().click();
-    await page.getEmailInput();
-    await page.getPasswordInput();
-    await page.getSubmitButton();
+    await page.getHall();
 }
 
 describe('User', () => {
@@ -22,13 +20,18 @@ describe('User', () => {
 
     beforeEach(() => {
         page = new UserPage();
+        browser.restart();
     });
 
     it('should login', async () => {
+        await browser.waitForAngularEnabled(false);
+        await page.navigateTo();
         await login(page, email, password);
     });
 
     it('should logout', async () => {
+        await browser.waitForAngularEnabled(false);
+        await page.navigateTo();
         await login(page, email, password);
         await logout(page);
     });
