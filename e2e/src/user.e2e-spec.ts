@@ -1,10 +1,23 @@
 import { UserPage } from './user.po';
 import { browser, logging } from 'protractor';
 
-const user = 'p1schies.hsr+13@gmail.com';
-const password = 'Test13';
+async function login(page: UserPage, email: string, password: string) {
+    await page.getEmailInput().sendKeys(email);
+    await page.getPasswordInput().sendKeys(password);
+    await page.getSubmitButton().click();
+    await page.getLogoutButton();
+}
+
+async function logout(page: UserPage) {
+    await page.getLogoutButton().click();
+    await page.getEmailInput();
+    await page.getPasswordInput();
+    await page.getSubmitButton();
+}
 
 describe('User', () => {
+    const email = 'p1schies.hsr+13@gmail.com';
+    const password = 'Test13';
     let page: UserPage;
 
     beforeEach(() => {
@@ -12,12 +25,12 @@ describe('User', () => {
     });
 
     it('should login', async () => {
-        await browser.waitForAngularEnabled(false);
-        await page.navigateTo();
-        await page.getEmailInput().sendKeys(user);
-        await page.getPasswordInput().sendKeys(password);
-        await page.getSubmitButton().click();
-        await page.getLogoutButton();
+        await login(page, email, password);
+    });
+
+    it('should logout', async () => {
+        await login(page, email, password);
+        await logout(page);
     });
 
     afterEach(async () => {
