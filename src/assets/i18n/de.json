@@ -15,8 +15,8 @@
     "auth": {
         "login": {
             "title": "Login",
-            "username": "Benutzername (E-Mail-Adresse)",
-            "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
+            "username": "E-Mail-Adresse",
+            "usernameMustBeEmail": "Keine gültige E-Mail-Adresse",
             "password": "Passwort",
             "submitButton": "Einloggen",
             "successMessage": "Login erfolgreich",
@@ -29,8 +29,8 @@
         "register": {
             "title": "Als neuer Spieler registrieren",
             "displayName": "Angezeigter Name",
-            "username": "Benutzername (E-Mail-Adresse)",
-            "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
+            "username": "E-Mail-Adresse",
+            "usernameMustBeEmail": "Keine gültige E-Mail-Adresse",
             "password": "Passwort",
             "passwordTooShort": "Mindestens 6 Zeichen",
             "passwordRepeat": "Passwort wiederholen",
@@ -91,14 +91,16 @@
         }
     },
     "button": {
-        "battle": "Schlacht",
+        "battle": "Zur Schlacht",
         "cancel": "Abbrechen",
         "capitulation": "Kapitulation",
         "close": "Schliessen",
         "continue": "Weiter",
         "done": "Fertig",
+        "hall": "Siegergalerie",
         "login": "Login",
-        "ok": "OK"
+        "ok": "OK",
+        "restartGame": "Nochmals spielen"
     },
     "common": {
         "message": {
@@ -172,7 +174,7 @@
         "profile": {
             "title": "Mein Profil",
             "displayName": "Anzeigename",
-            "username": "Benutzername (E-Mail-Adresse)",
+            "username": "E-Mail-Adresse",
             "level": "Stufe",
             "updateProfileButton": "Profil ändern",
             "updatePasswordButton": "Passwort ändern",
@@ -180,7 +182,8 @@
         },
         "myBattleList": {
             "title": "Meine glorreichen Schlachten",
-            "noBattleYet": "Leider noch keine",
+            "noBattleYet": "Noch keine",
+            "buttonFirstBattle": "Auf zur ersten Schlacht!",
             "endDate": "Datum",
             "opponent": "Gegner",
             "result": "Ausgang",

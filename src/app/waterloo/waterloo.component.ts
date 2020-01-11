@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-waterloo',
@@ -7,6 +7,13 @@ import { Component } from '@angular/core';
 })
 export class WaterlooComponent {
 
+    @Output() restart = new EventEmitter<void>();
+
     constructor() {
     }
+
+    onRestartClick() {
+        this.restart.emit();
+    }
+
 }

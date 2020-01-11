@@ -12,6 +12,6 @@
     <app-preparation *ngIf="status.showPreparation"></app-preparation>
     <app-match *ngIf="status.showMatch"></app-match>
     <app-battle *ngIf="status.showBattle"></app-battle>
-    <app-victory *ngIf="status.showVictory"></app-victory>
-    <app-waterloo *ngIf="status.showWaterloo"></app-waterloo>
+    <app-victory *ngIf="status.showVictory" (restart)="onRestart()"></app-victory>
+    <app-waterloo *ngIf="status.showWaterloo" (restart)="onRestart()"></app-waterloo>
 </ng-container>

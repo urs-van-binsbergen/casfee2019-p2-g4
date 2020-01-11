@@ -15,8 +15,8 @@
     "auth": {
         "login": {
             "title": "Login",
-            "username": "User name (email address)",
-            "usernameMustBeEmail": "User name must be an email address",
+            "username": "Email address",
+            "usernameMustBeEmail": "Not a valid email address",
             "password": "Password",
             "submitButton": "Login",
             "successMessage": "Login successful",
@@ -29,8 +29,8 @@
         "register": {
             "title": "Register new player",
             "displayName": "Display name",
-            "username": "User name (email address)",
-            "usernameMustBeEmail": "User name must be an email address",
+            "username": "Email address",
+            "usernameMustBeEmail": "Not a valid email address",
             "password": "Password",
             "passwordTooShort": "At least 6 characters",
             "passwordRepeat": "Repeat Password",
@@ -91,14 +91,16 @@
         }
     },
     "button": {
-        "battle": "Battle",
+        "battle": "Go to battle",
         "cancel": "Cancel",
         "capitulation": "Capitulation",
         "close": "Close",
         "continue": "Continue",
         "done": "Done",
+        "hall": "Hall of fame",
         "login": "Login",
-        "ok": "OK"
+        "ok": "OK",
+        "restartGame": "Play again"
     },
     "common": {
         "message": {
@@ -172,7 +174,7 @@
         "profile": {
             "title": "My profile",
             "displayName": "Display name",
-            "username": "User name (email address)",
+            "username": "Email address",
             "level": "Rank",
             "updateProfileButton": "Update profile",
             "updatePasswordButton": "Update password",
@@ -181,6 +183,7 @@
         "myBattleList": {
             "title": "My heroic battles",
             "noBattleYet": "No battle yet",
+            "buttonFirstBattle": "Start your first battle!",
             "endDate": "Date",
             "opponent": "Opponent",
             "result": "Result",

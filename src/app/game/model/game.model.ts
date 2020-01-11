@@ -41,3 +41,16 @@ export function updateStatus(prevModel: GameStatus, loading: boolean, unauthenti
             }
     }
 }
+
+export function applyRestart(prevModel: GameStatus): GameStatus {
+    // Local status (entity state unchanged)
+    if (prevModel.showVictory || prevModel.showWaterloo) {
+        return {
+            ...prevModel,
+            showVictory: undefined, 
+            showWaterloo: undefined, 
+            showPreparation: true
+        }
+    }
+    return prevModel;
+}
