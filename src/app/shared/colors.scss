@@ -4,8 +4,9 @@ $color-ship-31: blue;
 $color-ship-40: turquoise;
 $color-ship-41: purple;
 
-$color-background: rgb(227, 242, 253); // mat blue 50
-$color-field-cover: rgb(33, 150, 243); // mat blue 500;
+$color-field-cover: #2196F3; // mat blue 500;
 $color-field-unknown: $color-field-cover;
-$color-field-miss: black;
+$color-field-miss: #64B5F6; // mat blue 300
+$color-field-hover: #90CAF9; // mat blue 200
 $color-field-hit: white;
+$color-field-explode : #FFA726; // mat orange 500

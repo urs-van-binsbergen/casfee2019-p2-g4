@@ -7,7 +7,7 @@ import { Subject, Observable } from 'rxjs';
 import { takeUntil, tap, finalize } from 'rxjs/operators';
 import { GameState, GameStateModel } from 'src/app/game/state/game.state';
 import { BindGame, UnbindGame, Shoot, Capitulate } from 'src/app/game/state/game.actions';
-import { NotificationService } from 'src/app/shared/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-battle',
@@ -24,9 +24,12 @@ export class BattleComponent implements OnInit, OnDestroy {
     private _capitulating: boolean;
     private _destroy$ = new Subject<void>();
 
+    targetBoardInfo: string;
+    ownBoardInfo: string;
+
     @Select(GameState.state) _state$: Observable<GameStateModel>;
 
-    constructor(private store: Store, private notification: NotificationService) { }
+    constructor(private store: Store, private translate: TranslateService) { }
 
     ngOnInit(): void {
         this.loading = true;
@@ -64,29 +67,33 @@ export class BattleComponent implements OnInit, OnDestroy {
     private displayEventMessages() {
         if (this.targetBoard.lastShotResult) {
             if (this.targetBoard.lastShotResult === FieldStatus.Miss) {
-                this.notification.quickToast2('battle.message.miss',
+                this.ownBoardInfo = this.translate.instant('battle.message.miss',
                     { opponentName: this.opponentInfo.displayName });
+                this.targetBoardInfo = '';
             } else if (this.targetBoard.lastShotResult === FieldStatus.Hit) {
                 if (this.targetBoard.shipSunk) {
-                    this.notification.quickToast2('battle.message.sunk');
+                    this.targetBoardInfo = this.translate.instant('battle.message.sunk');
                 } else {
-                    this.notification.quickToast2('battle.message.hit');
+                    this.targetBoardInfo = this.translate.instant('battle.message.hit');
                 }
             }
         } else if (this.ownBoard.lastShotResult) {
             if (this.ownBoard.lastShotResult === FieldStatus.Miss) {
-                this.notification.quickToast2('battle.message.oppMiss');
+                this.targetBoardInfo = this.translate.instant('battle.message.oppMiss');
+                this.ownBoardInfo = '';
             } else if (this.ownBoard.lastShotResult === FieldStatus.Hit) {
                 if (this.ownBoard.shipSunk) {
-                    this.notification.quickToast2('battle.message.myShipSunk');
+                    this.ownBoardInfo = this.translate.instant('battle.message.myShipSunk',
+                    { opponentName: this.opponentInfo.displayName });
                 } else {
-                    this.notification.quickToast2('battle.message.oppHit');
+                    this.ownBoardInfo = this.translate.instant('battle.message.oppHit',
+                    { opponentName: this.opponentInfo.displayName });
                 }
             }
         } else if (this.targetBoard.canShoot) {
-            this.notification.quickToast2('battle.message.yourTurn');
+            this.targetBoardInfo = this.translate.instant('battle.message.yourTurn');
         } else if (this.ownBoard.canShoot) {
-            this.notification.quickToast2('battle.message.oppTurn',
+            this.ownBoardInfo = this.translate.instant('battle.message.oppTurn',
                 { opponentName: this.opponentInfo.displayName });
         }
     }
