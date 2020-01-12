@@ -132,7 +132,8 @@
         "error": "Die Siegergaller konnte nicht geladen werden.",
         "seamen": "Seefrauen",
         "shipboys": "Schiffsmädchen",
-        "title": "Siegergalerie"
+        "title": "Siegergalerie",
+        "welcome": "Willkommen zum Schiffeversenken-Spiel!"
     },
     "match": {
         "button": {
@@ -140,7 +141,7 @@
             "cancel": "Spiel beenden",
             "cancelTooltip": "Deine Schiffe fahren zurück zum Hafen",
             "remove": "Abbrechen",
-            "start": "Schlacht beginnen"
+            "start": "Schlacht eröffnen"
         },
         "error": {
             "add": "Die Herausforderung konnte nicht übermittelt werden",
