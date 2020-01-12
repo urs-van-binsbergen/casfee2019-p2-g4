@@ -1,26 +1,17 @@
 .entry {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 4px;
+    padding: 0.5rem 0.25rem;
 }
 
 .avatar {
-    width: 48px;
-    height: 64px;
-    font-size: 60%;
-    border: 1px dashed gray;
-    color: gray;
     text-align: center;
-    font-size: 12px;
-    margin-bottom: 4px;
+}
+
+.avatar-img {
+    width: 75%;
 }
 
 .name,
 .statistic {
-    width: calc(100% - 4px);
-    margin-left: 2px;
-    margin-right: 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
