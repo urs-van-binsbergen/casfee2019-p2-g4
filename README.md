@@ -128,7 +128,7 @@ Usability Issues
 - Platzierung der Schiffe ist speziell auf Mobilgeräten etwas hakelig
 - Einen Gegner zu finden ist nicht ganz einfach - man muss sich praktisch
   ausserhalb des Games verabreden. 
-    - Einerseits fehlt eine _Kritische Masse_ von Spielern, so dass man jederzeit
+    - Einerseits fehlt eine _Kritische Masse_ von Spielern, welche es erlauben würde, jederzeit
       einen Gegner finden kann.
     - Sinnvoll wäre dementsprechend die Möglichkeit, bei Abwesenheit menschlicher Gegner gegen 
       einen Bot spielen zu können. 

@@ -1,19 +1,22 @@
 <div class="page-inset mat-typography">
-    <h2 translate>hall.title</h2>
+
+    <h2 translate>{{ 'hall.welcome' | translate }}</h2>
 
     <div fxLayout="column" fxLayoutGap="1rem">
 
-        <div class="buttons">
+        <div>
             <button mat-raised-button color="primary" routerLink="/game" class="standard-button-width">
                 {{'button.battle' | translate}}
             </button>
         </div>
 
+        <h2 translate>hall.title</h2>
+
         <div *ngIf="(loading$ | async)">
-            <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
+            <mat-spinner diameter="22"></mat-spinner>
         </div>
 
-        <div *ngIf="(loading$ | async) === false" fxLayout="column" fxLayoutGap="8px">
+        <div *ngIf="(loading$ | async) === false" fxLayout="column" fxLayoutGap="0.5rem">
 
             <ng-container *ngIf="(admirals$ | async).length > 0">
                 <h3 class="label" translate>hall.admirals</h3>

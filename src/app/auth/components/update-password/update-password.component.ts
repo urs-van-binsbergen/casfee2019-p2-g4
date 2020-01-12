@@ -76,6 +76,7 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
         }
 
         // Dispatch
+        this.waiting = true;
         this.store.dispatch(new UpdatePassword(this.oldPassword.value, this.password.value));
     }
 

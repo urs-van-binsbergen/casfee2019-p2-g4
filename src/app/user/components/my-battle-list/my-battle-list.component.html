@@ -1,7 +1,7 @@
 <div class="mat-typography">
 
     <div *ngIf="!myBattleList.isLoadingDone">
-        <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
+        <mat-spinner diameter="22"></mat-spinner>
     </div>
 
     <div *ngIf="myBattleList.isLoadingDone" fxLayout="column" fxLayoutGap="0.5rem">
@@ -21,7 +21,7 @@
         </div>
 
         <div *ngIf="myBattleList.battles.length > 0">
-            <table mat-table [dataSource]="myBattleList.battles" class="mat-elevation-z1" style="width:100%">
+            <table mat-table [dataSource]="myBattleList.battles" class="mat-elevation-z1" style="width: 100%;">
                 <ng-container matColumnDef="endDate">
                     <th mat-header-cell *matHeaderCellDef translate>user.myBattleList.endDate</th>
                     <td mat-cell *matCellDef="let battle">

@@ -1,7 +1,7 @@
 <div class="page-inset mat-typography">
-    <p *ngIf="loading">
-        <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
-    </p>
+    <div *ngIf="loading">
+        <mat-spinner diameter="22"></mat-spinner>
+    </div>
 
     <div *ngIf="!loading" fxLayout="column" fxLayoutGap="1.5rem grid">
 
@@ -9,7 +9,7 @@
             <!-- Spielfeld des Gegners -->
             <div class="opponent-container" fxFlex="0 0 auto">
                 <div *ngIf="opponentInfo" class="opponent-board-label" [class.active-label]="myTurn">
-                    <span style="font-size: 1.1rem">{{ targetBoardInfo }}</span>
+                    {{ targetBoardInfo }}
                 </div>
                 <div *ngIf="targetBoard" class="opponent-board" [class.active-board]="myTurn">
                     <app-target-board [targetBoard]="targetBoard" (shoot)="onShoot($event)" 
@@ -19,7 +19,7 @@
             <!-- Eigenes Spielfeld -->
             <div class="own-board-container" fxFlex="0 0 auto">
                 <div class="own-board-label" [class.active-label]="opponentTurn">
-                    <span style="font-size: 1.1rem">{{ ownBoardInfo }}</span>
+                    {{ ownBoardInfo }}
                 </div>
                 <div *ngIf="ownBoard" class="own-board" [class.active-board]="opponentTurn">
                     <app-own-board [ownBoard]="ownBoard" (uncovered)="onOwnFieldUncovered($event)"></app-own-board>
@@ -27,11 +27,13 @@
             </div>
         </div>
 
-        <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
-            <button mat-raised-button color="basic" [disabled]="isCapitulating" (click)="onCapitulationClicked()"
+        <div class="buttons" fxLayout="row wrap" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
+            <div>
+                <button mat-raised-button color="basic" [disabled]="isCapitulating" (click)="onCapitulationClicked()"
                 matTooltip="{{ 'battle.button.capitulateTooltip' | translate}}">{{'battle.button.capitulate'|translate}}</button>
-            <div class="spinner-cell">
-                <mat-spinner *ngIf="isCapitulating" diameter="22" style="display: inline-block"></mat-spinner>
+            </div>
+            <div>
+                <mat-spinner *ngIf="isCapitulating" diameter="22"></mat-spinner>
             </div>
         </div>
 

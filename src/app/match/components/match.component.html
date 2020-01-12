@@ -1,8 +1,8 @@
 <div class="page-inset mat-typography">
     <h2 translate>match.title</h2>
-    <p *ngIf="loading">
-        <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
-    </p>
+    <div *ngIf="loading">
+        <mat-spinner diameter="22"></mat-spinner>
+    </div>
     <div *ngIf="!loading" fxLayout="column" fxLayoutGap="1.5rem">
         <div *ngIf="!hasItems" translate>match.message.noWaitingPlayers</div>
         <div *ngIf="hasItems">
@@ -15,8 +15,8 @@
                 matTooltip="{{ 'match.button.cancelTooltip' | translate }}">
                 <span translate>match.button.cancel</span>
             </button>
-            <div class="spinner-cell" *ngIf="isCancelling">
-                <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
+            <div *ngIf="isCancelling">
+                <mat-spinner diameter="22"></mat-spinner>
             </div>
         </div>
     </div>

@@ -1,9 +1,9 @@
 <div class="page-inset mat-typography">
     <h2 translate>preparation.title</h2>
-    <p translate>preparation.body</p>
+    <div translate>preparation.body</div>
 
     <div fxLayout="column" fxLayoutGap="1.5rem grid">
-        <div fxLayout="row wrap" fxLayoutGap="8px grid" fxLayoutAlign="start center"
+        <div fxLayout="row wrap" fxLayoutGap="0.5rem grid" fxLayoutAlign="start center"
             (touchstart)="onStart($event)" 
             (touchend)="onStop($event)" 
             (touchmove)="onContinue($event)"
@@ -19,11 +19,11 @@
             </div>
         </div>
 
-        <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
+        <div class="buttons" fxLayout="row wrap" fxLayoutGap="1rem" fxLayoutAlign="start center">
             <button mat-raised-button color="primary" (click)="onContinueClicked()" class="standard-button-width"
                 [disabled]="isContinueDisabled">{{'button.continue' | translate}}</button>
-            <div class="spinner-cell">
-                <mat-spinner *ngIf="isWaiting" diameter="22" style="display: inline-block"></mat-spinner>
+            <div>
+                <mat-spinner *ngIf="isWaiting" diameter="22"></mat-spinner>
             </div>
         </div>
     </div>

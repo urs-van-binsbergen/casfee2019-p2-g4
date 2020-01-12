@@ -50,6 +50,13 @@ body {
     background-color: map-get($casfee2019-p2-g4-primary, 50);
 }
 
+// Prevent IPhone Auto Zoom for form elements
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    font-size: 16px;
+}
+
 /* page layout ----------------------------- */
 
 .page {
@@ -70,46 +77,15 @@ body {
 
 // Schmales Formular (z.B. Login-Dialog)
 mat-card.small-form {
-    max-width: 400px;
+    max-width: 420px;
 
     mat-form-field {
         display: block;
     }
 }
 
-// Prevent IPhone Auto Zoom for form elements
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    font-size: 16px;
-}
-
-
-/* "components" ----------------------------- */
-
 .buttons {
     margin-top: 8px;
-}
-
-.button-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    align-items: center;
-
-    .spinner-cell {
-        padding: 8px 0 0 8px;
-    }
-
-    &>* {
-        margin-right: 8px;
-        margin-top: 4px;
-    }
-
-    &>* {
-        flex-shrink: 0;
-    }
 }
 
 button.standard-button-width {
