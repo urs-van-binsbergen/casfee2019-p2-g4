@@ -47,10 +47,10 @@ export function applyRestart(prevModel: GameStatus): GameStatus {
     if (prevModel.showVictory || prevModel.showWaterloo) {
         return {
             ...prevModel,
-            showVictory: undefined, 
-            showWaterloo: undefined, 
+            showVictory: undefined,
+            showWaterloo: undefined,
             showPreparation: true
-        }
+        };
     }
     return prevModel;
 }
