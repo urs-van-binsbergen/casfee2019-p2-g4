@@ -75,7 +75,7 @@
             "capitulateTooltip": "If you do so, the game will end and your opponent will be the winer"
         },
         "message": {
-            "miss": "Miss. {{ opponentName }}'s turn",
+            "miss": "Miss! {{ opponentName }}'s turn",
             "hit": "Hit! Your turn",
             "sunk": "Ship sunk! Your turn",
             "yourTurn": "Your turn",

@@ -8,6 +8,7 @@
 
 .avatar-img {
     width: 75%;
+    min-height: 65px; // (to reduce load flash)
 }
 
 .name,
