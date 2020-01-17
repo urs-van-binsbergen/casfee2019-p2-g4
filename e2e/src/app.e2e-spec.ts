@@ -1,11 +1,9 @@
-import { AppPage } from './app.po';
 import { browser, logging, ElementFinder } from 'protractor';
+import { AppPage } from './app.po';
 
 describe('App', () => {
-    let page: AppPage;
 
     beforeEach(() => {
-        page = new AppPage();
     });
 
     it('should display title', async () => {
@@ -16,19 +14,19 @@ describe('App', () => {
         let germanButton: ElementFinder;
 
         await browser.waitForAngularEnabled(false);
-        await page.navigateTo();
+        await AppPage.navigateTo();
 
-        title = await page.getTitleText();
+        title = await AppPage.getTitleText();
         expect(title).toBe(titleEn);
 
-        germanButton = await page.getGermanButton();
+        germanButton = await AppPage.getGermanButton();
         await germanButton.click();
-        title = await page.getTitleText();
+        title = await AppPage.getTitleText();
         expect(title).toBe(titleDe);
 
-        englishButton = await page.getEnglishButton();
+        englishButton = await AppPage.getEnglishButton();
         await englishButton.click();
-        title = await page.getTitleText();
+        title = await AppPage.getTitleText();
         expect(title).toBe(titleEn);
     });
 
