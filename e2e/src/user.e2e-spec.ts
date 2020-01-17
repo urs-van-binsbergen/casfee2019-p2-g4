@@ -1,39 +1,31 @@
-import { UserPage } from './user.po';
+import { UserPage, login, logout, tabulaRasa } from './user.po';
+import { HallPage } from './hall.po';
 import { browser, logging } from 'protractor';
-
-async function login(page: UserPage, email: string, password: string) {
-    await page.getEmailInput().sendKeys(email);
-    await page.getPasswordInput().sendKeys(password);
-    await page.getSubmitButton().click();
-    await page.getLogoutButton();
-}
-
-async function logout(page: UserPage) {
-    await page.getLogoutButton().click();
-    await page.getHall();
-}
 
 describe('User', () => {
     const email = 'p1schies.hsr+13@gmail.com';
     const password = 'Test13';
-    let page: UserPage;
+    let userPage: UserPage;
+    let hallPage: HallPage;
 
     beforeEach(() => {
-        page = new UserPage();
-        browser.restart();
+        userPage = new UserPage();
+        hallPage = new HallPage();
     });
 
     it('should login', async () => {
         await browser.waitForAngularEnabled(false);
-        await page.navigateTo();
-        await login(page, email, password);
+        await tabulaRasa(userPage, hallPage);
+        await userPage.navigateTo();
+        await login(userPage, email, password);
     });
 
     it('should logout', async () => {
         await browser.waitForAngularEnabled(false);
-        await page.navigateTo();
-        await login(page, email, password);
-        await logout(page);
+        await tabulaRasa(userPage, hallPage);
+        await userPage.navigateTo();
+        await login(userPage, email, password);
+        await logout(userPage, hallPage);
     });
 
     afterEach(async () => {

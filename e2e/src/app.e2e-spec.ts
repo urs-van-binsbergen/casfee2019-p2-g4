@@ -1,5 +1,5 @@
 import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
+import { browser, logging, ElementFinder } from 'protractor';
 
 describe('App', () => {
     let page: AppPage;
@@ -11,13 +11,25 @@ describe('App', () => {
     it('should display title', async () => {
         const titleEn = 'Battleship P2g4';
         const titleDe = 'Panzerkreuzer P2g4';
+        let title: string;
+        let englishButton: ElementFinder;
+        let germanButton: ElementFinder;
+
         await browser.waitForAngularEnabled(false);
         await page.navigateTo();
-        await expect(page.getTitleText()).toEqual(titleEn);
-        await page.getGermanButton().click();
-        await expect(page.getTitleText()).toEqual(titleDe);
-        await page.getEnglishButton().click();
-        await expect(page.getTitleText()).toEqual(titleEn);
+
+        title = await page.getTitleText();
+        expect(title).toBe(titleEn);
+
+        germanButton = await page.getGermanButton();
+        await germanButton.click();
+        title = await page.getTitleText();
+        expect(title).toBe(titleDe);
+
+        englishButton = await page.getEnglishButton();
+        await englishButton.click();
+        title = await page.getTitleText();
+        expect(title).toBe(titleEn);
     });
 
     afterEach(async () => {
