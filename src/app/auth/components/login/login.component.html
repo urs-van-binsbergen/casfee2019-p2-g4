@@ -3,8 +3,8 @@
         <mat-card class="small-form">
             <h2 translate>auth.login.title</h2>
 
-            <mat-card-content>
-                <p>
+            <mat-card-content fxLayout="column" fxLayoutGap="0.5rem">
+                <div>
                     <mat-form-field>
                         <input matInput type="email" formControlName="username" required
                             placeholder="{{'auth.login.username' | translate}}" autocomplete="username" />
@@ -14,34 +14,39 @@
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
-                </p>
-                <p>
+                </div>
+                <div>
                     <mat-form-field>
-                        <input matInput type="password" formControlName="password" required autocomplete="current-password"
-                            placeholder="{{'auth.login.password' | translate}}" />
+                        <input matInput type="password" formControlName="password" required
+                            autocomplete="current-password" placeholder="{{'auth.login.password' | translate}}" />
                         <mat-error *ngIf="password.invalid" [ngSwitch]="true">
                             <div *ngSwitchCase="password.errors.required" translate>common.message.fieldRequired</div>
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
-                </p>
-                <div class="button-row">
+                </div>
+                <div fxLayout="row wrap" fxLayoutGap="0.5rem grid" fxLayoutAlign="start center">
                     <div>
-                        <button type="submit" [disabled]="waiting" mat-raised-button color="primary" class="standard-button-width">
+                        <button type="submit" [disabled]="waiting" mat-raised-button color="primary"
+                            class="standard-button-width">
                             {{ 'auth.login.submitButton' | translate }}
                         </button>
                     </div>
-                    <div class="spinner-cell">
-                        <mat-spinner *ngIf="waiting" diameter="22" style="display: inline-block"></mat-spinner>
+                    <div>
+                        <mat-spinner *ngIf="waiting" diameter="22"></mat-spinner>
                     </div>
                 </div>
-                <div class="button-row">
-                    <button mat-button routerLink="../register" translate>
-                        {{ 'auth.login.registerLink' | translate }}
-                    </button>
-                    <button mat-button routerLink="../reset-password" translate="">
-                        {{ 'auth.login.forgotPasswordLink' | translate }}
-                    </button>
+                <div fxLayout="row wrap" fxLayoutGap="0.5rem grid" fxLayoutAlign="start center">
+                    <div>
+                        <button mat-button routerLink="../register" translate>
+                            {{ 'auth.login.registerLink' | translate }}
+                        </button>
+                    </div>
+                    <div>
+                        <button mat-button routerLink="../reset-password" translate="">
+                            {{ 'auth.login.forgotPasswordLink' | translate }}
+                        </button>
+                    </div>
                 </div>
             </mat-card-content>
         </mat-card>

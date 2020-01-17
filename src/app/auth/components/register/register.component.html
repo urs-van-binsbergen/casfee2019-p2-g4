@@ -3,8 +3,8 @@
         <mat-card class="small-form">
             <h2 translate>auth.register.title</h2>
 
-            <mat-card-content>
-                <p>
+            <mat-card-content fxLayout="column" fxLayoutGap="0.5rem">
+                <div>
                     <mat-form-field>
                         <input matInput type="text" formControlName="displayName"
                             placeholder="{{'auth.register.displayName' | translate}}" />
@@ -13,8 +13,8 @@
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
-                </p>
-                <p>
+                </div>
+                <div>
                     <mat-form-field>
                         <input matInput type="email" formControlName="username" required autocomplete="username"
                             placeholder="{{'auth.register.username' | translate}}" />
@@ -24,8 +24,8 @@
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
-                </p>
-                <p>
+                </div>
+                <div>
                     <mat-form-field>
                         <input matInput type="password" formControlName="password" required minlength="6"
                             placeholder="{{'auth.register.password' | translate}}" autocomplete="new-password" />
@@ -35,8 +35,6 @@
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
-                </p>
-                <p>
                     <mat-form-field>
                         <input matInput type="password" formControlName="passwordRepeat" required autocomplete="new-password"
                             placeholder="{{'auth.register.passwordRepeat' | translate}}" />
@@ -46,8 +44,8 @@
                             <div *ngSwitchDefault translate>common.message.fieldValueInvalid</div>
                         </mat-error>
                     </mat-form-field>
-                </p>
-                <div class="button-row">
+                </div>
+                <div fxLayout="row wrap" fxLayoutGap="0.5rem grid" fxLayoutAlign="start center">
                     <div>
                         <button type="submit" [disabled]="waiting" mat-raised-button color="primary" class="standard-button-width">
                             {{'auth.register.submitButton' | translate}}
@@ -58,8 +56,8 @@
                             {{'button.cancel' | translate}}
                         </button>
                     </div>
-                    <div class="spinner-cell">
-                        <mat-spinner *ngIf="waiting" diameter="22" style="display: inline-block"></mat-spinner>
+                    <div>
+                        <mat-spinner *ngIf="waiting" diameter="22"></mat-spinner>
                     </div>
                 </div>
             </mat-card-content>

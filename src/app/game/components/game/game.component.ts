@@ -3,7 +3,7 @@ import { Subject, Observable } from 'rxjs';
 import { Store, Select } from '@ngxs/store';
 import { GameState, GameStateModel } from '../../state/game.state';
 import { tap, takeUntil, finalize } from 'rxjs/operators';
-import { GameStatus, updateStatus } from '../../model/game.model';
+import { GameStatus, updateStatus, applyRestart } from '../../model/game.model';
 import { BindGame, UnbindGame } from '../../state/game.actions';
 
 @Component({
@@ -29,6 +29,10 @@ export class GameComponent implements OnInit, OnDestroy {
                 this.store.dispatch(new UnbindGame());
             })
         ).subscribe();
+    }
+
+    onRestart() {
+        this.status = applyRestart(this.status);
     }
 
     ngOnDestroy(): void {

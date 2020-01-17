@@ -3,6 +3,7 @@
     <p translate>victory.body</p>
     <img src="assets/jump.gif" class="visual">
     <div class="buttons" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
-        <button mat-raised-button color="primary" routerLink="/hall">{{'button.ok' | translate}}</button>
+        <button mat-raised-button color="primary" (click)="onRestartClick()">{{'button.restartGame' | translate}}</button>
+        <button mat-raised-button color="primary" routerLink="/hall">{{'button.hall' | translate}}</button>
     </div>
 </div>

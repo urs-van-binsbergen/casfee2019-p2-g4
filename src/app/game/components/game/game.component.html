@@ -1,17 +1,17 @@
 <ng-container *ngIf="status">
-    <div *ngIf="status.unauthenticated" class="page-inset mat-typography">
+    <div *ngIf="status.unauthenticated" class="page-inset">
         <button mat-button routerLink="/auth/login" translate>
             Login
         </button>
     </div>
 
-    <p *ngIf="status.loading">
-        <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
-    </p>
+    <div *ngIf="status.loading" class="page-inset">
+        <mat-spinner diameter="22"></mat-spinner>
+    </div>
 
     <app-preparation *ngIf="status.showPreparation"></app-preparation>
     <app-match *ngIf="status.showMatch"></app-match>
     <app-battle *ngIf="status.showBattle"></app-battle>
-    <app-victory *ngIf="status.showVictory"></app-victory>
-    <app-waterloo *ngIf="status.showWaterloo"></app-waterloo>
+    <app-victory *ngIf="status.showVictory" (restart)="onRestart()"></app-victory>
+    <app-waterloo *ngIf="status.showWaterloo" (restart)="onRestart()"></app-waterloo>
 </ng-container>

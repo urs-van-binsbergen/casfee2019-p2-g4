@@ -1,42 +1,52 @@
 <div class="mat-typography">
 
-    <p *ngIf="!myBattleList.isLoadingDone">
-        <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
-    </p>
+    <div *ngIf="!myBattleList.isLoadingDone">
+        <mat-spinner diameter="22"></mat-spinner>
+    </div>
 
-    <p *ngIf="myBattleList.isLoadingDone && !myBattleList.isLoadFailure && myBattleList.battles.length === 0">
-        <span translate>user.myBattleList.noBattleYet</span>
-    </p>
+    <div *ngIf="myBattleList.isLoadingDone" fxLayout="column" fxLayoutGap="0.5rem">
 
-    <p *ngIf="myBattleList.isLoadFailure">
-        <span translate>common.error.contentNotLoaded</span>
-    </p>
+        <div *ngIf="!myBattleList.isLoadFailure && myBattleList.battles.length === 0">
+            {{ 'user.myBattleList.noBattleYet' | translate }}
+        </div>
 
-    <table mat-table [dataSource]="myBattleList.battles" class="mat-elevation-z1"
-        *ngIf="myBattleList.isLoadingDone && myBattleList.battles.length > 0" style="width:100%">
+        <div *ngIf="!myBattleList.isLoadFailure && myBattleList.battles.length === 0" class="buttons">
+            <button mat-raised-button color="primary" routerLink="/game" class="standard-button-width">
+                {{ 'user.myBattleList.buttonFirstBattle' | translate }}
+            </button>
+        </div>
 
-        <ng-container matColumnDef="endDate">
-            <th mat-header-cell *matHeaderCellDef translate>user.myBattleList.endDate</th>
-            <td mat-cell *matCellDef="let battle">
-                {{battle.endDate.toDate() | date:'medium'}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="opponent">
-            <th mat-header-cell *matHeaderCellDef translate>user.myBattleList.opponent</th>
-            <td mat-cell *matCellDef="let battle">
-                {{battle.opponentDisplayName}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="result">
-            <th mat-header-cell *matHeaderCellDef translate>user.myBattleList.result</th>
-            <td mat-cell *matCellDef="let battle">
-                {{ 'user.myBattleList.' + (battle.wasMyVictory ? 'victory' : 'waterloo') | translate}}
-            </td>
-        </ng-container>
+        <div *ngIf="myBattleList.isLoadFailure">
+            <span translate>common.error.contentNotLoaded</span>
+        </div>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+        <div *ngIf="myBattleList.battles.length > 0">
+            <table mat-table [dataSource]="myBattleList.battles" class="mat-elevation-z1" style="width: 100%;">
+                <ng-container matColumnDef="endDate">
+                    <th mat-header-cell *matHeaderCellDef translate>user.myBattleList.endDate</th>
+                    <td mat-cell *matCellDef="let battle">
+                        {{battle.endDate.toDate() | date:'medium'}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="opponent">
+                    <th mat-header-cell *matHeaderCellDef translate>user.myBattleList.opponent</th>
+                    <td mat-cell *matCellDef="let battle">
+                        {{battle.opponentDisplayName}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="result">
+                    <th mat-header-cell *matHeaderCellDef translate>user.myBattleList.result</th>
+                    <td mat-cell *matCellDef="let battle">
+                        {{ 'user.myBattleList.' + (battle.wasMyVictory ? 'victory' : 'waterloo') | translate}}
+                    </td>
+                </ng-container>
 
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+        </div>
+
+    </div>
 
 </div>

@@ -1,31 +1,47 @@
-<div class="page-inset mat-typography">
-    <h2 translate>hall.title</h2>
+<div class="page-inset mat-typography" fxLayout="column" fxLayoutGap="2rem">
 
-    <p *ngIf="(loading$ | async)">
-        <mat-spinner diameter="22" style="display: inline-block"></mat-spinner>
-    </p>
+    <div>
 
-    <div *ngIf="(loading$ | async) === false" fxLayout="column" fxLayoutGap="8px">
+        <h2 translate>{{ 'hall.welcome' | translate }}</h2>
 
-        <ng-container *ngIf="(admirals$ | async).length > 0">
-            <h3 class="label" translate>hall.admirals</h3>
-            <app-hall-entries class="admirals" [entries]="(admirals$ | async)"></app-hall-entries>
-        </ng-container>
-
-        <ng-container *ngIf="(captains$ | async).length > 0">
-            <h3 class="label" translate>hall.captains</h3>
-            <app-hall-entries class="captains" [entries]="(captains$ | async)"></app-hall-entries>
-        </ng-container>
-
-        <ng-container *ngIf="(seamen$ | async).length > 0">
-            <h3 class="label" translate>hall.seamen</h3>
-            <app-hall-entries class="seamen" [entries]="(seamen$ | async)"></app-hall-entries>
-        </ng-container>
-
-        <ng-container *ngIf="(shipboys$ | async).length > 0">
-            <h3 class="label" translate>hall.shipboys</h3>
-            <app-hall-entries class="shipboys" [entries]="(shipboys$ | async)"></app-hall-entries>
-        </ng-container>
+        <div>
+            <button mat-raised-button color="primary" routerLink="/game" class="standard-button-width">
+                {{'button.battle' | translate}}
+            </button>
+        </div>
 
     </div>
+
+    <div>
+
+        <h2 translate>hall.title</h2>
+
+        <div *ngIf="(loading$ | async)">
+            <mat-spinner diameter="22"></mat-spinner>
+        </div>
+
+        <div *ngIf="(loading$ | async) === false" fxLayout="column" fxLayoutGap="1.5rem">
+            <div *ngIf="(admirals$ | async).length > 0">
+                <h3 class="label" translate>hall.admirals</h3>
+                <app-hall-entries class="admirals" [entries]="(admirals$ | async)"></app-hall-entries>
+            </div>
+
+            <div *ngIf="(captains$ | async).length > 0">
+                <h3 class="label" translate>hall.captains</h3>
+                <app-hall-entries class="captains" [entries]="(captains$ | async)"></app-hall-entries>
+            </div>
+
+            <div *ngIf="(seamen$ | async).length > 0">
+                <h3 class="label" translate>hall.seamen</h3>
+                <app-hall-entries class="seamen" [entries]="(seamen$ | async)"></app-hall-entries>
+            </div>
+
+            <div *ngIf="(shipboys$ | async).length > 0">
+                <h3 class="label" translate>hall.shipboys</h3>
+                <app-hall-entries class="shipboys" [entries]="(shipboys$ | async)"></app-hall-entries>
+            </div>
+        </div>
+
+    </div>
+
 </div>

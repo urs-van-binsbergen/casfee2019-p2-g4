@@ -1,9 +1,11 @@
 <mat-card class="item mat-typography" fxFlex="0 0 300px" fxFlex.xs="0 0 100%" fxLayout="row"
     fxLayoutAlign="space-between start" fxLayoutGap="1rem">
     <div fxFlex="0 0 auto">
-        <div class="avatar">Avatar</div>
+        <div class="avatar">
+            <img src="assets/avatar.png" alt="Avatar" class="avatar-img" />
+        </div>
     </div>
-    <div fxFlex="1 1 auto" fxLayout="column" fxLayoutGap="0.5rem">
+    <div fxFlex="1 1 auto" fxLayout="column" fxLayoutGap="0.25rem">
         <div class="name">{{item.opponentName}}</div>
         <div>
             <div *ngIf="item.isOpponentChallenged" class="message--challenging">
@@ -26,8 +28,8 @@
                 [disabled]="isChangingChallenge">
                 {{ 'match.button.start' | translate }}
             </button>
-            <div class="spinner-cell" *ngIf="isChangingChallenge">
-                <mat-spinner *ngIf="true" diameter="22" style="display: inline-block"></mat-spinner>
+            <div *ngIf="isChangingChallenge">
+                <mat-spinner *ngIf="true" diameter="22"></mat-spinner>
             </div>
         </div>
     </div>

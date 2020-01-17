@@ -1,7 +1,7 @@
-<div class="page-inset mat-typography">
+<div class="page-inset mat-typography" fxLayout="column" fxLayoutGap="1rem">
 
     <h2 translate>admin.title</h2>
-    <p translate>admin.body</p>
+    <div translate>admin.body</div>
 
     <mat-card class="small-form">
         <mat-card-content>
@@ -12,20 +12,20 @@
             <p class="mat-small">
                 If the button is disabled you currently don't have game data.
             </p>
-            <div class="button-row">
+            <div fxLayout="row wrap" fxLayoutGap="0.5rem grid" fxLayoutAlign="start center">
                 <div>
                     <button mat-raised-button (click)="purge()" color="primary" [disabled]="(player$ | async) === null">
                         Delete Game Data
                     </button>
                 </div>
-                <div class="spinner-cell">
-                    <mat-spinner *ngIf="waiting" diameter="22" style="display: inline-block"></mat-spinner>
+                <div>
+                    <mat-spinner *ngIf="waiting" diameter="22"></mat-spinner>
                 </div>
             </div>
         </mat-card-content>
     </mat-card>
 
-    <mat-card class="small-form" style="margin-top: 1rem;">
+    <mat-card class="small-form">
         <mat-card-content>
             <h3>Game components</h3>
             <button mat-raised-button color="link" routerLink="/game/debug">Show all game components</button>

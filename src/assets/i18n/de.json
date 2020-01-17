@@ -15,8 +15,8 @@
     "auth": {
         "login": {
             "title": "Login",
-            "username": "Benutzername (E-Mail-Adresse)",
-            "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
+            "username": "E-Mail-Adresse",
+            "usernameMustBeEmail": "Keine gültige E-Mail-Adresse",
             "password": "Passwort",
             "submitButton": "Einloggen",
             "successMessage": "Login erfolgreich",
@@ -29,8 +29,8 @@
         "register": {
             "title": "Als neuer Spieler registrieren",
             "displayName": "Angezeigter Name",
-            "username": "Benutzername (E-Mail-Adresse)",
-            "usernameMustBeEmail": "Benutzername muss eine E-Mail-Adresse sein",
+            "username": "E-Mail-Adresse",
+            "usernameMustBeEmail": "Keine gültige E-Mail-Adresse",
             "password": "Passwort",
             "passwordTooShort": "Mindestens 6 Zeichen",
             "passwordRepeat": "Passwort wiederholen",
@@ -70,35 +70,32 @@
         }
     },
     "battle": {
-        "title": "Seeschlacht",
-        "opponentBoard": "Spielfeld von {{opponentName}}",
-        "opponentBoardYourTurn": " - zielen und schiessen!",
-        "yourBoard": "Dein Spielfeld",
-        "yourBoardOpponentTurn": " - {{ opponentName }} zielt...",
         "button": {
             "capitulate": "Kapitulieren",
             "capitulateTooltip": "Wenn du kapitulierst, wird das Spiel beendet und dein Gegner ist der Sieger"
         },
         "message": {
             "miss": "Daneben. {{ opponentName }} ist am Zug",
-            "hit": "🤣 Treffer! Du bist am Zug",
-            "sunk": "🤣🤣 Schiff versenkt! Du bist am Zug",
+            "hit": "Treffer! Du bist am Zug",
+            "sunk": "Schiff versenkt! Du bist am Zug",
             "yourTurn": "Du bist am Zug",
-            "oppMiss": "🍀 Glück gehabt! Du bist am Zug",
-            "oppHit": "😡 Dein Schiff wurde getroffen",
-            "myShipSunk": "😡😡 Du verlierst ein Schiff",
+            "oppMiss": "Glück gehabt! Du bist am Zug",
+            "oppHit": "Schiff getroffen. {{ opponentName }} am Zug",
+            "myShipSunk": "Du verlierst ein Schiff",
             "oppTurn": "{{ opponentName }} ist am Zug"
         }
     },
     "button": {
-        "battle": "Schlacht",
+        "battle": "Zur Schlacht",
         "cancel": "Abbrechen",
         "capitulation": "Kapitulation",
         "close": "Schliessen",
         "continue": "Weiter",
         "done": "Fertig",
+        "hall": "Siegergalerie",
         "login": "Login",
-        "ok": "OK"
+        "ok": "OK",
+        "restartGame": "Nochmals spielen"
     },
     "common": {
         "message": {
@@ -135,7 +132,8 @@
         "error": "Die Siegergaller konnte nicht geladen werden.",
         "seamen": "Seefrauen",
         "shipboys": "Schiffsmädchen",
-        "title": "Siegergalerie"
+        "title": "Siegergalerie",
+        "welcome": "Willkommen zum Schiffeversenken-Spiel!"
     },
     "match": {
         "button": {
@@ -143,7 +141,7 @@
             "cancel": "Spiel beenden",
             "cancelTooltip": "Deine Schiffe fahren zurück zum Hafen",
             "remove": "Abbrechen",
-            "start": "Schlacht beginnen"
+            "start": "Schlacht eröffnen"
         },
         "error": {
             "add": "Die Herausforderung konnte nicht übermittelt werden",
@@ -172,7 +170,7 @@
         "profile": {
             "title": "Mein Profil",
             "displayName": "Anzeigename",
-            "username": "Benutzername (E-Mail-Adresse)",
+            "username": "E-Mail-Adresse",
             "level": "Stufe",
             "updateProfileButton": "Profil ändern",
             "updatePasswordButton": "Passwort ändern",
@@ -180,7 +178,8 @@
         },
         "myBattleList": {
             "title": "Meine glorreichen Schlachten",
-            "noBattleYet": "Leider noch keine",
+            "noBattleYet": "Noch keine",
+            "buttonFirstBattle": "Auf zur ersten Schlacht!",
             "endDate": "Datum",
             "opponent": "Gegner",
             "result": "Ausgang",

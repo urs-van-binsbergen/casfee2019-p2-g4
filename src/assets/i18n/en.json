@@ -15,8 +15,8 @@
     "auth": {
         "login": {
             "title": "Login",
-            "username": "User name (email address)",
-            "usernameMustBeEmail": "User name must be an email address",
+            "username": "Email address",
+            "usernameMustBeEmail": "Not a valid email address",
             "password": "Password",
             "submitButton": "Login",
             "successMessage": "Login successful",
@@ -29,8 +29,8 @@
         "register": {
             "title": "Register new player",
             "displayName": "Display name",
-            "username": "User name (email address)",
-            "usernameMustBeEmail": "User name must be an email address",
+            "username": "Email address",
+            "usernameMustBeEmail": "Not a valid email address",
             "password": "Password",
             "passwordTooShort": "At least 6 characters",
             "passwordRepeat": "Repeat Password",
@@ -70,35 +70,32 @@
         }
     },
     "battle": {
-        "title": "Battle",
-        "opponentBoard": "{{ opponentName }}'s board",
-        "opponentBoardYourTurn": " - aim and shoot!",
-        "yourBoard": "Your board",
-        "yourBoardOpponentTurn": " - {{ opponentName }} is aiming...",
         "button": {
             "capitulate": "Capitulate",
             "capitulateTooltip": "If you do so, the game will end and your opponent will be the winer"
         },
         "message": {
-            "miss": "Miss. {{ opponentName }}'s turn",
-            "hit": "😂 Hit! Your turn",
-            "sunk": "🤣🤣 Ship sunk! Your turn",
+            "miss": "Miss! {{ opponentName }}'s turn",
+            "hit": "Hit! Your turn",
+            "sunk": "Ship sunk! Your turn",
             "yourTurn": "Your turn",
-            "oppMiss": "🍀 Lucky! Your turn",
-            "oppHit": "😡 One of your ship was hit",
-            "myShipSunk": "😡😡 You loose a ship",
+            "oppMiss": "Lucky! Your turn",
+            "oppHit": "Ship was hit",
+            "myShipSunk": "You loose a ship",
             "oppTurn": "{{ opponentName }}'s turn"
         }
     },
     "button": {
-        "battle": "Battle",
+        "battle": "Go to battle",
         "cancel": "Cancel",
         "capitulation": "Capitulation",
         "close": "Close",
         "continue": "Continue",
         "done": "Done",
+        "hall": "Hall of fame",
         "login": "Login",
-        "ok": "OK"
+        "ok": "OK",
+        "restartGame": "Play again"
     },
     "common": {
         "message": {
@@ -135,7 +132,8 @@
         "error": "Could not load the Hall of Fame.",
         "seamen": "Seamen",
         "shipboys": "Shipboys",
-        "title": "Hall of Fame"
+        "title": "Hall of Fame",
+        "welcome": "Welcome to the Battleships Game!"
     },
     "match": {
         "button": {
@@ -172,7 +170,7 @@
         "profile": {
             "title": "My profile",
             "displayName": "Display name",
-            "username": "User name (email address)",
+            "username": "Email address",
             "level": "Rank",
             "updateProfileButton": "Update profile",
             "updatePasswordButton": "Update password",
@@ -181,6 +179,7 @@
         "myBattleList": {
             "title": "My heroic battles",
             "noBattleYet": "No battle yet",
+            "buttonFirstBattle": "Start your first battle!",
             "endDate": "Date",
             "opponent": "Opponent",
             "result": "Result",

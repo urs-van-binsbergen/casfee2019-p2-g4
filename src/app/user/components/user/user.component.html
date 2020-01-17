@@ -6,12 +6,13 @@
 
 
 <div *ngIf="authUser" class="page-inset mat-typography">
-    <button mat-button [disabled]="loggingOut" (click)="logout()" mat-stroked-button color="primary" class="logout-button">
+    <button mat-button [disabled]="loggingOut" (click)="logout()" mat-stroked-button color="primary"
+        class="logout-button">
         {{ 'user.profile.logoutButton' | translate }}</button>
 
     <h2 translate>user.profile.title</h2>
 
-    <mat-card>
+    <mat-card fxLayout="column" fxLayoutGap="0.5rem">
         <mat-list>
             <mat-list-item>
                 <div>
@@ -38,11 +39,15 @@
                 </div>
             </mat-list-item>
         </mat-list>
-        <div class="button-row">
-            <button mat-button routerLink="update-profile" color="primary">
-                {{ 'user.profile.updateProfileButton' | translate }}</button>
-            <button mat-button routerLink="/auth/update-password" color="primary">
-                {{ 'user.profile.updatePasswordButton' | translate }}</button>
+        <div fxLayout="row wrap" fxLayoutGap="0.5rem grid" fxLayoutAlign="start center">
+            <div>
+                <button mat-button routerLink="update-profile" color="primary">
+                    {{ 'user.profile.updateProfileButton' | translate }}</button>
+            </div>
+            <div>
+                <button mat-button routerLink="/auth/update-password" color="primary">
+                    {{ 'user.profile.updatePasswordButton' | translate }}</button>
+            </div>
         </div>
     </mat-card>
 
