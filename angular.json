@@ -127,7 +127,9 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "casfee2019-p2-g4:serve"
+            "devServerTarget": "casfee2019-p2-g4:serve",
+            "port": 4201,
+            "webdriverUpdate": false
           },
           "configurations": {
             "production": {

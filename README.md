@@ -19,6 +19,19 @@ ng serve --host 192.168.1.121 --port 4200
 
 http://192.168.1.121:4200/webpack-dev-server/index.html
 
+### Unit test
+
+```
+ng test
+```
+
+### e2e test
+
+```
+npm run pree2e
+ng e2e --webdriver-update=false
+```
+
 ## Hosting URL
 
 URL: https://casfee2019-p2-g4.web.app/
