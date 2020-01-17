@@ -7,6 +7,7 @@ import { browser, logging, ElementFinder } from 'protractor';
 describe('Game', () => {
     const email = 'p1schies.hsr+13@gmail.com';
     const password = 'Test13';
+    const title = 'Prepare for the battle';
     let appPage: AppPage;
     let userPage: UserPage;
     let gamePage: GamePage;
@@ -20,14 +21,14 @@ describe('Game', () => {
     });
 
     it('should start', async () => {
-       await browser.waitForAngularEnabled(false);
-       await tabulaRasa(userPage, hallPage);
-       await userPage.navigateTo();
-       await login(userPage, email, password);
-       //await browser.sleep(1000);
-       const gameButton: ElementFinder = await appPage.getGameButton();
-       await gameButton.click();
-       await browser.sleep(1000);
+        await browser.waitForAngularEnabled(false);
+        await tabulaRasa(userPage, hallPage);
+        await userPage.navigateTo();
+        await login(userPage, email, password);
+        const gameButton: ElementFinder = await appPage.getGameButton();
+        await gameButton.click();
+        const preparationTitle: string = await gamePage.getPreparationTitleText();
+        expect(preparationTitle).toBe(title);
     });
 
     afterEach(async () => {
