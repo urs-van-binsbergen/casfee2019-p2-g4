@@ -1,33 +1,38 @@
 # CAS FEE 2019 Projekt 2 Gruppe 4
 
+## Dokumentation
+
+- [Schiffeversenken Projektbeschrieb](doc/project/description.pdf)
+- [Schiffeversenken Präsentation](doc/project/presentation.pdf)
+
 ## Lokale Installation und Start
 
 ```sh
 npm install
 ng serve
 ```
-
-http://localhost:4200
+Danach im Browser http://localhost:4200 laden.
 
 ### Mobile Device Browser Test
 
 IP Adresse und Port müssen den lokalen Gegebenheiten angepasst werden.
 
-```
+```sh
 ng serve --host 192.168.1.121 --port 4200
 ```
 
-http://192.168.1.121:4200/webpack-dev-server/index.html
+Danach im Browser
+http://192.168.1.121:4200/webpack-dev-server/index.html laden.
 
 ### Unit test
 
-```
+```sh
 ng test
 ```
 
 ### e2e test
 
-```
+```sh
 npm run pree2e
 ng e2e --webdriver-update=false
 ```
@@ -158,3 +163,20 @@ Technische Issues
   Cross-Dependencies zwischen Feature-Modulen)
 - Redux/NGXS noch konsequenter einsetzen (einige Module haben parallel ein relativ aufwändiges inneres
   State Tracking, z.B. Battle)
+
+## Usability Test
+
+App
+
+- [Spezifikation](doc/usability/app-usability-test-spec.md)
+- [Resultate](doc/usability/app-usability-test-result.md)
+
+User
+
+- [Spezifikation](doc/usability/user-usability-test-spec.md)
+- [Resultate](doc/usability/user-usability-test-result.md)
+
+Spiel
+
+- [Spezifikation](doc/usability/game-usability-test-spec.md)
+- [Resultate](doc/usability/game-usability-test-result.md)
