@@ -109,11 +109,24 @@ ng serve -c=dev2
 - Schlacht
 - Hall of Fame
 
-### Spezielles
+### Architektur und Technologie
 
+- Angular
+- Firebase (Auth, Firestore, Cloud Functions)
 - State Management mit NGXS
 - Mehrsprachigkeit mit NGX-Translate
-- Angular Material, Angular Flex Layout
+- Angular Material
+- Angular Flex Layout
+- Unit Test mit Jasmine
+- e2e Test mit Protractor
+- Usability Test
+
+### Highlights und Sonderleistungen
+
+- Unterstützung von mobilen Geräten
+- Echtzeit-Datenbank
+- Backend-Architektur mit Cloud Functions (kein Mogeln)
+- Animationen
 
 ### Backend-Konzept
 
@@ -143,7 +156,7 @@ ng serve -c=dev2
 #### Optimierungspotential der aktuellen Lösung
 
 Usability Issues
-- Platzierung der Schiffe ist speziell auf Mobilgeräten etwas hakelig
+- Platzierung der Schiffe ist speziell auf Mobilgeräten etwas hakelig. Drag&Dop könnte verbessert werden.
 - Einen Gegner zu finden ist nicht ganz einfach - man muss sich praktisch
   ausserhalb des Games verabreden. 
     - Einerseits fehlt eine _Kritische Masse_ von Spielern, welche es erlauben würde, jederzeit
