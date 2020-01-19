@@ -123,6 +123,7 @@ ng serve -c=dev2
 
 ### Highlights und Sonderleistungen
 
+- Mehrsprachigkeit
 - Unterstützung von mobilen Geräten
 - Echtzeit-Datenbank
 - Backend-Architektur mit Cloud Functions (kein Mogeln)
@@ -132,8 +133,8 @@ ng serve -c=dev2
 
 #### Constraints
 
-- **Nicht cheatable**: Ein böswilliger Benutzer kann nicht mit Crafted Reads/Writes den Spielverlauf zu seinen Gunsten ändern
-- **Nicht mass-writeable**: Ein böswilliger Benutzer kann nicht Daten ausserhalb des definierten Datenmodells schreiben (verhindert parasitäre Nutzung der Datenbank).
+- *Nicht cheatable*: Ein böswilliger Benutzer kann nicht mit Crafted Reads/Writes den Spielverlauf zu seinen Gunsten ändern
+- *Nicht mass-writeable*: Ein böswilliger Benutzer kann nicht Daten ausserhalb des definierten Datenmodells schreiben (verhindert parasitäre Nutzung der Datenbank).
 
 #### Firestore-Architektur
 
@@ -160,22 +161,18 @@ Usability Issues
 - Einen Gegner zu finden ist nicht ganz einfach - man muss sich praktisch
   ausserhalb des Games verabreden. 
     - Einerseits fehlt eine _Kritische Masse_ von Spielern, welche es erlauben würde, jederzeit
-      einen Gegner finden kann.
-    - Sinnvoll wäre dementsprechend die Möglichkeit, bei Abwesenheit menschlicher Gegner gegen 
-      einen Bot spielen zu können. 
+      einen Gegner finden kann. Sinnvoll wäre dementsprechend die Möglichkeit, bei Abwesenheit 
+      menschlicher Gegner gegen einen _Bot_ spielen zu können. 
     - Andererseits ist das Problem, dass die Spieler im Status "Gegner finden" verbleiben, 
-      auch wenn sie gar nicht mehr aktiv bzw. offline sind.
-        - Lösung: implizites und/oder explizites Online-Tracking (vergleiche entsprechende
-          Lösungen bei Chat/Phone-Applikationen). Ggf. auch Push-Meldungen "Dein herausgeforderter
-          Gegner XY ist jetzt online".
+      auch wenn sie gar nicht mehr aktiv bzw. offline sind. Eine Herausforderung läuft dann ins Leere.
+      Mögliche Lösungen: Online-Status der Spieler anzeigen (vergleichbar mit Messenger-Applikationen); 
+      Push-Meldung anbieten ("Dein herausgeforderter Gegner XY ist jetzt online").
 - Error Handling: Wir haben zwar dafür gesorgt, dass etliche Fehler abgefangen und im UI kommunziert werden, 
   aber typische Zustände wie z.B. "Kein Netz", sind nur teilweise behandelt.
 
 Technische Issues
-- Modulstruktur (weniger Module, trennen zwischen Feature- und Service-Modulen, bzw. keine
-  Cross-Dependencies zwischen Feature-Modulen)
-- Redux/NGXS noch konsequenter einsetzen (einige Module haben parallel ein relativ aufwändiges inneres
-  State Tracking, z.B. Battle)
+- Modulstruktur (weniger Module, trennen zwischen Feature- und Service-Modulen).
+- Redux/NGXS noch konsequenter einsetzen.
 
 ## Usability Test
 
