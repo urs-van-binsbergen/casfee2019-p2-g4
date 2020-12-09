@@ -5,6 +5,7 @@ import { AddPreparation } from './preparation.actions';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 export class PreparationModel {
 }
@@ -15,6 +16,7 @@ export class PreparationModel {
     }
 })
 
+@Injectable({ providedIn: 'root' })
 export class PreparationState {
 
     constructor(

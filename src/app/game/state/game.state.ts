@@ -8,6 +8,7 @@ import { Player } from '@cloud-api/core-models';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { ShootArgs } from '@cloud-api/arguments';
 import { AuthState } from 'src/app/auth/state/auth.state';
+import { Injectable } from '@angular/core';
 
 export interface GameStateModel {
     loading: boolean;
@@ -24,6 +25,7 @@ export interface GameStateModel {
     }
 })
 
+@Injectable({ providedIn: 'root' })
 export class GameState {
 
     private _unbind$: Subject<void>;

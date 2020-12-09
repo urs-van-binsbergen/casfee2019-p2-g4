@@ -6,6 +6,7 @@ import { Subject, of } from 'rxjs';
 import { takeUntil, tap, catchError, finalize } from 'rxjs/operators';
 import { NotificationService } from 'src/app/shared/notification.service';
 import * as HallMethods from '../model/hall-methods';
+import { Injectable } from '@angular/core';
 
 export interface HallStateModel {
     loading: boolean;
@@ -26,6 +27,7 @@ export interface HallStateModel {
     }
 })
 
+@Injectable({ providedIn: 'root' })
 export class HallState {
 
     private _unbind$: Subject<void>;
