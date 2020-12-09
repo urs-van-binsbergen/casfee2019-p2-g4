@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -19,7 +18,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { DialogModule } from '../dialog/dialog.module';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -44,7 +42,6 @@ export function createTranslateLoader(http: HttpClient) {
         MatButtonModule,
         MatCheckboxModule,
         MatCardModule,
-        MatDialogModule,
         MatIconModule,
         MatInputModule,
         MatMenuModule,
@@ -55,8 +52,7 @@ export function createTranslateLoader(http: HttpClient) {
         MatDividerModule,
         MatListModule,
         MatTableModule,
-        TranslateModule,
-        DialogModule
+        TranslateModule
     ]
 })
 export class SharedModule { }

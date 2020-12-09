@@ -159,10 +159,6 @@
     },
     "preparation": {
         "body": "Schiffe auf dem Spielfeld positionieren",
-        "dialog": {
-            "body": "Du verlierst deine Aufstellung",
-            "title": "Warnung"
-        },
         "error": "Aufstellung konnte nicht gespeichert werden",
         "title": "Schlacht vorbereiten"
     },

@@ -159,10 +159,6 @@
     },
     "preparation": {
         "body": "Place the ships on the board",
-        "dialog": {
-            "body": "Your data will get lost!",
-            "title": "Warning"
-        },
         "error": "Could not save ship positions",
         "title": "Prepare for the battle"
     },
