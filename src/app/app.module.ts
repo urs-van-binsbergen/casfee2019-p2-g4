@@ -11,7 +11,7 @@ import localeDeCh from '@angular/common/locales/de-CH';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireFunctionsModule, FUNCTIONS_REGION } from '@angular/fire/functions';
+import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
 
 import { SharedModule, createTranslateLoader } from './shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -72,7 +72,7 @@ registerLocaleData(localeDeCh);
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [
-        { provide: FUNCTIONS_REGION, useValue: 'europe-west2' },
+        { provide: REGION, useValue: 'europe-west2' },
         { provide: LOCALE_ID, useValue: 'de-ch' },
     ],
     bootstrap: [

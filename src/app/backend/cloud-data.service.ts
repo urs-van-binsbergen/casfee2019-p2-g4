@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentSnapshot, QuerySnapshot } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-
 import COLL from '@cloud-api/collection-names';
 import { Player, User, HistoricBattle, WaitingPlayer, HallEntry } from '@cloud-api/core-models';
 
@@ -36,7 +35,7 @@ export class CloudDataService {
     getPlayer(uid: string): Promise<Player> {
         return this.afs.collection(COLL.PLAYERS).doc<Player>(uid).get()
             .toPromise()
-            .then((x: DocumentSnapshot<Player>) => getData(x));
+            .then((x) => getData(x as DocumentSnapshot<Player>));
     }
 
     /*
