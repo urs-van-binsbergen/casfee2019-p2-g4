@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { PreparationInteractionService } from '../services/preparation-interaction.service';
 import { PreparationService } from '../services/preparation.service';
 import { PreparationDrop, PreparationRow, PreparationShip, boardHeight, boardWidth } from '../model/preparation-models';
@@ -21,7 +20,6 @@ export class PreparationComponent implements OnInit, OnDestroy {
     private _waiting: boolean;
 
     constructor(
-        public dialog: MatDialog,
         private preparationInteractionService: PreparationInteractionService,
         private preparationService: PreparationService,
         private store: Store
