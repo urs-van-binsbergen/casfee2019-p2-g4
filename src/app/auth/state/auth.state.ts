@@ -7,6 +7,7 @@ import { CloudDataService } from 'src/app/backend/cloud-data.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { AuthService, AuthUser } from '../auth.service';
 import * as AuthActions from './auth.actions';
+import { Injectable } from '@angular/core';
 
 
 export interface AuthStateModel {
@@ -71,6 +72,7 @@ export interface SendPasswordMailResult {
     }
 })
 
+@Injectable({ providedIn: 'root' })
 export class AuthState implements NgxsOnInit {
 
     @Selector()

@@ -7,6 +7,7 @@ import { AddChallenge, BindMatch, CancelMatch, RemoveChallenge, UnbindMatch, Upd
 import { WaitingPlayer } from '@cloud-api/core-models';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { AuthState } from 'src/app/auth/state/auth.state';
+import { Injectable } from '@angular/core';
 
 export interface MatchStateModel {
     loading: boolean;
@@ -23,6 +24,7 @@ export interface MatchStateModel {
     }
 })
 
+@Injectable({ providedIn: 'root' })
 export class MatchState {
 
     private _unbind$: Subject<void>;
