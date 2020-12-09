@@ -66,7 +66,7 @@ export class AuthService {
     ) {
     }
 
-    private toAuthUser(firebaseUser: firebase.User): AuthUser | null {
+    private toAuthUser(firebaseUser: any): AuthUser | null {
         if (!firebaseUser) {
             return null;
         }
@@ -87,7 +87,7 @@ export class AuthService {
 
     async login(email: string, password: string): Promise<LoginResult> {
         try {
-            await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+            await this.afAuth.signInWithEmailAndPassword(email, password);
             return ({ success: true });
         } catch (error) {
             if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
@@ -100,7 +100,7 @@ export class AuthService {
 
     async logout(): Promise<LogoutResult> {
         try {
-            await this.afAuth.auth.signOut();
+            await this.afAuth.signOut();
             return { success: true };
         } catch (error) {
             return { success: false, error: error.toString() };
@@ -109,7 +109,7 @@ export class AuthService {
 
     async register(email: string, password: string, displayName: string): Promise<RegistrationResult> {
         try {
-            const userCredential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+            const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
             await this.updateProfileImpl(userCredential.user, displayName);
             return { success: true };
         } catch (error) {
@@ -126,7 +126,7 @@ export class AuthService {
 
     async updateProfile(displayName: string): Promise<UpdateProfileResult> {
         try {
-            const firebaseUser = this.afAuth.auth.currentUser;
+            const firebaseUser = this.afAuth.currentUser;
             this.updateProfileImpl(firebaseUser, displayName);
             return { success: true };
         } catch (error) {
@@ -134,7 +134,7 @@ export class AuthService {
         }
     }
 
-    private async updateProfileImpl(firebaseUser: firebase.User, displayName: string): Promise<void> {
+    private async updateProfileImpl(firebaseUser: any, displayName: string): Promise<void> {
         await firebaseUser.updateProfile({ displayName });
         const authUser = this.toAuthUser(firebaseUser);
         this.localAuthUserUpdates.next(authUser);
@@ -142,8 +142,8 @@ export class AuthService {
 
     async updatePassword(oldPassword: string, newPassword: string): Promise<UpdatePasswordResult> {
         try {
-            const firebaseUser = this.afAuth.auth.currentUser;
-            const userCredential = await this.afAuth.auth.signInWithEmailAndPassword(firebaseUser.email, oldPassword);
+            const firebaseUser = await this.afAuth.currentUser;
+            const userCredential = await this.afAuth.signInWithEmailAndPassword(firebaseUser.email, oldPassword);
             userCredential.user.updatePassword(newPassword);
             return { success: true };
         } catch (error) {
@@ -157,7 +157,7 @@ export class AuthService {
 
     async sendPasswordMail(email: string): Promise<SendPasswordMailResult> {
         try {
-            await this.afAuth.auth.sendPasswordResetEmail(email);
+            await this.afAuth.sendPasswordResetEmail(email);
             return { success: true };
         } catch (error) {
             if (error.code === 'auth/invalid-email') {
