@@ -11,21 +11,21 @@
     "test": "mocha -r ts-node/register **/*.spec.ts"
   },
   "engines": {
-    "node": "8"
+    "node": "12"
   },
   "main": "lib/index.js",
   "dependencies": {
-    "firebase-admin": "^8.7.0",
-    "firebase-functions": "^3.3.0",
+    "firebase-admin": "^9.4.2",
+    "firebase-functions": "^3.13.0",
     "tslint": "^5.20.1",
-    "uuid": "^3.3.3"
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.5",
-    "@types/uuid": "^3.4.6",
+    "@types/chai": "^4.2.14",
+    "@types/uuid": "^3.4.9",
     "chai": "^4.2.0",
-    "mocha": "^6.2.2",
-    "typescript": "^3.7.2"
+    "mocha": "^6.2.3",
+    "typescript": "^3.9.7"
   },
   "private": true
 }
