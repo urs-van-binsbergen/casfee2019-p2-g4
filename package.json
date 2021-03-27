@@ -7,7 +7,6 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "pree2e": "cd ./node_modules/protractor/ && npm i webdriver-manager@latest && cd ../.. && webdriver-manager update",
     "e2e": "ng e2e"
   },
   "private": true,
