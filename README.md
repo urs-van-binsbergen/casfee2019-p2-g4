@@ -33,8 +33,7 @@ ng test
 ### e2e test
 
 ```sh
-npm run pree2e
-ng e2e --webdriver-update=false
+npm run e2e
 ```
 
 ## Hosting URL
