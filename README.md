@@ -36,6 +36,8 @@ ng test
 npm run e2e
 ```
 
+Das Script "pree2e" muss in package.json vorhanden sein, damit die E2E Tests laufen. Es muss jedoch nicht explizit aufgerufen werden. 
+
 ## Hosting URL
 
 URL: https://casfee2019-p2-g4.web.app/
