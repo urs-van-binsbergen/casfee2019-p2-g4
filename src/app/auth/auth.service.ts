@@ -126,8 +126,8 @@ export class AuthService {
 
     async updateProfile(displayName: string): Promise<UpdateProfileResult> {
         try {
-            const firebaseUser = this.afAuth.currentUser;
-            this.updateProfileImpl(firebaseUser, displayName);
+            const firebaseUser = await this.afAuth.currentUser;
+            await this.updateProfileImpl(firebaseUser, displayName);
             return { success: true };
         } catch (error) {
             return { success: false, error: error.toString() };
