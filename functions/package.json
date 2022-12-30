@@ -24,7 +24,7 @@
     "@types/chai": "^4.2.14",
     "@types/uuid": "^3.4.9",
     "chai": "^4.2.0",
-    "mocha": "^6.2.3",
+    "mocha": "^10.2.0",
     "typescript": "^3.9.7"
   },
   "private": true
